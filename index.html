@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waveshare ESP32-S3 1.75" AMOLED Round Touch Display — Tamaholly 🐾</title>
+  <style>
+    /* ═══════════════════════════════════════
+       RESET & WORKBENCH ENVIRONMENT
+    ═══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 50% 30%, #1c222d 0%, #0d1117 75%, #05070a 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Courier New", monospace;
+      color: #cbd5e1;
+      user-select: none;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    /* Workbench Header */
+    .board-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .brand-title {
+      font-size: 13px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+
+    .board-sub {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    /* ═══════════════════════════════════════
+       WAVESHARE ESP32-S3 HARDWARE CASING & PCB
+    ═══════════════════════════════════════ */
+    .hardware-assembly {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Physical Side Buttons on Board (BOOT & PWR/RST) */
+    .hw-btn {
+      position: absolute;
+      width: 14px;
+      height: 44px;
+      background: linear-gradient(to right, #475569, #94a3b8, #334155);
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      cursor: pointer;
+      z-index: 1;
+      transition: transform 0.1s ease;
+    }
+    .hw-btn:active { transform: scaleX(0.85); }
+
+    .hw-btn-left {
+      left: -9px;
+      top: 190px;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+    .hw-btn-left::before {
+      content: 'BOOT';
+      position: absolute;
+      left: -40px;
+      top: 14px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 1px;
+    }
+
+    .hw-btn-right {
+      right: -9px;
+      top: 190px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+    .hw-btn-right::before {
+      content: 'PWR';
+      position: absolute;
+      right: -34px;
+      top: 14px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 1px;
+    }
+
+    /* USB-C Port Indicator Bottom */
+    .usb-c-port {
+      position: absolute;
+      bottom: -10px;
+      width: 48px;
+      height: 12px;
+      background: #0f172a;
+      border: 2px solid #475569;
+      border-radius: 6px;
+      z-index: 2;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.9);
+    }
+    .usb-c-port::after {
+      content: 'USB-C';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      color: #64748b;
+      letter-spacing: 1px;
+    }
+
+    /* CNC Aluminum Bezel / PCB Chassis Outer Rim */
+    .board-chassis {
+      width: 530px;
+      height: 530px;
+      background: radial-gradient(circle, #252b36 0%, #151921 68%, #0d1016 100%);
+      border-radius: 50%;
+      padding: 16px;
+      position: relative;
+      box-shadow:
+        0 0 0 3px #334155,
+        0 0 0 7px #0f172a,
+        0 0 0 10px #1e293b,
+        0 30px 80px rgba(0,0,0,0.95),
+        inset 0 2px 5px rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Silk-screen labeling around circular bezel */
+    .pcb-silkscreen-top {
+      position: absolute;
+      top: 14px;
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .pcb-silkscreen-bottom {
+      position: absolute;
+      bottom: 15px;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #475569;
+    }
+
+    /* Onboard Dual Microphone Array Ports (ES7210) */
+    .mic-sensor {
+      position: absolute;
+      top: 24px;
+      width: 6px;
+      height: 6px;
+      background: #090d13;
+      border: 1px solid #475569;
+      border-radius: 50%;
+      box-shadow: inset 0 0 2px #000;
+    }
+    .mic-sensor::after {
+      content: 'MIC';
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 7px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .mic-left  { left: 180px; }
+    .mic-right { right: 180px; }
+
+    /* Glass Bezel Ring around AMOLED */
+    .display-bezel-ring {
+      width: 486px;
+      height: 486px;
+      border-radius: 50%;
+      background: #000000;
+      border: 5px solid #1a2230;
+      box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.95),
+        0 0 15px rgba(0,0,0,0.8);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+       EXACT 466 × 466 AMOLED ROUND DISPLAY
+    ═══════════════════════════════════════ */
+    .amoled-display-round {
+      width: 466px;
+      height: 466px;
+      border-radius: 50%;
+      background: #000000; /* Pure AMOLED true black */
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 35px rgba(0,0,0,1);
+      touch-action: none; /* Swipe/Drag sauber abfangen */
+    }
+
+    /* Swipe Container for 3 Views (Clock/Alarm <-> Video Holly <-> Retro Pixel Holly) */
+    .views-slider {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      position: relative;
+    }
+    .view-page {
+      width: 33.333333%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════
+       AMOLED CLOCK, DATE & ALARM VIEW (PAGE 0)
+    ═══════════════════════════════════════ */
+    .clock-world {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 45%, #0f172a 0%, #030712 70%, #000000 100%);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 34px 24px;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtiler Zifferblatt-Ring */
+    .clock-dial-ring {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      border: 1px dashed rgba(56, 189, 248, 0.15);
+      pointer-events: none;
+    }
+    .clock-top-meta {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .clock-date-display {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .clock-time-display {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      color: #f8fafc;
+      text-shadow: 0 0 25px rgba(56, 189, 248, 0.45);
+      line-height: 1;
+      margin: 4px 0 8px;
+    }
+    .clock-seconds-pill {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 2px 10px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    /* Wecker Box */
+    .alarm-box {
+      width: 270px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 8px 14px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 5;
+    }
+    .alarm-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #cbd5e1;
+      text-transform: uppercase;
+    }
+    .alarm-toggle-btn {
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 9px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: #1e293b;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+    .alarm-toggle-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+    }
+    .alarm-time-picker-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .alarm-time-val {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #38bdf8;
+      font-family: monospace;
+      min-width: 60px;
+      text-align: center;
+    }
+    .alarm-adjust-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(30, 41, 59, 0.9);
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s, background 0.15s;
+    }
+    .alarm-adjust-btn:active { transform: scale(0.9); background: #38bdf8; color: #000; }
+    .alarm-status-line {
+      font-size: 9px;
+      text-align: center;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    /* Pixel Art Tamagotchi View Styles (Classic 1996 LCD/Matrix Feel) */
+    .pixel-world {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, #8fa382 0%, #768a69 65%, #5d6f52 100%);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 38px 24px 34px;
+      font-family: 'Courier New', monospace;
+      color: #1e2d1a;
+      box-shadow: inset 0 0 45px rgba(0,0,0,0.4);
+    }
+    /* Pixel Grid / LCD dot-matrix pattern */
+    .pixel-world::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.06), rgba(0,0,0,0.06) 2px, transparent 2px, transparent 4px),
+                  repeating-linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.06) 2px, transparent 2px, transparent 4px);
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .pixel-top-icons {
+      display: flex;
+      gap: 18px;
+      font-size: 20px;
+      opacity: 0.85;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+    }
+    .pixel-icon-btn {
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      transition: transform 0.1s;
+    }
+    .pixel-icon-btn:hover { transform: scale(1.15); }
+    .pixel-icon-btn:active { transform: scale(0.9); }
+
+    .pixel-canvas-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: -10px;
+    }
+
+    /* Pixel Dog Canvas */
+    #pixel-pet-canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      filter: drop-shadow(2px 3px 0px rgba(45, 60, 40, 0.4));
+    }
+
+    .pixel-hud-stats {
+      width: 250px;
+      background: rgba(30, 45, 26, 0.15);
+      border: 2px solid #2d3e28;
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 5;
+    }
+
+    .pixel-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pixel-hearts {
+      letter-spacing: 2px;
+    }
+
+    /* View Switch Indicator Dots */
+    .view-dots-indicator {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 30;
+      pointer-events: auto;
+      background: rgba(0,0,0,0.6);
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+    }
+    .view-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .view-dot.active {
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      width: 14px;
+      border-radius: 4px;
+    }
+
+    /* Swipe Hint Pill */
+    .swipe-hint {
+      position: absolute;
+      top: 50px;
+      right: 30px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 2px 7px;
+      border-radius: 8px;
+      z-index: 25;
+      pointer-events: none;
+      animation: swipe-hint-anim 2s infinite ease-in-out;
+    }
+    @keyframes swipe-hint-anim {
+      0%, 100% { transform: translateX(0); opacity: 0.6; }
+      50%      { transform: translateX(-4px); opacity: 1; }
+    }
+
+    /* Curved Glass Reflection / Specular highlight */
+    .amoled-display-round::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: 10%;
+      width: 80%;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* ═══════════════════════════════════════
+       PET DISPLAY LAYERS
+    ═══════════════════════════════════════ */
+    .pet-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .pet-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    /* Das Idle-Blinzel-Video bleibt im Hintergrund als Basis aktiv */
+    #layer-idle {
+      z-index: 1;
+    }
+
+    .pet-layer img,
+    .pet-layer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .pet-emoji {
+      font-size: 110px;
+      text-align: center;
+      filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.4));
+    }
+
+    /* ═══════════════════════════════════════
+       Z Z Z SLEEP EFFECT
+    ═══════════════════════════════════════ */
+    .zzz-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      overflow: hidden;
+    }
+
+    .zzz-letter {
+      position: absolute;
+      bottom: 28%;
+      font-weight: 800;
+      font-family: monospace;
+      color: #93c5fd;
+      text-shadow: 0 0 12px rgba(147, 197, 253, 0.9);
+      opacity: 0;
+      animation: zzz-rise var(--dur, 3s) ease-out var(--delay, 0s) infinite;
+      pointer-events: none;
+    }
+
+    @keyframes zzz-rise {
+      0%   { opacity: 0;   transform: translate(0, 0) scale(0.6); }
+      15%  { opacity: 1;   transform: translate(0, -18px) scale(1); }
+      85%  { opacity: 0.8; transform: translate(var(--drift, 18px), -95px) scale(1.25); }
+      100% { opacity: 0;   transform: translate(var(--drift, 24px), -135px) scale(0.4); }
+    }
+
+    /* ═══════════════════════════════════════
+       CIRCULAR SMARTWATCH AMOLED HUD (466×466)
+    ═══════════════════════════════════════ */
+    .round-hud {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 20px 20px;
+    }
+
+    /* Circular Header with Hardware Status */
+    .hud-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .hud-header-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mood-icon {
+      font-size: 15px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .hw-meta-bar {
+      display: flex;
+      gap: 12px;
+      font-size: 8.5px;
+      letter-spacing: 1px;
+      color: #0284c7;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: rgba(0,0,0,0.65);
+      padding: 2px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(2, 132, 199, 0.3);
+      backdrop-filter: blur(4px);
+    }
+    .hw-meta-bar span.active-wifi { color: #22c55e; }
+
+    .state-badge {
+      margin-top: 4px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 14px;
+      padding: 3px 14px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #38bdf8;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Center Context (Frei von störenden Elementen) */
+    .hud-center {
+      display: none;
+    }
+
+    .status-msg {
+      font-size: 9.5px;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      background: rgba(0,0,0,0.8);
+      padding: 3px 10px;
+      border-radius: 10px;
+      max-width: 270px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .status-msg.alert {
+      color: #f97316;
+      border-color: rgba(249, 115, 22, 0.4);
+      animation: alert-pulse 1s infinite alternate;
+    }
+    @keyframes alert-pulse {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; text-shadow: 0 0 8px rgba(249, 115, 22, 0.7); }
+    }
+
+    /* HUD Bottom Telemetry & On-Display Touch Buttons (Round AMOLED) */
+    .hud-bottom-telemetry {
+      width: 290px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: rgba(10, 15, 26, 0.88);
+      padding: 6px 12px 8px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      margin-bottom: 2px;
+      pointer-events: auto; /* Klicks auf dem Touchscreen erlauben */
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    }
+
+    .telemetry-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-label {
+      font-size: 8px;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      width: 42px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .stat-bar-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .stat-bar-fill.hunger { background: linear-gradient(90deg, #ea580c, #facc15); box-shadow: 0 0 6px rgba(250, 204, 21, 0.4); }
+    .stat-bar-fill.energy { background: linear-gradient(90deg, #0284c7, #38bdf8); box-shadow: 0 0 6px rgba(56, 189, 248, 0.4); }
+    .stat-bar-fill.happy  { background: linear-gradient(90deg, #c026d3, #f472b6); box-shadow: 0 0 6px rgba(244, 114, 182, 0.4); }
+
+    .stat-val {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      width: 22px;
+      text-align: right;
+    }
+
+    /* Center Touch Trigger Area (Holly anklicken/tippen -> Bellen) */
+    .center-touch-trigger {
+      position: absolute;
+      top: 130px;
+      left: 130px;
+      width: 206px;
+      height: 190px;
+      border-radius: 50%;
+      z-index: 15;
+      cursor: pointer;
+      pointer-events: auto;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* On-Display Ring Buttons (direkt am runden Displayrand platziert) */
+    .ring-btn {
+      position: absolute;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      font-family: inherit;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      color: #f8fafc;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.25);
+      user-select: none;
+      z-index: 20;
+      pointer-events: auto;
+      backdrop-filter: blur(8px);
+    }
+    .ring-btn:active { transform: scale(0.90); }
+    .ring-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
+
+    /* Exakte Kreisrand-Positionierung (wie in der Skizze) */
+    .btn-pos-feed  { left: 16px; top: 245px; } /* Links oben */
+    .btn-pos-play  { left: 45px; top: 325px; } /* Links unten */
+    .btn-pos-sleep { right: 16px; top: 245px; } /* Rechts oben */
+    .btn-pos-wake  { right: 45px; top: 325px; } /* Rechts unten */
+
+    .btn-feed  { background: radial-gradient(circle at 35% 35%, #f97316 0%, #c2410c 100%); border-color: #fb923c; }
+    .btn-play  { background: radial-gradient(circle at 35% 35%, #ec4899 0%, #9d174d 100%); border-color: #f472b6; }
+    .btn-sleep { background: radial-gradient(circle at 35% 35%, #3b82f6 0%, #1e40af 100%); border-color: #60a5fa; }
+    .btn-wake  { background: radial-gradient(circle at 35% 35%, #eab308 0%, #854d0e 100%); border-color: #facc15; }
+
+    .btn-ico { font-size: 15px; line-height: 1; }
+
+    /* Floating action particles */
+    .effect-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 12;
+      overflow: hidden;
+    }
+    .floating-item {
+      position: absolute;
+      font-size: 26px;
+      animation: rise-round 1.5s ease-out forwards;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+    }
+    @keyframes rise-round {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-130px) scale(0.4); opacity: 0; }
+    }
+
+    /* ═══════════════════════════════════════
+       TOUCH DIAL INTERACTIVE CONTROLS (CST9217)
+    ═══════════════════════════════════════ */
+    .touch-controls {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .touch-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .touch-action-btn {
+      width: 105px;
+      padding: 10px 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      color: #f8fafc;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .touch-action-btn:active { transform: scale(0.94); }
+    .touch-action-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+    .btn-feed  { background: linear-gradient(135deg, #c2410c, #ea580c); border-color: #f97316; }
+    .btn-play  { background: linear-gradient(135deg, #9d174d, #db2777); border-color: #f472b6; }
+    .btn-sleep { background: linear-gradient(135deg, #1e40af, #2563eb); border-color: #60a5fa; }
+    .btn-wake  { background: linear-gradient(135deg, #854d0e, #ca8a04); border-color: #facc15; }
+
+    .btn-ico { font-size: 16px; }
+
+    /* Specification Badge Footer */
+    .specs-footer {
+      margin-top: 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 600px;
+    }
+    .spec-pill {
+      font-size: 9px;
+      color: #64748b;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dev Board Header -->
+  <div class="board-header">
+    <div class="brand-title">Waveshare ESP32-S3 1.75" AMOLED Round Touch DevBoard</div>
+    <div class="board-sub">Xtensa® 32-bit LX7 Dual-Core @ 240MHz • 466×466 Circular AMOLED • QSPI CO5300 • CST9217 Touch</div>
+  </div>
+
+  <!-- Hardware Physical Assembly -->
+  <div class="hardware-assembly">
+    <!-- Hardware Micro-Switches -->
+    <div class="hw-btn hw-btn-left" title="Hardware Boot Button (GPIO 0)" onclick="app.flashResetPrompt()"></div>
+    <div class="hw-btn hw-btn-right" title="Hardware Power / Wake Button" onclick="app.wake()"></div>
+
+    <!-- Circular CNC Chassis with Silk-Screening -->
+    <div class="board-chassis">
+      <div class="pcb-silkscreen-top">WAVESHARE ESP32-S3-AMOLED-1.75R</div>
+      
+      <!-- Dual Digital Microphone Array (ES7210) -->
+      <div class="mic-sensor mic-left" title="Digital Microphone Left (ES7210)"></div>
+      <div class="mic-sensor mic-right" title="Digital Microphone Right (ES7210)"></div>
+
+      <!-- Outer AMOLED Glass Bezel Ring -->
+      <div class="display-bezel-ring">
+        
+        <!-- Native 466 × 466 Circular AMOLED Display -->
+        <div class="amoled-display-round" id="amoled-screen">
+
+          <!-- Wisch-Hinweis oben rechts -->
+          <div class="swipe-hint" id="swipe-hint">👈 SWIPE</div>
+
+          <!-- Slider für 3 Ansichten:
+               Index 0 = Uhrzeit, Datum & Wecker
+               Index 1 = Video Holly (Standard / Home)
+               Index 2 = Retro Pixel Art Holly -->
+          <div class="views-slider" id="views-slider">
+
+            <!-- ════ PAGE 0: UHRZEIT, DATUM & WECKER (Wischen nach rechts von Holly) ════ -->
+            <div class="view-page" id="view-clock">
+              <div class="clock-world">
+                <div class="clock-dial-ring"></div>
+                
+                <div class="clock-top-meta">
+                  <span>RTC DS3231</span>
+                  <span>•</span>
+                  <span>ALARM READY</span>
+                </div>
+
+                <div class="clock-date-display" id="clock-date-text">Mo, 16. Nov 2026</div>
+                <div class="clock-time-display" id="clock-time-text">00:03</div>
+                <div class="clock-seconds-pill" id="clock-seconds-text">:20 SEC</div>
+
+                <!-- Wecker Steuerung -->
+                <div class="alarm-box">
+                  <div class="alarm-header-row">
+                    <span>⏰ WECKER</span>
+                    <button class="alarm-toggle-btn" id="alarm-toggle-btn" onclick="app.toggleAlarm()">AUS</button>
+                  </div>
+                  <div class="alarm-time-picker-row">
+                    <button class="alarm-adjust-btn" onclick="app.adjustAlarm(-15)" title="-15 Minuten">◀</button>
+                    <div class="alarm-time-val" id="alarm-time-display">07:00</div>
+                    <button class="alarm-adjust-btn" onclick="app.adjustAlarm(15)" title="+15 Minuten">▶</button>
+                  </div>
+                  <div class="alarm-status-line" id="alarm-status-line">Tippe auf AUS zum Aktivieren</div>
+                </div>
+              </div>
+            </div><!-- /view-page (clock) -->
+
+            <!-- ════ PAGE 1: REALISTISCHE VIDEO HOLLY ════ -->
+            <div class="view-page" id="view-realistic">
+              <!-- Layer 1: IDLE / Normalzustand (Blinzeln.mp4 loop) -->
+              <div class="pet-layer active" id="layer-idle">
+                <video id="video-idle"
+                       src="assets/videos/blinzeln.mp4"
+                       loop muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                </video>
+                <img src="assets/images/image_692400.jpeg"
+                     alt="Tamaholly Welpe"
+                     style="display:none;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="pet-emoji" style="display:none">🐶</div>
+              </div>
+
+              <!-- Layer 2: FÜTTERN (fuettern.mp4) -->
+              <div class="pet-layer" id="layer-feed">
+                <video id="video-feed"
+                       src="assets/videos/fuettern.mp4"
+                       loop muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">🍖</div>
+              </div>
+
+              <!-- Layer 3: SPIELEN (spielen.mp4) -->
+              <div class="pet-layer" id="layer-play">
+                <video id="video-play"
+                       src="assets/videos/spielen.mp4"
+                       loop muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">🎾</div>
+              </div>
+
+              <!-- Layer 4: SCHLAFEN GEHEN 1 (schlafen.mp4 einmalig) -->
+              <div class="pet-layer" id="layer-sleep">
+                <video id="video-sleep"
+                       src="assets/videos/schlafen.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">💤</div>
+                <div class="zzz-container" id="zzz-container"></div>
+              </div>
+
+              <!-- Layer 4a: SCHLAFEN 1 DAUER-LOOP (schlafloop1.mp4 loop) -->
+              <div class="pet-layer" id="layer-sleeploop1">
+                <video id="video-sleeploop1"
+                       src="assets/videos/schlafloop1.mp4"
+                       loop muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">💤</div>
+                <div class="zzz-container" id="zzz-container-loop1"></div>
+              </div>
+
+              <!-- Layer 4b: SCHLAFEN GEHEN 2 (schlafen2.mp4 einmalig) -->
+              <div class="pet-layer" id="layer-sleep2">
+                <video id="video-sleep2"
+                       src="assets/videos/schlafen2.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">💤</div>
+                <div class="zzz-container" id="zzz-container2"></div>
+              </div>
+
+              <!-- Layer 4c: SCHLAFEN 2 DAUER-LOOP (schlafloop2.mp4 loop) -->
+              <div class="pet-layer" id="layer-sleeploop2">
+                <video id="video-sleeploop2"
+                       src="assets/videos/schlafloop2.mp4"
+                       loop muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">💤</div>
+                <div class="zzz-container" id="zzz-container3"></div>
+              </div>
+
+              <!-- Layer 5: AUFWACHEN VARIANT 1 (aufwachen.mp4) -->
+              <div class="pet-layer" id="layer-wake">
+                <video id="video-wake"
+                       src="assets/videos/aufwachen.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">☀️</div>
+              </div>
+
+              <!-- Layer 5b: AUFWACHEN VARIANT 2 (aufwachen2.mp4) -->
+              <div class="pet-layer" id="layer-wake2">
+                <video id="video-wake2"
+                       src="assets/videos/aufwachen2.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">☀️</div>
+              </div>
+
+              <!-- Layer 6: BELLEN (bellen.mp4) -->
+              <div class="pet-layer" id="layer-bark">
+                <video id="video-bark"
+                       src="assets/videos/bellen.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">🐶</div>
+              </div>
+
+              <!-- Layer 7: WINKEN (winken.mp4) -->
+              <div class="pet-layer" id="layer-wave">
+                <video id="video-wave"
+                       src="assets/videos/winken.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">👋</div>
+              </div>
+
+              <!-- Layer 8: TAP / AN KLOPFEN (tap.mp4) -->
+              <div class="pet-layer" id="layer-tap">
+                <video id="video-tap"
+                       src="assets/videos/tap.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">🐾</div>
+              </div>
+
+              <!-- Circular AMOLED Smartwatch HUD Overlay -->
+              <div class="round-hud">
+                <div class="hud-header">
+                  <div class="hw-meta-bar">
+                    <span class="active-wifi">● 2.4G Wi-Fi</span>
+                    <span>BLE 5.0</span>
+                    <span>466×466</span>
+                  </div>
+                  <div class="hud-header-row">
+                    <div class="state-badge" id="state-label">WACH</div>
+                    <div class="mood-icon" id="mood-icon">😊</div>
+                  </div>
+                </div>
+
+                <div class="hud-bottom-telemetry">
+                  <div class="status-msg" id="status-msg">Holly ist munter und aktiv! 🐾</div>
+                  <div class="telemetry-row" style="width: 100%;">
+                    <div class="stat-label">Hunger</div>
+                    <div class="stat-bar-track"><div class="stat-bar-fill hunger" id="bar-hunger" style="width:70%"></div></div>
+                    <div class="stat-val" id="val-hunger">70</div>
+                  </div>
+                  <div class="telemetry-row" style="width: 100%;">
+                    <div class="stat-label">Energie</div>
+                    <div class="stat-bar-track"><div class="stat-bar-fill energy" id="bar-energy" style="width:85%"></div></div>
+                    <div class="stat-val" id="val-energy">85</div>
+                  </div>
+                  <div class="telemetry-row" style="width: 100%;">
+                    <div class="stat-label">Happy</div>
+                    <div class="stat-bar-track"><div class="stat-bar-fill happy" id="bar-happy" style="width:80%"></div></div>
+                    <div class="stat-val" id="val-happy">80</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Touch-Zone in der Display-Mitte: Bei Klick/Tap bellt Holly -->
+              <div class="center-touch-trigger" id="center-touch-trigger" onclick="app.touchBark()" title="Holly streicheln / tippen"></div>
+
+              <!-- On-Display Rand-Tasten -->
+              <button class="ring-btn btn-feed btn-pos-feed" id="btn-feed" onclick="app.feed()" title="Füttern">
+                <span class="btn-ico">🍖</span>Füttern
+              </button>
+              <button class="ring-btn btn-play btn-pos-play" id="btn-play" onclick="app.play()" title="Spielen">
+                <span class="btn-ico">🎾</span>Spielen
+              </button>
+              <button class="ring-btn btn-sleep btn-pos-sleep" id="btn-sleep" onclick="app.sleep()" title="Schlafen">
+                <span class="btn-ico">💤</span>Schlafen
+              </button>
+              <button class="ring-btn btn-wake btn-pos-wake" id="btn-wake" onclick="app.wake()" disabled title="Wecken">
+                <span class="btn-ico">☀️</span>Wecken
+              </button>
+            </div><!-- /view-page (realistic) -->
+
+            <!-- ════ PAGE 2: KLASSISCHES PIXEL ART TAMAGOTCHI (1996 LCD) ════ -->
+            <div class="view-page" id="view-pixel">
+              <div class="pixel-world">
+                <!-- Retro Icon Bar oben -->
+                <div class="pixel-top-icons">
+                  <span class="pixel-icon-btn" onclick="app.feed()" title="Füttern">🍖</span>
+                  <span class="pixel-icon-btn" onclick="app.play()" title="Spielen">⚽</span>
+                  <span class="pixel-icon-btn" onclick="app.sleep()" title="Licht aus / Schlafen">💡</span>
+                  <span class="pixel-icon-btn" onclick="app.pixelClean()" title="Putzen">🧹</span>
+                </div>
+
+                <!-- Pixel Welpe Canvas & Status Animation -->
+                <div class="pixel-canvas-area">
+                  <canvas id="pixel-pet-canvas" width="160" height="160"></canvas>
+                  <div style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 6px;" id="pixel-status-text">HOLLY: OK</div>
+                </div>
+
+                <!-- Klassischer LCD Statusbalken (Pixel Hearts) -->
+                <div class="pixel-hud-stats">
+                  <div class="pixel-row">
+                    <span>HUNGRY:</span>
+                    <span class="pixel-hearts" id="pixel-hearts-hunger">♥♥♥♥</span>
+                  </div>
+                  <div class="pixel-row">
+                    <span>HAPPY:</span>
+                    <span class="pixel-hearts" id="pixel-hearts-happy">♥♥♥♥</span>
+                  </div>
+                  <div class="pixel-row">
+                    <span>ENERGY:</span>
+                    <span class="pixel-hearts" id="pixel-hearts-energy">♥♥♥♥</span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /view-page (pixel) -->
+
+          </div><!-- /views-slider -->
+
+          <!-- View Dots Indicator (unten in der Mitte zum Tippen/Sehen) -->
+          <div class="view-dots-indicator">
+            <div class="view-dot" id="dot-page-0" onclick="app.switchView(0)" title="Uhr, Datum & Wecker"></div>
+            <div class="view-dot active" id="dot-page-1" onclick="app.switchView(1)" title="Realistische Ansicht"></div>
+            <div class="view-dot" id="dot-page-2" onclick="app.switchView(2)" title="Retro Pixel Tamagotchi"></div>
+          </div>
+
+          <!-- Action Particles Container -->
+          <div class="effect-container" id="effects"></div>
+
+        </div><!-- /amoled-display-round -->
+      </div><!-- /display-bezel-ring -->
+
+      <div class="pcb-silkscreen-bottom">DUAL MIC ES7210 • 16MB FLASH • 8MB PSRAM</div>
+    </div><!-- /board-chassis -->
+
+    <!-- USB-C Connector -->
+    <div class="usb-c-port"></div>
+  </div><!-- /hardware-assembly -->
+
+  <!-- Tech Specs Pills -->
+  <div class="specs-footer">
+    <div class="spec-pill">ESP32-S3R8 Xtensa LX7</div>
+    <div class="spec-pill">1.75" Circular AMOLED</div>
+    <div class="spec-pill">466 × 466 Native Resolution</div>
+    <div class="spec-pill">CO5300 QSPI Controller</div>
+    <div class="spec-pill">CST9217 Touch IC</div>
+    <div class="spec-pill">Dual ES7210 Microphones</div>
+    <div class="spec-pill">AXP2101 PMIC</div>
+  </div>
+
+<script>
+"use strict";
+
+const app = (() => {
+  // ── State ─────────────────────────────────────────────────────────────────
+  const state = {
+    mode:         'idle',  // 'idle' | 'feed' | 'play' | 'sleep' | 'wake'
+    sleepVariant: 1,       // 1 = Schlafen/Aufwachen, 2 = Schlafen 2/Aufwachen 2
+    hunger:       70,      // 0–100
+    energy:       85,      // 0–100
+    happy:        80,      // 0–100
+    feedCooldown: false,
+    playCooldown: false,
+    locked:       false,
+    idleActionsCount: 0,   // Zählt automatische Aktionen (Bellen/Winken)
+  };
+
+  // ── DOM refs ───────────────────────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+
+  const layers = {
+    idle:       $('layer-idle'),
+    feed:       $('layer-feed'),
+    play:       $('layer-play'),
+    sleep:      $('layer-sleep'),
+    sleeploop1: $('layer-sleeploop1'),
+    sleep2:     $('layer-sleep2'),
+    sleeploop2: $('layer-sleeploop2'),
+    wake:       $('layer-wake'),
+    wake2:      $('layer-wake2'),
+    bark:       $('layer-bark'),
+    wave:       $('layer-wave'),
+    tap:        $('layer-tap'),
+  };
+
+  const videos = {
+    idle:       $('video-idle'),
+    feed:       $('video-feed'),
+    play:       $('video-play'),
+    sleep:      $('video-sleep'),
+    sleeploop1: $('video-sleeploop1'),
+    sleep2:     $('video-sleep2'),
+    sleeploop2: $('video-sleeploop2'),
+    wake:       $('video-wake'),
+    wake2:      $('video-wake2'),
+    bark:       $('video-bark'),
+    wave:       $('video-wave'),
+    tap:        $('video-tap'),
+  };
+
+  const barHunger    = $('bar-hunger');
+  const barEnergy    = $('bar-energy');
+  const barHappy     = $('bar-happy');
+  const valHunger    = $('val-hunger');
+  const valEnergy    = $('val-energy');
+  const valHappy     = $('val-happy');
+  const stateLabel   = $('state-label');
+  const moodIcon     = $('mood-icon');
+  const statusMsg    = $('status-msg');
+  const effects      = $('effects');
+  const btnFeed       = $('btn-feed');
+  const btnPlay       = $('btn-play');
+  const btnSleep      = $('btn-sleep');
+  const btnWake       = $('btn-wake');
+  const zzzContainer  = $('zzz-container');
+  const zzzContainerLoop1 = $('zzz-container-loop1');
+  const zzzContainer2 = $('zzz-container2');
+  const zzzContainer3 = $('zzz-container3');
+
+  // ── Z Z Z Sleep Animation (ab Sekunde 4) ───────────────────────────────────
+  const zzzConfig = [
+    { char: 'z', size: '18px', left: '60%', delay: '0s',   dur: '3.2s', drift: '14px' },
+    { char: 'Z', size: '24px', left: '68%', delay: '1.1s', dur: '3.5s', drift: '20px' },
+    { char: 'Z', size: '32px', left: '74%', delay: '2.2s', dur: '4.0s', drift: '12px' },
+  ];
+  let zzzTimeout = null;
+
+  function startZzz() {
+    [zzzContainer, zzzContainerLoop1, zzzContainer2, zzzContainer3].forEach(c => {
+      if (!c) return;
+      c.innerHTML = '';
+      zzzConfig.forEach(cfg => {
+        const el = document.createElement('div');
+        el.className = 'zzz-letter';
+        el.textContent = cfg.char;
+        el.style.setProperty('--dur',   cfg.dur);
+        el.style.setProperty('--delay', cfg.delay);
+        el.style.setProperty('--drift', cfg.drift);
+        el.style.left     = cfg.left;
+        el.style.fontSize = cfg.size;
+        c.appendChild(el);
+      });
+    });
+  }
+
+  function stopZzz() {
+    clearTimeout(zzzTimeout);
+    zzzTimeout = null;
+    [zzzContainer, zzzContainerLoop1, zzzContainer2, zzzContainer3].forEach(c => {
+      if (c) c.innerHTML = '';
+    });
+  }
+
+  // ── Ping-Pong: ganzes Video vor und zurück abspielen ──────────────────────
+  let pingPongTimer = null;
+  let pingPongDir   = 1; // 1 = vorwärts, -1 = rückwärts
+  let isSeeking     = false;
+
+  function startFullPingPong(vid, isNormalSpeed = true) {
+    stopPingPong();
+    if (!vid || !isFinite(vid.duration) || vid.duration <= 0) return;
+
+    vid.pause();
+
+    const loopStart = 0.02;
+    const loopEnd   = Math.max(0.1, vid.duration - 0.05);
+
+    // Starte von 0 vorwärts
+    vid.currentTime = loopStart;
+    pingPongDir = 1;
+    isSeeking = false;
+
+    // Schrittweite: ~0.04s pro 40ms (~1.0x) bzw. ~0.025s
+    const step = isNormalSpeed ? 0.04 : 0.025;
+    pingPongTimer = setInterval(() => {
+      if (state.mode !== 'sleep') {
+        stopPingPong();
+        return;
+      }
+      if (isSeeking) return;
+
+      let nextTime = vid.currentTime + pingPongDir * step;
+      if (nextTime >= loopEnd) {
+        nextTime = loopEnd;
+        pingPongDir = -1; // Am Ende umkehren: Rückwärts!
+      } else if (nextTime <= loopStart) {
+        nextTime = loopStart;
+        pingPongDir = 1;  // Am Anfang umkehren: Vorwärts!
+      }
+
+      isSeeking = true;
+      vid.currentTime = nextTime;
+    }, 40);
+
+    vid.onseeked = () => {
+      isSeeking = false;
+    };
+  }
+
+  function stopPingPong() {
+    clearInterval(pingPongTimer);
+    pingPongTimer = null;
+    isSeeking = false;
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function clamp(v, min=0, max=100) { return Math.max(min, Math.min(max, v)); }
+
+  function updateBars() {
+    const h = clamp(state.hunger);
+    const e = clamp(state.energy);
+    const p = clamp(state.happy);
+    barHunger.style.width = h + '%';
+    barEnergy.style.width = e + '%';
+    barHappy.style.width  = p + '%';
+    valHunger.textContent = Math.round(h);
+    valEnergy.textContent = Math.round(e);
+    valHappy.textContent  = Math.round(p);
+    updatePixelStats();
+  }
+
+  function updateMood() {
+    if (state.mode === 'sleep') { moodIcon.textContent = '😴'; return; }
+    if (state.mode === 'wake')  { moodIcon.textContent = '🥱'; return; }
+    const avg = (state.hunger + state.energy + state.happy) / 3;
+    if      (avg >= 75) moodIcon.textContent = '😊';
+    else if (avg >= 50) moodIcon.textContent = '😐';
+    else if (avg >= 25) moodIcon.textContent = '😟';
+    else                moodIcon.textContent = '😵';
+  }
+
+  function setStatus(msg, isAlert=false) {
+    statusMsg.textContent = msg;
+    statusMsg.classList.toggle('alert', isAlert);
+  }
+
+  function spawnEffect(emoji, count=5) {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'floating-item';
+      el.textContent = emoji;
+      el.style.left           = (30 + Math.random() * 40) + '%';
+      el.style.bottom         = (30 + Math.random() * 20) + '%';
+      el.style.animationDelay = (Math.random() * 0.4) + 's';
+      effects.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+  }
+
+  // ── Layer / Video switching ────────────────────────────────────────────────
+  function deactivateCurrent() {
+    const prev = state.mode;
+    // Wenn Schlafen oder Aufwachen aktiv war, die entsprechende Variante deaktivieren
+    const prevLayerKey = (prev === 'sleep') ? (state.sleepVariant === 2 ? 'sleeploop2' : 'sleeploop1')
+                       : (prev === 'wake')  ? (state.sleepVariant === 2 ? 'wake2'      : 'wake')
+                       : prev;
+
+    // Sicherheits-Cleanup für alle Schlaf-Layer
+    ['sleep', 'sleeploop1', 'sleep2', 'sleeploop2'].forEach(k => {
+      if (layers[k] && prev !== 'sleep') layers[k].classList.remove('active');
+      if (videos[k] && prev !== 'sleep') {
+        videos[k].pause();
+        videos[k].currentTime = 0;
+      }
+    });
+
+    if (layers[prevLayerKey] && prev !== 'idle') {
+      layers[prevLayerKey].classList.remove('active');
+    }
+    if (videos[prevLayerKey] && prev !== 'idle') {
+      setTimeout(() => {
+        if (state.mode !== prev && videos[prevLayerKey]) {
+          videos[prevLayerKey].pause();
+          videos[prevLayerKey].currentTime = 0;
+        }
+      }, 500);
+    }
+    if (prev === 'sleep') {
+      stopPingPong();
+      stopZzz();
+    }
+  }
+
+  function activateLayer(newMode) {
+    state.mode = newMode;
+
+    const layerKey = (newMode === 'sleep') ? (state.sleepVariant === 2 ? 'sleep2' : 'sleep')
+                   : (newMode === 'wake')  ? (state.sleepVariant === 2 ? 'wake2'  : 'wake')
+                   : newMode;
+
+    if (layers[layerKey]) {
+      layers[layerKey].classList.add('active');
+    }
+
+    if (videos[layerKey]) {
+      videos[layerKey].play().catch(err => {
+        console.warn('[Waveshare ESP32-S3] Video autoplay blocked:', err.message);
+      });
+    }
+
+    // Wenn neuer Modus schläft, Idle-Layer auch komplett ausblenden
+    if (newMode === 'sleep') {
+      if (layers.idle) layers.idle.classList.remove('active');
+      if (videos.idle) videos.idle.pause();
+    } else if (newMode === 'idle') {
+      if (layers.idle) layers.idle.classList.add('active');
+      if (videos.idle && videos.idle.paused) {
+        videos.idle.play().catch(() => {});
+      }
+    }
+
+    const labels = {
+      idle:  'WACH',
+      feed:  'FÜTTERN',
+      play:  'SPIELEN',
+      sleep: 'SCHLÄFT',
+      wake:  'AUFWACHEN',
+      bark:  'WACH',
+      wave:  'WACH',
+      tap:   'WACH',
+    };
+    stateLabel.textContent = labels[newMode] || 'WACH';
+
+    updateMood();
+    updateButtons();
+  }
+
+  function switchMode(newMode) {
+    deactivateCurrent();
+    activateLayer(newMode);
+  }
+
+  function updateButtons() {
+    const isSleeping  = state.mode === 'sleep';
+    const isWaking    = state.mode === 'wake';
+    const isTransient = state.locked || isWaking;
+
+    btnFeed.disabled  = isSleeping || isTransient || state.feedCooldown;
+    btnPlay.disabled  = isSleeping || isTransient || state.playCooldown;
+    btnSleep.disabled = isSleeping || isTransient;
+    btnWake.disabled  = !isSleeping || isTransient;
+  }
+
+  // ── Tick (decay over time) ─────────────────────────────────────────────────
+  let tickInterval = null;
+  function startTick() {
+    clearInterval(tickInterval);
+    tickInterval = setInterval(() => {
+      if (state.mode === 'sleep' || state.mode === 'wake') {
+        state.energy = clamp(state.energy + 0.5);
+        state.hunger = clamp(state.hunger - 0.1);
+      } else {
+        state.energy = clamp(state.energy - 0.3);
+        state.hunger = clamp(state.hunger - 0.5);
+        state.happy  = clamp(state.happy  - 0.1);
+      }
+      updateBars();
+      updateMood();
+
+      // Automatisches Einschlafen wenn keine Energie mehr da ist
+      if (state.energy <= 0 && state.mode === 'idle' && !state.locked) {
+        console.log('[Waveshare ESP32-S3] Energie erschöpft -> Automatisches Einschlafen');
+        sleep();
+        return;
+      }
+    }, 1000);
+  }
+
+  // ── Actions ────────────────────────────────────────────────────────────────
+  function feed() {
+    state.idleActionsCount = 0; // Benutzerinteraktion setzt Idle-Zähler zurück
+    if (state.feedCooldown || state.mode !== 'idle') return;
+    state.feedCooldown = true;
+    state.locked = true;
+    switchMode('feed');
+    // Keine schwebenden Knochen-Emojis mehr (Knochen im Video enthalten)
+    setStatus('Lecker! Futter verabreicht 😋');
+
+    const vid = videos.feed;
+    function finishFeed() {
+      state.hunger = clamp(state.hunger + 30);
+      state.happy  = clamp(state.happy  + 5);
+      updateBars();
+      state.feedCooldown = false;
+      state.locked = false;
+      switchMode('idle');
+      setStatus('Holly ist jetzt gesättigt! 🐾');
+    }
+
+    if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
+      const feedDuration = Math.min(vid.duration * 1000, 6000);
+      setTimeout(finishFeed, feedDuration);
+    } else {
+      setTimeout(finishFeed, 3500);
+    }
+  }
+
+  function play() {
+    state.idleActionsCount = 0; // Benutzerinteraktion setzt Idle-Zähler zurück
+    if (state.playCooldown || state.mode !== 'idle') return;
+    state.playCooldown = true;
+    state.locked = true;
+    switchMode('play');
+    spawnEffect('🎾', 5);
+    setStatus('Interaktive Spielsequenz gestartet! 🎉');
+
+    const vid = videos.play;
+    function finishPlay() {
+      state.happy  = clamp(state.happy  + 20);
+      state.energy = clamp(state.energy - 10);
+      updateBars();
+      state.playCooldown = false;
+      state.locked = false;
+      switchMode('idle');
+      setStatus('Holly hat gespielt und ist glücklich! 🐾');
+    }
+
+    if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
+      const playDuration = Math.min(vid.duration * 1000, 6000);
+      setTimeout(finishPlay, playDuration);
+    } else {
+      setTimeout(finishPlay, 4000);
+    }
+  }
+
+  function sleep() {
+    if (state.mode !== 'idle') return;
+
+    // Zufallsauswahl: 50% Schlafen 1 (mit Aufwachen 1), 50% Schlafen 2 (mit Aufwachen 2)
+    state.sleepVariant = Math.random() < 0.5 ? 1 : 2;
+    console.log(`[Waveshare ESP32-S3] Starte Schlafsequenz Variante ${state.sleepVariant}`);
+
+    switchMode('sleep');
+    setStatus('Ruhemodus aktiv: Schlafsystem läuft... zzZ');
+
+    if (state.sleepVariant === 1) {
+      // ── Variante 1: Schlafen gehen (schlafen.mp4) -> nahtlos zu Schlafen 1 (schlafloop1.mp4 vor und zurück) ──
+      const vidIntro = videos.sleep;
+      const vidLoop  = videos.sleeploop1;
+
+      if (vidIntro) {
+        vidIntro.onended = null;
+        vidIntro.currentTime = 0;
+
+        let loopSwitched = false;
+        const switchToLoop = () => {
+          if (loopSwitched || state.mode !== 'sleep') return;
+          loopSwitched = true;
+          vidIntro.removeEventListener('timeupdate', onIntroTimeUpdate);
+          vidIntro.onended = null;
+          console.log('[Waveshare ESP32-S3] Schlafen.mp4 Ping-Pong (vor & zurück) gestartet');
+
+          if (layers.sleeploop1) layers.sleeploop1.classList.add('active');
+          // Hier schlafen.mp4 dauerhaft vor und zurück abspielen!
+          startFullPingPong(vidLoop, true);
+
+          setTimeout(() => {
+            if (layers.sleep && state.mode === 'sleep') {
+              layers.sleep.classList.remove('active');
+            }
+          }, 400);
+        };
+
+        const onIntroTimeUpdate = () => {
+          if (!loopSwitched && vidIntro.duration && (vidIntro.currentTime >= vidIntro.duration - 0.2)) {
+            switchToLoop();
+          }
+        };
+        vidIntro.addEventListener('timeupdate', onIntroTimeUpdate);
+
+        vidIntro.onended = () => {
+          switchToLoop();
+        };
+
+        vidIntro.play().catch(err => {
+          console.warn('[Waveshare ESP32-S3] Sleep1 intro autoplay blocked:', err.message);
+          switchToLoop();
+        });
+      }
+    } else {
+      // ── Variante 2: Schlafen gehen 2 -> nahtlos zu Schlafen 2 Loop (schlafloop2.mp4) ──
+      const vidIntro = videos.sleep2;
+      const vidLoop  = videos.sleeploop2;
+
+      if (vidIntro) {
+        vidIntro.onended = null;
+        vidIntro.currentTime = 0;
+
+        let loopSwitched = false;
+        const switchToLoop = () => {
+          if (loopSwitched || state.mode !== 'sleep') return;
+          loopSwitched = true;
+          vidIntro.removeEventListener('timeupdate', onIntroTimeUpdate);
+          vidIntro.onended = null;
+          console.log('[Waveshare ESP32-S3] Schlafen 2 Loop-Video gestartet');
+
+          // Auf Schlafen 2 Dauer-Loop Video überblenden
+          if (layers.sleeploop2) layers.sleeploop2.classList.add('active');
+          if (vidLoop) {
+            vidLoop.currentTime = 0;
+            vidLoop.play().catch(() => {});
+          }
+          setTimeout(() => {
+            if (layers.sleep2 && state.mode === 'sleep') {
+              layers.sleep2.classList.remove('active');
+            }
+          }, 400);
+        };
+
+        const onIntroTimeUpdate = () => {
+          if (!loopSwitched && vidIntro.duration && (vidIntro.currentTime >= vidIntro.duration - 0.2)) {
+            switchToLoop();
+          }
+        };
+        vidIntro.addEventListener('timeupdate', onIntroTimeUpdate);
+
+        vidIntro.onended = () => {
+          switchToLoop();
+        };
+
+        vidIntro.play().catch(err => {
+          console.warn('[Waveshare ESP32-S3] Sleep2 intro autoplay blocked:', err.message);
+          switchToLoop();
+        });
+      }
+    }
+
+    zzzTimeout = setTimeout(() => {
+      if (state.mode === 'sleep') startZzz();
+    }, 4000);
+  }
+
+  function wake() {
+    if (state.mode !== 'sleep') return;
+    stopPingPong();
+    stopZzz();
+
+    state.locked = true;
+
+    // Alle aktiven Schlaf-Videos stoppen
+    ['sleep', 'sleeploop1', 'sleep2', 'sleeploop2'].forEach(k => {
+      if (videos[k]) {
+        videos[k].pause();
+        videos[k].onended = null;
+      }
+    });
+
+    switchMode('wake');
+    spawnEffect('☀️', 4);
+    setStatus('Wake-up Interrupt getriggert! 🌅');
+
+    // Passendes Aufwach-Video zur Schlaf-Variante
+    const vid = (state.sleepVariant === 2) ? videos.wake2 : videos.wake;
+    function finishWake() {
+      state.locked = false;
+      switchMode('idle');
+      setStatus('Guten Morgen Holly! System online! ☀️');
+    }
+
+    if (vid) {
+      vid.currentTime = 0;
+      vid.onended = () => {
+        vid.onended = null;
+        finishWake();
+      };
+      setTimeout(() => {
+        if (state.mode === 'wake') finishWake();
+      }, 5000);
+    } else {
+      setTimeout(finishWake, 2500);
+    }
+  }
+
+  function flashResetPrompt() {
+    setStatus('Hardware BOOT Taste betätigt (GPIO 0)!');
+    spawnEffect('⚡', 4);
+  }
+
+  // ── Touch in der Display-Mitte: Bellen auslösen & Happy steigern ───────────
+  function touchBark() {
+    if (state.mode !== 'idle' || state.locked) return;
+    console.log('[Waveshare ESP32-S3] Center Touch Event -> Holly gestreichelt! Bellen + Happy');
+    state.idleActionsCount = 0; // Klick zählt als Interaktion
+    state.locked = true;
+
+    // Holly freuen lassen: Happy +15 Punkte & Herz-Partikel aufsteigen lassen
+    state.happy = clamp(state.happy + 15);
+    updateBars();
+    updateMood();
+    spawnEffect('💖', 4);
+    setStatus('Holly freut sich über deine Streicheleinheit! 🐶💖');
+
+    switchMode('bark');
+
+    const vid = videos.bark;
+    function finishBark() {
+      state.locked = false;
+      if (state.mode === 'bark') {
+        switchMode('idle');
+      }
+      scheduleRandomIdleAnimation();
+    }
+
+    if (vid) {
+      vid.currentTime = 0;
+      vid.onended = () => {
+        vid.onended = null;
+        finishBark();
+      };
+      setTimeout(() => {
+        if (state.mode === 'bark') finishBark();
+      }, 5500);
+    } else {
+      setTimeout(finishBark, 2500);
+    }
+  }
+
+  // ── Idle Random Animationen (Winken & Tap — Bellen nur bei Mitte-Touch) ─────
+  let idleAnimationTimer = null;
+
+  function scheduleRandomIdleAnimation() {
+    clearTimeout(idleAnimationTimer);
+    // Zufälliges Intervall zwischen 9 und 18 Sekunden
+    const nextInterval = Math.floor(Math.random() * (18000 - 9000 + 1)) + 9000;
+
+    idleAnimationTimer = setTimeout(() => {
+      // Nur ausführen, wenn Holly wach im Idle ist und kein Menü/Button gelockt ist
+      if (state.mode === 'idle' && !state.locked) {
+        triggerRandomIdleAction();
+      } else {
+        scheduleRandomIdleAnimation();
+      }
+    }, nextInterval);
+  }
+
+  function triggerRandomIdleAction() {
+    if (state.mode !== 'idle' || state.locked) return;
+
+    state.idleActionsCount++;
+
+    // Wenn ca. 5 bis 7 ununterbrochene Aktionen ohne Interaktion vergangen sind: einschlafen
+    const sleepThreshold = 5 + Math.floor(Math.random() * 3); // 5, 6 oder 7
+    if (state.idleActionsCount >= sleepThreshold || (state.idleActionsCount >= 4 && Math.random() < 0.35)) {
+      console.log(`[Waveshare ESP32-S3] Holly wird müde nach ${state.idleActionsCount} Aktionen -> Schläft selbständig ein`);
+      state.idleActionsCount = 0;
+      sleep();
+      return;
+    }
+
+    // Automatisch im Leerlauf: Winken oder Tap (Bellen nur bei Displaymitte-Touch!)
+    const idlePool = ['wave', 'tap'];
+    const action = idlePool[Math.floor(Math.random() * idlePool.length)];
+    state.locked = true;
+    switchMode(action);
+    // Bleibt dezent: keine extra Textmeldung oder Pop-up-Animation
+
+    const vid = videos[action];
+    function finishIdleAction() {
+      state.locked = false;
+      if (state.mode === action) {
+        switchMode('idle');
+      }
+      scheduleRandomIdleAnimation();
+    }
+
+    if (vid) {
+      vid.currentTime = 0;
+      vid.onended = () => {
+        vid.onended = null;
+        finishIdleAction();
+      };
+      // Fallback Timeout falls Video stockt
+      setTimeout(() => {
+        if (state.mode === action) finishIdleAction();
+      }, 5500);
+    } else {
+      setTimeout(finishIdleAction, 3000);
+    }
+  }
+
+  // ── View Switching & Swipe Gestures (CST9217 Touch Simulation) ───────────
+  // 0 = Uhrzeit, Datum & Wecker (links von Holly)
+  // 1 = Realistische Video Holly (Home / Standard)
+  // 2 = Retro Pixel Art Tamagotchi (rechts von Holly)
+  let currentViewIndex = 1;
+  const viewsSlider = $('views-slider');
+  const dotPage0 = $('dot-page-0');
+  const dotPage1 = $('dot-page-1');
+  const dotPage2 = $('dot-page-2');
+  const swipeHint = $('swipe-hint');
+
+  function switchView(index) {
+    currentViewIndex = Math.max(0, Math.min(2, index));
+    if (viewsSlider) {
+      // 3 Seiten = je 33.333333% Breite
+      const offsetPercent = currentViewIndex * (100 / 3);
+      viewsSlider.style.transform = `translateX(-${offsetPercent}%)`;
+    }
+    if (dotPage0 && dotPage1 && dotPage2) {
+      dotPage0.classList.toggle('active', currentViewIndex === 0);
+      dotPage1.classList.toggle('active', currentViewIndex === 1);
+      dotPage2.classList.toggle('active', currentViewIndex === 2);
+    }
+    if (swipeHint) {
+      if (currentViewIndex === 1) {
+        swipeHint.style.display = 'block';
+        swipeHint.textContent = '👈 SWIPE 👉';
+      } else {
+        swipeHint.style.display = 'none';
+      }
+    }
+    const viewNames = ['Uhr, Datum & Wecker', 'Realistisches Video Holly', 'Retro Pixel Tamagotchi'];
+    console.log(`[Waveshare ESP32-S3] View switched to [${currentViewIndex}]: ${viewNames[currentViewIndex]}`);
+  }
+
+  function initSwipeGestures() {
+    const screen = $('amoled-screen');
+    if (!screen) return;
+
+    let startX = 0;
+    let startY = 0;
+    let isSwiping = false;
+
+    // Touch-Events
+    screen.addEventListener('touchstart', e => {
+      if (e.touches.length > 0) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    screen.addEventListener('touchend', e => {
+      if (!isSwiping || e.changedTouches.length === 0) return;
+      isSwiping = false;
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      handleSwipe(startX, startY, endX, endY);
+    }, { passive: true });
+
+    // Maus-Events (für Desktop-Testing mit Klick & Ziehen)
+    let mouseDown = false;
+    screen.addEventListener('mousedown', e => {
+      // Nur swipen wenn nicht direkt auf Button geklickt wurde
+      if (e.target.closest('button') || e.target.closest('.ring-btn') || e.target.closest('.pixel-icon-btn') || e.target.closest('.alarm-adjust-btn') || e.target.closest('.alarm-toggle-btn')) return;
+      mouseDown = true;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    window.addEventListener('mouseup', e => {
+      if (!mouseDown) return;
+      mouseDown = false;
+      const endX = e.clientX;
+      const endY = e.clientY;
+      handleSwipe(startX, startY, endX, endY);
+    });
+
+    function handleSwipe(sX, sY, eX, eY) {
+      const diffX = eX - sX;
+      const diffY = eY - sY;
+      // Horizontale Geste mit Mindestabstand von 35px
+      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          // Nach links wischen -> nächste Seite (z.B. von Holly zu Pixel Art)
+          if (currentViewIndex < 2) switchView(currentViewIndex + 1);
+        } else if (diffX > 0) {
+          // Nach rechts wischen -> vorherige Seite (z.B. von Holly zu Uhr & Wecker)
+          if (currentViewIndex > 0) switchView(currentViewIndex - 1);
+        }
+      }
+    }
+  }
+
+  // ── Clock, Date & Alarm Features (Page 0) ──────────────────────────────────
+  let alarmEnabled = false;
+  let alarmHour = 7;
+  let alarmMinute = 0;
+  let alarmRinging = false;
+
+  function updateClockDisplay() {
+    const now = new Date();
+    const clockTimeText = $('clock-time-text');
+    const clockSecondsText = $('clock-seconds-text');
+    const clockDateText = $('clock-date-text');
+
+    if (clockTimeText) {
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      clockTimeText.textContent = `${hh}:${mm}`;
+    }
+
+    if (clockSecondsText) {
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      clockSecondsText.textContent = `:${ss} SEC`;
+    }
+
+    if (clockDateText) {
+      const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+      const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+      const dayName = days[now.getDay()];
+      const dayNum = now.getDate();
+      const monthName = months[now.getMonth()];
+      const year = now.getFullYear();
+      clockDateText.textContent = `${dayName}, ${dayNum}. ${monthName} ${year}`;
+    }
+
+    // Wecker-Prüfung
+    if (alarmEnabled && !alarmRinging) {
+      if (now.getHours() === alarmHour && now.getMinutes() === alarmMinute && now.getSeconds() === 0) {
+        triggerAlarmRing();
+      }
+    }
+  }
+
+  function adjustAlarm(minutesDelta) {
+    let totalMinutes = alarmHour * 60 + alarmMinute + minutesDelta;
+    if (totalMinutes < 0) totalMinutes += 24 * 60;
+    totalMinutes = totalMinutes % (24 * 60);
+
+    alarmHour = Math.floor(totalMinutes / 60);
+    alarmMinute = totalMinutes % 60;
+
+    const display = $('alarm-time-display');
+    if (display) {
+      display.textContent = `${String(alarmHour).padStart(2, '0')}:${String(alarmMinute).padStart(2, '0')}`;
+    }
+  }
+
+  function toggleAlarm() {
+    alarmEnabled = !alarmEnabled;
+    const btn = $('alarm-toggle-btn');
+    const statusLine = $('alarm-status-line');
+
+    if (btn) {
+      btn.textContent = alarmEnabled ? 'AKTIV' : 'AUS';
+      btn.classList.toggle('active', alarmEnabled);
+    }
+    if (statusLine) {
+      const timeStr = `${String(alarmHour).padStart(2, '0')}:${String(alarmMinute).padStart(2, '0')}`;
+      statusLine.textContent = alarmEnabled ? `Weckt um ${timeStr} Uhr` : 'Tippe auf AUS zum Aktivieren';
+    }
+    spawnEffect('⏰', 3);
+  }
+
+  function triggerAlarmRing() {
+    alarmRinging = true;
+    spawnEffect('🔔', 6);
+    setStatus('⏰ WECKER KLINGELT! Zeit aufzustehen! ☀️', true);
+    // Wenn Holly noch schläft, automatisch wecken!
+    if (state.mode === 'sleep') {
+      wake();
+    }
+    setTimeout(() => {
+      alarmRinging = false;
+    }, 12000);
+  }
+
+  // ── Classic 1996 LCD Tamagotchi Pixel Dog Rendering ────────────────────────
+  const pixelCanvas = $('pixel-pet-canvas');
+  let pixelCtx = pixelCanvas ? pixelCanvas.getContext('2d') : null;
+  let pixelAnimFrame = null;
+  let pixelTick = 0;
+  let pixelWag = 0;
+  let pixelPoop = false; // Zustand für Häufchen & Putzen
+
+  // 16x16 Pixel Art Bitmap Definition für Welpe Holly
+  // . = transparent, # = Fell dunkel, O = Auge, w = Schnauze/Brust, b = Nase, r = Schleife/Zunge
+  const puppyFrame1 = [
+    "....########....",
+    "...##########...",
+    "..###..##..###..",
+    "..###OO##OO###..",
+    "..####b##b####..",
+    "...###wwww###...",
+    "...###wbw####...",
+    "....##wwww##....",
+    "....########....",
+    "...##########...",
+    "..############..",
+    "..###.####.###..",
+    "..##..####..##..",
+    "..##..#..#..##..",
+    "...#..#..#..#...",
+    "................"
+  ];
+
+  const puppyFrame2 = [
+    "....########....",
+    "...##########...",
+    "..###..##..###..",
+    "..###OO##OO###..",
+    "..####b##b####..",
+    "...###wwww###...",
+    "...###wrb####...",
+    "....##wwww##....",
+    "....########.#..",
+    "...##########.##",
+    "..############..",
+    "..###.####.###..",
+    "..##..####..##..",
+    "...#..#..#..#...",
+    "...#..#..#..#...",
+    "................"
+  ];
+
+  function drawPixelPet() {
+    if (!pixelCtx || !pixelCanvas) return;
+    pixelTick++;
+    if (pixelTick % 20 === 0) {
+      pixelWag = (pixelWag === 0 ? 1 : 0);
+    }
+
+    pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+
+    // Zoom-Faktor für 16x16 Pixel auf 160x160 Canvas (1 Pixel = 8x8 Canvas Pixel)
+    const scale = 7;
+    const offsetX = Math.floor((pixelCanvas.width - 16 * scale) / 2);
+    const offsetY = Math.floor((pixelCanvas.height - 16 * scale) / 2) + (pixelWag ? -2 : 0);
+
+    const frame = (pixelWag === 0) ? puppyFrame1 : puppyFrame2;
+
+    for (let r = 0; r < 16; r++) {
+      for (let c = 0; c < 16; c++) {
+        const char = frame[r][c];
+        if (char === '.') continue;
+
+        if (char === '#') pixelCtx.fillStyle = '#263821'; // Dunkles LCD Schwarz-Grün
+        else if (char === 'O') pixelCtx.fillStyle = '#111e0e'; // Pupille tief
+        else if (char === 'w') pixelCtx.fillStyle = '#516847'; // Hellere Schattierung
+        else if (char === 'b') pixelCtx.fillStyle = '#0f170c'; // Nase
+        else if (char === 'r') pixelCtx.fillStyle = '#374b30'; // Kontrast
+        else pixelCtx.fillStyle = '#263821';
+
+        pixelCtx.fillRect(offsetX + c * scale, offsetY + r * scale, scale - 0.5, scale - 0.5);
+      }
+    }
+
+    // Wenn Häufchen vorhanden: kleines Tamagotchi-Pixelhäufchen daneben zeichnen
+    if (pixelPoop) {
+      pixelCtx.fillStyle = '#1e2b19';
+      const px = 115;
+      const py = 100;
+      pixelCtx.fillRect(px + 6, py, 6, 6);
+      pixelCtx.fillRect(px + 3, py + 6, 12, 6);
+      pixelCtx.fillRect(px, py + 12, 18, 6);
+    }
+
+    pixelAnimFrame = requestAnimationFrame(drawPixelPet);
+  }
+
+  function initPixelPet() {
+    if (pixelAnimFrame) cancelAnimationFrame(pixelAnimFrame);
+    drawPixelPet();
+  }
+
+  function pixelClean() {
+    pixelPoop = false;
+    spawnEffect('✨', 4);
+    setStatus('Retro-Display gereinigt! 🧹');
+    const statusText = $('pixel-status-text');
+    if (statusText) {
+      statusText.textContent = 'HOLLY: GLÜCKLICH ✨';
+      setTimeout(() => {
+        if (statusText) statusText.textContent = 'HOLLY: OK';
+      }, 2500);
+    }
+  }
+
+  function updatePixelStats() {
+    function getHearts(val) {
+      const full = Math.round((val / 100) * 4);
+      let s = '';
+      for (let i = 0; i < 4; i++) {
+        s += i < full ? '♥' : '♡';
+      }
+      return s;
+    }
+
+    const hHunger = $('pixel-hearts-hunger');
+    const hHappy  = $('pixel-hearts-happy');
+    const hEnergy = $('pixel-hearts-energy');
+
+    if (hHunger) hHunger.textContent = getHearts(state.hunger);
+    if (hHappy)  hHappy.textContent  = getHearts(state.happy);
+    if (hEnergy) hEnergy.textContent = getHearts(state.energy);
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────────────
+  function init() {
+    console.log('[Waveshare ESP32-S3] 🚀 System Booted - 466x466 AMOLED Ready');
+    updateBars();
+    updateMood();
+    updateButtons();
+    updatePixelStats();
+    initPixelPet();
+    initSwipeGestures();
+    switchView(1); // Standardmäßig mit realistischer Video-Holly starten (Index 1)
+    updateClockDisplay();
+    setInterval(updateClockDisplay, 1000);
+    startTick();
+    scheduleRandomIdleAnimation();
+
+    // Gelegentlich ein Pixel-Häufchen nach 45s für tamagotchi gameplay
+    setTimeout(() => {
+      pixelPoop = true;
+    }, 45000);
+
+    // Idle-Video (Blinzeln) direkt starten
+    if (videos.idle) {
+      videos.idle.play().catch(err => {
+        console.warn('[Waveshare ESP32-S3] Idle autoplay blocked:', err.message);
+      });
+    }
+
+    Object.entries(videos).forEach(([name, v]) => {
+      if (!v) return;
+      v.load();
+      v.addEventListener('error', () => {
+        console.warn(`[Waveshare ESP32-S3] Asset "${name}" not found:`, v.src);
+      });
+    });
+  }
+
+  return { feed, play, sleep, wake, touchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, init, state };
+})();
+
+document.addEventListener('DOMContentLoaded', app.init);
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# System / OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Node / Temp (falls später ergänzt)
+node_modules/
+*.tmp
+*.log
