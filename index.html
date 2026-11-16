@@ -1289,7 +1289,7 @@
               <!-- Layer 9: GASSI GEHEN (Gassi gehen Haeufchen.mp4 / Gassi gehen.mp4) -->
               <div class="pet-layer" id="layer-walk">
                 <video id="video-walk"
-                       src="assets/Videos/Gassi%20gehen%20Haeufchen.mp4"
+                       src="assets/Videos/Gassi%20gehen.mp4"
                        muted playsinline
                        onerror="this.src='assets/Videos/Gassi%20gehen.mp4';">
                 </video>
@@ -1404,6 +1404,7 @@
                   <span class="pixel-icon-btn" onclick="app.play()" title="Spielen (Klick auf Ball)">⚽</span>
                   <span class="pixel-icon-btn" onclick="app.sleep()" title="Licht aus / Schlafen">💡</span>
                   <span class="pixel-icon-btn" onclick="app.cleanPoop()" title="Reinigen / Putzen">🧹</span>
+                  <span class="pixel-icon-btn" onclick="app.openCustomModal()" title="Aussehen anpassen">🎨</span>
                 </div>
 
                 <!-- Voxel Welpe 3D Container & Status Animation -->
@@ -1418,27 +1419,27 @@
                 <!-- Klassischer LCD Statusbalken (Pixel Hearts) -->
                 <div class="pixel-hud-stats">
                   <div class="pixel-row">
-                    <span>HUNGRY:</span>
+                    <span style="font-size: 11px;" title="Hunger">🍖</span>
                     <span class="pixel-hearts" id="pixel-hearts-hunger">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
-                    <span>HAPPY:</span>
+                    <span style="font-size: 11px;" title="Zufriedenheit">💖</span>
                     <span class="pixel-hearts" id="pixel-hearts-happy">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
-                    <span>ENERGY:</span>
+                    <span style="font-size: 11px;" title="Energie">⚡</span>
                     <span class="pixel-hearts" id="pixel-hearts-energy">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
-                    <span>BLASE:</span>
+                    <span style="font-size: 11px;" title="Blase">💧</span>
                     <span class="pixel-hearts" id="pixel-hearts-potty">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
-                    <span>DIRT:</span>
+                    <span style="font-size: 11px;" title="Reinheit / Pflege">🧼</span>
                     <span class="pixel-hearts" id="pixel-hearts-dirt">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
-                    <span>LEVEL:</span>
+                    <span style="font-size: 11px;" title="Level">⭐</span>
                     <span style="font-size: 8px; font-weight: bold; color: #38bdf8;" id="pixel-level-text">1 (BABY)</span>
                   </div>
                 </div>
@@ -1452,6 +1453,41 @@
             <div class="view-dot" id="dot-page-0" onclick="app.switchView(0)" title="Uhr, Datum & Wecker"></div>
             <div class="view-dot active" id="dot-page-1" onclick="app.switchView(1)" title="Realistische Ansicht"></div>
             <div class="view-dot" id="dot-page-2" onclick="app.switchView(2)" title="Retro Pixel Tamagotchi"></div>
+          </div>
+
+          <!-- Aussehen-Anpassungsmenü (Circular Modal Overlay) -->
+          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.94); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 28px 24px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
+            <div style="font-size: 13px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px;">🎨 AUSSEHEN ANPASSEN</div>
+            
+            <!-- Fellfarbe -->
+            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Klassik</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 10px; font-weight: 700; cursor: pointer;">Gold</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 10px; font-weight: 700; cursor: pointer;">Dunkel</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 10px; font-weight: 700; cursor: pointer;">Creme</button>
+            </div>
+
+            <!-- Halsbandfarbe -->
+            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Rot</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 10px; font-weight: 700; cursor: pointer;">Blau</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">Rosa</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 10px; font-weight: 700; cursor: pointer;">Grün</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 10px; font-weight: 700; cursor: pointer;">Lila</button>
+            </div>
+
+            <!-- Accessoire -->
+            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 14px;">
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Keins</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 10px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
+            </div>
+
+            <!-- Schließen Button -->
+            <button type="button" onclick="app.closeCustomModal()" style="padding: 6px 22px; border-radius: 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
           </div>
 
           <!-- Action Particles Container -->
@@ -1493,6 +1529,11 @@ const app = (() => {
     dirt:         10,      // 0–100 (Verschmutzung / Pflegebedarf, steigt beim Gassi gehen)
     hasPoop:      false,   // Ob ein Kothaufen auf dem Display liegt
     hasPee:       false,   // Ob eine Urin-Pfütze auf dem Display liegt
+    custom: {
+      fur: 'brown',       // 'brown' | 'golden' | 'dark' | 'cream'
+      collar: 'red',      // 'red' | 'blue' | 'pink' | 'green' | 'purple'
+      accessory: 'none'   // 'none' | 'bow' | 'hat'
+    },
     growthStage:  1,       // 1 = Baby (scale 0.75), 2 = Junghund (scale 1.0), 3 = Adult (scale 1.2)
     xp:           0,       // Erfahrungspunkte (0-100 pro Stufe)
     washCooldown: false,
@@ -1707,7 +1748,8 @@ const app = (() => {
         happy: state.happy,
         potty: state.potty,
         dirt: state.dirt,
-        hasPoop: state.hasPoop
+        hasPoop: state.hasPoop,
+        custom: state.custom
       };
       localStorage.setItem('tamaholly_save', JSON.stringify(data));
     } catch (e) {
@@ -1728,6 +1770,11 @@ const app = (() => {
         if (typeof d.potty === 'number') state.potty = d.potty;
         if (typeof d.dirt === 'number') state.dirt = d.dirt;
         if (typeof d.hasPoop === 'boolean') state.hasPoop = d.hasPoop;
+        if (d.custom && typeof d.custom === 'object') {
+          if (d.custom.fur) state.custom.fur = d.custom.fur;
+          if (d.custom.collar) state.custom.collar = d.custom.collar;
+          if (d.custom.accessory) state.custom.accessory = d.custom.accessory;
+        }
         console.log(`[Tamaholly] Geladener Spielstand: Level ${state.growthStage} (${GROWTH_CONFIG[state.growthStage].name}), XP: ${state.xp}`);
       }
     } catch (e) {
@@ -2117,7 +2164,7 @@ const app = (() => {
     state.locked = true;
     voxelWalkTimer = 4.5;
 
-    // Beim Spaziergang: Kot-Status in der Wohnung sofort resetten und Icon ausblenden
+    // Spaziergang: Kot-Status in der Wohnung sicherstellen und resetten
     state.hasPoop = false;
     if (realisticPoop) realisticPoop.style.display = 'none';
 
@@ -2125,23 +2172,13 @@ const app = (() => {
     spawnEffect('🦮', 4);
     setStatus('Herrlicher Spaziergang mit Holly! Frische Luft schnappen... 🌳🐾');
 
-    // Voxel-Sonderlogik: Häufchen in der 3D-Welt
-    setTimeout(() => {
-      if (state.mode === 'walk' && voxelPoopMesh) {
-        const hX = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0);
-        const hZ = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) - 1.05;
-        voxelPoopMesh.position.set(hX, -0.75, hZ);
-        voxelPoopMesh.visible = true;
-      }
-    }, 1800);
-
     const vid = videos.walk;
     function finishWalk() {
       state.potty  = 0;  // Blase komplett entleert
-      state.dirt   = clamp(state.dirt + 35); // Draußen im Schlamm/Gras getobt -> wird deutlich schmutziger!
+      state.dirt   = clamp(state.dirt + 35); // Draußen im Schlamm/Gras getobt
       state.happy  = clamp(state.happy + 25);
       state.energy = clamp(state.energy - 8);
-      state.hasPoop = false; // Garantiert kein Häufchen auf dem Display
+      state.hasPoop = false; // Garantiert kein Häufchen auf dem Display beim Spaziergang
       if (realisticPoop) realisticPoop.style.display = 'none';
       saveGameProgress();
       addXp(15);
@@ -2149,45 +2186,21 @@ const app = (() => {
       state.walkCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly hat ihr Geschäft draußen erledigt und ist glücklich! 🦮✨ (+15 XP)');
+      setStatus('Holly hat ihren Spaziergang genossen und ist glücklich! 🦮✨ (+15 XP)');
     }
 
     if (vid) {
       vid.currentTime = 0;
       let walkFinished = false;
-      let walkPoopShown = false;
-
-      const showWalkPoop = () => {
-        if (walkPoopShown || state.mode !== 'walk') return;
-        walkPoopShown = true;
-        state.hasPoop = true;
-        if (realisticPoop) realisticPoop.style.display = 'block';
-      };
-
-      const onWalkTimeUpdate = () => {
-        if (vid.currentTime >= 5.0) {
-          showWalkPoop();
-          vid.removeEventListener('timeupdate', onWalkTimeUpdate);
-        }
-      };
-      vid.addEventListener('timeupdate', onWalkTimeUpdate);
-
-      // Fallback Timeout für Sekunde 5
-      setTimeout(() => {
-        if (state.mode === 'walk') {
-          showWalkPoop();
-        }
-      }, 5000);
 
       const endWalk = () => {
         if (walkFinished) return;
         walkFinished = true;
         vid.onended = null;
-        vid.removeEventListener('timeupdate', onWalkTimeUpdate);
         finishWalk();
       };
       vid.onended = endWalk;
-      // Sicherheits-Fallback: Falls onended nicht feuert, erst nach der vollen Videodauer (+500ms) beenden
+      // Sicherheits-Fallback: Falls onended nicht feuert, erst nach Videodauer (+500ms) beenden
       if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
         setTimeout(endWalk, (vid.duration * 1000) + 500);
       } else {
@@ -2196,16 +2209,10 @@ const app = (() => {
             setTimeout(endWalk, (vid.duration * 1000) + 500);
           }
         }, { once: true });
-        setTimeout(endWalk, 12000); // Großzügiger Fallback
+        setTimeout(endWalk, 7500);
       }
     } else {
-      setTimeout(() => {
-        if (state.mode === 'walk' && realisticPoop) {
-          state.hasPoop = true;
-          realisticPoop.style.display = 'block';
-        }
-      }, 4000);
-      setTimeout(finishWalk, 6000);
+      setTimeout(finishWalk, 5000);
     }
   }
 
@@ -2796,6 +2803,8 @@ const app = (() => {
   let voxelPoopMesh = null;
   let voxelPeeMesh = null;    // Gelbe Voxel-Pfütze beim Revier markieren
   let voxelTreatMesh = null;  // Voxel-Fressnapf mit Futter (Füttern)
+  let voxelFoodGroup = null;  // Futterfüllung im Fressnapf (wird beim Fressen geleert)
+  let voxelPeeTimer = 0;      // Verblass-Timer für die Urin-Pfütze
   let voxelBallMesh = null;   // Voxel-Spielball (Spielen)
   let voxelLeashMesh = null;  // 3D-Hundeleine beim Gassi gehen
   let voxelSoapBubbles = [];  // Schaumblasen beim Waschen
@@ -2803,6 +2812,22 @@ const app = (() => {
   let eyeLGroup, eyeRGroup;   // Augen-Gruppen für geschlossene Augen & Blinzeln
   let voxelJawGroup;          // Unterkiefer für echtes Mundöffnen beim Bellen!
   let stolenItemMesh = null;  // Gestohlener Ring-Button im Maul bei Unordnung/Schabernack!
+  let voxelBowMesh = null;    // Rosa Schleifen-Accessoire
+  let voxelHatMesh = null;    // Zylinder-Accessoire
+
+  const DOG_FUR_PALETTES = {
+    brown:  { fur: 0x9e6834, furDark: 0x6e431d, snout: 0xd9ab77 },
+    golden: { fur: 0xd97706, furDark: 0x92400e, snout: 0xfde68a },
+    dark:   { fur: 0x3f3f46, furDark: 0x27272a, snout: 0x71717a },
+    cream:  { fur: 0xfef08a, furDark: 0xca8a04, snout: 0xffedd5 }
+  };
+  const DOG_COLLAR_COLORS = {
+    red:    0xdc2626,
+    blue:   0x2563eb,
+    pink:   0xec4899,
+    green:  0x16a34a,
+    purple: 0x9333ea
+  };
 
   // Interaktive Animationszustände & Schlafpositionen
   let voxelJoyTimer = 0;   // Freuden-Animation (Streicheln)
@@ -2938,6 +2963,39 @@ const app = (() => {
     // ── Kopf-Gruppe (für Kopfdrehen & Nicken) ──
     voxelHeadGroup = new THREE.Group();
     voxelHeadGroup.position.set(0, 0.45, 0.75);
+
+    // ── 3D Accessoires (Rosa Schleife & Zylinder) ──
+    voxelBowMesh = new THREE.Group();
+    const bowMat = new THREE.MeshLambertMaterial({ color: 0xec4899 });
+    const bowKnot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.1), bowMat);
+    const bowWingL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.08), bowMat);
+    bowWingL.position.set(-0.14, 0.02, 0);
+    bowWingL.rotation.z = 0.25;
+    const bowWingR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.08), bowMat);
+    bowWingR.position.set(0.14, 0.02, 0);
+    bowWingR.rotation.z = -0.25;
+    voxelBowMesh.add(bowKnot);
+    voxelBowMesh.add(bowWingL);
+    voxelBowMesh.add(bowWingR);
+    voxelBowMesh.position.set(-0.32, 0.48, 0.15); // Vorne am linken Ohr
+    voxelBowMesh.visible = false;
+    voxelHeadGroup.add(voxelBowMesh);
+
+    voxelHatMesh = new THREE.Group();
+    const hatMat = new THREE.MeshLambertMaterial({ color: 0x18181b });
+    const hatBandMat = new THREE.MeshLambertMaterial({ color: 0xdc2626 });
+    const hatBrim = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.05, 14), hatMat);
+    const hatCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.45, 14), hatMat);
+    hatCrown.position.y = 0.25;
+    const hatBand = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.29, 0.08, 14), hatBandMat);
+    hatBand.position.y = 0.1;
+    voxelHatMesh.add(hatBrim);
+    voxelHatMesh.add(hatCrown);
+    voxelHatMesh.add(hatBand);
+    voxelHatMesh.position.set(0, 0.52, 0.05); // Oben auf dem Kopf
+    voxelHatMesh.rotation.z = -0.08;
+    voxelHatMesh.visible = false;
+    voxelHeadGroup.add(voxelHatMesh);
 
     // Hauptkopf
     const headGeo = new THREE.BoxGeometry(1.0, 0.9, 0.9);
@@ -3122,12 +3180,13 @@ const app = (() => {
     bowlInner.position.y = 0.17;
     voxelTreatMesh.add(bowlInner);
 
-    // 5. Knackige Futterfüllung (Kroketten-Hügel mit Struktur)
+    // 5. Knackige Futterfüllung (in voxelFoodGroup gruppiert, leert sich beim Fressen!)
+    voxelFoodGroup = new THREE.Group();
     const foodHeapGeo = new THREE.CylinderGeometry(0.38, 0.40, 0.12, 12);
     const mFoodBase = new THREE.MeshLambertMaterial({ color: 0x78350f });
     const foodHeap = new THREE.Mesh(foodHeapGeo, mFoodBase);
     foodHeap.position.y = 0.23;
-    voxelTreatMesh.add(foodHeap);
+    voxelFoodGroup.add(foodHeap);
 
     // Einzelne knusprige Kroketten-Blöcke aufgetürmt
     const kibbleGeo = new THREE.BoxGeometry(0.11, 0.07, 0.11);
@@ -3143,8 +3202,9 @@ const app = (() => {
       const kMesh = new THREE.Mesh(kibbleGeo, idx % 2 === 0 ? mKibble1 : mKibble2);
       kMesh.position.set(kf[0], kf[1], kf[2]);
       kMesh.rotation.y = kf[3];
-      voxelTreatMesh.add(kMesh);
+      voxelFoodGroup.add(kMesh);
     });
+    voxelTreatMesh.add(voxelFoodGroup);
 
     // 6. Feiner weiß-gelber Hundeknochen-Aufsatz
     const boneCenterGeo = new THREE.BoxGeometry(0.24, 0.07, 0.08);
@@ -3164,18 +3224,18 @@ const app = (() => {
     voxelTreatMesh.visible = false;
     voxelScene.add(voxelTreatMesh);
 
-    // ── 3D Hundeleine (beim Gassi gehen) ──
+    // ── 3D Hundeleine (verläuft sauber seitlich nach außen oben ohne Kopf/Körper zu durchqueren) ──
     const leashCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, 0.15, 0.65),       // Befestigt am Halsband
-      new THREE.Vector3(0.2, 0.55, 0.85),     // Schwingt dynamisch
-      new THREE.Vector3(0.55, 1.05, 1.05),
-      new THREE.Vector3(0.85, 1.55, 1.25)     // Zieht nach oben rechts
+      new THREE.Vector3(0.18, 0.20, 0.65),    // Am rechten Rand des Halsbands befestigt
+      new THREE.Vector3(0.55, 0.65, 0.95),    // Weit nach rechts außen geschwungen (frei von Kopf/Ohren)
+      new THREE.Vector3(0.95, 1.25, 1.25),
+      new THREE.Vector3(1.35, 1.85, 1.55)     // Zieht elegant nach oben rechts zum Halter
     ]);
-    const leashGeo = new THREE.TubeGeometry(leashCurve, 16, 0.024, 6, false);
+    const leashGeo = new THREE.TubeGeometry(leashCurve, 18, 0.024, 6, false);
     const mLeash = new THREE.MeshLambertMaterial({ color: 0xd97706 }); // Lederne Leine
     voxelLeashMesh = new THREE.Mesh(leashGeo, mLeash);
     voxelLeashMesh.visible = false;
-    voxelScene.add(voxelLeashMesh);
+    voxelPuppyGroup.add(voxelLeashMesh); // Direkt an Welpen gekoppelt für saubere Bewegungsfreiheit
 
     // ── Schaumblasen für Voxel-Waschen ──
     const bubbleGeo = new THREE.BoxGeometry(0.12, 0.12, 0.12);
@@ -3262,7 +3322,72 @@ const app = (() => {
 
     // 8. Animationsschleife starten
     animateVoxelPet();
+    applyDogCustomization();
   }
+  function applyDogCustomization() {
+    if (!voxelPuppyGroup) return;
+    const fur = DOG_FUR_PALETTES[state.custom.fur] || DOG_FUR_PALETTES.brown;
+    const collarCol = DOG_COLLAR_COLORS[state.custom.collar] || DOG_COLLAR_COLORS.red;
+
+    // Materialien im 3D-Modell anpassen
+    voxelPuppyGroup.traverse(child => {
+      if (child.isMesh && child.material) {
+        // Fell-Farben
+        if (child.material === mFur) {
+          child.material.color.setHex(fur.fur);
+        } else if (child.material === mFurDark) {
+          child.material.color.setHex(fur.furDark);
+        } else if (child.material === mSnout) {
+          child.material.color.setHex(fur.snout);
+        } else if (child.material === mCollar) {
+          child.material.color.setHex(collarCol);
+        }
+      }
+    });
+
+    // Accessoires ein-/ausblenden
+    if (voxelBowMesh) voxelBowMesh.visible = (state.custom.accessory === 'bow');
+    if (voxelHatMesh) voxelHatMesh.visible = (state.custom.accessory === 'hat');
+
+    // UI Pills im Anpassungsmenü synchronisieren
+    document.querySelectorAll('.custom-fur-btn').forEach(b => {
+      const active = b.dataset.fur === state.custom.fur;
+      b.style.background = active ? '#38bdf8' : '#27272a';
+      b.style.color = active ? '#000' : '#fff';
+    });
+    document.querySelectorAll('.custom-collar-btn').forEach(b => {
+      const active = b.dataset.collar === state.custom.collar;
+      b.style.opacity = active ? '1' : '0.45';
+      b.style.transform = active ? 'scale(1.1)' : 'scale(1)';
+    });
+    document.querySelectorAll('.custom-acc-btn').forEach(b => {
+      const active = b.dataset.acc === state.custom.accessory;
+      b.style.background = active ? '#38bdf8' : '#27272a';
+      b.style.color = active ? '#000' : '#fff';
+    });
+  }
+
+  function setDogCustom(category, value) {
+    if (!state.custom) state.custom = { fur: 'brown', collar: 'red', accessory: 'none' };
+    state.custom[category] = value;
+    applyDogCustomization();
+    saveGameProgress();
+    spawnEffect('✨', 3);
+  }
+
+  function openCustomModal() {
+    const modal = $('custom-modal-overlay');
+    if (modal) {
+      applyDogCustomization();
+      modal.style.display = 'flex';
+    }
+  }
+
+  function closeCustomModal() {
+    const modal = $('custom-modal-overlay');
+    if (modal) modal.style.display = 'none';
+  }
+
 
   function handleVoxelContainerClick(e) {
     if (state.locked && state.mode !== 'play') return;
@@ -3433,8 +3558,17 @@ const app = (() => {
     if (voxelTreatMesh) {
       voxelTreatMesh.visible = isFeed;
       if (isFeed) {
-        // Fressnapf steht stabil vor dem Welpen am Boden
         voxelTreatMesh.position.set(0, -0.65, 1.15);
+        // Fressnapf leert sich kontinuierlich während des Fressens
+        if (voxelFoodGroup) {
+          const feedDuration = 3.5;
+          const foodRemaining = Math.max(0, Math.min(1, voxelFeedTimer / feedDuration));
+          voxelFoodGroup.scale.set(foodRemaining, foodRemaining, foodRemaining);
+          voxelFoodGroup.position.y = (foodRemaining - 1) * 0.12;
+        }
+      } else if (voxelFoodGroup) {
+        voxelFoodGroup.scale.set(1, 1, 1);
+        voxelFoodGroup.position.y = 0;
       }
     }
     if (voxelBallMesh) {
@@ -3454,22 +3588,36 @@ const app = (() => {
       }
     }
 
-    // ── Häufchen & Urin-Pfütze Synchronisation ──
+    // ── Häufchen & Urin-Pfütze Synchronisation (Pfütze verschwindet langsam) ──
     if (voxelPoopMesh) {
       voxelPoopMesh.visible = state.hasPoop;
     }
     if (voxelPeeMesh) {
-      voxelPeeMesh.visible = state.hasPee;
+      if (state.hasPee) {
+        voxelPeeTimer += delta;
+        // Nach 1.5s Verweilen beginnt die Pfütze über 3.5s hinweg langsam zu verblassen
+        if (voxelPeeTimer > 1.5) {
+          const fadeProgress = (voxelPeeTimer - 1.5) / 3.5;
+          const currentOpacity = Math.max(0, 0.82 * (1 - fadeProgress));
+          const currentScale = Math.max(0.01, 1 - fadeProgress * 0.4);
+          voxelPeeMesh.material.opacity = currentOpacity;
+          voxelPeeMesh.scale.set(currentScale, 1, currentScale);
+          if (fadeProgress >= 1.0) {
+            state.hasPee = false;
+            voxelPeeMesh.visible = false;
+            voxelPeeMesh.material.opacity = 0.82;
+            voxelPeeMesh.scale.set(1, 1, 1);
+            voxelPeeTimer = 0;
+          }
+        }
+      } else {
+        voxelPeeMesh.visible = false;
+      }
     }
 
     // ── Leine beim Gassi gehen ──
     if (voxelLeashMesh) {
       voxelLeashMesh.visible = isWalk;
-      if (isWalk && voxelPuppyGroup) {
-        // Leine folgt Hollys Körperposition
-        voxelLeashMesh.position.set(voxelPuppyGroup.position.x, voxelPuppyGroup.position.y, voxelPuppyGroup.position.z);
-        voxelLeashMesh.rotation.y = voxelPuppyRot.y;
-      }
     }
 
     // ── Schaumblasen beim Waschen ──
@@ -3510,16 +3658,12 @@ const app = (() => {
     let targetLookZ = 0;
 
     if (isWalk) {
-      const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 0.8);
-      if (isPoopingNow) {
-        // Schräg von hinten / seitlich auf Holly blicken: Häufchen & Hockpose perfekt sichtbar!
-        targetCamX = 2.4;
-        targetCamY = 1.4;
-        targetCamZ = -2.8;
-        targetLookX = 0;
-        targetLookY = -0.3;
-        targetLookZ = -0.5;
-      }
+      targetCamX = 1.0;
+      targetCamY = 1.2;
+      targetCamZ = 4.2;
+      targetLookX = 0;
+      targetLookY = -0.2;
+      targetLookZ = 0;
     }
 
     // Flüssige Kamera-Interpolation
@@ -3601,17 +3745,21 @@ const app = (() => {
           voxelBehaviorTimer = 2.8 + Math.random() * 1.2;
           spawnEffect('✨', 2);
         } else if (voxelIdleBehavior === 'mark') {
-          // Revier markieren: Bein heben und gelbe Pfütze hinterlassen
-          voxelTargetRot = (Math.random() - 0.5) * 0.5;
+          // Revier markieren: Direkt zum Display blicken, Bein heben und Pfütze nach vorne platzieren
+          voxelTargetRot = 0; // Frontal zum Display
+          voxelCurrentRot = 0;
           voxelBehaviorTimer = 3.0;
-          // Nach 1.4s Pfütze spawnen
+          // Nach 1.4s Pfütze vorne am Display spawnen
           setTimeout(() => {
             if (voxelPeeMesh && voxelPuppyGroup) {
               const pX = voxelPuppyGroup.position.x + 0.35;
-              const pZ = voxelPuppyGroup.position.z - 0.25;
+              const pZ = voxelPuppyGroup.position.z + 0.35; // Vorne Richtung Display/Betrachter
               voxelPeeMesh.position.set(pX, -0.78, pZ);
+              voxelPeeMesh.material.opacity = 0.82;
+              voxelPeeMesh.scale.set(1, 1, 1);
               voxelPeeMesh.visible = true;
               state.hasPee = true;
+              voxelPeeTimer = 0; // Timer für langsames Verblassen starten
               spawnEffect('💧', 2);
             }
           }, 1400);
@@ -3735,24 +3883,17 @@ const app = (() => {
       targetRotY = voxelPuppyRot.y + 0.06;
       targetRotZ = 0;
     } else if (isWalk) {
-      const isPoopingNow = (voxelWalkTimer <= 3.4 && voxelWalkTimer >= 0.8);
-      if (isPoopingNow) {
-        targetRotX = -0.3; // Typische Hock-Neigung
-        targetRotY = 0;
-        targetRotZ = 0;
-      } else {
-        targetRotX = 0;
-        targetRotY = Math.PI * 0.15 + Math.sin(time * 3) * 0.12;
-        targetRotZ = 0;
-      }
+      targetRotX = 0;
+      targetRotY = Math.PI * 0.15 + Math.sin(time * 3) * 0.12;
+      targetRotZ = 0;
     } else if (isWake) {
       targetRotX = 0;
       targetRotY = 0.6;
       targetRotZ = 0;
     } else {
       // Normaler Leerlauf
-      if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
-        targetRotY = 0; // Beim Bellen direkt zum Display blicken
+      if (voxelIdleBehavior === 'bark' || state.mode === 'bark' || voxelIdleBehavior === 'mark') {
+        targetRotY = 0; // Beim Bellen und Pinkeln/Markieren direkt zum Display blicken
       } else {
         targetRotY = voxelCurrentRot;
       }
@@ -3797,12 +3938,7 @@ const app = (() => {
     } else if (isPlay) {
       targetPosY = Math.abs(Math.sin(time * 14)) * 0.18;
     } else if (isWalk) {
-      const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
-      if (isPoopingNow) {
-        targetPosY = -0.48;
-      } else {
-        targetPosY = Math.sin(time * 10) * 0.04;
-      }
+      targetPosY = Math.sin(time * 10) * 0.04;
     } else if (isJoy) {
       targetPosY = Math.abs(Math.sin(time * 12)) * 0.22;
     } else if (isFeed) {
@@ -3858,16 +3994,10 @@ const app = (() => {
         targetHeadRotY = Math.sin(time * 8) * 0.15;
         targetHeadRotZ = Math.sin(time * 8) * 0.08;
       } else if (isWalk) {
-        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
-        if (isPoopingNow) {
-          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-          targetHeadRotX = 0.3; targetHeadRotY = 0; targetHeadRotZ = 0;
-        } else {
-          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-          targetHeadRotX = Math.sin(time * 16) * 0.12;
-          targetHeadRotY = Math.sin(time * 8) * 0.15;
-          targetHeadRotZ = Math.sin(time * 8) * 0.08;
-        }
+        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+        targetHeadRotX = Math.sin(time * 16) * 0.12;
+        targetHeadRotY = Math.sin(time * 8) * 0.15;
+        targetHeadRotZ = Math.sin(time * 8) * 0.08;
       } else if (isJoy) {
         targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
         targetHeadRotX = -0.15 + Math.sin(time * 14) * 0.12;
@@ -3922,12 +4052,15 @@ const app = (() => {
       voxelHeadGroup.rotation.set(voxelHeadRot.x, voxelHeadRot.y, voxelHeadRot.z);
     }
 
-    // ── Unterkiefer-Animation (Mund öffnen beim Bellen & Kauen beim Fressen) ──
+    // ── Unterkiefer-Animation (Mund öffnen beim Bellen, Kauen & sanfte Atmung beim Schlafen) ──
     if (voxelJawGroup) {
       if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
         voxelJawGroup.rotation.x = 0.45 + Math.sin(time * 20) * 0.35;
       } else if (isFeed) {
         voxelJawGroup.rotation.x = 0.2 + Math.abs(Math.sin(time * 14)) * 0.25;
+      } else if (isSleep) {
+        // Beim Schlafen: Sehr sanfte, langsame Atembewegung des Mauls (entspannter Rhythmus)
+        voxelJawGroup.rotation.x = Math.max(0, Math.sin(time * 1.5) * 0.04);
       } else {
         voxelJawGroup.rotation.x = 0;
       }
@@ -3940,14 +4073,8 @@ const app = (() => {
       } else if (isJoy || isPlay) {
         voxelTailGroup.rotation.y = Math.sin(time * 26) * 0.75;
       } else if (isWalk) {
-        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
-        if (isPoopingNow) {
-          voxelTailGroup.rotation.y = 0;
-          voxelTailGroup.rotation.x = 0.75;
-        } else {
-          voxelTailGroup.rotation.y = Math.sin(time * 18) * 0.55;
-          voxelTailGroup.rotation.x = 0.45;
-        }
+        voxelTailGroup.rotation.y = Math.sin(time * 18) * 0.55;
+        voxelTailGroup.rotation.x = 0.45;
       } else if (isFeed) {
         voxelTailGroup.rotation.y = Math.sin(time * 20) * 0.65;
         voxelTailGroup.rotation.x = 0.45;
@@ -3991,19 +4118,11 @@ const app = (() => {
         tBL = -Math.sin(time * legSpeed) * 0.75;
         tBR = Math.sin(time * legSpeed) * 0.75;
       } else if (isWalk) {
-        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
-        if (isPoopingNow) {
-          tFL = -0.15;
-          tFR = -0.15;
-          tBL = 1.15;
-          tBR = 1.15;
-        } else {
-          const legSpeed = 16;
-          tFL = Math.sin(time * legSpeed) * 0.65;
-          tFR = -Math.sin(time * legSpeed) * 0.65;
-          tBL = -Math.sin(time * legSpeed) * 0.65;
-          tBR = Math.sin(time * legSpeed) * 0.65;
-        }
+        const legSpeed = 16;
+        tFL = Math.sin(time * legSpeed) * 0.65;
+        tFR = -Math.sin(time * legSpeed) * 0.65;
+        tBL = -Math.sin(time * legSpeed) * 0.65;
+        tBR = Math.sin(time * legSpeed) * 0.65;
       } else if (isJoy) {
         tFL = Math.sin(time * 14) * 0.3;
         tFR = -Math.sin(time * 14) * 0.3;
@@ -4167,7 +4286,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, walk, wash, cleanPoop, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, init, state };
+  return { feed, play, walk, wash, cleanPoop, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, applyDogCustomization, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
