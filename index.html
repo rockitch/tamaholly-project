@@ -1289,7 +1289,7 @@
               <!-- Layer 9: GASSI GEHEN (Gassi gehen Haeufchen.mp4 / Gassi gehen.mp4) -->
               <div class="pet-layer" id="layer-walk">
                 <video id="video-walk"
-                       src="assets/Videos/Gassi%20gehen.mp4"
+                       src="assets/Videos/Gassi%20gehen%20Haeufchen.mp4"
                        muted playsinline
                        onerror="this.src='assets/Videos/Gassi%20gehen.mp4';">
                 </video>
@@ -2162,45 +2162,80 @@ const app = (() => {
     if (state.walkCooldown || state.mode !== 'idle') return;
     state.walkCooldown = true;
     state.locked = true;
-    voxelWalkTimer = 4.5;
+    voxelWalkTimer = 7.0;
 
-    // Spaziergang: Kot-Status in der Wohnung sicherstellen und resetten
+    // Vor dem Spaziergang bisherige Wohnungshäufchen zurücksetzen
     state.hasPoop = false;
     if (realisticPoop) realisticPoop.style.display = 'none';
+    if (voxelPoopMesh) voxelPoopMesh.visible = false;
 
     switchMode('walk');
     spawnEffect('🦮', 4);
     setStatus('Herrlicher Spaziergang mit Holly! Frische Luft schnappen... 🌳🐾');
 
     const vid = videos.walk;
+    let poopSpawned = false;
+
+    function triggerPoop() {
+      if (poopSpawned) return;
+      poopSpawned = true;
+      state.hasPoop = true;
+      if (realisticPoop) realisticPoop.style.display = 'block';
+      if (voxelPoopMesh && voxelPuppyGroup) {
+        voxelPoopMesh.position.set(voxelPuppyGroup.position.x, -0.75, voxelPuppyGroup.position.z - 0.7);
+        voxelPoopMesh.visible = true;
+      }
+      spawnEffect('💩', 4);
+      setStatus('Holly hat draußen ihr Häufchen gemacht! 💩🧹');
+    }
+
     function finishWalk() {
-      state.potty  = 0;  // Blase komplett entleert
-      state.dirt   = clamp(state.dirt + 35); // Draußen im Schlamm/Gras getobt
+      state.potty  = 0;  // Blase & Darm komplett entleert
+      state.dirt   = clamp(state.dirt + 35); // Schmutz steigt durch Toben draußen
       state.happy  = clamp(state.happy + 25);
       state.energy = clamp(state.energy - 8);
-      state.hasPoop = false; // Garantiert kein Häufchen auf dem Display beim Spaziergang
-      if (realisticPoop) realisticPoop.style.display = 'none';
+      // Häufchen bleibt liegen, bis der Spieler es mit dem Besen / Putz-Icon wegräumt!
+      if (!poopSpawned) {
+        triggerPoop();
+      }
       saveGameProgress();
       addXp(15);
       updateBars();
       state.walkCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly hat ihren Spaziergang genossen und ist glücklich! 🦮✨ (+15 XP)');
+      setStatus('Spaziergang beendet! Holly ist erleichtert und glücklich! 🦮✨ (+15 XP)');
     }
 
     if (vid) {
       vid.currentTime = 0;
       let walkFinished = false;
 
+      const onWalkTimeUpdate = () => {
+        // Bei Sekunde 5.0 macht Holly im Video das Häufchen
+        if (vid.currentTime >= 5.0) {
+          triggerPoop();
+          vid.removeEventListener('timeupdate', onWalkTimeUpdate);
+        }
+      };
+      vid.addEventListener('timeupdate', onWalkTimeUpdate);
+
+      // Fallback Timer nach 5.0s
+      setTimeout(() => {
+        if (state.mode === 'walk') {
+          triggerPoop();
+        }
+      }, 5000);
+
       const endWalk = () => {
         if (walkFinished) return;
         walkFinished = true;
         vid.onended = null;
+        vid.removeEventListener('timeupdate', onWalkTimeUpdate);
         finishWalk();
       };
       vid.onended = endWalk;
-      // Sicherheits-Fallback: Falls onended nicht feuert, erst nach Videodauer (+500ms) beenden
+
       if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
         setTimeout(endWalk, (vid.duration * 1000) + 500);
       } else {
@@ -2212,7 +2247,8 @@ const app = (() => {
         setTimeout(endWalk, 7500);
       }
     } else {
-      setTimeout(finishWalk, 5000);
+      setTimeout(triggerPoop, 5000);
+      setTimeout(finishWalk, 6500);
     }
   }
 
