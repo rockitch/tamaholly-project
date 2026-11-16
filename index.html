@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tamaholly-Project</title>
+  <!-- Three.js (r128) für Minecraft-Voxel-Puppy 3D Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     /* ═══════════════════════════════════════
        RESET & WORKBENCH ENVIRONMENT
@@ -398,6 +400,7 @@
       font-family: 'Courier New', monospace;
       color: #1e2d1a;
       box-shadow: inset 0 0 45px rgba(0,0,0,0.4);
+      overflow: hidden;
     }
     /* Pixel Grid / LCD dot-matrix pattern */
     .pixel-world::after {
@@ -408,7 +411,7 @@
                   repeating-linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.06) 2px, transparent 2px, transparent 4px);
       pointer-events: none;
       border-radius: 50%;
-      z-index: 10;
+      z-index: 2;
     }
 
     .pixel-top-icons {
@@ -417,6 +420,8 @@
       font-size: 20px;
       opacity: 0.85;
       filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+      position: relative;
+      z-index: 15;
     }
     .pixel-icon-btn {
       cursor: pointer;
@@ -428,35 +433,73 @@
     .pixel-icon-btn:active { transform: scale(0.9); }
 
     .pixel-canvas-area {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
-      margin-top: -10px;
+      z-index: 5;
     }
 
-    /* Pixel Dog Canvas */
-    #pixel-pet-canvas {
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-      filter: drop-shadow(2px 3px 0px rgba(45, 60, 40, 0.4));
+    /* Voxel 3D Container & WebGL Canvas (Volle 466x466 AMOLED Ausnutzung) */
+    #voxel-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      filter: drop-shadow(0 8px 16px rgba(18, 30, 16, 0.45));
+      touch-action: none;
+      z-index: 6;
+    }
+    #voxel-container:active {
+      cursor: grabbing;
+    }
+    #voxel-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      outline: none;
+    }
+
+    #pixel-status-text {
+      position: absolute;
+      bottom: 74px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      z-index: 15;
+      background: rgba(143, 163, 130, 0.7);
+      padding: 2px 10px;
+      border-radius: 8px;
+      pointer-events: none;
     }
 
     .pixel-hud-stats {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 250px;
-      background: rgba(30, 45, 26, 0.15);
+      background: rgba(30, 45, 26, 0.45);
       border: 2px solid #2d3e28;
       border-radius: 12px;
-      padding: 6px 12px;
-      font-size: 11px;
+      padding: 4px 12px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      z-index: 5;
+      gap: 3px;
+      z-index: 15;
+      backdrop-filter: blur(4px);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .pixel-row {
@@ -584,6 +627,17 @@
       overflow: hidden;
     }
 
+    /* ZZZ Container in der 3D-Voxel-Ansicht sichtbar über dem Modell platzieren */
+    #zzz-container-voxel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
     .zzz-letter {
       position: absolute;
       bottom: 28%;
@@ -601,6 +655,49 @@
       15%  { opacity: 1;   transform: translate(0, -18px) scale(1); }
       85%  { opacity: 0.8; transform: translate(var(--drift, 18px), -95px) scale(1.25); }
       100% { opacity: 0;   transform: translate(var(--drift, 24px), -135px) scale(0.4); }
+    }
+
+    /* ═══════════════════════════════════════
+       DEZENTER AURA- / GERUCHS-DUNST (Sanfte, weichgezeichnete Wölkchen / Dunstschleier)
+    ═══════════════════════════════════════ */
+    .stink-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 14;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+    .stink-container.active {
+      opacity: 1;
+    }
+
+    /* Zarte, sanfte Dunstwölkchen */
+    .stink-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(163, 230, 53, 0.35) 0%, rgba(132, 204, 22, 0.18) 50%, transparent 75%);
+      filter: blur(5px);
+      animation: orb-rise var(--dur, 4.2s) ease-out var(--delay, 0s) infinite;
+      pointer-events: none;
+    }
+
+    @keyframes orb-rise {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.6);
+      }
+      30% {
+        opacity: 0.65;
+      }
+      75% {
+        opacity: 0.35;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx, 14px), -105px) scale(1.5);
+      }
     }
 
     /* ═══════════════════════════════════════
@@ -675,13 +772,13 @@
     }
 
     .status-msg {
-      font-size: 9.5px;
+      font-size: 9px;
       color: #94a3b8;
       letter-spacing: 0.5px;
       background: rgba(0,0,0,0.8);
-      padding: 3px 10px;
+      padding: 2px 10px;
       border-radius: 10px;
-      max-width: 270px;
+      max-width: 230px;
       text-align: center;
       border: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(4px);
@@ -702,34 +799,49 @@
 
     /* HUD Bottom Telemetry & On-Display Touch Buttons (Round AMOLED) */
     .hud-bottom-telemetry {
-      width: 290px;
+      width: 248px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       background: rgba(10, 15, 26, 0.88);
-      padding: 6px 12px 8px;
-      border-radius: 18px;
+      padding: 5px 12px 6px;
+      border-radius: 20px 20px 28px 28px;
       border: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(8px);
-      margin-bottom: 2px;
+      margin-bottom: 8px;
       pointer-events: auto; /* Klicks auf dem Touchscreen erlauben */
       box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .hud-bottom-telemetry.faded-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(16px);
     }
 
     .telemetry-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
+    /* Trapezoide / kreisförmige Staffelung nach unten passend zum 466px AMOLED Runddisplay */
+    .telemetry-row:nth-child(2) { width: 100% !important; }
+    .telemetry-row:nth-child(3) { width: 96% !important; }
+    .telemetry-row:nth-child(4) { width: 90% !important; }
+    .telemetry-row:nth-child(5) { width: 83% !important; }
+    .telemetry-row:nth-child(6) { width: 75% !important; }
+
     .stat-label {
-      font-size: 8px;
-      letter-spacing: 1px;
-      color: #94a3b8;
-      width: 42px;
-      font-weight: 700;
-      text-transform: uppercase;
+      font-size: 13px;
+      line-height: 1;
+      width: 22px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .stat-bar-track {
@@ -748,6 +860,28 @@
     .stat-bar-fill.hunger { background: linear-gradient(90deg, #ea580c, #facc15); box-shadow: 0 0 6px rgba(250, 204, 21, 0.4); }
     .stat-bar-fill.energy { background: linear-gradient(90deg, #0284c7, #38bdf8); box-shadow: 0 0 6px rgba(56, 189, 248, 0.4); }
     .stat-bar-fill.happy  { background: linear-gradient(90deg, #c026d3, #f472b6); box-shadow: 0 0 6px rgba(244, 114, 182, 0.4); }
+    .stat-bar-fill.potty  { background: linear-gradient(90deg, #84cc16, #10b981); box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+    .stat-bar-fill.potty.urgent { background: linear-gradient(90deg, #ef4444, #f97316); box-shadow: 0 0 8px rgba(239, 68, 68, 0.8); animation: potty-flash 0.8s infinite alternate; }
+    .stat-bar-fill.dirt   { background: linear-gradient(90deg, #a16207, #ca8a04); box-shadow: 0 0 6px rgba(202, 138, 4, 0.4); }
+    .stat-bar-fill.dirt.urgent { background: linear-gradient(90deg, #78350f, #b45309); box-shadow: 0 0 8px rgba(180, 83, 9, 0.8); animation: potty-flash 0.8s infinite alternate; }
+    .stat-bar-fill.xp     { background: linear-gradient(90deg, #38bdf8, #818cf8); box-shadow: 0 0 6px rgba(129, 140, 248, 0.6); }
+
+    .level-badge {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.3);
+    }
+
+    @keyframes potty-flash {
+      from { opacity: 0.6; }
+      to   { opacity: 1; filter: brightness(1.3); }
+    }
 
     .stat-val {
       font-size: 8.5px;
@@ -784,7 +918,7 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, filter 0.2s ease, visibility 0.4s ease;
       color: #f8fafc;
       text-transform: uppercase;
       display: flex;
@@ -798,19 +932,66 @@
       pointer-events: auto;
       backdrop-filter: blur(8px);
     }
+    .ring-btn.faded-out {
+      opacity: 0 !important;
+      visibility: hidden;
+      pointer-events: none !important;
+      transform: scale(0.7) !important;
+    }
     .ring-btn:active { transform: scale(0.90); }
     .ring-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
 
-    /* Exakte Kreisrand-Positionierung (wie in der Skizze) */
-    .btn-pos-feed  { left: 16px; top: 245px; } /* Links oben */
-    .btn-pos-play  { left: 45px; top: 325px; } /* Links unten */
-    .btn-pos-sleep { right: 16px; top: 245px; } /* Rechts oben */
-    .btn-pos-wake  { right: 45px; top: 325px; } /* Rechts unten */
+    /* Harmonische Kreisrand-Positionierung (Radius 233px des 466px Displays):
+       Links oben: Waschen
+       Links mitte: Gassi
+       Links unten: Füttern
+       Rechts oben: Schlafen
+       Rechts unten: Spielen */
+    .btn-pos-wash  { left: 36px;  top: 96px; }  /* Links oberhalb Gassi entlang des Bogens */
+    .btn-pos-walk  { left: 16px;  top: 190px; } /* Links oben/mitte */
+    .btn-pos-feed  { left: 28px;  top: 282px; } /* Links unten */
+    .btn-pos-sleep { right: 16px; top: 190px; } /* Rechts oben */
+    .btn-pos-play  { right: 28px; top: 282px; } /* Rechts unten */
 
     .btn-feed  { background: radial-gradient(circle at 35% 35%, #f97316 0%, #c2410c 100%); border-color: #fb923c; }
     .btn-play  { background: radial-gradient(circle at 35% 35%, #ec4899 0%, #9d174d 100%); border-color: #f472b6; }
     .btn-sleep { background: radial-gradient(circle at 35% 35%, #3b82f6 0%, #1e40af 100%); border-color: #60a5fa; }
     .btn-wake  { background: radial-gradient(circle at 35% 35%, #eab308 0%, #854d0e 100%); border-color: #facc15; }
+    .btn-walk  { background: radial-gradient(circle at 35% 35%, #10b981 0%, #047857 100%); border-color: #34d399; }
+    .btn-wash  { background: radial-gradient(circle at 35% 35%, #06b6d4 0%, #0891b2 100%); border-color: #22d3ee; }
+    .btn-wash.urgent {
+      animation: walk-pulse 1s infinite alternate;
+      border-color: #facc15;
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.8), 0 4px 15px rgba(0,0,0,0.65);
+    }
+    .btn-walk.urgent {
+      animation: walk-pulse 1s infinite alternate;
+      border-color: #f87171;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.8), 0 4px 15px rgba(0,0,0,0.65);
+    }
+    @keyframes walk-pulse {
+      0%   { transform: scale(1); }
+      100% { transform: scale(1.1); filter: brightness(1.2); }
+    }
+
+    /* Kothaufen (Poo) auf dem AMOLED-Display bei verpasstem Gassi gehen (links unten im Eck) */
+    .realistic-poop {
+      position: absolute;
+      bottom: 74px;
+      left: 58px;
+      font-size: 38px;
+      z-index: 18;
+      cursor: pointer;
+      user-select: none;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8));
+      animation: poop-wobble 2s infinite ease-in-out;
+      pointer-events: auto;
+      display: none;
+    }
+    @keyframes poop-wobble {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50%      { transform: scale(1.08) rotate(5deg); }
+    }
 
     .btn-ico { font-size: 15px; line-height: 1; }
 
@@ -1105,6 +1286,45 @@
                 <div class="pet-emoji" style="display:none">🐾</div>
               </div>
 
+              <!-- Layer 9: GASSI GEHEN (Gassi gehen Haeufchen.mp4 / Gassi gehen.mp4) -->
+              <div class="pet-layer" id="layer-walk">
+                <video id="video-walk"
+                       src="assets/Videos/Gassi%20gehen%20Haeufchen.mp4"
+                       muted playsinline
+                       onerror="this.src='assets/Videos/Gassi%20gehen.mp4';">
+                </video>
+                <div class="pet-emoji" style="display:none">🦮</div>
+              </div>
+
+              <!-- Layer 10: HÄUFCHEN MACHEN (Hauefchen.mp4 bei Notdurft/voller Blase) -->
+              <div class="pet-layer" id="layer-poop">
+                <video id="video-poop"
+                       src="assets/Videos/Hauefchen.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">💩</div>
+              </div>
+
+              <!-- Layer 11: WASCHEN (Waschen.mp4 Baden / Fellpflege) -->
+              <div class="pet-layer" id="layer-wash">
+                <video id="video-wash"
+                       src="assets/Videos/Waschen.mp4"
+                       muted playsinline
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                </video>
+                <div class="pet-emoji" style="display:none">🛁</div>
+              </div>
+
+              <!-- Zarte Dunstwölkchen bei Schmutz oder Häufchen (ohne störende Linien) -->
+              <div class="stink-container" id="stink-container">
+                <div class="stink-orb" style="left: 33%; bottom: 26%; width: 32px; height: 32px; --dur: 4.2s; --delay: 0s; --dx: -14px;"></div>
+                <div class="stink-orb" style="left: 59%; bottom: 29%; width: 38px; height: 38px; --dur: 3.9s; --delay: 1.1s; --dx: 16px;"></div>
+                <div class="stink-orb" style="left: 45%; bottom: 23%; width: 26px; height: 26px; --dur: 4.6s; --delay: 2.2s; --dx: -8px;"></div>
+                <div class="stink-orb" style="left: 52%; bottom: 27%; width: 35px; height: 35px; --dur: 4.1s; --delay: 3.0s; --dx: 12px;"></div>
+                <div class="stink-orb" style="left: 38%; bottom: 25%; width: 29px; height: 29px; --dur: 4.5s; --delay: 1.7s; --dx: -10px;"></div>
+              </div>
+
               <!-- Circular AMOLED Smartwatch HUD Overlay -->
               <div class="round-hud">
                 <div class="hud-header">
@@ -1122,27 +1342,46 @@
                 <div class="hud-bottom-telemetry">
                   <div class="status-msg" id="status-msg">Holly ist munter und aktiv! 🐾</div>
                   <div class="telemetry-row" style="width: 100%;">
-                    <div class="stat-label">Hunger</div>
+                    <div class="stat-label" title="Hunger">🍖</div>
                     <div class="stat-bar-track"><div class="stat-bar-fill hunger" id="bar-hunger" style="width:70%"></div></div>
                     <div class="stat-val" id="val-hunger">70</div>
                   </div>
                   <div class="telemetry-row" style="width: 100%;">
-                    <div class="stat-label">Energie</div>
+                    <div class="stat-label" title="Energie">⚡</div>
                     <div class="stat-bar-track"><div class="stat-bar-fill energy" id="bar-energy" style="width:85%"></div></div>
                     <div class="stat-val" id="val-energy">85</div>
                   </div>
                   <div class="telemetry-row" style="width: 100%;">
-                    <div class="stat-label">Happy</div>
+                    <div class="stat-label" title="Glück / Happy">💖</div>
                     <div class="stat-bar-track"><div class="stat-bar-fill happy" id="bar-happy" style="width:80%"></div></div>
                     <div class="stat-val" id="val-happy">80</div>
+                  </div>
+                  <div class="telemetry-row" style="width: 100%;">
+                    <div class="stat-label" title="Gassi / Kot">💩</div>
+                    <div class="stat-bar-track"><div class="stat-bar-fill potty" id="bar-potty" style="width:10%"></div></div>
+                    <div class="stat-val" id="val-potty">10</div>
+                  </div>
+                  <div class="telemetry-row" style="width: 100%;">
+                    <div class="stat-label" title="Schmutz / Pflege">🦨</div>
+                    <div class="stat-bar-track"><div class="stat-bar-fill dirt" id="bar-dirt" style="width:15%"></div></div>
+                    <div class="stat-val" id="val-dirt">15</div>
                   </div>
                 </div>
               </div>
 
-              <!-- Touch-Zone in der Display-Mitte: Bei Klick/Tap bellt Holly -->
-              <div class="center-touch-trigger" id="center-touch-trigger" onclick="app.touchBark()" title="Holly streicheln / tippen"></div>
+              <!-- Touch-Zone in der Display-Mitte: Bei Klick/Tap bellt Holly oder wacht auf wenn sie schläft -->
+              <div class="center-touch-trigger" id="center-touch-trigger" onclick="app.touchCenter()" title="Holly streicheln / wecken"></div>
+
+              <!-- Häufchen auf dem Display bei Missachtung des Gassi-Gehens -->
+              <div class="realistic-poop" id="realistic-poop" onclick="app.cleanPoop()" title="Häufchen wegputzen! 💩">💩</div>
 
               <!-- On-Display Rand-Tasten -->
+              <button class="ring-btn btn-wash btn-pos-wash" id="btn-wash" onclick="app.wash()" title="Waschen / Duschen">
+                <span class="btn-ico">🚿</span>Waschen
+              </button>
+              <button class="ring-btn btn-walk btn-pos-walk" id="btn-walk" onclick="app.walk()" title="Gassi gehen">
+                <span class="btn-ico">🦮</span>Gassi
+              </button>
               <button class="ring-btn btn-feed btn-pos-feed" id="btn-feed" onclick="app.feed()" title="Füttern">
                 <span class="btn-ico">🍖</span>Füttern
               </button>
@@ -1152,26 +1391,27 @@
               <button class="ring-btn btn-sleep btn-pos-sleep" id="btn-sleep" onclick="app.sleep()" title="Schlafen">
                 <span class="btn-ico">💤</span>Schlafen
               </button>
-              <button class="ring-btn btn-wake btn-pos-wake" id="btn-wake" onclick="app.wake()" disabled title="Wecken">
-                <span class="btn-ico">☀️</span>Wecken
-              </button>
             </div><!-- /view-page (realistic) -->
 
             <!-- ════ PAGE 2: KLASSISCHES PIXEL ART TAMAGOTCHI (1996 LCD) ════ -->
             <div class="view-page" id="view-pixel">
               <div class="pixel-world">
-                <!-- Retro Icon Bar oben -->
+                <!-- Retro Icon Bar oben (Alle Aktionen: Gassi, Füttern, Spielen, Schlafen, Putzen) -->
                 <div class="pixel-top-icons">
-                  <span class="pixel-icon-btn" onclick="app.feed()" title="Füttern">🍖</span>
-                  <span class="pixel-icon-btn" onclick="app.play()" title="Spielen">⚽</span>
+                  <span class="pixel-icon-btn" onclick="app.walk()" title="Gassi gehen">🦮</span>
+                  <span class="pixel-icon-btn" onclick="app.feed()" title="Füttern (Fressnapf)">🥣</span>
+                  <span class="pixel-icon-btn" onclick="app.play()" title="Spielen (Klick auf Ball)">⚽</span>
                   <span class="pixel-icon-btn" onclick="app.sleep()" title="Licht aus / Schlafen">💡</span>
-                  <span class="pixel-icon-btn" onclick="app.pixelClean()" title="Putzen">🧹</span>
+                  <span class="pixel-icon-btn" onclick="app.cleanPoop()" title="Robidog: Rotes Säckchen zum Aufnehmen">🔴</span>
                 </div>
 
-                <!-- Pixel Welpe Canvas & Status Animation -->
+                <!-- Voxel Welpe 3D Container & Status Animation -->
                 <div class="pixel-canvas-area">
-                  <canvas id="pixel-pet-canvas" width="160" height="160"></canvas>
-                  <div style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 6px;" id="pixel-status-text">HOLLY: OK</div>
+                  <div id="voxel-container" onclick="app.voxelTouchBark()" title="3D Holly streicheln / tippen (Bellen)">
+                    <!-- Z-Z-Z Schlafpartikel Container für 3D Ansicht -->
+                    <div class="zzz-container" id="zzz-container-voxel"></div>
+                  </div>
+                  <div style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 4px;" id="pixel-status-text">HOLLY: VOXEL 3D 🐾</div>
                 </div>
 
                 <!-- Klassischer LCD Statusbalken (Pixel Hearts) -->
@@ -1187,6 +1427,14 @@
                   <div class="pixel-row">
                     <span>ENERGY:</span>
                     <span class="pixel-hearts" id="pixel-hearts-energy">♥♥♥♥</span>
+                  </div>
+                  <div class="pixel-row">
+                    <span>BLASE:</span>
+                    <span class="pixel-hearts" id="pixel-hearts-potty">♥♥♥♥</span>
+                  </div>
+                  <div class="pixel-row">
+                    <span>LEVEL:</span>
+                    <span style="font-size: 8px; font-weight: bold; color: #38bdf8;" id="pixel-level-text">1 (BABY)</span>
                   </div>
                 </div>
               </div>
@@ -1231,13 +1479,20 @@
 const app = (() => {
   // ── State ─────────────────────────────────────────────────────────────────
   const state = {
-    mode:         'idle',  // 'idle' | 'feed' | 'play' | 'sleep' | 'wake'
+    mode:         'idle',  // 'idle' | 'feed' | 'play' | 'sleep' | 'wake' | 'walk'
     sleepVariant: 1,       // 1 = Schlafen/Aufwachen, 2 = Schlafen 2/Aufwachen 2
     hunger:       70,      // 0–100
     energy:       85,      // 0–100
     happy:        80,      // 0–100
+    potty:        15,      // 0–100 (Harndrang / Gassi-Bedarf, bei 100 macht sie ein Häufchen)
+    dirt:         10,      // 0–100 (Verschmutzung / Pflegebedarf, steigt beim Gassi gehen)
+    hasPoop:      false,   // Ob ein Kothaufen auf dem Display liegt
+    growthStage:  1,       // 1 = Baby (scale 0.75), 2 = Junghund (scale 1.0), 3 = Adult (scale 1.2)
+    xp:           0,       // Erfahrungspunkte (0-100 pro Stufe)
+    washCooldown: false,
     feedCooldown: false,
     playCooldown: false,
+    walkCooldown: false,
     locked:       false,
     idleActionsCount: 0,   // Zählt automatische Aktionen (Bellen/Winken)
   };
@@ -1249,6 +1504,7 @@ const app = (() => {
     idle:       $('layer-idle'),
     feed:       $('layer-feed'),
     play:       $('layer-play'),
+    walk:       $('layer-walk'),
     sleep:      $('layer-sleep'),
     sleeploop1: $('layer-sleeploop1'),
     sleep2:     $('layer-sleep2'),
@@ -1258,12 +1514,15 @@ const app = (() => {
     bark:       $('layer-bark'),
     wave:       $('layer-wave'),
     tap:        $('layer-tap'),
+    poop:       $('layer-poop'),
+    wash:       $('layer-wash'),
   };
 
   const videos = {
     idle:       $('video-idle'),
     feed:       $('video-feed'),
     play:       $('video-play'),
+    walk:       $('video-walk'),
     sleep:      $('video-sleep'),
     sleeploop1: $('video-sleeploop1'),
     sleep2:     $('video-sleep2'),
@@ -1273,26 +1532,41 @@ const app = (() => {
     bark:       $('video-bark'),
     wave:       $('video-wave'),
     tap:        $('video-tap'),
+    poop:       $('video-poop'),
+    wash:       $('video-wash'),
   };
 
   const barHunger    = $('bar-hunger');
   const barEnergy    = $('bar-energy');
   const barHappy     = $('bar-happy');
+  const barPotty     = $('bar-potty');
+  const barDirt      = $('bar-dirt');
+  const barXp        = $('bar-xp');
   const valHunger    = $('val-hunger');
   const valEnergy    = $('val-energy');
   const valHappy     = $('val-happy');
+  const valPotty     = $('val-potty');
+  const valDirt      = $('val-dirt');
+  const valXp        = $('val-xp');
+  const hudLevelBadge = $('hud-level-badge');
+  const pixelLevelText = $('pixel-level-text');
   const stateLabel   = $('state-label');
   const moodIcon     = $('mood-icon');
   const statusMsg    = $('status-msg');
   const effects      = $('effects');
+  const btnWash       = $('btn-wash');
   const btnFeed       = $('btn-feed');
   const btnPlay       = $('btn-play');
+  const btnWalk       = $('btn-walk');
   const btnSleep      = $('btn-sleep');
   const btnWake       = $('btn-wake');
+  const realisticPoop = $('realistic-poop');
+  const stinkContainer = $('stink-container');
   const zzzContainer  = $('zzz-container');
   const zzzContainerLoop1 = $('zzz-container-loop1');
   const zzzContainer2 = $('zzz-container2');
   const zzzContainer3 = $('zzz-container3');
+  const zzzContainerVoxel = $('zzz-container-voxel');
 
   // ── Z Z Z Sleep Animation (ab Sekunde 4) ───────────────────────────────────
   const zzzConfig = [
@@ -1318,12 +1592,36 @@ const app = (() => {
         c.appendChild(el);
       });
     });
+
+    // Für Voxel 3D zzz-container-voxel: Speziell über dem schlafenden Welpen positionieren
+    if (zzzContainerVoxel) {
+      zzzContainerVoxel.innerHTML = '';
+      const voxelZzz = [
+        { char: 'z', size: '16px', left: '55%', bottom: '40%', delay: '0s', dur: '2.8s', drift: '12px' },
+        { char: 'Z', size: '20px', left: '62%', bottom: '42%', delay: '0.9s', dur: '3.2s', drift: '16px' },
+        { char: 'Z', size: '26px', left: '68%', bottom: '44%', delay: '1.8s', dur: '3.6s', drift: '22px' },
+      ];
+      voxelZzz.forEach(cfg => {
+        const el = document.createElement('div');
+        el.className = 'zzz-letter';
+        el.textContent = cfg.char;
+        el.style.setProperty('--dur', cfg.dur);
+        el.style.setProperty('--delay', cfg.delay);
+        el.style.setProperty('--drift', cfg.drift);
+        el.style.left = cfg.left;
+        el.style.bottom = cfg.bottom;
+        el.style.fontSize = cfg.size;
+        el.style.color = '#bfdbfe';
+        el.style.textShadow = '0 0 10px rgba(191, 219, 254, 0.9)';
+        zzzContainerVoxel.appendChild(el);
+      });
+    }
   }
 
   function stopZzz() {
     clearTimeout(zzzTimeout);
     zzzTimeout = null;
-    [zzzContainer, zzzContainerLoop1, zzzContainer2, zzzContainer3].forEach(c => {
+    [zzzContainer, zzzContainerLoop1, zzzContainer2, zzzContainer3, zzzContainerVoxel].forEach(c => {
       if (c) c.innerHTML = '';
     });
   }
@@ -1380,6 +1678,107 @@ const app = (() => {
     isSeeking = false;
   }
 
+  // ── Growth & Level Persistence ───────────────────────────────────────────
+  const GROWTH_CONFIG = {
+    1: { name: 'BABY',     scale: 0.42, nextXp: 100 },
+    2: { name: 'JUNGHUND', scale: 0.55, nextXp: 150 },
+    3: { name: 'ADULT',    scale: 0.70, nextXp: 9999 } // Schön handlich & zierlich im Display
+  };
+
+  function saveGameProgress() {
+    try {
+      const data = {
+        growthStage: state.growthStage,
+        xp: state.xp,
+        hunger: state.hunger,
+        energy: state.energy,
+        happy: state.happy,
+        potty: state.potty,
+        dirt: state.dirt,
+        hasPoop: state.hasPoop
+      };
+      localStorage.setItem('tamaholly_save', JSON.stringify(data));
+    } catch (e) {
+      console.warn('[Tamaholly] LocalStorage save failed:', e);
+    }
+  }
+
+  function loadGameProgress() {
+    try {
+      const raw = localStorage.getItem('tamaholly_save');
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d.growthStage && GROWTH_CONFIG[d.growthStage]) state.growthStage = d.growthStage;
+        if (typeof d.xp === 'number') state.xp = d.xp;
+        if (typeof d.hunger === 'number') state.hunger = d.hunger;
+        if (typeof d.energy === 'number') state.energy = d.energy;
+        if (typeof d.happy === 'number') state.happy = d.happy;
+        if (typeof d.potty === 'number') state.potty = d.potty;
+        if (typeof d.dirt === 'number') state.dirt = d.dirt;
+        if (typeof d.hasPoop === 'boolean') state.hasPoop = d.hasPoop;
+        console.log(`[Tamaholly] Geladener Spielstand: Level ${state.growthStage} (${GROWTH_CONFIG[state.growthStage].name}), XP: ${state.xp}`);
+      }
+    } catch (e) {
+      console.warn('[Tamaholly] LocalStorage load failed:', e);
+    }
+  }
+
+  function applyVoxelScale() {
+    if (!voxelPuppyGroup) return;
+    const cfg = GROWTH_CONFIG[state.growthStage] || GROWTH_CONFIG[1];
+    voxelPuppyGroup.scale.set(cfg.scale, cfg.scale, cfg.scale);
+  }
+
+  function addXp(amount) {
+    if (state.growthStage >= 3) {
+      // Bereits Max-Level (Adult)
+      state.xp = 100;
+      updateBars();
+      saveGameProgress();
+      return;
+    }
+
+    state.xp += amount;
+    const cfg = GROWTH_CONFIG[state.growthStage];
+    spawnEffect('⭐', 3);
+
+    if (state.xp >= cfg.nextXp) {
+      // Level Up!
+      state.xp = state.xp - cfg.nextXp;
+      state.growthStage = Math.min(3, state.growthStage + 1);
+      triggerLevelUp();
+    } else {
+      updateBars();
+      saveGameProgress();
+    }
+  }
+
+  function triggerLevelUp() {
+    const newCfg = GROWTH_CONFIG[state.growthStage];
+    applyVoxelScale();
+    saveGameProgress();
+    updateBars();
+
+    // Visuelles Feedback
+    spawnEffect('🌟', 8);
+    spawnEffect('💖', 8);
+    spawnEffect('🎉', 5);
+    setStatus(`Juhu! Tamaholly ist gewachsen! 📈🎉 (${newCfg.name})`, true);
+
+    // Voxel Freuden-Hüpfer
+    if (voxelPuppyGroup) {
+      voxelJoyTimer = 2.5;
+    }
+
+    const statusText = $('pixel-status-text');
+    if (statusText) {
+      statusText.textContent = `LEVEL UP: ${newCfg.name}! 🎉`;
+      setTimeout(() => {
+        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
+      }, 3000);
+    }
+  }
+
   // ── Helpers ────────────────────────────────────────────────────────────────
   function clamp(v, min=0, max=100) { return Math.max(min, Math.min(max, v)); }
 
@@ -1387,16 +1786,72 @@ const app = (() => {
     const h = clamp(state.hunger);
     const e = clamp(state.energy);
     const p = clamp(state.happy);
+    const b = clamp(state.potty);
+    const d = clamp(state.dirt);
+
     barHunger.style.width = h + '%';
     barEnergy.style.width = e + '%';
     barHappy.style.width  = p + '%';
+    if (barPotty) {
+      barPotty.style.width  = b + '%';
+      barPotty.classList.toggle('urgent', b >= 75);
+    }
+    if (barDirt) {
+      barDirt.style.width = d + '%';
+      barDirt.classList.toggle('urgent', d >= 75);
+    }
+
+    // XP & Level Fortschritt
+    const cfg = GROWTH_CONFIG[state.growthStage] || GROWTH_CONFIG[1];
+    if (barXp && valXp) {
+      if (state.growthStage >= 3) {
+        barXp.style.width = '100%';
+        valXp.textContent = 'MAX';
+      } else {
+        const pct = Math.min(100, Math.round((state.xp / cfg.nextXp) * 100));
+        barXp.style.width = pct + '%';
+        valXp.textContent = `${pct}%`;
+      }
+    }
+    if (hudLevelBadge) {
+      hudLevelBadge.textContent = `LVL ${state.growthStage}: ${cfg.name}`;
+    }
+    if (pixelLevelText) {
+      pixelLevelText.textContent = `${state.growthStage} (${cfg.name})`;
+    }
+
     valHunger.textContent = Math.round(h);
     valEnergy.textContent = Math.round(e);
     valHappy.textContent  = Math.round(p);
+    if (valPotty) valPotty.textContent  = Math.round(b);
+    if (valDirt)  valDirt.textContent   = Math.round(d);
+
+    if (btnWalk) {
+      btnWalk.classList.toggle('urgent', b >= 75);
+    }
+    if (btnWash) {
+      btnWash.classList.toggle('urgent', d >= 75);
+    }
+    if (stinkContainer) {
+      // Dezent stinkende Geruchswolken aufsteigen lassen, wenn Holly dreckig ist (>= 60) oder ein Häufchen daliegt
+      const isStinky = state.hasPoop || state.dirt >= 60;
+      stinkContainer.classList.toggle('active', isStinky && state.mode !== 'wash');
+    }
+    if (realisticPoop) {
+      // Während des Häufchen- (poop) oder Gassi-Videos (walk) wird das Icon ausschliesslich gezielt ab Sekunde 4 eingeblendet
+      if (state.mode !== 'poop' && state.mode !== 'walk') {
+        realisticPoop.style.display = state.hasPoop ? 'block' : 'none';
+      }
+    }
+
+    applyVoxelScale();
     updatePixelStats();
   }
 
   function updateMood() {
+    if (state.hasPoop)          { moodIcon.textContent = '🤢'; return; }
+    if (state.potty >= 80)      { moodIcon.textContent = '😖'; return; }
+    if (state.dirt >= 80)       { moodIcon.textContent = '🦨'; return; }
     if (state.mode === 'sleep') { moodIcon.textContent = '😴'; return; }
     if (state.mode === 'wake')  { moodIcon.textContent = '🥱'; return; }
     const avg = (state.hunger + state.energy + state.happy) / 3;
@@ -1490,11 +1945,14 @@ const app = (() => {
       idle:  'WACH',
       feed:  'FÜTTERN',
       play:  'SPIELEN',
+      walk:  'GASSI',
       sleep: 'SCHLÄFT',
       wake:  'AUFWACHEN',
       bark:  'WACH',
       wave:  'WACH',
       tap:   'WACH',
+      poop:  'HÄUFCHEN',
+      wash:  'WASCHEN',
     };
     stateLabel.textContent = labels[newMode] || 'WACH';
 
@@ -1514,8 +1972,27 @@ const app = (() => {
 
     btnFeed.disabled  = isSleeping || isTransient || state.feedCooldown;
     btnPlay.disabled  = isSleeping || isTransient || state.playCooldown;
+    if (btnWalk) btnWalk.disabled  = isSleeping || isTransient || state.walkCooldown;
+    if (btnWash) btnWash.disabled  = isSleeping || isTransient || state.washCooldown;
     btnSleep.disabled = isSleeping || isTransient;
-    btnWake.disabled  = !isSleeping || isTransient;
+    if (btnWake) btnWake.disabled  = !isSleeping || isTransient;
+
+    // Sanftes Ausblenden von Status/Balken und Buttons in der Video-Ansicht:
+    // Die Buttons und der Status-Balken werden nur eingeblendet, wenn Holly wach ist
+    // und keine Aktion vom Benutzer aktiv abgespielt wird.
+    // Läuft eine spontane Idle-Aktion (wie Winken oder Tap), bleiben die Buttons und der Status da!
+    const isUserPlayingVideo = (state.mode === 'feed' || state.mode === 'play' || state.mode === 'walk' || state.mode === 'wash' || state.mode === 'poop' || state.mode === 'sleep' || state.mode === 'wake' || state.mode === 'bark');
+    const shouldHideUI = isUserPlayingVideo || isSleeping || isWaking;
+
+    const hudTelemetry = document.querySelector('.hud-bottom-telemetry');
+    if (hudTelemetry) {
+      hudTelemetry.classList.toggle('faded-out', shouldHideUI);
+    }
+
+    const ringButtons = document.querySelectorAll('.ring-btn');
+    ringButtons.forEach(btn => {
+      btn.classList.toggle('faded-out', shouldHideUI);
+    });
   }
 
   // ── Tick (decay over time) ─────────────────────────────────────────────────
@@ -1526,11 +2003,88 @@ const app = (() => {
       if (state.mode === 'sleep' || state.mode === 'wake') {
         state.energy = clamp(state.energy + 0.5);
         state.hunger = clamp(state.hunger - 0.1);
+        state.potty  = clamp(state.potty  + 0.15); // Blase füllt sich auch nachts langsam
+        state.dirt   = clamp(state.dirt   + 0.05); // Nachts minimale Verstaubung
       } else {
         state.energy = clamp(state.energy - 0.3);
         state.hunger = clamp(state.hunger - 0.5);
         state.happy  = clamp(state.happy  - 0.1);
+        state.potty  = clamp(state.potty  + 0.45); // Nach ca. 3-4 Minuten voller Drang
+        state.dirt   = clamp(state.dirt   + 0.25); // Schmutz steigt im Alltag langsam an
       }
+
+      // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Holly macht ein Häufchen!
+      if (state.potty >= 100 && !state.hasPoop && state.mode === 'idle' && !state.locked) {
+        state.potty = 0; // Erleichtert
+        state.happy = clamp(state.happy - 25); // Schlechtes Gewissen
+        if (voxelPoopMesh) voxelPoopMesh.visible = true;
+        spawnEffect('💩', 5);
+        setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
+
+        // Neues Hauefchen.mp4 Video abspielen!
+        state.locked = true;
+        state.hasPoop = false;
+        if (realisticPoop) realisticPoop.style.display = 'none';
+        switchMode('poop');
+        const pVid = videos.poop;
+        let poopShown = false;
+
+        function showPoopIcon() {
+          if (poopShown) return;
+          poopShown = true;
+          state.hasPoop = true;
+          if (realisticPoop) realisticPoop.style.display = 'block';
+          saveGameProgress();
+        }
+
+        function finishPoop() {
+          showPoopIcon();
+          state.locked = false;
+          switchMode('idle');
+          if (realisticPoop) realisticPoop.style.display = 'block';
+          setStatus('Bitte das Häufchen mit dem roten Robidog-Säckchen aufnehmen! 💩🗑️', true);
+        }
+
+        if (pVid) {
+          pVid.currentTime = 0;
+          let poopDuration = 5200;
+          if (pVid.duration && isFinite(pVid.duration) && pVid.duration > 0) {
+            poopDuration = pVid.duration * 1000;
+          }
+
+          const onPoopTimeUpdate = () => {
+            if (pVid.currentTime >= 4.0) {
+              showPoopIcon();
+              pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
+            }
+          };
+          pVid.addEventListener('timeupdate', onPoopTimeUpdate);
+
+          // Fallback falls timeupdate nicht feuert
+          setTimeout(() => {
+            if (state.mode === 'poop') {
+              showPoopIcon();
+            }
+          }, 4000);
+
+          pVid.onended = () => {
+            pVid.onended = null;
+            pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
+            finishPoop();
+          };
+
+          setTimeout(finishPoop, poopDuration + 500);
+        } else {
+          setTimeout(showPoopIcon, 4000);
+          setTimeout(finishPoop, 5200);
+        }
+      }
+
+      // Hinweis wenn Holly dringend muss
+      if (state.potty >= 80 && !state.hasPoop && state.mode === 'idle') {
+        setStatus('Holly muss dringend Gassi gehen! 🦮', true);
+      }
+
       updateBars();
       updateMood();
 
@@ -1544,11 +2098,179 @@ const app = (() => {
   }
 
   // ── Actions ────────────────────────────────────────────────────────────────
+  function walk() {
+    state.idleActionsCount = 0;
+    if (state.walkCooldown || state.mode !== 'idle') return;
+    state.walkCooldown = true;
+    state.locked = true;
+    voxelWalkTimer = 4.5;
+
+    // Beim Spaziergang: Kot-Status in der Wohnung sofort resetten und Icon ausblenden
+    state.hasPoop = false;
+    if (realisticPoop) realisticPoop.style.display = 'none';
+
+    switchMode('walk');
+    spawnEffect('🦮', 4);
+    setStatus('Herrlicher Spaziergang mit Holly! Frische Luft schnappen... 🌳🐾');
+
+    // Voxel-Sonderlogik: Häufchen in der 3D-Welt
+    setTimeout(() => {
+      if (state.mode === 'walk' && voxelPoopMesh) {
+        const hX = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0);
+        const hZ = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) - 1.05;
+        voxelPoopMesh.position.set(hX, -0.75, hZ);
+        voxelPoopMesh.visible = true;
+        if (voxelRobidogBag) {
+          voxelRobidogBag.position.set(hX + 0.45, -0.65, hZ + 0.1);
+          voxelRobidogBag.visible = true;
+        }
+      }
+    }, 1800);
+
+    const vid = videos.walk;
+    function finishWalk() {
+      state.potty  = 0;  // Blase komplett entleert
+      state.dirt   = clamp(state.dirt + 35); // Draußen im Schlamm/Gras getobt -> wird deutlich schmutziger!
+      state.happy  = clamp(state.happy + 25);
+      state.energy = clamp(state.energy - 8);
+      state.hasPoop = false; // Garantiert kein Häufchen auf dem Display
+      if (realisticPoop) realisticPoop.style.display = 'none';
+      saveGameProgress();
+      addXp(15);
+      updateBars();
+      state.walkCooldown = false;
+      state.locked = false;
+      switchMode('idle');
+      setStatus('Holly hat ihr Geschäft draußen erledigt und ist glücklich! 🦮✨ (+15 XP)');
+    }
+
+    if (vid) {
+      vid.currentTime = 0;
+      let walkFinished = false;
+      let walkPoopShown = false;
+
+      const showWalkPoop = () => {
+        if (walkPoopShown || state.mode !== 'walk') return;
+        walkPoopShown = true;
+        state.hasPoop = true;
+        if (realisticPoop) realisticPoop.style.display = 'block';
+      };
+
+      const onWalkTimeUpdate = () => {
+        if (vid.currentTime >= 5.0) {
+          showWalkPoop();
+          vid.removeEventListener('timeupdate', onWalkTimeUpdate);
+        }
+      };
+      vid.addEventListener('timeupdate', onWalkTimeUpdate);
+
+      // Fallback Timeout für Sekunde 5
+      setTimeout(() => {
+        if (state.mode === 'walk') {
+          showWalkPoop();
+        }
+      }, 5000);
+
+      const endWalk = () => {
+        if (walkFinished) return;
+        walkFinished = true;
+        vid.onended = null;
+        vid.removeEventListener('timeupdate', onWalkTimeUpdate);
+        finishWalk();
+      };
+      vid.onended = endWalk;
+      // Sicherheits-Fallback: Falls onended nicht feuert, erst nach der vollen Videodauer (+500ms) beenden
+      if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
+        setTimeout(endWalk, (vid.duration * 1000) + 500);
+      } else {
+        vid.addEventListener('loadedmetadata', () => {
+          if (!walkFinished && vid.duration && isFinite(vid.duration)) {
+            setTimeout(endWalk, (vid.duration * 1000) + 500);
+          }
+        }, { once: true });
+        setTimeout(endWalk, 12000); // Großzügiger Fallback
+      }
+    } else {
+      setTimeout(() => {
+        if (state.mode === 'walk' && realisticPoop) {
+          state.hasPoop = true;
+          realisticPoop.style.display = 'block';
+        }
+      }, 4000);
+      setTimeout(finishWalk, 6000);
+    }
+  }
+
+  function cleanPoop() {
+    if (!state.hasPoop) return;
+    state.hasPoop = false;
+    if (voxelPoopMesh) voxelPoopMesh.visible = false;
+    if (voxelRobidogBag) voxelRobidogBag.visible = false;
+    if (realisticPoop) realisticPoop.style.display = 'none';
+    spawnEffect('🔴', 4);
+    spawnEffect('✨', 4);
+    state.happy = clamp(state.happy + 10);
+    addXp(10);
+    updateBars();
+    updateMood();
+    setStatus('Vorbildlich! Häufchen mit dem roten Robidog-Säckchen aufgenommen & entsorgt! 🗑️✨ (+10 XP)');
+  }
+
+  function wash() {
+    state.idleActionsCount = 0;
+    if (state.washCooldown || state.mode !== 'idle') return;
+    state.washCooldown = true;
+    state.locked = true;
+
+    switchMode('wash');
+    spawnEffect('🫧', 5);
+    spawnEffect('✨', 3);
+    setStatus('Herrliches Schaumbad! Holly wird gründlich gewaschen & gepflegt... 🛁🫧');
+
+    const vid = videos.wash;
+    function finishWash() {
+      state.happy = clamp(state.happy + 20);
+      state.dirt = 0; // Nach dem Baden blitzeblank sauber!
+      state.energy = clamp(state.energy - 5);
+      addXp(12);
+      updateBars();
+      state.washCooldown = false;
+      state.locked = false;
+      switchMode('idle');
+      setStatus('Holly duftet frisch und hat wunderschön glänzendes Fell! ✨🐾 (+12 XP)');
+    }
+
+    if (vid) {
+      vid.currentTime = 0;
+      let washFinished = false;
+      const endWash = () => {
+        if (washFinished) return;
+        washFinished = true;
+        vid.onended = null;
+        finishWash();
+      };
+      vid.onended = endWash;
+      if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
+        setTimeout(endWash, (vid.duration * 1000) + 500);
+      } else {
+        vid.addEventListener('loadedmetadata', () => {
+          if (!washFinished && vid.duration && isFinite(vid.duration)) {
+            setTimeout(endWash, (vid.duration * 1000) + 500);
+          }
+        }, { once: true });
+        setTimeout(endWash, 10000);
+      }
+    } else {
+      setTimeout(finishWash, 5000);
+    }
+  }
+
   function feed() {
     state.idleActionsCount = 0; // Benutzerinteraktion setzt Idle-Zähler zurück
     if (state.feedCooldown || state.mode !== 'idle') return;
     state.feedCooldown = true;
     state.locked = true;
+    voxelFeedTimer = 3.5;
     switchMode('feed');
     // Keine schwebenden Knochen-Emojis mehr (Knochen im Video enthalten)
     setStatus('Lecker! Futter verabreicht 😋');
@@ -1557,11 +2279,18 @@ const app = (() => {
     function finishFeed() {
       state.hunger = clamp(state.hunger + 30);
       state.happy  = clamp(state.happy  + 5);
+      // Wenn man Holly füttert, füllt sich die Blase schneller (+25 Harndrang!)
+      state.potty  = clamp(state.potty  + 25);
+      addXp(10);
+      if (state.potty >= 75) {
+        setStatus('Holly ist satt, muss aber bald Gassi gehen! 🦮😋 (+10 XP)');
+      } else {
+        setStatus('Holly ist jetzt gesättigt! 🐾 (+10 XP)');
+      }
       updateBars();
       state.feedCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly ist jetzt gesättigt! 🐾');
     }
 
     if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
@@ -1577,6 +2306,7 @@ const app = (() => {
     if (state.playCooldown || state.mode !== 'idle') return;
     state.playCooldown = true;
     state.locked = true;
+    voxelPlayTimer = 4.0;
     switchMode('play');
     spawnEffect('🎾', 5);
     setStatus('Interaktive Spielsequenz gestartet! 🎉');
@@ -1585,11 +2315,12 @@ const app = (() => {
     function finishPlay() {
       state.happy  = clamp(state.happy  + 20);
       state.energy = clamp(state.energy - 10);
+      addXp(12);
       updateBars();
       state.playCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly hat gespielt und ist glücklich! 🐾');
+      setStatus('Holly hat gespielt und ist glücklich! 🐾 (+12 XP)');
     }
 
     if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
@@ -1702,6 +2433,8 @@ const app = (() => {
       }
     }
 
+    // Sofort ZZZ in der 3D-Ansicht starten und nach Video-Intro auch für Video
+    startZzz();
     zzzTimeout = setTimeout(() => {
       if (state.mode === 'sleep') startZzz();
     }, 4000);
@@ -1713,6 +2446,7 @@ const app = (() => {
     stopZzz();
 
     state.locked = true;
+    voxelWakeTimer = 2.5;
 
     // Alle aktiven Schlaf-Videos stoppen
     ['sleep', 'sleeploop1', 'sleep2', 'sleeploop2'].forEach(k => {
@@ -1753,7 +2487,15 @@ const app = (() => {
     spawnEffect('⚡', 4);
   }
 
-  // ── Touch in der Display-Mitte: Bellen auslösen & Happy steigern ───────────
+  // ── Touch in der Display-Mitte: Aufwecken wenn Holly schläft, sonst Bellen & Streicheln ───────────
+  function touchCenter() {
+    if (state.mode === 'sleep') {
+      wake();
+      return;
+    }
+    touchBark();
+  }
+
   function touchBark() {
     if (state.mode !== 'idle' || state.locked) return;
     console.log('[Waveshare ESP32-S3] Center Touch Event -> Holly gestreichelt! Bellen + Happy');
@@ -1762,10 +2504,11 @@ const app = (() => {
 
     // Holly freuen lassen: Happy +15 Punkte & Herz-Partikel aufsteigen lassen
     state.happy = clamp(state.happy + 15);
+    addXp(5);
     updateBars();
     updateMood();
     spawnEffect('💖', 4);
-    setStatus('Holly freut sich über deine Streicheleinheit! 🐶💖');
+    setStatus('Holly freut sich über deine Streicheleinheit! 🐶💖 (+5 XP)');
 
     switchMode('bark');
 
@@ -1915,19 +2658,19 @@ const app = (() => {
       handleSwipe(startX, startY, endX, endY);
     }, { passive: true });
 
-    // Maus-Events (für Desktop-Testing mit Klick & Ziehen)
-    let mouseDown = false;
-    screen.addEventListener('mousedown', e => {
-      // Nur swipen wenn nicht direkt auf Button geklickt wurde
-      if (e.target.closest('button') || e.target.closest('.ring-btn') || e.target.closest('.pixel-icon-btn') || e.target.closest('.alarm-adjust-btn') || e.target.closest('.alarm-toggle-btn')) return;
-      mouseDown = true;
+    // Pointer- / Maus-Events (für Desktop & Touch auf dem gesamten Display)
+    let pointerDown = false;
+    screen.addEventListener('pointerdown', e => {
+      // Nur Swipen wenn nicht direkt auf Steuer-Buttons geklickt wurde
+      if (e.target.closest('button') || e.target.closest('.ring-btn') || e.target.closest('.pixel-icon-btn') || e.target.closest('.alarm-adjust-btn') || e.target.closest('.alarm-toggle-btn') || e.target.closest('.view-dot')) return;
+      pointerDown = true;
       startX = e.clientX;
       startY = e.clientY;
     });
 
-    window.addEventListener('mouseup', e => {
-      if (!mouseDown) return;
-      mouseDown = false;
+    window.addEventListener('pointerup', e => {
+      if (!pointerDown) return;
+      pointerDown = false;
       const endX = e.clientX;
       const endY = e.clientY;
       handleSwipe(startX, startY, endX, endY);
@@ -1936,13 +2679,13 @@ const app = (() => {
     function handleSwipe(sX, sY, eX, eY) {
       const diffX = eX - sX;
       const diffY = eY - sY;
-      // Horizontale Geste mit Mindestabstand von 35px
-      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      // Horizontale Geste mit Mindestabstand von 25px
+      if (Math.abs(diffX) > 25 && Math.abs(diffX) > Math.abs(diffY)) {
         if (diffX < 0) {
-          // Nach links wischen -> nächste Seite (z.B. von Holly zu Pixel Art)
+          // Nach links wischen -> nächste Seite (Uhr -> Video -> Voxel)
           if (currentViewIndex < 2) switchView(currentViewIndex + 1);
         } else if (diffX > 0) {
-          // Nach rechts wischen -> vorherige Seite (z.B. von Holly zu Uhr & Wecker)
+          // Nach rechts wischen -> vorherige Seite (Voxel -> Video -> Uhr)
           if (currentViewIndex > 0) switchView(currentViewIndex - 1);
         }
       }
@@ -2033,113 +2776,1170 @@ const app = (() => {
     }, 12000);
   }
 
-  // ── Classic 1996 LCD Tamagotchi Pixel Dog Rendering ────────────────────────
-  const pixelCanvas = $('pixel-pet-canvas');
-  let pixelCtx = pixelCanvas ? pixelCanvas.getContext('2d') : null;
-  let pixelAnimFrame = null;
-  let pixelTick = 0;
-  let pixelWag = 0;
-  let pixelPoop = false; // Zustand für Häufchen & Putzen
+  // ── 3D Minecraft Voxel Puppy Rendering (Three.js) ────────────────────────
+  let voxelScene, voxelCamera, voxelRenderer, voxelPuppyGroup;
+  let voxelAnimId = null;
+  let voxelClock = (typeof THREE !== 'undefined') ? new THREE.Clock() : null;
+  let voxelPoopMesh = null;
+  let voxelRobidogBag = null; // Rotes Robidog-Säckchen zum Aufnehmen
+  let voxelTreatMesh = null;  // Voxel-Fressnapf mit Futter (Füttern)
+  let voxelBallMesh = null;   // Voxel-Spielball (Spielen)
+  let voxelHeadGroup, voxelTailGroup, voxelLegFL, voxelLegFR, voxelLegBL, voxelLegBR;
+  let eyeLGroup, eyeRGroup;   // Augen-Gruppen für geschlossene Augen & Blinzeln
+  let voxelJawGroup;          // Unterkiefer für echtes Mundöffnen beim Bellen!
+  let stolenItemMesh = null;  // Gestohlener Ring-Button im Maul bei Unordnung/Schabernack!
 
-  // 16x16 Pixel Art Bitmap Definition für Welpe Holly
-  // . = transparent, # = Fell dunkel, O = Auge, w = Schnauze/Brust, b = Nase, r = Schleife/Zunge
-  const puppyFrame1 = [
-    "....########....",
-    "...##########...",
-    "..###..##..###..",
-    "..###OO##OO###..",
-    "..####b##b####..",
-    "...###wwww###...",
-    "...###wbw####...",
-    "....##wwww##....",
-    "....########....",
-    "...##########...",
-    "..############..",
-    "..###.####.###..",
-    "..##..####..##..",
-    "..##..#..#..##..",
-    "...#..#..#..#...",
-    "................"
-  ];
+  // Interaktive Animationszustände & Schlafpositionen
+  let voxelJoyTimer = 0;   // Freuden-Animation (Streicheln)
+  let voxelFeedTimer = 0;  // Fütter-Animation
+  let voxelPlayTimer = 0;  // Spiel- & Lauf-Animation
+  let voxelWalkTimer = 0;  // Gassi-Lauf-Animation
+  let voxelWakeTimer = 0;  // Streck-Animation beim Aufwachen
+  let voxelSleepPose = 0;  // 0 = Bauch, 1 = Seite links, 2 = Rücken, 3 = Seite rechts
+  let voxelNextPoseTimer = 0; // Timer zum Wechseln der Schlafposition
+  let voxelBallPos = { x: 0.65, z: 1.1, targetX: 0.65, targetZ: 1.1 }; // Dynamische Ball-Position
 
-  const puppyFrame2 = [
-    "....########....",
-    "...##########...",
-    "..###..##..###..",
-    "..###OO##OO###..",
-    "..####b##b####..",
-    "...###wwww###...",
-    "...###wrb####...",
-    "....##wwww##....",
-    "....########.#..",
-    "...##########.##",
-    "..############..",
-    "..###.####.###..",
-    "..##..####..##..",
-    "...#..#..#..#...",
-    "...#..#..#..#...",
-    "................"
-  ];
+  // Autonomes Hundeverhalten im Leerlauf (Schnuppern, Umherbewegen, Bellen, Neugierig schauen, Sitzen, Männchen machen)
+  let voxelIdleBehavior = 'stand'; // 'stand' | 'wander' | 'sniff' | 'bark' | 'curious' | 'sit' | 'beg' | 'messy'
+  let voxelBehaviorTimer = 3.0;
+  let boredomTimer = 0; // Zählt Inaktivität (nach min. 40 Sekunden ohne Aktion macht Holly evtl. Schabernack)
+  let voxelTargetPos = { x: 0, z: 0 };
+  let voxelCurrentPos = { x: 0, z: 0 };
+  let voxelTargetRot = 0;
+  let voxelCurrentRot = 0;
+  let voxelMessyActive = false; // Ob Holly gerade Unordnung im UI macht
 
-  function drawPixelPet() {
-    if (!pixelCtx || !pixelCanvas) return;
-    pixelTick++;
-    if (pixelTick % 20 === 0) {
-      pixelWag = (pixelWag === 0 ? 1 : 0);
+  // Weiche Übergänge bei Schlaf-Transformation, Körperneigung, Kopf & Beinen
+  let voxelSleepRot = { x: 0, y: 0, z: 0 };
+  let voxelSleepTargetRot = { x: 0, y: 0, z: 0 };
+  let voxelPuppyRot = { x: 0, y: 0, z: 0 };
+  let voxelHeadRot = { x: 0, y: 0, z: 0 };
+  let voxelHeadPos = { x: 0, y: 0.45, z: 0.75 };
+  let voxelLegRot = { fl: 0, fr: 0, bl: 0, br: 0 };
+  let voxelPuppyPosY = 0;
+  let voxelCamPos = { x: 0, y: 1.8, z: 4.6 };
+  let voxelCamLook = { x: 0, y: 0.1, z: 0 };
+  let voxelBlinkTimer = 3.0; // Blinzel-Timer
+
+  function initVoxelPet() {
+    const container = $('voxel-container');
+    if (!container || typeof THREE === 'undefined') {
+      console.warn('[Tamaholly 3D] Three.js not loaded or container missing');
+      return;
     }
 
-    pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+    // Falls bereits ein Renderer existiert, aufräumen
+    if (voxelAnimId) {
+      cancelAnimationFrame(voxelAnimId);
+      voxelAnimId = null;
+    }
+    container.innerHTML = '';
 
-    // Zoom-Faktor für 16x16 Pixel auf 160x160 Canvas (1 Pixel = 8x8 Canvas Pixel)
-    const scale = 7;
-    const offsetX = Math.floor((pixelCanvas.width - 16 * scale) / 2);
-    const offsetY = Math.floor((pixelCanvas.height - 16 * scale) / 2) + (pixelWag ? -2 : 0);
+    const width = 466;
+    const height = 466;
 
-    const frame = (pixelWag === 0) ? puppyFrame1 : puppyFrame2;
+    // 1. Scene
+    voxelScene = new THREE.Scene();
 
-    for (let r = 0; r < 16; r++) {
-      for (let c = 0; c < 16; c++) {
-        const char = frame[r][c];
-        if (char === '.') continue;
+    // 2. Camera (Perspektivisch für schöne Block-Tiefe)
+    voxelCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    voxelCamera.position.set(0, 1.8, 4.6);
+    voxelCamera.lookAt(0, 0.1, 0);
 
-        if (char === '#') pixelCtx.fillStyle = '#263821'; // Dunkles LCD Schwarz-Grün
-        else if (char === 'O') pixelCtx.fillStyle = '#111e0e'; // Pupille tief
-        else if (char === 'w') pixelCtx.fillStyle = '#516847'; // Hellere Schattierung
-        else if (char === 'b') pixelCtx.fillStyle = '#0f170c'; // Nase
-        else if (char === 'r') pixelCtx.fillStyle = '#374b30'; // Kontrast
-        else pixelCtx.fillStyle = '#263821';
+    // 3. WebGL Renderer mit Alphatransparenz für das AMOLED-Display
+    voxelRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    voxelRenderer.setSize(width, height);
+    voxelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    voxelRenderer.shadowMap.enabled = true;
+    voxelRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(voxelRenderer.domElement);
 
-        pixelCtx.fillRect(offsetX + c * scale, offsetY + r * scale, scale - 0.5, scale - 0.5);
+    // 4. Beleuchtung (Minecraft Isometric Light Vibe)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    voxelScene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xfff7e6, 0.9);
+    dirLight1.position.set(5, 8, 4);
+    voxelScene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x7fb8f5, 0.4);
+    dirLight2.position.set(-5, -2, -3);
+    voxelScene.add(dirLight2);
+
+    // 5. Minecraft Voxel Materialien (Warme Erdfarben für Holly mit mehr Tiefe & Details)
+    const mFur = new THREE.MeshLambertMaterial({ color: 0x9e6834 });        // Holly Fell Braun
+    const mFurDark = new THREE.MeshLambertMaterial({ color: 0x6e431d });    // Dunkleres Braun
+    const mSnout = new THREE.MeshLambertMaterial({ color: 0xd9ab77 });      // Helle Schnauze/Wangen
+    const mNose = new THREE.MeshLambertMaterial({ color: 0x1a1512 });       // Schwarze Nase
+    const mEyeWhite = new THREE.MeshLambertMaterial({ color: 0xffffff });   // Augenweiß
+    const mPupil = new THREE.MeshLambertMaterial({ color: 0x111111 });      // Schwarze Pupille
+    const mCollar = new THREE.MeshLambertMaterial({ color: 0xef4444 });     // Rotes Minecraft-Halsband
+    const mCollarTag = new THREE.MeshLambertMaterial({ color: 0xfacc15 });  // Goldene Halsband-Marke
+    const mMouth = new THREE.MeshLambertMaterial({ color: 0x7f1d1d });      // Dunkelrotes Mund-Innere
+    const mPoop = new THREE.MeshLambertMaterial({ color: 0x4a2e12 });       // Voxel-Häufchen
+    const mChest = new THREE.MeshLambertMaterial({ color: 0xe6caa1 });      // Heller Brustlatz / Latzfell
+    const mAnus = new THREE.MeshLambertMaterial({ color: 0x5a3418 });       // Dezentes Voxel-Kreuz (After) am Hintern
+
+    // 6. Puppy Hierarchie aufbauen
+    voxelPuppyGroup = new THREE.Group();
+    voxelScene.add(voxelPuppyGroup);
+
+    // ── Körper (Minecraft Dog Body - Detailreich mit Brustfell) ──
+    const bodyGeo = new THREE.BoxGeometry(0.9, 0.75, 1.3);
+    const bodyMesh = new THREE.Mesh(bodyGeo, mFur);
+    bodyMesh.position.set(0, 0, 0);
+    voxelPuppyGroup.add(bodyMesh);
+
+    // Detail: Helles Brustlatz-Fell vorne
+    const chestGeo = new THREE.BoxGeometry(0.55, 0.52, 0.08);
+    const chestMesh = new THREE.Mesh(chestGeo, mChest);
+    chestMesh.position.set(0, -0.06, 0.65);
+    voxelPuppyGroup.add(chestMesh);
+
+    // Detail: Kleines X (After) am Hintern unter dem Schwanz
+    const anusGroup = new THREE.Group();
+    anusGroup.position.set(0, 0.05, -0.655);
+    const xBarGeo1 = new THREE.BoxGeometry(0.08, 0.024, 0.02);
+    const xBarGeo2 = new THREE.BoxGeometry(0.024, 0.08, 0.02);
+    const xMesh1 = new THREE.Mesh(xBarGeo1, mAnus);
+    const xMesh2 = new THREE.Mesh(xBarGeo2, mAnus);
+    xMesh1.rotation.z = Math.PI / 4;
+    xMesh2.rotation.z = Math.PI / 4;
+    anusGroup.add(xMesh1);
+    anusGroup.add(xMesh2);
+    voxelPuppyGroup.add(anusGroup);
+
+    // Rotes Halsband mit goldener Marke
+    const collarGeo = new THREE.BoxGeometry(0.92, 0.16, 0.2);
+    const collarMesh = new THREE.Mesh(collarGeo, mCollar);
+    collarMesh.position.set(0, 0.15, 0.65);
+    voxelPuppyGroup.add(collarMesh);
+
+    const tagGeo = new THREE.BoxGeometry(0.14, 0.14, 0.06);
+    const tagMesh = new THREE.Mesh(tagGeo, mCollarTag);
+    tagMesh.position.set(0, 0.08, 0.76);
+    voxelPuppyGroup.add(tagMesh);
+
+    // ── Kopf-Gruppe (für Kopfdrehen & Nicken) ──
+    voxelHeadGroup = new THREE.Group();
+    voxelHeadGroup.position.set(0, 0.45, 0.75);
+
+    // Hauptkopf
+    const headGeo = new THREE.BoxGeometry(1.0, 0.9, 0.9);
+    const headMesh = new THREE.Mesh(headGeo, mFur);
+    voxelHeadGroup.add(headMesh);
+
+    // Detail: Helle Bäckchen / Wangen
+    const cheekLGeo = new THREE.BoxGeometry(0.12, 0.35, 0.45);
+    const cheekL = new THREE.Mesh(cheekLGeo, mSnout);
+    cheekL.position.set(-0.48, -0.15, 0.22);
+    voxelHeadGroup.add(cheekL);
+
+    const cheekR = new THREE.Mesh(cheekLGeo, mSnout);
+    cheekR.position.set(0.48, -0.15, 0.22);
+    voxelHeadGroup.add(cheekR);
+
+    // Oberes Schnauzenstück (Fest am Kopf)
+    const upperSnoutGeo = new THREE.BoxGeometry(0.5, 0.24, 0.5);
+    const upperSnoutMesh = new THREE.Mesh(upperSnoutGeo, mSnout);
+    upperSnoutMesh.position.set(0, -0.08, 0.58);
+    voxelHeadGroup.add(upperSnoutMesh);
+
+    // Nase (Block auf oberer Schnauze)
+    const noseGeo = new THREE.BoxGeometry(0.2, 0.16, 0.16);
+    const noseMesh = new THREE.Mesh(noseGeo, mNose);
+    noseMesh.position.set(0, -0.02, 0.84);
+    voxelHeadGroup.add(noseMesh);
+
+    // ── Echter beweglicher Unterkiefer / Mund (öffnet sich beim Bellen!) ──
+    voxelJawGroup = new THREE.Group();
+    voxelJawGroup.position.set(0, -0.22, 0.42); // Scharnier-Achse hinten an der Schnauze
+    const jawGeo = new THREE.BoxGeometry(0.46, 0.14, 0.42);
+    const jawMesh = new THREE.Mesh(jawGeo, mSnout);
+    jawMesh.position.set(0, -0.06, 0.18);
+    voxelJawGroup.add(jawMesh);
+
+    // Rote Zunge / Mundinneres auf dem Unterkiefer
+    const tongueGeo = new THREE.BoxGeometry(0.3, 0.06, 0.28);
+    const tongueMesh = new THREE.Mesh(tongueGeo, mMouth);
+    tongueMesh.position.set(0, 0.02, 0.16);
+    voxelJawGroup.add(tongueMesh);
+    voxelHeadGroup.add(voxelJawGroup);
+
+    // ── Gestohlener UI-Knopf in der Schnauze (bei Unordnung sichtbar) ──
+    const stolenItemGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.1, 12);
+    const mStolen = new THREE.MeshLambertMaterial({ color: 0x38bdf8 }); // Cyan/Blau wie die UI-Knöpfe
+    stolenItemMesh = new THREE.Mesh(stolenItemGeo, mStolen);
+    stolenItemMesh.rotation.x = Math.PI * 0.45;
+    stolenItemMesh.position.set(0, -0.16, 0.72);
+    stolenItemMesh.visible = false;
+    voxelHeadGroup.add(stolenItemMesh);
+
+    // Linkes Auge (Weiß + Pupille in Gruppe für Blinzeln & Schließen)
+    eyeLGroup = new THREE.Group();
+    eyeLGroup.position.set(-0.28, 0.1, 0.46);
+    const eyeWhiteGeo = new THREE.BoxGeometry(0.2, 0.2, 0.04);
+    const eyeLWhite = new THREE.Mesh(eyeWhiteGeo, mEyeWhite);
+    eyeLGroup.add(eyeLWhite);
+
+    const pupilGeo = new THREE.BoxGeometry(0.12, 0.14, 0.06);
+    const eyeLPupil = new THREE.Mesh(pupilGeo, mPupil);
+    eyeLPupil.position.set(0.02, -0.01, 0.01);
+    eyeLGroup.add(eyeLPupil);
+    voxelHeadGroup.add(eyeLGroup);
+
+    // Rechtes Auge (Weiß + Pupille in Gruppe für Blinzeln & Schließen)
+    eyeRGroup = new THREE.Group();
+    eyeRGroup.position.set(0.28, 0.1, 0.46);
+    const eyeRWhite = new THREE.Mesh(eyeWhiteGeo, mEyeWhite);
+    eyeRGroup.add(eyeRWhite);
+
+    const eyeRPupil = new THREE.Mesh(pupilGeo, mPupil);
+    eyeRPupil.position.set(-0.02, -0.01, 0.01);
+    eyeRGroup.add(eyeRPupil);
+    voxelHeadGroup.add(eyeRGroup);
+
+    // Ohren (Links & Rechts Schlappohren mit zweistufigem Fell-Look)
+    const earGeo = new THREE.BoxGeometry(0.24, 0.55, 0.3);
+    const earL = new THREE.Mesh(earGeo, mFurDark);
+    earL.position.set(-0.54, 0.1, 0.05);
+    earL.rotation.z = 0.15;
+    voxelHeadGroup.add(earL);
+
+    const earR = new THREE.Mesh(earGeo, mFurDark);
+    earR.position.set(0.54, 0.1, 0.05);
+    earR.rotation.z = -0.15;
+    voxelHeadGroup.add(earR);
+
+    voxelPuppyGroup.add(voxelHeadGroup);
+
+    // ── Beine (4 Pfoten mit helleren Pfötchen-Socken) ──
+    const legGeo = new THREE.BoxGeometry(0.26, 0.55, 0.26);
+    const sockGeo = new THREE.BoxGeometry(0.28, 0.16, 0.28);
+
+    function createDetailedLeg(x, y, z) {
+      const legGroup = new THREE.Group();
+      legGroup.position.set(x, y, z);
+      const legPart = new THREE.Mesh(legGeo, mFurDark);
+      legPart.position.set(0, -0.22, 0);
+      legGroup.add(legPart);
+      const sockPart = new THREE.Mesh(sockGeo, mSnout);
+      sockPart.position.set(0, -0.42, 0);
+      legGroup.add(sockPart);
+      return legGroup;
+    }
+
+    voxelLegFL = createDetailedLeg(-0.32, -0.32, 0.42);
+    voxelPuppyGroup.add(voxelLegFL);
+
+    voxelLegFR = createDetailedLeg(0.32, -0.32, 0.42);
+    voxelPuppyGroup.add(voxelLegFR);
+
+    voxelLegBL = createDetailedLeg(-0.32, -0.32, -0.42);
+    voxelPuppyGroup.add(voxelLegBL);
+
+    voxelLegBR = createDetailedLeg(0.32, -0.32, -0.42);
+    voxelPuppyGroup.add(voxelLegBR);
+
+    // ── Schwanz (animiertes Schwanzwedeln) ──
+    voxelTailGroup = new THREE.Group();
+    voxelTailGroup.position.set(0, 0.18, -0.65);
+    const tailGeo = new THREE.BoxGeometry(0.18, 0.18, 0.5);
+    const tailMesh = new THREE.Mesh(tailGeo, mFurDark);
+    tailMesh.position.set(0, 0.15, -0.22);
+    tailMesh.rotation.x = 0.45;
+    voxelTailGroup.add(tailMesh);
+    voxelPuppyGroup.add(voxelTailGroup);
+
+    // ── Voxel-Häufchen (Initial unsichtbar, hinter Holly positioniert) ──
+    const poopGeo1 = new THREE.BoxGeometry(0.35, 0.12, 0.35);
+    const poopGeo2 = new THREE.BoxGeometry(0.2, 0.12, 0.2);
+    voxelPoopMesh = new THREE.Group();
+    const p1 = new THREE.Mesh(poopGeo1, mPoop);
+    p1.position.y = 0.06;
+    const p2 = new THREE.Mesh(poopGeo2, mPoop);
+    p2.position.y = 0.18;
+    voxelPoopMesh.add(p1);
+    voxelPoopMesh.add(p2);
+    voxelPoopMesh.position.set(0, -0.75, -1.15); // Direkt hinten hinter Holly
+    voxelPoopMesh.visible = false;
+    voxelScene.add(voxelPoopMesh);
+
+    // ── Rotes Robidog-Säckchen (zum Aufnehmen des Häufchens) ──
+    const bagGeo = new THREE.BoxGeometry(0.32, 0.26, 0.28);
+    const mRobidog = new THREE.MeshLambertMaterial({ color: 0xdc2626 }); // Robidog Rot
+    voxelRobidogBag = new THREE.Mesh(bagGeo, mRobidog);
+    voxelRobidogBag.position.set(0.45, -0.65, -1.05); // Direkt neben dem Häufchen
+    voxelRobidogBag.visible = false;
+    voxelScene.add(voxelRobidogBag);
+
+    // ── Voxel-Fressnapf (Napf + Futterfüllung) ──
+    voxelTreatMesh = new THREE.Group();
+    // Napf-Rand (blau)
+    const bowlGeo = new THREE.BoxGeometry(0.65, 0.22, 0.65);
+    const mBowl = new THREE.MeshLambertMaterial({ color: 0x2563eb }); // Königsblau
+    const bowlBase = new THREE.Mesh(bowlGeo, mBowl);
+    bowlBase.position.y = 0.11;
+    voxelTreatMesh.add(bowlBase);
+
+    // Futter im Napf (braune Kroketten / Meat Chunks)
+    const foodGeo = new THREE.BoxGeometry(0.48, 0.14, 0.48);
+    const mFood = new THREE.MeshLambertMaterial({ color: 0x854d0e }); // Golden Brown Dog Food
+    const foodMesh = new THREE.Mesh(foodGeo, mFood);
+    foodMesh.position.y = 0.20;
+    voxelTreatMesh.add(foodMesh);
+
+    // Deko Knöchelchen auf dem Fressnapf
+    const decoBoneGeo = new THREE.BoxGeometry(0.22, 0.08, 0.12);
+    const mBone = new THREE.MeshLambertMaterial({ color: 0xfef08a });
+    const decoBone = new THREE.Mesh(decoBoneGeo, mBone);
+    decoBone.position.set(0, 0.28, 0);
+    voxelTreatMesh.add(decoBone);
+
+    voxelTreatMesh.position.set(0, -0.65, 1.15);
+    voxelTreatMesh.visible = false;
+    voxelScene.add(voxelTreatMesh);
+
+    // ── Voxel-Spielball (Spielen: Pink-blauer Ball-Würfel) ──
+    const ballGeo = new THREE.BoxGeometry(0.35, 0.35, 0.35);
+    const mBall = new THREE.MeshLambertMaterial({ color: 0xec4899 }); // Hot pink
+    voxelBallMesh = new THREE.Mesh(ballGeo, mBall);
+    voxelBallMesh.position.set(0.65, -0.55, 1.1);
+    voxelBallMesh.visible = false;
+    voxelScene.add(voxelBallMesh);
+
+    // Interaktives Drehen per Drag/Maus & Antippen/Klick für Freude / Ball-Klick / Häufchen
+    let isDragging = false;
+    let dragDistanceX = 0;
+    let dragDistanceY = 0;
+    let prevMouseX = 0;
+    let clickStartX = 0;
+    let clickStartY = 0;
+
+    container.addEventListener('pointerdown', e => {
+      isDragging = true;
+      dragDistanceX = 0;
+      dragDistanceY = 0;
+      prevMouseX = e.clientX;
+      clickStartX = e.clientX;
+      clickStartY = e.clientY;
+    });
+
+    window.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - prevMouseX;
+      dragDistanceX += Math.abs(deltaX);
+      prevMouseX = e.clientX;
+      if (voxelPuppyGroup && state.mode !== 'feed') {
+        voxelPuppyGroup.rotation.y += deltaX * 0.02;
+      }
+    });
+
+    window.addEventListener('pointerup', e => {
+      if (!isDragging) return;
+      isDragging = false;
+      dragDistanceY = Math.abs(e.clientY - clickStartY);
+      const totalMove = Math.hypot(e.clientX - clickStartX, e.clientY - clickStartY);
+
+      // Wenn die horizontale Wischbewegung groß war (> 35px), soll der View geswipt werden!
+      if (Math.abs(e.clientX - clickStartX) > 35 && Math.abs(e.clientX - clickStartX) > dragDistanceY) {
+        if (e.clientX < clickStartX) {
+          // Nach links gewischt
+          if (currentViewIndex < 2) switchView(currentViewIndex + 1);
+        } else {
+          // Nach rechts gewischt
+          if (currentViewIndex > 0) switchView(currentViewIndex - 1);
+        }
+        return;
+      }
+
+      // Wenn es ein kurzer Klick/Tap war (kaum Bewegung < 10px)
+      if (totalMove < 10) {
+        handleVoxelContainerClick(e);
+      }
+    });
+
+    // 7. Skalierung basierend auf aktueller Wachstumsstufe anwenden
+    applyVoxelScale();
+
+    // 8. Animationsschleife starten
+    animateVoxelPet();
+  }
+
+  function handleVoxelContainerClick(e) {
+    if (state.locked && state.mode !== 'play') return;
+
+    // Wenn Holly schläft: Sanftes Aufwecken
+    if (state.mode === 'sleep') {
+      wake();
+      return;
+    }
+
+    // Wenn ein Häufchen da ist und der Klick im rechten Bereich war: Robidog Säckchen benutzen!
+    const rect = $('voxel-container').getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width;
+    const relY = (e.clientY - rect.top) / rect.height;
+
+    if (state.hasPoop && relX > 0.65) {
+      cleanPoop();
+      return;
+    }
+
+    // Wenn Spielmodus aktiv ist: Klick auf den Ball lässt ihn woanders hinspringen!
+    if (state.mode === 'play') {
+      kickVoxelBall();
+      return;
+    }
+
+    // Normaler Streichel-Klick -> Freude!
+    voxelTriggerJoy();
+  }
+
+  function kickVoxelBall() {
+    // Ball springt an eine neue zufällige Position im 3D Raum
+    const angles = [0.8, -0.8, 1.2, -1.2, 0.2, -0.2];
+    const pickX = angles[Math.floor(Math.random() * angles.length)];
+    const pickZ = 0.8 + Math.random() * 0.7;
+    voxelBallPos.targetX = pickX;
+    voxelBallPos.targetZ = pickZ;
+
+    spawnEffect('⚽', 3);
+    spawnEffect('✨', 3);
+    setStatus('Holly jagt begeistert dem springenden Ball hinterher! ⚽🐾');
+    addXp(5);
+  }
+
+  function triggerHollyMischief() {
+    if (voxelMessyActive || state.mode === 'sleep' || state.locked) return;
+    voxelMessyActive = true;
+
+    // Holly schnappt sich einen Button in die Schnauze!
+    if (stolenItemMesh) stolenItemMesh.visible = true;
+
+    spawnEffect('🐾', 4);
+    spawnEffect('⚡', 3);
+    setStatus('Holly stibitzt frech einen Button und macht Unordnung! 🐶🦴🐾');
+    const statusText = $('pixel-status-text');
+    if (statusText) statusText.textContent = 'HOLLY: STIBITZT! 🐾';
+
+    const buttons = document.querySelectorAll('.ring-btn');
+    const hudTelemetry = document.querySelector('.hud-bottom-telemetry');
+    const pixelHud = document.querySelector('.pixel-hud-stats');
+
+    // Knöpfe deutlich sichtbar verschieben und verdrehen
+    buttons.forEach((btn, idx) => {
+      const rx = (Math.random() - 0.5) * 36;
+      const ry = (Math.random() - 0.5) * 36;
+      const rdeg = (Math.random() - 0.5) * 35;
+      btn.style.transform = `translate(${rx}px, ${ry}px) rotate(${rdeg}deg)`;
+      // Den oberen Gassi-Button kurz 'verschwinden' bzw. wackeln lassen, als hätte Holly ihn im Maul!
+      if (idx === 0) {
+        btn.style.opacity = '0.35';
+      }
+    });
+
+    // Auch Telemetrie oder Pixel-HUD leicht schief stellen
+    if (hudTelemetry) {
+      hudTelemetry.style.transform = `translate(${(Math.random() - 0.5) * 20}px, ${(Math.random() - 0.5) * 14}px) rotate(${(Math.random() - 0.5) * 8}deg)`;
+    }
+    if (pixelHud) {
+      pixelHud.style.transform = `translate(${(Math.random() - 0.5) * 18}px, ${(Math.random() - 0.5) * 12}px) rotate(${(Math.random() - 0.5) * 6}deg)`;
+    }
+
+    // Nach 5.5 Sekunden räumt das System wieder auf oder bei Klick
+    setTimeout(() => {
+      resetHollyMischief();
+    }, 5500);
+  }
+
+  function resetHollyMischief() {
+    if (!voxelMessyActive) return;
+    voxelMessyActive = false;
+
+    if (stolenItemMesh) stolenItemMesh.visible = false;
+
+    const buttons = document.querySelectorAll('.ring-btn');
+    buttons.forEach(btn => {
+      btn.style.transform = '';
+      btn.style.opacity = '1';
+    });
+
+    const hudTelemetry = document.querySelector('.hud-bottom-telemetry');
+    if (hudTelemetry) hudTelemetry.style.transform = '';
+
+    const pixelHud = document.querySelector('.pixel-hud-stats');
+    if (pixelHud) pixelHud.style.transform = '';
+
+    const statusText = $('pixel-status-text');
+    if (statusText && (statusText.textContent.includes('SCHABERNACK') || statusText.textContent.includes('STIBITZT'))) {
+      statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
+    }
+  }
+
+  function voxelTriggerJoy() {
+    if (state.locked) return;
+    if (voxelMessyActive) {
+      resetHollyMischief();
+    }
+    if (state.mode === 'sleep') {
+      wake();
+      return;
+    }
+
+    // 1. Freuden-Timer setzen: 1.8 Sekunden schnellere Drehung & Hüpfen
+    voxelJoyTimer = 1.8;
+
+    // 2. Belohnung: Happy steigern, XP addieren & Partikel aufsteigen lassen
+    state.happy = clamp(state.happy + 15);
+    addXp(8);
+    updateBars();
+    updateMood();
+
+    // 3. Aufsteigende Herzen über spawnEffect
+    spawnEffect('💖', 5);
+    spawnEffect('✨', 3);
+
+    // 4. Statusmeldungen aktualisieren
+    setStatus('Voxel-Holly freut sich riesig! 🐶💖 (+8 XP)');
+    const statusText = $('pixel-status-text');
+    if (statusText) {
+      statusText.textContent = 'HOLLY: JIPPIE! 💖';
+      setTimeout(() => {
+        if (statusText && voxelJoyTimer <= 0) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
+      }, 2000);
+    }
+  }
+
+  function animateVoxelPet() {
+    voxelAnimId = requestAnimationFrame(animateVoxelPet);
+    if (!voxelRenderer || !voxelScene || !voxelCamera || !voxelPuppyGroup) return;
+
+    const delta = voxelClock ? voxelClock.getDelta() : 0.016;
+    const time = voxelClock ? voxelClock.getElapsedTime() : Date.now() * 0.001;
+
+    // Timer dekrementieren
+    const isJoy  = voxelJoyTimer > 0;
+    const isFeed = (state.mode === 'feed') || (voxelFeedTimer > 0);
+    const isPlay = (state.mode === 'play') || (voxelPlayTimer > 0);
+    const isWalk = (state.mode === 'walk') || (voxelWalkTimer > 0);
+    const isSleep = (state.mode === 'sleep');
+    const isWake = (state.mode === 'wake') || (voxelWakeTimer > 0);
+
+    if (voxelJoyTimer > 0)  voxelJoyTimer = Math.max(0, voxelJoyTimer - delta);
+    if (voxelFeedTimer > 0) voxelFeedTimer = Math.max(0, voxelFeedTimer - delta);
+    if (voxelPlayTimer > 0) voxelPlayTimer = Math.max(0, voxelPlayTimer - delta);
+    if (voxelWalkTimer > 0) voxelWalkTimer = Math.max(0, voxelWalkTimer - delta);
+    if (voxelWakeTimer > 0) voxelWakeTimer = Math.max(0, voxelWakeTimer - delta);
+
+    // ── Voxel Leckerli (Fressnapf) & Ball Sichtbarkeit & Animation ──
+    if (voxelTreatMesh) {
+      voxelTreatMesh.visible = isFeed;
+      if (isFeed) {
+        // Fressnapf steht stabil vor dem Welpen am Boden
+        voxelTreatMesh.position.set(0, -0.65, 1.15);
+      }
+    }
+    if (voxelBallMesh) {
+      voxelBallMesh.visible = isPlay;
+      if (isPlay) {
+        // Sanfte Interpolation zur Zielposition des Balls
+        voxelBallPos.x += (voxelBallPos.targetX - voxelBallPos.x) * 0.1;
+        voxelBallPos.z += (voxelBallPos.targetZ - voxelBallPos.z) * 0.1;
+
+        voxelBallMesh.rotation.x += 0.08;
+        voxelBallMesh.rotation.y += 0.05;
+        voxelBallMesh.position.set(
+          voxelBallPos.x,
+          -0.55 + Math.abs(Math.sin(time * 10)) * 0.35,
+          voxelBallPos.z
+        );
       }
     }
 
-    // Wenn Häufchen vorhanden: kleines Tamagotchi-Pixelhäufchen daneben zeichnen
-    if (pixelPoop) {
-      pixelCtx.fillStyle = '#1e2b19';
-      const px = 115;
-      const py = 100;
-      pixelCtx.fillRect(px + 6, py, 6, 6);
-      pixelCtx.fillRect(px + 3, py + 6, 12, 6);
-      pixelCtx.fillRect(px, py + 12, 18, 6);
+    // ── Häufchen & Robidog Säckchen Synchronisation ──
+    if (voxelPoopMesh) {
+      voxelPoopMesh.visible = state.hasPoop;
+    }
+    if (voxelRobidogBag) {
+      voxelRobidogBag.visible = state.hasPoop;
+      if (state.hasPoop) {
+        // Leichtes Schweben/Wackeln des roten Säckchens als Aufforderung
+        voxelRobidogBag.position.y = -0.55 + Math.sin(time * 5) * 0.06;
+      }
     }
 
-    pixelAnimFrame = requestAnimationFrame(drawPixelPet);
+    // ── Schlafpositionen (Bauch, Seite links, Rücken, Seite rechts) wechseln ──
+    if (isSleep) {
+      voxelNextPoseTimer += delta;
+      if (voxelNextPoseTimer > 6.0) { // Alle 6 Sekunden Positionswechsel
+        voxelNextPoseTimer = 0;
+        voxelSleepPose = (voxelSleepPose + 1) % 4;
+        spawnEffect('💤', 2);
+      }
+    } else {
+      voxelSleepPose = 0;
+      voxelNextPoseTimer = 0;
+    }
+
+    // ── Kamera-Positionierung (für Schräg-Ansicht von hinten beim Häufchen machen & flüssige Transitions) ──
+    let targetCamX = 0;
+    let targetCamY = 1.2;
+    let targetCamZ = 4.8;
+    let targetLookX = 0;
+    let targetLookY = -0.3;
+    let targetLookZ = 0;
+
+    if (isWalk) {
+      const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 0.8);
+      if (isPoopingNow) {
+        // Schräg von hinten / seitlich auf Holly blicken: Häufchen & Hockpose perfekt sichtbar!
+        targetCamX = 2.4;
+        targetCamY = 1.4;
+        targetCamZ = -2.8;
+        targetLookX = 0;
+        targetLookY = -0.3;
+        targetLookZ = -0.5;
+      }
+    }
+
+    // Flüssige Kamera-Interpolation
+    voxelCamPos.x += (targetCamX - voxelCamPos.x) * 0.05;
+    voxelCamPos.y += (targetCamY - voxelCamPos.y) * 0.05;
+    voxelCamPos.z += (targetCamZ - voxelCamPos.z) * 0.05;
+    voxelCamLook.x += (targetLookX - voxelCamLook.x) * 0.05;
+    voxelCamLook.y += (targetLookY - voxelCamLook.y) * 0.05;
+    voxelCamLook.z += (targetLookZ - voxelCamLook.z) * 0.05;
+
+    voxelCamera.position.set(voxelCamPos.x, voxelCamPos.y, voxelCamPos.z);
+    voxelCamera.lookAt(voxelCamLook.x, voxelCamLook.y, voxelCamLook.z);
+
+    // ── Blinzeln & Augen beim Schlafen schließen ──
+    if (eyeLGroup && eyeRGroup) {
+      if (isSleep) {
+        // Augen beim Schlafen komplett geschlossen (flach skaliert)
+        eyeLGroup.scale.y = 0.08;
+        eyeRGroup.scale.y = 0.08;
+      } else {
+        // Blinzel-Zyklus (alle 3-4 Sekunden kurzes natürliches Schließen für 120ms)
+        voxelBlinkTimer -= delta;
+        if (voxelBlinkTimer <= 0) {
+          voxelBlinkTimer = 2.5 + Math.random() * 3.5;
+        }
+        const isBlinking = (voxelBlinkTimer > 0.02 && voxelBlinkTimer < 0.16);
+        const targetEyeScaleY = isBlinking ? 0.08 : 1.0;
+        eyeLGroup.scale.y += (targetEyeScaleY - eyeLGroup.scale.y) * 0.45;
+        eyeRGroup.scale.y += (targetEyeScaleY - eyeRGroup.scale.y) * 0.45;
+      }
+    }
+
+    // ── Autonomes Hundeverhalten im Leerlauf (Idle: wandern, schnuppern, bellen, neugierig schauen, hinsetzen, männchen machen) ──
+    const isNormalIdle = !isSleep && !isWake && !isFeed && !isPlay && !isWalk && !isJoy;
+    let isActuallyWalking = false;
+    if (isNormalIdle) {
+      voxelBehaviorTimer -= delta;
+      boredomTimer += delta;
+
+      if (voxelBehaviorTimer <= 0) {
+        // Neues Verhalten zufällig auswählen
+        // Unordnung ('messy') passiert nur sehr selten und erst, wenn man Holly mindestens 45 Sekunden lang ignoriert!
+        const behaviors = ['stand', 'wander', 'sniff', 'bark', 'curious', 'sit', 'beg', 'wander'];
+        if (boredomTimer > 45 && Math.random() < 0.25) {
+          voxelIdleBehavior = 'messy';
+          boredomTimer = 0; // Timer zurücksetzen
+        } else {
+          voxelIdleBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
+        }
+
+        if (voxelIdleBehavior === 'wander') {
+          // Großzügige Zielpunkte über das runde Display wählen (Radius max 1.5 damit sicher im Sichtfeld)
+          const wanderAngle = Math.random() * Math.PI * 2;
+          const wanderDist = 0.4 + Math.random() * 1.1;
+          voxelTargetPos.x = Math.cos(wanderAngle) * wanderDist;
+          voxelTargetPos.z = Math.sin(wanderAngle) * (wanderDist * 0.7); // Z leicht stauchen wegen Neigung
+          // Zur Gehrichtung ausrichten
+          const dx = voxelTargetPos.x - voxelCurrentPos.x;
+          const dz = voxelTargetPos.z - voxelCurrentPos.z;
+          voxelTargetRot = Math.atan2(dx, dz);
+          voxelBehaviorTimer = 3.5 + Math.random() * 2.5;
+        } else if (voxelIdleBehavior === 'sniff') {
+          voxelBehaviorTimer = 2.2 + Math.random() * 1.5;
+        } else if (voxelIdleBehavior === 'bark') {
+          spawnEffect('🐾', 2);
+          voxelBehaviorTimer = 1.6;
+        } else if (voxelIdleBehavior === 'curious') {
+          voxelTargetRot = (Math.random() - 0.5) * 0.9;
+          voxelBehaviorTimer = 2.5;
+        } else if (voxelIdleBehavior === 'sit') {
+          // Hinsetzen: Holly ruht gemütlich sitzend
+          voxelTargetRot = (Math.random() - 0.5) * 0.5;
+          voxelBehaviorTimer = 3.5 + Math.random() * 2.0;
+        } else if (voxelIdleBehavior === 'beg') {
+          // Männchen machen! (Körper aufgerichtet, Vorderpfoten in die Luft)
+          voxelTargetRot = (Math.random() - 0.5) * 0.4;
+          voxelBehaviorTimer = 2.8 + Math.random() * 1.2;
+          spawnEffect('✨', 2);
+        } else if (voxelIdleBehavior === 'messy') {
+          // Frecher Welpe stibitzt einen Button
+          triggerHollyMischief();
+          voxelBehaviorTimer = 4.5;
+        } else {
+          // Stehen & umschauen
+          voxelTargetRot = (Math.random() - 0.5) * 0.7;
+          voxelBehaviorTimer = 2.0 + Math.random() * 2.0;
+        }
+      }
+
+      // Sanfte, flüssige Bewegung zur Zielposition über das Display
+      if (voxelIdleBehavior === 'wander') {
+        const dx = voxelTargetPos.x - voxelCurrentPos.x;
+        const dz = voxelTargetPos.z - voxelCurrentPos.z;
+        const distToTarget = Math.hypot(dx, dz);
+
+        // Holly läuft vorwärts in Blickrichtung, anstatt seitlich zu rutschen!
+        const targetHeading = Math.atan2(dx, dz);
+        // Kürzesten Drehwinkel berechnen
+        let angleDiff = targetHeading - voxelCurrentRot;
+        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+
+        voxelCurrentRot += angleDiff * 0.08;
+
+        // Rand-Kollisionsprüfung: Wenn Holly an den Displayrand kommt (Radius >= 1.6), sofort anhalten & umkehren!
+        const curDist = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
+        const maxBorderRadius = 1.6;
+
+        if (curDist >= maxBorderRadius) {
+          // Am Rand: Beine stoppen! Direkt umdrehen zur Display-Mitte
+          const angleToCenter = Math.atan2(-voxelCurrentPos.x, -voxelCurrentPos.z);
+          voxelTargetRot = angleToCenter + (Math.random() - 0.5) * 0.4;
+          voxelTargetPos.x = Math.cos(angleToCenter) * (0.3 + Math.random() * 0.5);
+          voxelTargetPos.z = Math.sin(angleToCenter) * (0.3 + Math.random() * 0.4);
+
+          // Holly leicht vom Rand wegziehen
+          voxelCurrentPos.x = (voxelCurrentPos.x / curDist) * (maxBorderRadius - 0.04);
+          voxelCurrentPos.z = (voxelCurrentPos.z / curDist) * (maxBorderRadius - 0.04);
+          voxelBehaviorTimer = 3.5;
+          isActuallyWalking = false; // Beine bleiben stehen während sie sich dreht!
+        } else if (distToTarget > 0.08) {
+          // Nur vorwärts laufen, wenn der Blickwinkel einigermaßen zur Zielrichtung passt
+          if (Math.abs(angleDiff) < 0.6) {
+            const step = Math.min(0.022, distToTarget);
+            voxelCurrentPos.x += Math.sin(voxelCurrentRot) * step;
+            voxelCurrentPos.z += Math.cos(voxelCurrentRot) * step;
+            isActuallyWalking = true;
+          } else {
+            // Holly dreht sich erst auf der Stelle zum Ziel
+            isActuallyWalking = false;
+          }
+        } else {
+          isActuallyWalking = false;
+        }
+      }
+    } else {
+      // Wenn eine Aktion aktiv ist (Schlafen, Füttern, Gassi etc.):
+      // Holly dreht sich zur Mitte um und LÄUFT natürlich dorthin, statt seitlich verschoben zu werden!
+      const distToCenter = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
+      if (distToCenter > 0.12) {
+        const headingToCenter = Math.atan2(-voxelCurrentPos.x, -voxelCurrentPos.z);
+        let angleDiff = headingToCenter - voxelCurrentRot;
+        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+
+        voxelCurrentRot += angleDiff * 0.1;
+        const step = Math.min(0.028, distToCenter);
+        voxelCurrentPos.x += Math.sin(voxelCurrentRot) * step;
+        voxelCurrentPos.z += Math.cos(voxelCurrentRot) * step;
+        if (!isSleep) isActuallyWalking = true;
+      } else {
+        voxelCurrentPos.x += (0 - voxelCurrentPos.x) * 0.06;
+        voxelCurrentPos.z += (0 - voxelCurrentPos.z) * 0.06;
+      }
+    }
+
+    // ── A. Rotation (Y-Achse) & Körperneigung (Z- & X-Achse) ──
+    let targetRotX = 0;
+    let targetRotY = voxelCurrentRot;
+    let targetRotZ = 0;
+
+    if (isSleep) {
+      // Flüssige Übergänge zwischen Schlafposen berechnen
+      if (voxelSleepPose === 0) {
+        // Bauchlage: Leicht schräg, sanftes Schlummern
+        voxelSleepTargetRot = { x: 0, y: 0.8, z: 0 };
+      } else if (voxelSleepPose === 1) {
+        // Seitenlage links: Körper sanft zur Seite gerollt
+        voxelSleepTargetRot = { x: 0.1, y: 1.1, z: 0.6 };
+      } else if (voxelSleepPose === 2) {
+        // Rückenlage (süß! Pfötchen in die Luft)
+        voxelSleepTargetRot = { x: -0.2, y: 0.9, z: 2.65 };
+      } else {
+        // Seitenlage rechts
+        voxelSleepTargetRot = { x: 0.1, y: 0.5, z: -0.6 };
+      }
+
+      voxelSleepRot.x += (voxelSleepTargetRot.x - voxelSleepRot.x) * 0.05;
+      voxelSleepRot.y += (voxelSleepTargetRot.y - voxelSleepRot.y) * 0.05;
+      voxelSleepRot.z += (voxelSleepTargetRot.z - voxelSleepRot.z) * 0.05;
+
+      targetRotX = voxelSleepRot.x;
+      targetRotY = voxelSleepRot.y;
+      targetRotZ = voxelSleepRot.z;
+    } else if (isFeed) {
+      targetRotX = 0;
+      targetRotY = 0;
+      targetRotZ = 0;
+    } else if (isPlay) {
+      const targetAngle = Math.atan2(voxelBallPos.x, voxelBallPos.z);
+      targetRotX = 0;
+      targetRotY = targetAngle;
+      targetRotZ = 0;
+    } else if (isJoy) {
+      targetRotX = 0;
+      targetRotY = voxelPuppyRot.y + 0.06;
+      targetRotZ = 0;
+    } else if (isWalk) {
+      const isPoopingNow = (voxelWalkTimer <= 3.4 && voxelWalkTimer >= 0.8);
+      if (isPoopingNow) {
+        targetRotX = -0.3; // Typische Hock-Neigung
+        targetRotY = 0;
+        targetRotZ = 0;
+      } else {
+        targetRotX = 0;
+        targetRotY = Math.PI * 0.15 + Math.sin(time * 3) * 0.12;
+        targetRotZ = 0;
+      }
+    } else if (isWake) {
+      targetRotX = 0;
+      targetRotY = 0.6;
+      targetRotZ = 0;
+    } else {
+      // Normaler Leerlauf
+      targetRotY = voxelCurrentRot;
+      targetRotZ = 0;
+
+      if (voxelIdleBehavior === 'sit') {
+        targetRotX = -0.38; // Sitzen: Körper neigt sich weich nach hinten
+      } else if (voxelIdleBehavior === 'beg') {
+        const begWobble = Math.sin(time * 6) * 0.04;
+        targetRotX = -1.05 + begWobble; // Männchen machen
+      } else {
+        targetRotX = 0;
+      }
+    }
+
+    // Sanfte Interpolation für absolut flüssige Übergänge aller Körper-Rotationen
+    let dyRot = targetRotY - voxelPuppyRot.y;
+    while (dyRot < -Math.PI) dyRot += Math.PI * 2;
+    while (dyRot > Math.PI) dyRot -= Math.PI * 2;
+    voxelPuppyRot.y += dyRot * 0.08;
+    voxelPuppyRot.x += (targetRotX - voxelPuppyRot.x) * 0.08;
+    voxelPuppyRot.z += (targetRotZ - voxelPuppyRot.z) * 0.08;
+
+    voxelPuppyGroup.rotation.x = voxelPuppyRot.x;
+    voxelPuppyGroup.rotation.y = voxelPuppyRot.y;
+    voxelPuppyGroup.rotation.z = voxelPuppyRot.z;
+
+    // ── B. Position & Höhe (X-, Y- & Z-Achse) ──
+    voxelPuppyGroup.position.x = voxelCurrentPos.x;
+    voxelPuppyGroup.position.z = voxelCurrentPos.z;
+
+    let targetPosY = 0;
+    if (isSleep) {
+      const sleepBreath = Math.sin(time * 2) * 0.025;
+      targetPosY = (voxelSleepPose === 2) ? (-0.05 + sleepBreath) : (-0.15 + sleepBreath);
+    } else if (isWake) {
+      targetPosY = -0.15 + Math.sin(time * 5) * 0.05;
+    } else if (isPlay) {
+      targetPosY = Math.abs(Math.sin(time * 14)) * 0.18;
+    } else if (isWalk) {
+      const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
+      if (isPoopingNow) {
+        targetPosY = -0.48;
+      } else {
+        targetPosY = Math.sin(time * 10) * 0.04;
+      }
+    } else if (isJoy) {
+      targetPosY = Math.abs(Math.sin(time * 12)) * 0.22;
+    } else if (isFeed) {
+      targetPosY = 0;
+    } else {
+      if (isActuallyWalking) {
+        targetPosY = Math.sin(time * 8) * 0.025;
+      } else if (voxelIdleBehavior === 'sit') {
+        targetPosY = -0.22;
+      } else if (voxelIdleBehavior === 'beg') {
+        targetPosY = 0.08 + Math.sin(time * 6) * 0.02;
+      } else if (voxelIdleBehavior === 'sniff') {
+        targetPosY = -0.06;
+      } else {
+        targetPosY = Math.sin(time * 2) * 0.012;
+      }
+    }
+    // Y-Höhe sanft interpolieren
+    voxelPuppyPosY += (targetPosY - voxelPuppyPosY) * 0.1;
+    voxelPuppyGroup.position.y = voxelPuppyPosY;
+
+    // ── C. Kopf-Animation (weiche Übergänge für Rotation & Position) ──
+    let targetHeadX = 0, targetHeadY = 0.45, targetHeadZ = 0.75;
+    let targetHeadRotX = 0, targetHeadRotY = 0, targetHeadRotZ = 0;
+
+    if (voxelHeadGroup) {
+      if (isSleep) {
+        if (voxelSleepPose === 2) {
+          targetHeadX = 0; targetHeadY = 0.35; targetHeadZ = 0.7;
+          targetHeadRotX = -0.3;
+          targetHeadRotY = 0;
+          targetHeadRotZ = Math.sin(time * 1.5) * 0.08;
+        } else {
+          targetHeadX = 0; targetHeadY = 0.25; targetHeadZ = 0.75;
+          targetHeadRotX = 0.45;
+          targetHeadRotY = 0.15 + Math.sin(time * 1.5) * 0.05;
+          targetHeadRotZ = 0;
+        }
+      } else if (isWake) {
+        targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
+        targetHeadRotX = -0.3 + Math.sin(time * 4) * 0.15;
+        targetHeadRotY = 0; targetHeadRotZ = 0;
+      } else if (isFeed) {
+        targetHeadX = 0; targetHeadY = 0.35; targetHeadZ = 0.78;
+        targetHeadRotX = 0.45 + Math.sin(time * 12) * 0.2;
+        targetHeadRotY = Math.sin(time * 6) * 0.06;
+        targetHeadRotZ = 0;
+      } else if (isPlay) {
+        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+        targetHeadRotX = 0.15 + Math.sin(time * 18) * 0.12;
+        targetHeadRotY = Math.sin(time * 8) * 0.15;
+        targetHeadRotZ = Math.sin(time * 8) * 0.08;
+      } else if (isWalk) {
+        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
+        if (isPoopingNow) {
+          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+          targetHeadRotX = 0.3; targetHeadRotY = 0; targetHeadRotZ = 0;
+        } else {
+          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+          targetHeadRotX = Math.sin(time * 16) * 0.12;
+          targetHeadRotY = Math.sin(time * 8) * 0.15;
+          targetHeadRotZ = Math.sin(time * 8) * 0.08;
+        }
+      } else if (isJoy) {
+        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+        targetHeadRotX = -0.15 + Math.sin(time * 14) * 0.12;
+        targetHeadRotY = 0;
+        targetHeadRotZ = Math.sin(time * 10) * 0.1;
+      } else {
+        if (voxelIdleBehavior === 'sniff') {
+          targetHeadX = 0; targetHeadY = 0.28; targetHeadZ = 0.82;
+          targetHeadRotX = 0.55 + Math.sin(time * 10) * 0.08;
+          targetHeadRotY = Math.sin(time * 6) * 0.25;
+          targetHeadRotZ = 0;
+        } else if (voxelIdleBehavior === 'curious') {
+          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
+          targetHeadRotX = -0.1;
+          targetHeadRotY = 0.1;
+          targetHeadRotZ = 0.35 + Math.sin(time * 2) * 0.08;
+        } else if (voxelIdleBehavior === 'bark') {
+          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
+          targetHeadRotX = -0.35 + Math.sin(time * 12) * 0.2;
+          targetHeadRotY = 0; targetHeadRotZ = 0;
+        } else if (voxelIdleBehavior === 'sit') {
+          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+          targetHeadRotX = 0.35;
+          targetHeadRotY = Math.sin(time * 2) * 0.08;
+          targetHeadRotZ = 0;
+        } else if (voxelIdleBehavior === 'beg') {
+          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
+          targetHeadRotX = 0.85;
+          targetHeadRotY = Math.sin(time * 3) * 0.1;
+          targetHeadRotZ = Math.sin(time * 2) * 0.06;
+        } else {
+          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+          targetHeadRotX = Math.sin(time * 2) * 0.06;
+          targetHeadRotY = Math.sin(time * 1.5) * 0.12;
+          targetHeadRotZ = 0;
+        }
+      }
+
+      voxelHeadPos.x += (targetHeadX - voxelHeadPos.x) * 0.1;
+      voxelHeadPos.y += (targetHeadY - voxelHeadPos.y) * 0.1;
+      voxelHeadPos.z += (targetHeadZ - voxelHeadPos.z) * 0.1;
+      voxelHeadRot.x += (targetHeadRotX - voxelHeadRot.x) * 0.1;
+      voxelHeadRot.y += (targetHeadRotY - voxelHeadRot.y) * 0.1;
+      voxelHeadRot.z += (targetHeadRotZ - voxelHeadRot.z) * 0.1;
+
+      voxelHeadGroup.position.set(voxelHeadPos.x, voxelHeadPos.y, voxelHeadPos.z);
+      voxelHeadGroup.rotation.set(voxelHeadRot.x, voxelHeadRot.y, voxelHeadRot.z);
+    }
+
+    // ── Unterkiefer-Animation (Mund öffnen beim Bellen & Kauen beim Fressen) ──
+    if (voxelJawGroup) {
+      if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
+        voxelJawGroup.rotation.x = 0.45 + Math.sin(time * 20) * 0.35;
+      } else if (isFeed) {
+        voxelJawGroup.rotation.x = 0.2 + Math.abs(Math.sin(time * 14)) * 0.25;
+      } else {
+        voxelJawGroup.rotation.x = 0;
+      }
+    }
+
+    // ── D. Schwanzwedeln ──
+    if (voxelTailGroup) {
+      if (isSleep) {
+        voxelTailGroup.rotation.y = Math.sin(time * 3) * 0.15;
+      } else if (isJoy || isPlay) {
+        voxelTailGroup.rotation.y = Math.sin(time * 26) * 0.75;
+      } else if (isWalk) {
+        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
+        if (isPoopingNow) {
+          voxelTailGroup.rotation.y = 0;
+          voxelTailGroup.rotation.x = 0.75;
+        } else {
+          voxelTailGroup.rotation.y = Math.sin(time * 18) * 0.55;
+          voxelTailGroup.rotation.x = 0.45;
+        }
+      } else if (isFeed) {
+        voxelTailGroup.rotation.y = Math.sin(time * 20) * 0.65;
+        voxelTailGroup.rotation.x = 0.45;
+      } else {
+        voxelTailGroup.rotation.y = Math.sin(time * 10) * 0.45;
+        voxelTailGroup.rotation.x = 0.45;
+      }
+    }
+
+    // ── E. Beine (Weiche Übergänge beim Hinsetzen, Männchen machen & Laufen) ──
+    if (voxelLegFL && voxelLegFR && voxelLegBL && voxelLegBR) {
+      let tFL = 0, tFR = 0, tBL = 0, tBR = 0;
+
+      if (isSleep) {
+        if (voxelSleepPose === 2) {
+          const dreamTwitch = Math.sin(time * 4) * 0.08;
+          tFL = -0.5 + dreamTwitch;
+          tFR = -0.6 - dreamTwitch;
+          tBL = 0.5 + dreamTwitch;
+          tBR = 0.6 - dreamTwitch;
+        } else {
+          tFL = -1.25;
+          tFR = -1.25;
+          tBL = 1.25;
+          tBR = 1.25;
+        }
+      } else if (isWake) {
+        tFL = -0.8;
+        tFR = -0.8;
+        tBL = 0.3;
+        tBR = 0.3;
+      } else if (isFeed) {
+        tFL = 0.05;
+        tFR = 0.05;
+        tBL = 0;
+        tBR = 0;
+      } else if (isPlay) {
+        const legSpeed = 18;
+        tFL = Math.sin(time * legSpeed) * 0.75;
+        tFR = -Math.sin(time * legSpeed) * 0.75;
+        tBL = -Math.sin(time * legSpeed) * 0.75;
+        tBR = Math.sin(time * legSpeed) * 0.75;
+      } else if (isWalk) {
+        const isPoopingNow = (voxelWalkTimer <= 3.2 && voxelWalkTimer >= 1.0);
+        if (isPoopingNow) {
+          tFL = -0.15;
+          tFR = -0.15;
+          tBL = 1.15;
+          tBR = 1.15;
+        } else {
+          const legSpeed = 16;
+          tFL = Math.sin(time * legSpeed) * 0.65;
+          tFR = -Math.sin(time * legSpeed) * 0.65;
+          tBL = -Math.sin(time * legSpeed) * 0.65;
+          tBR = Math.sin(time * legSpeed) * 0.65;
+        }
+      } else if (isJoy) {
+        tFL = Math.sin(time * 14) * 0.3;
+        tFR = -Math.sin(time * 14) * 0.3;
+        tBL = -Math.sin(time * 14) * 0.3;
+        tBR = Math.sin(time * 14) * 0.3;
+      } else {
+        if ((voxelIdleBehavior === 'wander' || !isNormalIdle) && isActuallyWalking) {
+          const stepSpeed = 10;
+          tFL = Math.sin(time * stepSpeed) * 0.45;
+          tFR = -Math.sin(time * stepSpeed) * 0.45;
+          tBL = -Math.sin(time * stepSpeed) * 0.45;
+          tBR = Math.sin(time * stepSpeed) * 0.45;
+        } else if (voxelIdleBehavior === 'sit') {
+          tFL = 0.35;
+          tFR = 0.35;
+          tBL = 1.35;
+          tBR = 1.35;
+        } else if (voxelIdleBehavior === 'beg') {
+          const begPawWave = Math.sin(time * 8) * 0.25;
+          tFL = -1.45 + begPawWave;
+          tFR = -1.45 - begPawWave;
+          tBL = 0.95;
+          tBR = 0.95;
+        } else {
+          tFL = 0;
+          tFR = 0;
+          tBL = 0;
+          tBR = 0;
+        }
+      }
+
+      // Beine sanft interpolieren, sodass Hinsetzen, Aufstehen und Loslaufen weich ineinandergleiten
+      voxelLegRot.fl += (tFL - voxelLegRot.fl) * 0.15;
+      voxelLegRot.fr += (tFR - voxelLegRot.fr) * 0.15;
+      voxelLegRot.bl += (tBL - voxelLegRot.bl) * 0.15;
+      voxelLegRot.br += (tBR - voxelLegRot.br) * 0.15;
+
+      voxelLegFL.rotation.x = voxelLegRot.fl;
+      voxelLegFR.rotation.x = voxelLegRot.fr;
+      voxelLegBL.rotation.x = voxelLegRot.bl;
+      voxelLegBR.rotation.x = voxelLegRot.br;
+    }
+
+    voxelRenderer.render(voxelScene, voxelCamera);
   }
 
-  function initPixelPet() {
-    if (pixelAnimFrame) cancelAnimationFrame(pixelAnimFrame);
-    drawPixelPet();
+  function voxelTouchBark() {
+    if (state.locked) return;
+    if (state.mode === 'sleep') {
+      wake();
+      return;
+    }
+    // Holly im 3D Raum streicheln: Bellen, Herzchen & Happy +15
+    state.happy = clamp(state.happy + 15);
+    addXp(6);
+    updateBars();
+    updateMood();
+    spawnEffect('💖', 4);
+    setStatus('Voxel-Holly freut sich über deine Streicheleinheit! 🐶💖 (+6 XP)');
+    const statusText = $('pixel-status-text');
+    if (statusText) {
+      statusText.textContent = 'HOLLY: WAU WAU! 💖';
+      setTimeout(() => {
+        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
+      }, 2000);
+    }
+    // Kleiner fröhlicher Voxel-Hüpfer
+    if (voxelPuppyGroup) {
+      voxelPuppyGroup.position.y += 0.25;
+      setTimeout(() => { if (voxelPuppyGroup) voxelPuppyGroup.position.y -= 0.25; }, 180);
+    }
   }
 
   function pixelClean() {
-    pixelPoop = false;
+    state.hasPoop = false;
+    if (voxelPoopMesh) voxelPoopMesh.visible = false;
+    if (realisticPoop) realisticPoop.style.display = 'none';
     spawnEffect('✨', 4);
-    setStatus('Retro-Display gereinigt! 🧹');
+    state.happy = clamp(state.happy + 10);
+    addXp(10);
+    updateBars();
+    updateMood();
+    setStatus('Voxel-Display gereinigt! 🧹 (+10 XP)');
     const statusText = $('pixel-status-text');
     if (statusText) {
       statusText.textContent = 'HOLLY: GLÜCKLICH ✨';
       setTimeout(() => {
-        if (statusText) statusText.textContent = 'HOLLY: OK';
+        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
       }, 2500);
     }
   }
@@ -2157,20 +3957,24 @@ const app = (() => {
     const hHunger = $('pixel-hearts-hunger');
     const hHappy  = $('pixel-hearts-happy');
     const hEnergy = $('pixel-hearts-energy');
+    const hPotty  = $('pixel-hearts-potty');
 
     if (hHunger) hHunger.textContent = getHearts(state.hunger);
     if (hHappy)  hHappy.textContent  = getHearts(state.happy);
     if (hEnergy) hEnergy.textContent = getHearts(state.energy);
+    // Bei der Blase: 4 volle Herzen bedeuten, dass die Blase noch entspannt ist (100 - potty)
+    if (hPotty)  hPotty.textContent  = getHearts(Math.max(0, 100 - state.potty));
   }
 
   // ── Init ───────────────────────────────────────────────────────────────────
   function init() {
     console.log('[Waveshare ESP32-S3] 🚀 System Booted - 466x466 AMOLED Ready');
+    loadGameProgress();
     updateBars();
     updateMood();
     updateButtons();
     updatePixelStats();
-    initPixelPet();
+    initVoxelPet();
     initSwipeGestures();
     switchView(1); // Standardmäßig mit realistischer Video-Holly starten (Index 1)
     updateClockDisplay();
@@ -2178,9 +3982,12 @@ const app = (() => {
     startTick();
     scheduleRandomIdleAnimation();
 
-    // Gelegentlich ein Pixel-Häufchen nach 45s für tamagotchi gameplay
+    // Auto-Save alle 15 Sekunden
+    setInterval(saveGameProgress, 15000);
+
+    // Gelegentlich ein Voxel-Häufchen nach 45s für tamagotchi gameplay
     setTimeout(() => {
-      pixelPoop = true;
+      if (voxelPoopMesh) voxelPoopMesh.visible = true;
     }, 45000);
 
     // Idle-Video (Blinzeln) direkt starten
@@ -2199,7 +4006,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, sleep, wake, touchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, init, state };
+  return { feed, play, walk, wash, cleanPoop, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
