@@ -2054,6 +2054,76 @@ const app = (() => {
     });
   }
 
+
+  function triggerPoopVideo() {
+    if (state.mode === 'sleep' || state.locked) return;
+    state.potty = 0; // Erleichtert
+    state.happy = clamp(state.happy - 25);
+    if (voxelPoopMesh) voxelPoopMesh.visible = true;
+    spawnEffect('💩', 5);
+    setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
+
+    state.locked = true;
+    state.hasPoop = false;
+    if (realisticPoop) realisticPoop.style.display = 'none';
+    switchMode('poop');
+    const pVid = videos.poop;
+    let poopShown = false;
+
+    function showPoopIcon() {
+      if (poopShown) return;
+      poopShown = true;
+      state.hasPoop = true;
+      if (realisticPoop) realisticPoop.style.display = 'block';
+      if (voxelPoopMesh && voxelPuppyGroup) {
+        voxelPoopMesh.position.set(voxelPuppyGroup.position.x, -0.75, voxelPuppyGroup.position.z - 0.7);
+        voxelPoopMesh.visible = true;
+      }
+      saveGameProgress();
+    }
+
+    function finishPoop() {
+      showPoopIcon();
+      state.locked = false;
+      switchMode('idle');
+      if (realisticPoop) realisticPoop.style.display = 'block';
+      setStatus('Bitte das Häufchen mit dem Besen wegräumen! 💩🧹', true);
+    }
+
+    if (pVid) {
+      pVid.currentTime = 0;
+      let poopDuration = 5200;
+      if (pVid.duration && isFinite(pVid.duration) && pVid.duration > 0) {
+        poopDuration = pVid.duration * 1000;
+      }
+
+      const onPoopTimeUpdate = () => {
+        if (pVid.currentTime >= 4.0) {
+          showPoopIcon();
+          pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
+        }
+      };
+      pVid.addEventListener('timeupdate', onPoopTimeUpdate);
+
+      setTimeout(() => {
+        if (state.mode === 'poop') {
+          showPoopIcon();
+        }
+      }, 4000);
+
+      pVid.onended = () => {
+        pVid.onended = null;
+        pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
+        finishPoop();
+      };
+
+      setTimeout(finishPoop, poopDuration + 500);
+    } else {
+      setTimeout(showPoopIcon, 4000);
+      setTimeout(finishPoop, 5200);
+    }
+  }
+
   // ── Tick (decay over time) ─────────────────────────────────────────────────
   let tickInterval = null;
   function startTick() {
@@ -2072,71 +2142,9 @@ const app = (() => {
         state.dirt   = clamp(state.dirt   + 0.25); // Schmutz steigt im Alltag langsam an
       }
 
-      // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Holly macht ein Häufchen!
+      // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Holly macht ein Häufchen (Hauefchen.mp4)!
       if (state.potty >= 100 && !state.hasPoop && state.mode === 'idle' && !state.locked) {
-        state.potty = 0; // Erleichtert
-        state.happy = clamp(state.happy - 25); // Schlechtes Gewissen
-        if (voxelPoopMesh) voxelPoopMesh.visible = true;
-        spawnEffect('💩', 5);
-        setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
-
-        // Neues Hauefchen.mp4 Video abspielen!
-        state.locked = true;
-        state.hasPoop = false;
-        if (realisticPoop) realisticPoop.style.display = 'none';
-        switchMode('poop');
-        const pVid = videos.poop;
-        let poopShown = false;
-
-        function showPoopIcon() {
-          if (poopShown) return;
-          poopShown = true;
-          state.hasPoop = true;
-          if (realisticPoop) realisticPoop.style.display = 'block';
-          saveGameProgress();
-        }
-
-        function finishPoop() {
-          showPoopIcon();
-          state.locked = false;
-          switchMode('idle');
-          if (realisticPoop) realisticPoop.style.display = 'block';
-          setStatus('Bitte das Häufchen mit dem roten Robidog-Säckchen aufnehmen! 💩🗑️', true);
-        }
-
-        if (pVid) {
-          pVid.currentTime = 0;
-          let poopDuration = 5200;
-          if (pVid.duration && isFinite(pVid.duration) && pVid.duration > 0) {
-            poopDuration = pVid.duration * 1000;
-          }
-
-          const onPoopTimeUpdate = () => {
-            if (pVid.currentTime >= 4.0) {
-              showPoopIcon();
-              pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
-            }
-          };
-          pVid.addEventListener('timeupdate', onPoopTimeUpdate);
-
-          // Fallback falls timeupdate nicht feuert
-          setTimeout(() => {
-            if (state.mode === 'poop') {
-              showPoopIcon();
-            }
-          }, 4000);
-
-          pVid.onended = () => {
-            pVid.onended = null;
-            pVid.removeEventListener('timeupdate', onPoopTimeUpdate);
-            finishPoop();
-          };
-
-          setTimeout(finishPoop, poopDuration + 500);
-        } else {
-          setTimeout(showPoopIcon, 4000);
-          setTimeout(finishPoop, 5200);
-        }
+        triggerPoopVideo();
       }
 
       // Hinweis wenn Holly dringend muss
@@ -4322,7 +4330,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, walk, wash, cleanPoop, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, applyDogCustomization, init, state };
+  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, applyDogCustomization, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
