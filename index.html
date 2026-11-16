@@ -1396,13 +1396,14 @@
             <!-- ════ PAGE 2: KLASSISCHES PIXEL ART TAMAGOTCHI (1996 LCD) ════ -->
             <div class="view-page" id="view-pixel">
               <div class="pixel-world">
-                <!-- Retro Icon Bar oben (Alle Aktionen: Gassi, Füttern, Spielen, Schlafen, Putzen) -->
+                <!-- Retro Icon Bar oben (Alle Aktionen: Gassi, Waschen, Füttern, Spielen, Schlafen, Putzen) -->
                 <div class="pixel-top-icons">
                   <span class="pixel-icon-btn" onclick="app.walk()" title="Gassi gehen">🦮</span>
+                  <span class="pixel-icon-btn" onclick="app.wash()" title="Waschen / Duschen">🚿</span>
                   <span class="pixel-icon-btn" onclick="app.feed()" title="Füttern (Fressnapf)">🥣</span>
                   <span class="pixel-icon-btn" onclick="app.play()" title="Spielen (Klick auf Ball)">⚽</span>
                   <span class="pixel-icon-btn" onclick="app.sleep()" title="Licht aus / Schlafen">💡</span>
-                  <span class="pixel-icon-btn" onclick="app.cleanPoop()" title="Robidog: Rotes Säckchen zum Aufnehmen">🔴</span>
+                  <span class="pixel-icon-btn" onclick="app.cleanPoop()" title="Reinigen / Putzen">🧹</span>
                 </div>
 
                 <!-- Voxel Welpe 3D Container & Status Animation -->
@@ -1431,6 +1432,10 @@
                   <div class="pixel-row">
                     <span>BLASE:</span>
                     <span class="pixel-hearts" id="pixel-hearts-potty">♥♥♥♥</span>
+                  </div>
+                  <div class="pixel-row">
+                    <span>DIRT:</span>
+                    <span class="pixel-hearts" id="pixel-hearts-dirt">♥♥♥♥</span>
                   </div>
                   <div class="pixel-row">
                     <span>LEVEL:</span>
@@ -1487,6 +1492,7 @@ const app = (() => {
     potty:        15,      // 0–100 (Harndrang / Gassi-Bedarf, bei 100 macht sie ein Häufchen)
     dirt:         10,      // 0–100 (Verschmutzung / Pflegebedarf, steigt beim Gassi gehen)
     hasPoop:      false,   // Ob ein Kothaufen auf dem Display liegt
+    hasPee:       false,   // Ob eine Urin-Pfütze auf dem Display liegt
     growthStage:  1,       // 1 = Baby (scale 0.75), 2 = Junghund (scale 1.0), 3 = Adult (scale 1.2)
     xp:           0,       // Erfahrungspunkte (0-100 pro Stufe)
     washCooldown: false,
@@ -1592,14 +1598,15 @@ const app = (() => {
         c.appendChild(el);
       });
     });
+  }
 
-    // Für Voxel 3D zzz-container-voxel: Speziell über dem schlafenden Welpen positionieren
+  function startZzzVoxel() {
     if (zzzContainerVoxel) {
       zzzContainerVoxel.innerHTML = '';
       const voxelZzz = [
-        { char: 'z', size: '16px', left: '55%', bottom: '40%', delay: '0s', dur: '2.8s', drift: '12px' },
-        { char: 'Z', size: '20px', left: '62%', bottom: '42%', delay: '0.9s', dur: '3.2s', drift: '16px' },
-        { char: 'Z', size: '26px', left: '68%', bottom: '44%', delay: '1.8s', dur: '3.6s', drift: '22px' },
+        { char: 'z', size: '15px', left: '55%', bottom: '42%', delay: '0s',   dur: '3.0s', drift: '10px' },
+        { char: 'z', size: '19px', left: '61%', bottom: '44%', delay: '1.0s', dur: '3.4s', drift: '14px' },
+        { char: 'z', size: '24px', left: '67%', bottom: '46%', delay: '2.0s', dur: '3.8s', drift: '18px' },
       ];
       voxelZzz.forEach(cfg => {
         const el = document.createElement('div');
@@ -1611,16 +1618,21 @@ const app = (() => {
         el.style.left = cfg.left;
         el.style.bottom = cfg.bottom;
         el.style.fontSize = cfg.size;
-        el.style.color = '#bfdbfe';
-        el.style.textShadow = '0 0 10px rgba(191, 219, 254, 0.9)';
+        el.style.color = '#93c5fd';
+        el.style.opacity = '0.75';
+        el.style.textShadow = '0 0 6px rgba(147, 197, 253, 0.7)';
         zzzContainerVoxel.appendChild(el);
       });
     }
   }
 
+  let zzzVoxelTimeout = null;
+
   function stopZzz() {
     clearTimeout(zzzTimeout);
+    clearTimeout(zzzVoxelTimeout);
     zzzTimeout = null;
+    zzzVoxelTimeout = null;
     [zzzContainer, zzzContainerLoop1, zzzContainer2, zzzContainer3, zzzContainerVoxel].forEach(c => {
       if (c) c.innerHTML = '';
     });
@@ -2120,10 +2132,6 @@ const app = (() => {
         const hZ = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) - 1.05;
         voxelPoopMesh.position.set(hX, -0.75, hZ);
         voxelPoopMesh.visible = true;
-        if (voxelRobidogBag) {
-          voxelRobidogBag.position.set(hX + 0.45, -0.65, hZ + 0.1);
-          voxelRobidogBag.visible = true;
-        }
       }
     }, 1800);
 
@@ -2202,18 +2210,19 @@ const app = (() => {
   }
 
   function cleanPoop() {
-    if (!state.hasPoop) return;
+    if (!state.hasPoop && !state.hasPee) return;
     state.hasPoop = false;
+    state.hasPee = false;
     if (voxelPoopMesh) voxelPoopMesh.visible = false;
-    if (voxelRobidogBag) voxelRobidogBag.visible = false;
+    if (voxelPeeMesh) voxelPeeMesh.visible = false;
     if (realisticPoop) realisticPoop.style.display = 'none';
-    spawnEffect('🔴', 4);
+    spawnEffect('🧹', 4);
     spawnEffect('✨', 4);
     state.happy = clamp(state.happy + 10);
     addXp(10);
     updateBars();
     updateMood();
-    setStatus('Vorbildlich! Häufchen mit dem roten Robidog-Säckchen aufgenommen & entsorgt! 🗑️✨ (+10 XP)');
+    setStatus('Vorbildlich! Bereich gründlich gereinigt & sauber gefegt! 🧹✨ (+10 XP)');
   }
 
   function wash() {
@@ -2433,11 +2442,15 @@ const app = (() => {
       }
     }
 
-    // Sofort ZZZ in der 3D-Ansicht starten und nach Video-Intro auch für Video
-    startZzz();
+    // Video-Schlaf-ZZZ nach Video-Intro (4 Sekunden) starten
     zzzTimeout = setTimeout(() => {
       if (state.mode === 'sleep') startZzz();
     }, 4000);
+
+    // Voxel 3D: ZZZ erst starten, nachdem sich Holly komplett hingelegt hat (ca. 2.2 Sekunden)
+    zzzVoxelTimeout = setTimeout(() => {
+      if (state.mode === 'sleep') startZzzVoxel();
+    }, 2200);
   }
 
   function wake() {
@@ -2781,9 +2794,11 @@ const app = (() => {
   let voxelAnimId = null;
   let voxelClock = (typeof THREE !== 'undefined') ? new THREE.Clock() : null;
   let voxelPoopMesh = null;
-  let voxelRobidogBag = null; // Rotes Robidog-Säckchen zum Aufnehmen
+  let voxelPeeMesh = null;    // Gelbe Voxel-Pfütze beim Revier markieren
   let voxelTreatMesh = null;  // Voxel-Fressnapf mit Futter (Füttern)
   let voxelBallMesh = null;   // Voxel-Spielball (Spielen)
+  let voxelLeashMesh = null;  // 3D-Hundeleine beim Gassi gehen
+  let voxelSoapBubbles = [];  // Schaumblasen beim Waschen
   let voxelHeadGroup, voxelTailGroup, voxelLegFL, voxelLegFR, voxelLegBL, voxelLegBR;
   let eyeLGroup, eyeRGroup;   // Augen-Gruppen für geschlossene Augen & Blinzeln
   let voxelJawGroup;          // Unterkiefer für echtes Mundöffnen beim Bellen!
@@ -3065,40 +3080,123 @@ const app = (() => {
     voxelPoopMesh.visible = false;
     voxelScene.add(voxelPoopMesh);
 
-    // ── Rotes Robidog-Säckchen (zum Aufnehmen des Häufchens) ──
-    const bagGeo = new THREE.BoxGeometry(0.32, 0.26, 0.28);
-    const mRobidog = new THREE.MeshLambertMaterial({ color: 0xdc2626 }); // Robidog Rot
-    voxelRobidogBag = new THREE.Mesh(bagGeo, mRobidog);
-    voxelRobidogBag.position.set(0.45, -0.65, -1.05); // Direkt neben dem Häufchen
-    voxelRobidogBag.visible = false;
-    voxelScene.add(voxelRobidogBag);
+    // ── Voxel-Urin-Pfütze (Revier markieren) ──
+    const peeGeo = new THREE.CylinderGeometry(0.42, 0.46, 0.03, 14);
+    const mPee = new THREE.MeshLambertMaterial({
+      color: 0xfacc15,
+      transparent: true,
+      opacity: 0.82
+    });
+    voxelPeeMesh = new THREE.Mesh(peeGeo, mPee);
+    voxelPeeMesh.position.set(0.45, -0.78, -0.45);
+    voxelPeeMesh.visible = false;
+    voxelScene.add(voxelPeeMesh);
 
-    // ── Voxel-Fressnapf (Napf + Futterfüllung) ──
+    // ── 3D Voxel-Fressnapf (Sehr detailliert: Metallring-Optik, Futterhaufen mit Kroketten-Struktur & Deko-Knochen) ──
     voxelTreatMesh = new THREE.Group();
-    // Napf-Rand (blau)
-    const bowlGeo = new THREE.BoxGeometry(0.65, 0.22, 0.65);
-    const mBowl = new THREE.MeshLambertMaterial({ color: 0x2563eb }); // Königsblau
-    const bowlBase = new THREE.Mesh(bowlGeo, mBowl);
-    bowlBase.position.y = 0.11;
-    voxelTreatMesh.add(bowlBase);
+    // 1. Unterer Napf-Sockel / Gummiring
+    const baseRingGeo = new THREE.CylinderGeometry(0.54, 0.58, 0.06, 16);
+    const mBowlRubber = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+    const baseRing = new THREE.Mesh(baseRingGeo, mBowlRubber);
+    baseRing.position.y = 0.03;
+    voxelTreatMesh.add(baseRing);
 
-    // Futter im Napf (braune Kroketten / Meat Chunks)
-    const foodGeo = new THREE.BoxGeometry(0.48, 0.14, 0.48);
-    const mFood = new THREE.MeshLambertMaterial({ color: 0x854d0e }); // Golden Brown Dog Food
-    const foodMesh = new THREE.Mesh(foodGeo, mFood);
-    foodMesh.position.y = 0.20;
-    voxelTreatMesh.add(foodMesh);
+    // 2. Napf-Außenwand (Glänzendes Königsblau mit Tiefe)
+    const bowlOuterGeo = new THREE.CylinderGeometry(0.50, 0.53, 0.22, 16);
+    const mBowlOuter = new THREE.MeshLambertMaterial({ color: 0x2563eb });
+    const bowlOuter = new THREE.Mesh(bowlOuterGeo, mBowlOuter);
+    bowlOuter.position.y = 0.14;
+    voxelTreatMesh.add(bowlOuter);
 
-    // Deko Knöchelchen auf dem Fressnapf
-    const decoBoneGeo = new THREE.BoxGeometry(0.22, 0.08, 0.12);
-    const mBone = new THREE.MeshLambertMaterial({ color: 0xfef08a });
-    const decoBone = new THREE.Mesh(decoBoneGeo, mBone);
-    decoBone.position.set(0, 0.28, 0);
-    voxelTreatMesh.add(decoBone);
+    // 3. Edelstahl-Kranz oben am Napfrand
+    const rimGeo = new THREE.CylinderGeometry(0.52, 0.50, 0.05, 16);
+    const mBowlRim = new THREE.MeshLambertMaterial({ color: 0xe2e8f0 });
+    const bowlRim = new THREE.Mesh(rimGeo, mBowlRim);
+    bowlRim.position.y = 0.25;
+    voxelTreatMesh.add(bowlRim);
+
+    // 4. Napf-Innere Mulde
+    const bowlInnerGeo = new THREE.CylinderGeometry(0.44, 0.38, 0.18, 16);
+    const mBowlInner = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
+    const bowlInner = new THREE.Mesh(bowlInnerGeo, mBowlInner);
+    bowlInner.position.y = 0.17;
+    voxelTreatMesh.add(bowlInner);
+
+    // 5. Knackige Futterfüllung (Kroketten-Hügel mit Struktur)
+    const foodHeapGeo = new THREE.CylinderGeometry(0.38, 0.40, 0.12, 12);
+    const mFoodBase = new THREE.MeshLambertMaterial({ color: 0x78350f });
+    const foodHeap = new THREE.Mesh(foodHeapGeo, mFoodBase);
+    foodHeap.position.y = 0.23;
+    voxelTreatMesh.add(foodHeap);
+
+    // Einzelne knusprige Kroketten-Blöcke aufgetürmt
+    const kibbleGeo = new THREE.BoxGeometry(0.11, 0.07, 0.11);
+    const mKibble1 = new THREE.MeshLambertMaterial({ color: 0x92400e });
+    const mKibble2 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+    const kibbleOffsets = [
+      [-0.14, 0.30, -0.10, 0.3], [0.12, 0.30, -0.12, -0.4],
+      [-0.08, 0.31, 0.14, 0.6], [0.14, 0.31, 0.10, -0.2],
+      [0.0, 0.33, 0.0, 0.15], [-0.18, 0.29, 0.05, 0.8],
+      [0.17, 0.29, -0.02, -0.5]
+    ];
+    kibbleOffsets.forEach((kf, idx) => {
+      const kMesh = new THREE.Mesh(kibbleGeo, idx % 2 === 0 ? mKibble1 : mKibble2);
+      kMesh.position.set(kf[0], kf[1], kf[2]);
+      kMesh.rotation.y = kf[3];
+      voxelTreatMesh.add(kMesh);
+    });
+
+    // 6. Feiner weiß-gelber Hundeknochen-Aufsatz
+    const boneCenterGeo = new THREE.BoxGeometry(0.24, 0.07, 0.08);
+    const boneKnobGeo = new THREE.BoxGeometry(0.08, 0.11, 0.12);
+    const mBoneDeco = new THREE.MeshLambertMaterial({ color: 0xfef08a });
+    const boneCenter = new THREE.Mesh(boneCenterGeo, mBoneDeco);
+    boneCenter.position.set(0, 0.36, 0);
+    voxelTreatMesh.add(boneCenter);
+    const boneL = new THREE.Mesh(boneKnobGeo, mBoneDeco);
+    boneL.position.set(-0.12, 0.36, 0);
+    voxelTreatMesh.add(boneL);
+    const boneR = new THREE.Mesh(boneKnobGeo, mBoneDeco);
+    boneR.position.set(0.12, 0.36, 0);
+    voxelTreatMesh.add(boneR);
 
     voxelTreatMesh.position.set(0, -0.65, 1.15);
     voxelTreatMesh.visible = false;
     voxelScene.add(voxelTreatMesh);
+
+    // ── 3D Hundeleine (beim Gassi gehen) ──
+    const leashCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0.15, 0.65),       // Befestigt am Halsband
+      new THREE.Vector3(0.2, 0.55, 0.85),     // Schwingt dynamisch
+      new THREE.Vector3(0.55, 1.05, 1.05),
+      new THREE.Vector3(0.85, 1.55, 1.25)     // Zieht nach oben rechts
+    ]);
+    const leashGeo = new THREE.TubeGeometry(leashCurve, 16, 0.024, 6, false);
+    const mLeash = new THREE.MeshLambertMaterial({ color: 0xd97706 }); // Lederne Leine
+    voxelLeashMesh = new THREE.Mesh(leashGeo, mLeash);
+    voxelLeashMesh.visible = false;
+    voxelScene.add(voxelLeashMesh);
+
+    // ── Schaumblasen für Voxel-Waschen ──
+    const bubbleGeo = new THREE.BoxGeometry(0.12, 0.12, 0.12);
+    const mBubble = new THREE.MeshLambertMaterial({
+      color: 0x93c5fd,
+      transparent: true,
+      opacity: 0.75
+    });
+    voxelSoapBubbles = [];
+    for (let bi = 0; bi < 12; bi++) {
+      const bMesh = new THREE.Mesh(bubbleGeo, mBubble);
+      bMesh.visible = false;
+      voxelScene.add(bMesh);
+      voxelSoapBubbles.push({
+        mesh: bMesh,
+        ox: (Math.random() - 0.5) * 1.2,
+        oz: (Math.random() - 0.5) * 1.2,
+        speed: 0.8 + Math.random() * 0.8,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
 
     // ── Voxel-Spielball (Spielen: Pink-blauer Ball-Würfel) ──
     const ballGeo = new THREE.BoxGeometry(0.35, 0.35, 0.35);
@@ -3175,12 +3273,12 @@ const app = (() => {
       return;
     }
 
-    // Wenn ein Häufchen da ist und der Klick im rechten Bereich war: Robidog Säckchen benutzen!
+    // Wenn ein Häufchen oder eine Pfütze da ist und darauf geklickt wird: Aufwischen / reinigen!
     const rect = $('voxel-container').getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
     const relY = (e.clientY - rect.top) / rect.height;
 
-    if (state.hasPoop && relX > 0.65) {
+    if ((state.hasPoop || state.hasPee) && relY > 0.5) {
       cleanPoop();
       return;
     }
@@ -3356,16 +3454,38 @@ const app = (() => {
       }
     }
 
-    // ── Häufchen & Robidog Säckchen Synchronisation ──
+    // ── Häufchen & Urin-Pfütze Synchronisation ──
     if (voxelPoopMesh) {
       voxelPoopMesh.visible = state.hasPoop;
     }
-    if (voxelRobidogBag) {
-      voxelRobidogBag.visible = state.hasPoop;
-      if (state.hasPoop) {
-        // Leichtes Schweben/Wackeln des roten Säckchens als Aufforderung
-        voxelRobidogBag.position.y = -0.55 + Math.sin(time * 5) * 0.06;
+    if (voxelPeeMesh) {
+      voxelPeeMesh.visible = state.hasPee;
+    }
+
+    // ── Leine beim Gassi gehen ──
+    if (voxelLeashMesh) {
+      voxelLeashMesh.visible = isWalk;
+      if (isWalk && voxelPuppyGroup) {
+        // Leine folgt Hollys Körperposition
+        voxelLeashMesh.position.set(voxelPuppyGroup.position.x, voxelPuppyGroup.position.y, voxelPuppyGroup.position.z);
+        voxelLeashMesh.rotation.y = voxelPuppyRot.y;
       }
+    }
+
+    // ── Schaumblasen beim Waschen ──
+    const isWash = (state.mode === 'wash');
+    if (voxelSoapBubbles && voxelSoapBubbles.length > 0) {
+      voxelSoapBubbles.forEach(b => {
+        b.mesh.visible = isWash;
+        if (isWash) {
+          const px = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0) + b.ox;
+          const pz = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) + b.oz;
+          const py = -0.4 + ((time * b.speed + b.phase) % 1.6);
+          b.mesh.position.set(px, py, pz);
+          b.mesh.rotation.x += 0.05;
+          b.mesh.rotation.y += 0.08;
+        }
+      });
     }
 
     // ── Schlafpositionen (Bauch, Seite links, Rücken, Seite rechts) wechseln ──
@@ -3440,9 +3560,8 @@ const app = (() => {
       boredomTimer += delta;
 
       if (voxelBehaviorTimer <= 0) {
-        // Neues Verhalten zufällig auswählen
-        // Unordnung ('messy') passiert nur sehr selten und erst, wenn man Holly mindestens 45 Sekunden lang ignoriert!
-        const behaviors = ['stand', 'wander', 'sniff', 'bark', 'curious', 'sit', 'beg', 'wander'];
+        // Neues Verhalten zufällig auswählen: Schnuppern, Umherlaufen, Bellen, Hinsetzen, Männchen machen, Revier markieren
+        const behaviors = ['stand', 'wander', 'sniff', 'bark', 'curious', 'sit', 'beg', 'mark', 'wander'];
         if (boredomTimer > 45 && Math.random() < 0.25) {
           voxelIdleBehavior = 'messy';
           boredomTimer = 0; // Timer zurücksetzen
@@ -3464,20 +3583,38 @@ const app = (() => {
         } else if (voxelIdleBehavior === 'sniff') {
           voxelBehaviorTimer = 2.2 + Math.random() * 1.5;
         } else if (voxelIdleBehavior === 'bark') {
+          // Bellen: Direkt zum Display / Betrachter drehen!
+          voxelTargetRot = 0;
+          voxelCurrentRot = 0;
           spawnEffect('🐾', 2);
-          voxelBehaviorTimer = 1.6;
+          voxelBehaviorTimer = 2.0;
         } else if (voxelIdleBehavior === 'curious') {
           voxelTargetRot = (Math.random() - 0.5) * 0.9;
           voxelBehaviorTimer = 2.5;
         } else if (voxelIdleBehavior === 'sit') {
-          // Hinsetzen: Holly ruht gemütlich sitzend
-          voxelTargetRot = (Math.random() - 0.5) * 0.5;
+          // Hinsetzen: Holly ruht gemütlich und blickt nach vorne
+          voxelTargetRot = (Math.random() - 0.5) * 0.3;
           voxelBehaviorTimer = 3.5 + Math.random() * 2.0;
         } else if (voxelIdleBehavior === 'beg') {
           // Männchen machen! (Körper aufgerichtet, Vorderpfoten in die Luft)
           voxelTargetRot = (Math.random() - 0.5) * 0.4;
           voxelBehaviorTimer = 2.8 + Math.random() * 1.2;
           spawnEffect('✨', 2);
+        } else if (voxelIdleBehavior === 'mark') {
+          // Revier markieren: Bein heben und gelbe Pfütze hinterlassen
+          voxelTargetRot = (Math.random() - 0.5) * 0.5;
+          voxelBehaviorTimer = 3.0;
+          // Nach 1.4s Pfütze spawnen
+          setTimeout(() => {
+            if (voxelPeeMesh && voxelPuppyGroup) {
+              const pX = voxelPuppyGroup.position.x + 0.35;
+              const pZ = voxelPuppyGroup.position.z - 0.25;
+              voxelPeeMesh.position.set(pX, -0.78, pZ);
+              voxelPeeMesh.visible = true;
+              state.hasPee = true;
+              spawnEffect('💧', 2);
+            }
+          }, 1400);
         } else if (voxelIdleBehavior === 'messy') {
           // Frecher Welpe stibitzt einen Button
           triggerHollyMischief();
@@ -3614,14 +3751,22 @@ const app = (() => {
       targetRotZ = 0;
     } else {
       // Normaler Leerlauf
-      targetRotY = voxelCurrentRot;
+      if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
+        targetRotY = 0; // Beim Bellen direkt zum Display blicken
+      } else {
+        targetRotY = voxelCurrentRot;
+      }
       targetRotZ = 0;
 
       if (voxelIdleBehavior === 'sit') {
-        targetRotX = -0.38; // Sitzen: Körper neigt sich weich nach hinten
+        // Echtes Sitzen: Körper neigt sich aufgerichtet nach oben/hinten (Brust hoch)
+        targetRotX = 0.42;
       } else if (voxelIdleBehavior === 'beg') {
         const begWobble = Math.sin(time * 6) * 0.04;
         targetRotX = -1.05 + begWobble; // Männchen machen
+      } else if (voxelIdleBehavior === 'mark') {
+        targetRotX = 0.05;
+        targetRotZ = -0.15; // Neigt sich leicht beim Beinheben
       } else {
         targetRotX = 0;
       }
@@ -3666,11 +3811,13 @@ const app = (() => {
       if (isActuallyWalking) {
         targetPosY = Math.sin(time * 8) * 0.025;
       } else if (voxelIdleBehavior === 'sit') {
-        targetPosY = -0.22;
+        targetPosY = -0.32; // Hintern tief absenken beim Sitzen
       } else if (voxelIdleBehavior === 'beg') {
         targetPosY = 0.08 + Math.sin(time * 6) * 0.02;
       } else if (voxelIdleBehavior === 'sniff') {
         targetPosY = -0.06;
+      } else if (voxelIdleBehavior === 'mark') {
+        targetPosY = -0.02;
       } else {
         targetPosY = Math.sin(time * 2) * 0.012;
       }
@@ -3743,8 +3890,13 @@ const app = (() => {
           targetHeadRotY = 0; targetHeadRotZ = 0;
         } else if (voxelIdleBehavior === 'sit') {
           targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-          targetHeadRotX = 0.35;
+          targetHeadRotX = -0.35; // Kopf schaut aufrecht nach vorne/oben zum Betrachter
           targetHeadRotY = Math.sin(time * 2) * 0.08;
+          targetHeadRotZ = 0;
+        } else if (voxelIdleBehavior === 'mark') {
+          targetHeadX = 0; targetHeadY = 0.42; targetHeadZ = 0.75;
+          targetHeadRotX = 0.2;
+          targetHeadRotY = 0.45; // Schaut nach hinten zur Seite
           targetHeadRotZ = 0;
         } else if (voxelIdleBehavior === 'beg') {
           targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
@@ -3865,10 +4017,17 @@ const app = (() => {
           tBL = -Math.sin(time * stepSpeed) * 0.45;
           tBR = Math.sin(time * stepSpeed) * 0.45;
         } else if (voxelIdleBehavior === 'sit') {
-          tFL = 0.35;
-          tFR = 0.35;
-          tBL = 1.35;
-          tBR = 1.35;
+          // Vorderbeine gerade nach unten abstützen, Hinterbeine flach unter den Po anwinkeln
+          tFL = -0.42;
+          tFR = -0.42;
+          tBL = 1.55;
+          tBR = 1.55;
+        } else if (voxelIdleBehavior === 'mark') {
+          // Rechter Hinterlauf angehoben zum Revier markieren
+          tFL = 0.05;
+          tFR = 0.05;
+          tBL = 0.1;
+          tBR = -1.25;
         } else if (voxelIdleBehavior === 'beg') {
           const begPawWave = Math.sin(time * 8) * 0.25;
           tFL = -1.45 + begPawWave;
@@ -3893,6 +4052,13 @@ const app = (() => {
       voxelLegFR.rotation.x = voxelLegRot.fr;
       voxelLegBL.rotation.x = voxelLegRot.bl;
       voxelLegBR.rotation.x = voxelLegRot.br;
+
+      // Beim Revier markieren zusätzlich Z-Winkel spreizen
+      if (voxelIdleBehavior === 'mark') {
+        voxelLegBR.rotation.z = -0.65;
+      } else {
+        voxelLegBR.rotation.z = 0;
+      }
     }
 
     voxelRenderer.render(voxelScene, voxelCamera);
@@ -3926,18 +4092,10 @@ const app = (() => {
   }
 
   function pixelClean() {
-    state.hasPoop = false;
-    if (voxelPoopMesh) voxelPoopMesh.visible = false;
-    if (realisticPoop) realisticPoop.style.display = 'none';
-    spawnEffect('✨', 4);
-    state.happy = clamp(state.happy + 10);
-    addXp(10);
-    updateBars();
-    updateMood();
-    setStatus('Voxel-Display gereinigt! 🧹 (+10 XP)');
+    cleanPoop();
     const statusText = $('pixel-status-text');
     if (statusText) {
-      statusText.textContent = 'HOLLY: GLÜCKLICH ✨';
+      statusText.textContent = 'HOLLY: GEREINIGT 🧹';
       setTimeout(() => {
         if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
       }, 2500);
@@ -3958,12 +4116,15 @@ const app = (() => {
     const hHappy  = $('pixel-hearts-happy');
     const hEnergy = $('pixel-hearts-energy');
     const hPotty  = $('pixel-hearts-potty');
+    const hDirt   = $('pixel-hearts-dirt');
 
     if (hHunger) hHunger.textContent = getHearts(state.hunger);
     if (hHappy)  hHappy.textContent  = getHearts(state.happy);
     if (hEnergy) hEnergy.textContent = getHearts(state.energy);
     // Bei der Blase: 4 volle Herzen bedeuten, dass die Blase noch entspannt ist (100 - potty)
     if (hPotty)  hPotty.textContent  = getHearts(Math.max(0, 100 - state.potty));
+    // Beim Schmutz: 4 volle Herzen bedeuten, dass Holly sauber ist (100 - dirt)
+    if (hDirt)   hDirt.textContent   = getHearts(Math.max(0, 100 - state.dirt));
   }
 
   // ── Init ───────────────────────────────────────────────────────────────────
