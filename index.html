@@ -2056,19 +2056,20 @@ const app = (() => {
 
 
   function triggerPoopVideo() {
-    if (state.mode === 'sleep' || state.locked) return;
+    if (state.mode === 'sleep' || state.mode === 'walk' || state.mode === 'wash' || state.mode === 'feed' || state.mode === 'play') return;
     state.potty = 0; // Erleichtert
     state.happy = clamp(state.happy - 25);
-    if (voxelPoopMesh) voxelPoopMesh.visible = true;
-    spawnEffect('💩', 5);
-    setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
-
     state.locked = true;
     state.hasPoop = false;
     if (realisticPoop) realisticPoop.style.display = 'none';
+
     switchMode('poop');
+    spawnEffect('💩', 5);
+    setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
+
     const pVid = videos.poop;
     let poopShown = false;
+    let poopFinished = false;
 
     function showPoopIcon() {
       if (poopShown) return;
@@ -2083,11 +2084,14 @@ const app = (() => {
     }
 
     function finishPoop() {
+      if (poopFinished) return;
+      poopFinished = true;
       showPoopIcon();
       state.locked = false;
       switchMode('idle');
       if (realisticPoop) realisticPoop.style.display = 'block';
       setStatus('Bitte das Häufchen mit dem Besen wegräumen! 💩🧹', true);
+      scheduleRandomIdleAnimation();
     }
 
     if (pVid) {
@@ -2143,7 +2147,8 @@ const app = (() => {
       }
 
       // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Holly macht ein Häufchen (Hauefchen.mp4)!
-      if (state.potty >= 100 && !state.hasPoop && state.mode === 'idle' && !state.locked) {
+      // Läuft eine spontane Idle-Aktion wie Winken oder Tap, hat das dringende Häufchen Vorrang!
+      if (state.potty >= 100 && !state.hasPoop && state.mode !== 'sleep' && state.mode !== 'walk' && state.mode !== 'poop') {
         triggerPoopVideo();
       }
 
