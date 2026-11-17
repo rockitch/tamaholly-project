@@ -416,12 +416,17 @@
 
     .pixel-top-icons {
       display: flex;
-      gap: 18px;
-      font-size: 20px;
-      opacity: 0.85;
+      gap: 10px;
+      font-size: 18px;
+      opacity: 0.92;
       filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
       position: relative;
       z-index: 15;
+      background: rgba(15, 23, 42, 0.35);
+      padding: 4px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(4px);
     }
     .pixel-icon-btn {
       cursor: pointer;
@@ -1409,7 +1414,7 @@
 
                 <!-- Voxel Welpe 3D Container & Status Animation -->
                 <div class="pixel-canvas-area">
-                  <div id="voxel-container" onclick="app.voxelTouchBark()" title="3D Holly streicheln / tippen (Bellen)">
+                  <div id="voxel-container" title="3D Holly streicheln / im Spielmodus Ball werfen">
                     <!-- Z-Z-Z Schlafpartikel Container für 3D Ansicht -->
                     <div class="zzz-container" id="zzz-container-voxel"></div>
                   </div>
@@ -1456,38 +1461,55 @@
           </div>
 
           <!-- Aussehen-Anpassungsmenü (Circular Modal Overlay) -->
-          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.94); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 28px 24px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
-            <div style="font-size: 13px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px;">🎨 AUSSEHEN ANPASSEN</div>
+          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.95); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 20px 22px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
+            <div style="font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 5px;">🎨 AUSSEHEN & WELT</div>
             
             <!-- Fellfarbe -->
-            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe</div>
-            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Klassik</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 10px; font-weight: 700; cursor: pointer;">Gold</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 10px; font-weight: 700; cursor: pointer;">Dunkel</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 10px; font-weight: 700; cursor: pointer;">Creme</button>
+            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe</div>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Klassik</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 10px; font-weight: 700; cursor: pointer;">Gold</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 10px; font-weight: 700; cursor: pointer;">Dunkel</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 10px; font-weight: 700; cursor: pointer;">Creme</button>
             </div>
 
             <!-- Halsbandfarbe -->
-            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
-            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Rot</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 10px; font-weight: 700; cursor: pointer;">Blau</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">Rosa</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 10px; font-weight: 700; cursor: pointer;">Grün</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 4px 8px; border-radius: 12px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 10px; font-weight: 700; cursor: pointer;">Lila</button>
+            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Rot</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 10px; font-weight: 700; cursor: pointer;">Blau</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">Rosa</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 10px; font-weight: 700; cursor: pointer;">Grün</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 10px; font-weight: 700; cursor: pointer;">Lila</button>
             </div>
 
             <!-- Accessoire -->
-            <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-top: 4px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
-            <div style="display: flex; gap: 6px; margin-bottom: 14px;">
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Keins</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 4px 10px; border-radius: 12px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 10px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
+            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Keins</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 10px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
+            </div>
+
+            <!-- Umgebung / 3D-Bodenwelt -->
+            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Umgebung</div>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #38bdf8; color: #000; font-size: 9.5px; font-weight: 700; cursor: pointer;">🌿 Wiese</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 9.5px; font-weight: 700; cursor: pointer;">🏖️ Strand</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #fbcfe8; font-size: 9.5px; font-weight: 700; cursor: pointer;">🌸 Sakura</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #b45309; background: #27272a; color: #fed7aa; font-size: 9.5px; font-weight: 700; cursor: pointer;">🛋️ Zimmer</button>
+            </div>
+
+            <!-- Voxel Block-Größe Regler (Nanoblock / Mikrovoxel Stil) -->
+            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Voxel-Blockgröße: <span id="voxel-size-val" style="color: #38bdf8;">0.095</span></div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="font-size: 9px; color: #64748b;">Fein</span>
+              <input type="range" id="voxel-size-slider" min="0.075" max="0.125" step="0.005" value="0.095" oninput="app.setVoxelBlockSize(parseFloat(this.value))" style="width: 120px; accent-color: #38bdf8; cursor: pointer;">
+              <span style="font-size: 9px; color: #64748b;">Groß</span>
             </div>
 
             <!-- Schließen Button -->
-            <button type="button" onclick="app.closeCustomModal()" style="padding: 6px 22px; border-radius: 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
+            <button type="button" onclick="app.closeCustomModal()" style="padding: 5px 22px; border-radius: 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
           </div>
 
           <!-- Action Particles Container -->
@@ -1532,7 +1554,8 @@ const app = (() => {
     custom: {
       fur: 'brown',       // 'brown' | 'golden' | 'dark' | 'cream'
       collar: 'red',      // 'red' | 'blue' | 'pink' | 'green' | 'purple'
-      accessory: 'none'   // 'none' | 'bow' | 'hat'
+      accessory: 'none',  // 'none' | 'bow' | 'hat'
+      env: 'meadow'       // 'meadow' | 'beach' | 'sakura' | 'livingroom'
     },
     growthStage:  1,       // 1 = Baby (scale 0.75), 2 = Junghund (scale 1.0), 3 = Adult (scale 1.2)
     xp:           0,       // Erfahrungspunkte (0-100 pro Stufe)
@@ -1774,6 +1797,7 @@ const app = (() => {
           if (d.custom.fur) state.custom.fur = d.custom.fur;
           if (d.custom.collar) state.custom.collar = d.custom.collar;
           if (d.custom.accessory) state.custom.accessory = d.custom.accessory;
+          if (d.custom.env) state.custom.env = d.custom.env;
         }
         console.log(`[Tamaholly] Geladener Spielstand: Level ${state.growthStage} (${GROWTH_CONFIG[state.growthStage].name}), XP: ${state.xp}`);
       }
@@ -2077,11 +2101,22 @@ const app = (() => {
       state.hasPoop = true;
       if (realisticPoop) realisticPoop.style.display = 'block';
       if (voxelPoopMesh && voxelPuppyGroup) {
-        voxelPoopMesh.position.set(voxelPuppyGroup.position.x, -0.75, voxelPuppyGroup.position.z - 0.7);
+        // Häufchen exakt unter dem zur Kamera gedrehten Hinterteil der Hocker-Pose platzieren!
+        const frontX = Math.max(-0.45, Math.min(0.45, voxelPuppyGroup.position.x + 0.12));
+        const frontZ = Math.max(0.55, voxelPuppyGroup.position.z + 0.52);
+        voxelPoopMesh.position.set(frontX, -0.75, frontZ);
+        voxelPoopMesh.rotation.set(0.15, 0, 0);
         voxelPoopMesh.visible = true;
       }
       saveGameProgress();
     }
+
+    // 3D-Voxel-Hocker-Pose 1.4 Sekunden vor dem Erscheinen des Häufchens starten!
+    setTimeout(() => {
+      if (state.mode === 'poop') {
+        voxelPoopSquatTimer = 1.6;
+      }
+    }, 2600);
 
     function finishPoop() {
       if (poopFinished) return;
@@ -2195,12 +2230,24 @@ const app = (() => {
       state.hasPoop = true;
       if (realisticPoop) realisticPoop.style.display = 'block';
       if (voxelPoopMesh && voxelPuppyGroup) {
-        voxelPoopMesh.position.set(voxelPuppyGroup.position.x, -0.75, voxelPuppyGroup.position.z - 0.7);
+        // Häufchen direkt unter dem zur Kamera gedrehten Hinterteil der Hocker-Pose platzieren!
+        const frontX = Math.max(-0.45, Math.min(0.45, voxelPuppyGroup.position.x + 0.12));
+        const frontZ = Math.max(0.55, voxelPuppyGroup.position.z + 0.52);
+        voxelPoopMesh.position.set(frontX, -0.75, frontZ);
+        voxelPoopMesh.rotation.set(0.15, 0, 0); // Direkt zum Betrachter geneigt
         voxelPoopMesh.visible = true;
       }
       spawnEffect('💩', 4);
       setStatus('Holly hat draußen ihr Häufchen gemacht! 💩🧹');
     }
+
+    // Ab Sekunde 3.5 beim Gassi-Gehen: Holly stoppt und nimmt die charakteristische Hocker-Pose (Hinterteil tief absenken) ein!
+    setTimeout(() => {
+      if (state.mode === 'walk' && !poopSpawned) {
+        voxelPoopSquatTimer = 1.65;
+        setStatus('Holly sucht sich ein Plätzchen und hockt sich hin... 🦮🐾');
+      }
+    }, 3500);
 
     function finishWalk() {
       state.potty  = 0;  // Blase & Darm komplett entleert
@@ -2845,30 +2892,46 @@ const app = (() => {
     }, 12000);
   }
 
-  // ── 3D Minecraft Voxel Puppy Rendering (Three.js) ────────────────────────
-  let voxelScene, voxelCamera, voxelRenderer, voxelPuppyGroup;
+  // ── 3D Minecraft Voxel Puppy Rendering (Three.js) — Nanoblock / Mikrovoxel Welpe (image_1b2620.png) ──
+  let VOXEL_BLOCK_SIZE = 0.095; // Nanoblock-/Mikrovoxel-Auflösung (Standard: 0.095 für hohe Blockdichte & lückenlose Struktur)
+  const VOXEL_REF_B = 0.095;    // Referenzgröße für den Voxel-Regler
+  let voxelScene, voxelCamera, voxelRenderer, voxelPuppyGroup, voxelEnvGroup;
   let voxelAnimId = null;
   let voxelClock = (typeof THREE !== 'undefined') ? new THREE.Clock() : null;
   let voxelPoopMesh = null;
   let voxelPeeMesh = null;    // Gelbe Voxel-Pfütze beim Revier markieren
   let voxelTreatMesh = null;  // Voxel-Fressnapf mit Futter (Füttern)
-  let voxelFoodGroup = null;  // Futterfüllung im Fressnapf (wird beim Fressen geleert)
+  let voxelFoodGroup = null;  // Futterfüllung im Fressnapf
+  let voxelFoodBlocks = [];   // Einzelne Futter-Blöcke sortiert von oben nach unten zum schrittweisen Leeren
   let voxelPeeTimer = 0;      // Verblass-Timer für die Urin-Pfütze
   let voxelBallMesh = null;   // Voxel-Spielball (Spielen)
-  let voxelLeashMesh = null;  // 3D-Hundeleine beim Gassi gehen
+  let voxelLeashMesh = null;  // 3D-Voxel-Hundeleine beim Gassi gehen (im Weltkoordinatenraum über dem Rücken)
+  let voxelLeashBlocks = [];  // Einzelne Voxel-Segmente der Leine
+  let voxelCollarAnchor = null; // Befestigungspunkt oben am Halsband auf dem Rücken
   let voxelSoapBubbles = [];  // Schaumblasen beim Waschen
+  let voxelBodyStandGroup = null; // Rumpf-Geometrie beim Stehen/Laufen (waagerechter Rücken)
+  let voxelBodySitGroup = null;   // Rumpf-Geometrie beim Sitzen (diagonal gestufter Rücken wie in Bild 1!)
+  let voxelRearHaunchL = null, voxelRearHaunchR = null; // Gestufte Oberschenkel-Blöcke beim Stehen (Bild 2 & 3)
+  let voxelLegBLStand = null, voxelLegBRStand = null;   // Stehende Hinterbeine
+  let voxelLegBLSit = null, voxelLegBRSit = null;       // Sitzende, kompakt angewinkelte Hinterbeine (Bild 1)
+  let voxelEarLGroup = null, voxelEarRGroup = null; // Ohren-Gruppen für lebendige Ohren-Animation
+  let voxelEarRot = { lx: 0, lz: 0.14, rx: 0, rz: -0.14 }; // Sanft interpolierte Ohren-Winkel
   let voxelHeadGroup, voxelTailGroup, voxelLegFL, voxelLegFR, voxelLegBL, voxelLegBR;
   let eyeLGroup, eyeRGroup;   // Augen-Gruppen für geschlossene Augen & Blinzeln
-  let voxelJawGroup;          // Unterkiefer für echtes Mundöffnen beim Bellen!
+  let voxelJawGroup;          // Unterkiefer für echtes Mundöffnen beim Bellen & Schnappen!
   let stolenItemMesh = null;  // Gestohlener Ring-Button im Maul bei Unordnung/Schabernack!
   let voxelBowMesh = null;    // Rosa Schleifen-Accessoire
   let voxelHatMesh = null;    // Zylinder-Accessoire
+  let mFurMat = null, mFurDarkMat = null, mSnoutMat = null, mCollarMat = null; // Für Farbwechsel
+  let voxelSnapTimer = 0;     // Schnapp-Animation wenn Holly den Spielball erreicht
+  let voxelPoopSquatTimer = 0; // Echte Hocker-Pose (Hinterteil tief absenken) vor dem Häufchen!
+  let voxelGroundScroll = { x: 0, z: 0 }; // Laufband-Offset für sich bewegenden Boden beim Gassi-Gehen!
 
   const DOG_FUR_PALETTES = {
-    brown:  { fur: 0x9e6834, furDark: 0x6e431d, snout: 0xd9ab77 },
-    golden: { fur: 0xd97706, furDark: 0x92400e, snout: 0xfde68a },
-    dark:   { fur: 0x3f3f46, furDark: 0x27272a, snout: 0x71717a },
-    cream:  { fur: 0xfef08a, furDark: 0xca8a04, snout: 0xffedd5 }
+    brown:  { fur: 0xd9a05b, furDark: 0x734624, snout: 0xd9a05b }, // Helles Beigebraun für Körper, Schnauze & Pfoten + Dunkelbraun für Ohren, Nase, Schwanz & X (exakt wie in den 4 Referenzbildern!)
+    golden: { fur: 0xd97706, furDark: 0x78350f, snout: 0xfde68a },
+    dark:   { fur: 0x3f3f46, furDark: 0x18181b, snout: 0x52525b },
+    cream:  { fur: 0xfde047, furDark: 0xa16207, snout: 0xfef08a }
   };
   const DOG_COLLAR_COLORS = {
     red:    0xdc2626,
@@ -2877,6 +2940,32 @@ const app = (() => {
     green:  0x16a34a,
     purple: 0x9333ea
   };
+  const VOXEL_ENV_THEMES = {
+    meadow: {
+      bg: 'radial-gradient(circle at 50% 42%, #a7d18c 0%, #6ea159 62%, #3f6a34 100%)',
+      hudBg: 'rgba(22, 46, 24, 0.55)',
+      hudBorder: '#365e32',
+      statusBg: 'rgba(134, 184, 112, 0.82)'
+    },
+    beach: {
+      bg: 'radial-gradient(circle at 50% 40%, #fef08a 0%, #f59e0b 58%, #0284c7 100%)',
+      hudBg: 'rgba(12, 58, 86, 0.58)',
+      hudBorder: '#0ea5e9',
+      statusBg: 'rgba(253, 224, 71, 0.85)'
+    },
+    sakura: {
+      bg: 'radial-gradient(circle at 50% 42%, #fbcfe8 0%, #f472b6 62%, #831843 100%)',
+      hudBg: 'rgba(74, 16, 48, 0.58)',
+      hudBorder: '#ec4899',
+      statusBg: 'rgba(249, 168, 212, 0.85)'
+    },
+    livingroom: {
+      bg: 'radial-gradient(circle at 50% 42%, #fed7aa 0%, #d97706 62%, #78350f 100%)',
+      hudBg: 'rgba(62, 30, 12, 0.58)',
+      hudBorder: '#b45309',
+      statusBg: 'rgba(253, 186, 116, 0.85)'
+    }
+  };
 
   // Interaktive Animationszustände & Schlafpositionen
   let voxelJoyTimer = 0;   // Freuden-Animation (Streicheln)
@@ -2884,31 +2973,173 @@ const app = (() => {
   let voxelPlayTimer = 0;  // Spiel- & Lauf-Animation
   let voxelWalkTimer = 0;  // Gassi-Lauf-Animation
   let voxelWakeTimer = 0;  // Streck-Animation beim Aufwachen
-  let voxelSleepPose = 0;  // 0 = Bauch, 1 = Seite links, 2 = Rücken, 3 = Seite rechts
-  let voxelNextPoseTimer = 0; // Timer zum Wechseln der Schlafposition
   let voxelBallPos = { x: 0.65, z: 1.1, targetX: 0.65, targetZ: 1.1 }; // Dynamische Ball-Position
 
-  // Autonomes Hundeverhalten im Leerlauf (Schnuppern, Umherbewegen, Bellen, Neugierig schauen, Sitzen, Männchen machen)
-  let voxelIdleBehavior = 'stand'; // 'stand' | 'wander' | 'sniff' | 'bark' | 'curious' | 'sit' | 'beg' | 'messy'
-  let voxelBehaviorTimer = 3.0;
+  // Autonomes Hundeverhalten im Leerlauf (Sitzen wie in Bild 1, Stehen wie in Bild 2–4, Schnuppern, Umherbewegen, Bellen, Markieren)
+  let voxelIdleBehavior = 'sit'; // 'sit' | 'stand' | 'wander' | 'sniff' | 'bark' | 'curious' | 'beg' | 'mark' | 'messy'
+  let voxelBehaviorTimer = 4.5;
   let boredomTimer = 0; // Zählt Inaktivität (nach min. 40 Sekunden ohne Aktion macht Holly evtl. Schabernack)
   let voxelTargetPos = { x: 0, z: 0 };
   let voxelCurrentPos = { x: 0, z: 0 };
-  let voxelTargetRot = 0;
-  let voxelCurrentRot = 0;
+  let voxelTargetRot = 0.32;
+  let voxelCurrentRot = 0.32;
   let voxelMessyActive = false; // Ob Holly gerade Unordnung im UI macht
 
-  // Weiche Übergänge bei Schlaf-Transformation, Körperneigung, Kopf & Beinen
-  let voxelSleepRot = { x: 0, y: 0, z: 0 };
-  let voxelSleepTargetRot = { x: 0, y: 0, z: 0 };
-  let voxelPuppyRot = { x: 0, y: 0, z: 0 };
+  // Weiche Übergänge für Körperneigung, Kopf & Beine (ohne simple Gesamtrotation beim Schlafen!)
+  let voxelPuppyRot = { x: 0, y: 0.32, z: 0 };
   let voxelHeadRot = { x: 0, y: 0, z: 0 };
-  let voxelHeadPos = { x: 0, y: 0.45, z: 0.75 };
+  let voxelHeadPos = { x: 0, y: 0.44, z: 0.62 };
   let voxelLegRot = { fl: 0, fr: 0, bl: 0, br: 0 };
+  let voxelLegPosZ = { bl: -0.42, br: -0.42 };
   let voxelPuppyPosY = 0;
   let voxelCamPos = { x: 0, y: 1.8, z: 4.6 };
   let voxelCamLook = { x: 0, y: 0.1, z: 0 };
-  let voxelBlinkTimer = 3.0; // Blinzel-Timer
+  let voxelBlinkTimer = 1.2; // Blinzel-Timer
+
+  // ── 3D-Voxel-Umgebung aufbauen (Wiese, Strand, Sakura-Garten, Wohnzimmer) ──
+  function buildVoxelEnvironment(themeName) {
+    if (!voxelScene) return;
+    if (voxelEnvGroup) {
+      voxelScene.remove(voxelEnvGroup);
+    }
+    voxelEnvGroup = new THREE.Group();
+    voxelEnvGroup.position.set(0, -0.82, 0); // Direkt unter den Pfoten von Holly
+
+    const theme = VOXEL_ENV_THEMES[themeName] || VOXEL_ENV_THEMES.meadow;
+    const pixelWorldEl = document.querySelector('.pixel-world');
+    if (pixelWorldEl) {
+      pixelWorldEl.style.background = theme.bg;
+    }
+    const pixelHudEl = document.querySelector('.pixel-hud-stats');
+    if (pixelHudEl) {
+      pixelHudEl.style.background = theme.hudBg;
+      pixelHudEl.style.borderColor = theme.hudBorder;
+    }
+    const statusTextEl = $('pixel-status-text');
+    if (statusTextEl) {
+      statusTextEl.style.background = theme.statusBg;
+    }
+
+    const tileB = 0.16;
+    const tileGeo = new THREE.BoxGeometry(tileB * 1.005, 0.04, tileB * 1.005); // Lückenloses Boden-Relief
+
+    if (themeName === 'beach') {
+      const mSand1 = new THREE.MeshLambertMaterial({ color: 0xfde68a });
+      const mSand2 = new THREE.MeshLambertMaterial({ color: 0xfcd34d });
+      const mWater = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+      const mFoam  = new THREE.MeshLambertMaterial({ color: 0xe0f2fe });
+      const mCoral = new THREE.MeshLambertMaterial({ color: 0xf43f5e });
+
+      for (let gx = -10; gx <= 10; gx++) {
+        for (let gz = -8; gz <= 9; gz++) {
+          const r = Math.hypot(gx * tileB, gz * tileB);
+          if (r > 1.72) continue;
+          let mat = (gx + gz) % 2 === 0 ? mSand1 : mSand2;
+          let ty = 0;
+          if (gz >= 5) { mat = mWater; ty = -0.02; }
+          else if (gz === 4) { mat = mFoam; ty = -0.005; }
+          const tMesh = new THREE.Mesh(tileGeo, mat);
+          tMesh.position.set(gx * tileB, ty, gz * tileB);
+          voxelEnvGroup.add(tMesh);
+        }
+      }
+      // Kleine Voxel-Seesterne & Muscheln am Rand
+      [[-1.25, -0.6], [1.22, -0.45], [-1.1, 0.45]].forEach(([sx, sz]) => {
+        const star = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.04, 0.11), mCoral);
+        star.position.set(sx, 0.03, sz);
+        star.rotation.y = 0.4;
+        star.userData = { baseX: sx, baseZ: sz, isProp: true };
+        voxelEnvGroup.add(star);
+      });
+    } else if (themeName === 'sakura') {
+      const mGrass1 = new THREE.MeshLambertMaterial({ color: 0x86efac });
+      const mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4ade80 });
+      const mStone  = new THREE.MeshLambertMaterial({ color: 0xcbd5e1 });
+      const mPetal1 = new THREE.MeshLambertMaterial({ color: 0xf9a8d4 });
+      const mPetal2 = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
+
+      for (let gx = -10; gx <= 10; gx++) {
+        for (let gz = -8; gz <= 9; gz++) {
+          const r = Math.hypot(gx * tileB, gz * tileB);
+          if (r > 1.72) continue;
+          const isPath = (Math.abs(gx - gz * 0.4) < 1.3 && (gx + gz) % 2 === 0);
+          const mat = isPath ? mStone : ((gx + gz) % 2 === 0 ? mGrass1 : mGrass2);
+          const tMesh = new THREE.Mesh(tileGeo, mat);
+          tMesh.position.set(gx * tileB, isPath ? 0.01 : 0, gz * tileB);
+          voxelEnvGroup.add(tMesh);
+        }
+      }
+      // Verstreute Kirschblüten-Blätter am Rand
+      [[-1.2, -0.7], [1.18, -0.65], [-1.3, 0.2], [1.28, 0.3], [-0.95, -1.0], [0.95, -0.95]].forEach(([px, pz], i) => {
+        const petal = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.03, 0.09), i % 2 === 0 ? mPetal1 : mPetal2);
+        petal.position.set(px, 0.025, pz);
+        petal.userData = { baseX: px, baseZ: pz, isProp: true };
+        voxelEnvGroup.add(petal);
+      });
+    } else if (themeName === 'livingroom') {
+      const mWood1 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+      const mWood2 = new THREE.MeshLambertMaterial({ color: 0x92400e });
+      const mRug1  = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+      const mRug2  = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
+      const mRugBorder = new THREE.MeshLambertMaterial({ color: 0xfef08a });
+
+      for (let gx = -10; gx <= 10; gx++) {
+        for (let gz = -8; gz <= 9; gz++) {
+          const r = Math.hypot(gx * tileB, gz * tileB);
+          if (r > 1.72) continue;
+          let mat = (gx % 2 === 0) ? mWood1 : mWood2;
+          let ty = 0;
+          if (r < 1.12) {
+            mat = (r > 0.96) ? mRugBorder : ((gx + gz) % 2 === 0 ? mRug1 : mRug2);
+            ty = 0.015;
+          }
+          const tMesh = new THREE.Mesh(tileGeo, mat);
+          tMesh.position.set(gx * tileB, ty, gz * tileB);
+          voxelEnvGroup.add(tMesh);
+        }
+      }
+    } else {
+      // Standard: 'meadow' (Sonnige Blumenwiese mit Steinpfad, Grasbüscheln & Voxel-Blümchen)
+      const mGrass1 = new THREE.MeshLambertMaterial({ color: 0x65a30d });
+      const mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4d7c0f });
+      const mPath   = new THREE.MeshLambertMaterial({ color: 0xd6d3d1 });
+      const mFlowerY = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
+      const mFlowerP = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
+      const mFlowerW = new THREE.MeshLambertMaterial({ color: 0xffffff });
+      const mStem    = new THREE.MeshLambertMaterial({ color: 0x15803d });
+
+      for (let gx = -10; gx <= 10; gx++) {
+        for (let gz = -8; gz <= 9; gz++) {
+          const r = Math.hypot(gx * tileB, gz * tileB);
+          if (r > 1.72) continue;
+          const isStone = ((gx === -3 && gz === 4) || (gx === -2 && gz === 5) || (gx === 3 && gz === 3) || (gx === 4 && gz === 4));
+          const mat = isStone ? mPath : ((gx + gz) % 2 === 0 ? mGrass1 : mGrass2);
+          const tMesh = new THREE.Mesh(tileGeo, mat);
+          tMesh.position.set(gx * tileB, isStone ? 0.012 : 0, gz * tileB);
+          voxelEnvGroup.add(tMesh);
+        }
+      }
+      // Kleine 3D-Voxel-Blümchen & Grasbüschel am Wiesenrand
+      const flowerSpots = [
+        [-1.25, -0.55, mFlowerY], [1.25, -0.50, mFlowerP],
+        [-1.15, 0.45, mFlowerW],  [1.18, 0.48, mFlowerY],
+        [-0.85, -0.95, mFlowerP], [0.90, -0.90, mFlowerW]
+      ];
+      flowerSpots.forEach(([fx, fz, fMat]) => {
+        const flowerGrp = new THREE.Group();
+        flowerGrp.position.set(fx, 0, fz);
+        flowerGrp.userData = { baseX: fx, baseZ: fz, isProp: true };
+        const stem = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.08, 0.05), mStem);
+        stem.position.set(0, 0.05, 0);
+        const blossom = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.05, 0.10), fMat);
+        blossom.position.set(0, 0.10, 0);
+        flowerGrp.add(stem, blossom);
+        voxelEnvGroup.add(flowerGrp);
+      });
+    }
+
+    voxelScene.add(voxelEnvGroup);
+  }
 
   function initVoxelPet() {
     const container = $('voxel-container');
@@ -2922,7 +3153,9 @@ const app = (() => {
       cancelAnimationFrame(voxelAnimId);
       voxelAnimId = null;
     }
-    container.innerHTML = '';
+    // Vorhandenes ZZZ-Overlay bewahren, nur Canvas ersetzen
+    const existingCanvas = container.querySelector('canvas');
+    if (existingCanvas) existingCanvas.remove();
 
     const width = 466;
     const height = 466;
@@ -2941,353 +3174,515 @@ const app = (() => {
     voxelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     voxelRenderer.shadowMap.enabled = true;
     voxelRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    container.appendChild(voxelRenderer.domElement);
+    container.insertBefore(voxelRenderer.domElement, container.firstChild);
 
-    // 4. Beleuchtung (Minecraft Isometric Light Vibe)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
-    voxelScene.add(ambientLight);
+    // 4. Beleuchtung (MagicaVoxel Raytracing / Ambient Occlusion Vibe mit klaren Kanten & Schatten)
+    const hemiLight = new THREE.HemisphereLight(0xfffbeb, 0x334155, 0.72);
+    voxelScene.add(hemiLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xfff7e6, 0.9);
-    dirLight1.position.set(5, 8, 4);
+    const dirLight1 = new THREE.DirectionalLight(0xfff7ed, 0.98);
+    dirLight1.position.set(4.5, 8.5, 5.5);
+    dirLight1.castShadow = true;
+    dirLight1.shadow.mapSize.width = 1024;
+    dirLight1.shadow.mapSize.height = 1024;
+    dirLight1.shadow.camera.near = 0.5;
+    dirLight1.shadow.camera.far = 20;
+    dirLight1.shadow.bias = -0.0015;
     voxelScene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x7fb8f5, 0.4);
-    dirLight2.position.set(-5, -2, -3);
+    const dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.38);
+    dirLight2.position.set(-5, 2, -4);
     voxelScene.add(dirLight2);
 
-    // 5. Minecraft Voxel Materialien (Warme Erdfarben für Holly mit mehr Tiefe & Details)
-    const mFur = new THREE.MeshLambertMaterial({ color: 0x9e6834 });        // Holly Fell Braun
-    const mFurDark = new THREE.MeshLambertMaterial({ color: 0x6e431d });    // Dunkleres Braun
-    const mSnout = new THREE.MeshLambertMaterial({ color: 0xd9ab77 });      // Helle Schnauze/Wangen
-    const mNose = new THREE.MeshLambertMaterial({ color: 0x1a1512 });       // Schwarze Nase
-    const mEyeWhite = new THREE.MeshLambertMaterial({ color: 0xffffff });   // Augenweiß
-    const mPupil = new THREE.MeshLambertMaterial({ color: 0x111111 });      // Schwarze Pupille
-    const mCollar = new THREE.MeshLambertMaterial({ color: 0xef4444 });     // Rotes Minecraft-Halsband
-    const mCollarTag = new THREE.MeshLambertMaterial({ color: 0xfacc15 });  // Goldene Halsband-Marke
-    const mMouth = new THREE.MeshLambertMaterial({ color: 0x7f1d1d });      // Dunkelrotes Mund-Innere
-    const mPoop = new THREE.MeshLambertMaterial({ color: 0x4a2e12 });       // Voxel-Häufchen
-    const mChest = new THREE.MeshLambertMaterial({ color: 0xe6caa1 });      // Heller Brustlatz / Latzfell
-    const mAnus = new THREE.MeshLambertMaterial({ color: 0x5a3418 });       // Dezentes Voxel-Kreuz (After) am Hintern
+    // 4b. Gestaltbare 3D-Voxel-Umgebung aufbauen
+    buildVoxelEnvironment((state.custom && state.custom.env) ? state.custom.env : 'meadow');
 
-    // 6. Puppy Hierarchie aufbauen
+    // 5. Nanoblock / Mikrovoxel Materialien (Exakt nach den 4 Referenzbildern: Einheitliches helles Beigebraun für Fell & Pfoten, Schokobraune Nase/Ohren/Schwanz/X)
+    const mFur = new THREE.MeshStandardMaterial({ color: 0xd9a05b, roughness: 0.45, metalness: 0.04 });        // Helles Beigebraun (Körper, Kopf, Beine UND Pfoten!)
+    const mFurDark = new THREE.MeshStandardMaterial({ color: 0x734624, roughness: 0.50, metalness: 0.04 });    // Dunkelbraun (Feinstufige Schlappohren & Schwanz)
+    const mSnout = new THREE.MeshStandardMaterial({ color: 0xd9a05b, roughness: 0.44, metalness: 0.03 });      // Schnauze im gleichen warmen Beigebraun
+    const mNose = new THREE.MeshStandardMaterial({ color: 0x422a19, roughness: 0.35, metalness: 0.08 });       // Dunkel-Schokobraune, zweistufige Knopf-Nase (wie in Bild 1-3!)
+    const mPupil = new THREE.MeshStandardMaterial({ color: 0x141416, roughness: 0.25, metalness: 0.15 });      // Tiefschwarze Augen mit kleinem 3D-Relief-Knopf
+    const mCollar = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4, metalness: 0.1 });       // Halsbandfarbe
+    const mMouth = new THREE.MeshStandardMaterial({ color: 0xe64848, roughness: 0.38, metalness: 0.05 });      // Herausgestreckte korallrote Zunge mit Mittelrille
+    const mAnus = new THREE.MeshStandardMaterial({ color: 0x4a2f1d, roughness: 0.55 });                        // Dunkelbraunes Pixel-Kreuz (X) hinten unter der Rute (Bild 4!)
+    const mPoop = new THREE.MeshStandardMaterial({ color: 0x5c3a18, roughness: 0.65 });                        // Voxel-Häufchen Braun
+    const mPoopDark = new THREE.MeshStandardMaterial({ color: 0x3f260d, roughness: 0.7 });                     // Häufchen Schattierung
+
+    mFurMat = mFur;
+    mFurDarkMat = mFurDark;
+    mSnoutMat = mSnout;
+    mCollarMat = mCollar;
+
+    // NANOBLOCK / MIKROVOXEL GEOMETRIE (Exakt nach den 4 Referenzbildern: Sitzend, Stehend, Rückansicht):
+    const B = VOXEL_BLOCK_SIZE; // Standard: 0.095
+    const sharedVoxelGeo = new THREE.BoxGeometry(B * 1.004, B * 1.004, B * 1.004);
+    const sharedEdgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(B * 1.002, B * 1.002, B * 1.002));
+    const microSeamMat = new THREE.LineBasicMaterial({ color: 0x5c3a18, transparent: true, opacity: 0.12 });
+    let totalDogVoxels = 0;
+
+    function addVoxel(gx, gy, gz, mat, parentGroup, sx = 1, sy = 1, sz = 1, withSeam = true) {
+      const isUnit = (sx === 1 && sy === 1 && sz === 1);
+      const geo = isUnit ? sharedVoxelGeo : new THREE.BoxGeometry(B * sx * 1.004, B * sy * 1.004, B * sz * 1.004);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(gx * B, gy * B, gz * B);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      if (withSeam && isUnit) {
+        const seam = new THREE.LineSegments(sharedEdgeGeo, microSeamMat);
+        mesh.add(seam);
+      }
+      parentGroup.add(mesh);
+      totalDogVoxels++;
+      return mesh;
+    }
+
+    // 6. Nanoblock-Welpe aufbauen (Mit echter Nanoblock-Geometrie für Stehen UND Sitzen!)
     voxelPuppyGroup = new THREE.Group();
     voxelScene.add(voxelPuppyGroup);
 
-    // ── Körper (Minecraft Dog Body - Detailreich mit Brustfell) ──
-    const bodyGeo = new THREE.BoxGeometry(0.9, 0.75, 1.3);
-    const bodyMesh = new THREE.Mesh(bodyGeo, mFur);
-    bodyMesh.position.set(0, 0, 0);
-    voxelPuppyGroup.add(bodyMesh);
+    // ── A. Rumpf im STEHEN (Bild 2, 3 & 4: Waagerechter Rücken, feine Mikro-Fasen hinten & dunkelbraunes Pixel-'X' am Po!) ──
+    voxelBodyStandGroup = new THREE.Group();
+    voxelPuppyGroup.add(voxelBodyStandGroup);
 
-    // Detail: Helles Brustlatz-Fell vorne
-    const chestGeo = new THREE.BoxGeometry(0.55, 0.52, 0.08);
-    const chestMesh = new THREE.Mesh(chestGeo, mChest);
-    chestMesh.position.set(0, -0.06, 0.65);
-    voxelPuppyGroup.add(chestMesh);
+    for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
+      for (let iy = -1.0; iy <= 2.0; iy += 1.0) {
+        for (let iz = -4.0; iz <= 3.0; iz += 1.0) {
+          // Obere Rücken-Abstufung hinten (wie in Bild 4: die oberste Schicht iy = 2 ist 4 Blöcke breit -1.5..1.5)
+          if (iy === 2.0 && Math.abs(ix) === 2.5 && iz <= 1.0) continue;
+          const isOuter = (Math.abs(ix) >= 1.5 || iy === -1.0 || iy === 2.0 || iz === -4.0 || iz === 3.0);
+          if (!isOuter) continue;
+          addVoxel(ix, iy, iz, mFur, voxelBodyStandGroup);
+        }
+      }
+    }
+    // Vorne tiefere Brust-Schicht (iy = -2.0 bei iz = 1.0..3.0), damit die Brust wie in Bild 2 & 3 kräftig zwischen den Vorderbeinen sitzt
+    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+      for (let iz = 1.0; iz <= 3.0; iz += 1.0) {
+        addVoxel(ix, -2.0, iz, mFur, voxelBodyStandGroup);
+      }
+    }
+    // Feine Mikro-Treppenstufen an den hinteren oberen Hüftkanten (exakt wie in der Rückansicht Bild 4!)
+    for (let step = 0; step < 3; step++) {
+      addVoxel(-2.15 - step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
+      addVoxel(2.15 + step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
+    }
+    // Charakteristisches dunkelbraunes Pixel-Kreuz ('X') hinten am Po unter der Rute (exakt wie in Bild 4!)
+    const xOffsets = [
+      [0, 0],
+      [-1, 1], [-2, 2], [1, 1], [2, 2],
+      [-1, -1], [-2, -2], [1, -1], [2, -2]
+    ];
+    xOffsets.forEach(([ox, oy]) => {
+      addVoxel(ox * 0.22, 0.15 + oy * 0.22, -4.52, mAnus, voxelBodyStandGroup, 0.24, 0.24, 0.18, false);
+    });
 
-    // Detail: Kleines X (After) am Hintern unter dem Schwanz
-    const anusGroup = new THREE.Group();
-    anusGroup.position.set(0, 0.05, -0.655);
-    const xBarGeo1 = new THREE.BoxGeometry(0.08, 0.024, 0.02);
-    const xBarGeo2 = new THREE.BoxGeometry(0.024, 0.08, 0.02);
-    const xMesh1 = new THREE.Mesh(xBarGeo1, mAnus);
-    const xMesh2 = new THREE.Mesh(xBarGeo2, mAnus);
-    xMesh1.rotation.z = Math.PI / 4;
-    xMesh2.rotation.z = Math.PI / 4;
-    anusGroup.add(xMesh1);
-    anusGroup.add(xMesh2);
-    voxelPuppyGroup.add(anusGroup);
+    // ── B. Rumpf im SITZEN (Bild 1: Charakteristischer, diagonal nach hinten-unten gestufter Rücken, OHNE den Hund nach vorne zu kippen!) ──
+    voxelBodySitGroup = new THREE.Group();
+    voxelBodySitGroup.visible = false;
+    voxelPuppyGroup.add(voxelBodySitGroup);
 
-    // Rotes Halsband mit goldener Marke
-    const collarGeo = new THREE.BoxGeometry(0.92, 0.16, 0.2);
-    const collarMesh = new THREE.Mesh(collarGeo, mCollar);
-    collarMesh.position.set(0, 0.15, 0.65);
-    voxelPuppyGroup.add(collarMesh);
+    for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
+      for (let iy = -4.0; iy <= 2.0; iy += 1.0) {
+        for (let iz = -4.0; iz <= 3.0; iz += 1.0) {
+          // Diagonale Treppenstufen des Rückens beim Sitzen (exakt wie in Bild 1: vorne unter dem Kopf hoch, nach hinten zum Boden abfallend!)
+          if (iy === 2.0 && iz < 0.0) continue;
+          if (iy === 1.0 && iz < -1.0) continue;
+          if (iy === 0.0 && iz < -2.0) continue;
+          if (iy === -1.0 && iz < -3.0) continue;
+          // Seitliche Brustkante oben leicht gestuft
+          if (Math.abs(ix) === 2.5 && iy === 2.0) continue;
+          if (Math.abs(ix) === 2.5 && iz === 3.0 && iy <= 0.0) continue;
+          // Bauch zwischen den Vorderbeinen leicht nach innen versetzt (wie der Schattenbereich zwischen den Vorderbeinen in Bild 1!)
+          if (iz === 3.0 && iy <= -2.0 && Math.abs(ix) <= 1.5) continue;
 
-    const tagGeo = new THREE.BoxGeometry(0.14, 0.14, 0.06);
-    const tagMesh = new THREE.Mesh(tagGeo, mCollarTag);
-    tagMesh.position.set(0, 0.08, 0.76);
-    voxelPuppyGroup.add(tagMesh);
+          const isOuterSit = (
+            Math.abs(ix) >= 1.5 || iy === -4.0 || iy === 2.0 || iz === -4.0 || iz === 3.0 || (iy >= -1.0 && iz <= 0.0)
+          );
+          if (!isOuterSit) continue;
+          addVoxel(ix, iy, iz, mFur, voxelBodySitGroup);
+        }
+      }
+    }
 
-    // ── Kopf-Gruppe (für Kopfdrehen & Nicken) ──
+    // Befestigungsanker für die Voxel-Leine OBEN auf dem Nacken/Rücken
+    voxelCollarAnchor = new THREE.Object3D();
+    voxelCollarAnchor.position.set(0, 3.0 * B, 1.5 * B);
+    voxelPuppyGroup.add(voxelCollarAnchor);
+
+    // ── Großer, gestufter Nanoblock-Kopf (Breite: 8 Blöcke -3.5..3.5, Höhe: 7 Blöcke -2..4, Tiefe: 6 Blöcke -2..3) ──
     voxelHeadGroup = new THREE.Group();
-    voxelHeadGroup.position.set(0, 0.45, 0.75);
+    voxelHeadGroup.position.set(0, 4.8 * B, 1.2 * B);
 
-    // ── 3D Accessoires (Rosa Schleife & Zylinder) ──
+    for (let ix = -3.5; ix <= 3.5; ix += 1.0) {
+      for (let iy = -2.0; iy <= 4.0; iy += 1.0) {
+        for (let iz = -2.0; iz <= 3.0; iz += 1.0) {
+          // Obere Scheitel-Abstufung (6 Blöcke breit -2.5..2.5, wie in Bild 1-4!)
+          if (iy === 4.0 && (Math.abs(ix) === 3.5 || iz === 3.0 || iz === -2.0)) continue;
+          if (Math.abs(ix) === 3.5 && (iz === -2.0 || iz === 3.0)) continue;
+          if (iy === -2.0 && Math.abs(ix) === 3.5) continue;
+
+          const isSurface = (Math.abs(ix) >= 2.5 || iy === -2.0 || iy >= 3.0 || iz === -2.0 || iz >= 2.0);
+          if (!isSurface) continue;
+          addVoxel(ix, iy, iz, mFur, voxelHeadGroup);
+        }
+      }
+    }
+
+    // ── Schwarze, quadratische 2×2-Augen mit kleinem hervorgehobenem 3D-Relief-Stein unten (exakt wie in Bild 1-3!) ──
+    // Das Blinzeln skaliert eyeLGroup / eyeRGroup weich auf der Y-Achse zusammen!
+    eyeLGroup = new THREE.Group();
+    eyeLGroup.position.set(-2.0 * B, 1.35 * B, 3.12 * B);
+    for (let ex = -0.5; ex <= 0.5; ex += 1.0) {
+      for (let ey = -0.5; ey <= 0.5; ey += 1.0) {
+        addVoxel(ex, ey, 0, mPupil, eyeLGroup, 0.96, 0.96, 0.45, false);
+      }
+    }
+    // Kleiner vorstehender 3D-Knopfstein im unteren Drittel des Auges (wie auf den Fotos!)
+    addVoxel(0, -0.25, 0.28, mPupil, eyeLGroup, 1.1, 0.65, 0.35, false);
+    voxelHeadGroup.add(eyeLGroup);
+
+    eyeRGroup = new THREE.Group();
+    eyeRGroup.position.set(2.0 * B, 1.35 * B, 3.12 * B);
+    for (let ex = -0.5; ex <= 0.5; ex += 1.0) {
+      for (let ey = -0.5; ey <= 0.5; ey += 1.0) {
+        addVoxel(ex, ey, 0, mPupil, eyeRGroup, 0.96, 0.96, 0.45, false);
+      }
+    }
+    addVoxel(0, -0.25, 0.28, mPupil, eyeRGroup, 1.1, 0.65, 0.35, false);
+    voxelHeadGroup.add(eyeRGroup);
+
+    // ── Schnauzen-Vorbau (4×2×2 Blöcke + oberer Nasenrücken) + zweistufige schokobraune Knopf-Nase (Bild 1-3!) ──
+    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+      for (let iy = -1.0; iy <= 0.0; iy += 1.0) {
+        for (let iz = 4.0; iz <= 5.0; iz += 1.0) {
+          addVoxel(ix, iy, iz, mSnout, voxelHeadGroup);
+        }
+      }
+    }
+    // Sanfte Nasenrücken-Stufe zwischen den Augen (2 Blöcke breit)
+    addVoxel(-0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
+    addVoxel(0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
+
+    // Dunkel-schokobraune Knopf-Nase mit feiner oberer Abstufung (exakt wie in Bild 1-3!)
+    addVoxel(0, 0.15, 5.25, mNose, voxelHeadGroup, 1.85, 1.15, 0.9, false);
+    addVoxel(0, 0.55, 5.05, mNose, voxelHeadGroup, 1.55, 0.45, 0.85, false);
+
+    // ── Beweglicher Unterkiefer + korallrote Zunge mit vertikaler Mittelrille & abgerundeter Spitze (Bild 1-3!) ──
+    voxelJawGroup = new THREE.Group();
+    voxelJawGroup.position.set(0, -1.5 * B, 3.5 * B);
+    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+      addVoxel(ix, -0.35, 0.5, mFur, voxelJawGroup);
+    }
+    // Herausgestreckte Zunge aus linken & rechten Blöcken (mit feiner vertikaler Mittelrille und abgerundeter Unterkante!)
+    addVoxel(-0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
+    addVoxel(0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
+    addVoxel(-0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
+    addVoxel(0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
+    // Untere gestufte Zungenspitze
+    addVoxel(-0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
+    addVoxel(0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
+    voxelHeadGroup.add(voxelJawGroup);
+
+    // ── Dunkelbraune Schlappohren mit den charakteristischen feinen Mikro-Treppenstufen auf der Schräge (Bild 1-4!) ──
+    voxelEarLGroup = new THREE.Group();
+    voxelEarLGroup.position.set(-3.5 * B, 3.5 * B, 0.5 * B);
+    for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
+      // Obere Ohrkappe auf dem Kopf
+      addVoxel(0.5, 0.5, iz, mFurDark, voxelEarLGroup);
+      addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarLGroup);
+      // Langer herabhängender Ohrlappen (3 große Blöcke untereinander)
+      for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
+        addVoxel(-1.5, ey, iz, mFurDark, voxelEarLGroup);
+        addVoxel(-2.4, ey - 0.5, iz, mFurDark, voxelEarLGroup);
+      }
+      // Untere Ohrspitze leicht gestuft
+      addVoxel(-1.6, -4.35, iz, mFurDark, voxelEarLGroup, 1.2, 0.5, 0.95, false);
+    }
+    // Feine 10-stufige Mikro-Treppe entlang der oberen äußeren Ohr-Schräge (exakt wie auf den Fotos!)
+    for (let s = 0; s < 9; s++) {
+      addVoxel(-0.75 - s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarLGroup, 0.45, 0.28, 2.95, false);
+    }
+    voxelEarLGroup.rotation.z = 0.06;
+    voxelHeadGroup.add(voxelEarLGroup);
+
+    voxelEarRGroup = new THREE.Group();
+    voxelEarRGroup.position.set(3.5 * B, 3.5 * B, 0.5 * B);
+    for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
+      addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarRGroup);
+      addVoxel(0.5, 0.5, iz, mFurDark, voxelEarRGroup);
+      for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
+        addVoxel(1.5, ey, iz, mFurDark, voxelEarRGroup);
+        addVoxel(2.4, ey - 0.5, iz, mFurDark, voxelEarRGroup);
+      }
+      addVoxel(1.6, -4.35, iz, mFurDark, voxelEarRGroup, 1.2, 0.5, 0.95, false);
+    }
+    for (let s = 0; s < 9; s++) {
+      addVoxel(0.75 + s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarRGroup, 0.45, 0.28, 2.95, false);
+    }
+    voxelEarRGroup.rotation.z = -0.06;
+    voxelHeadGroup.add(voxelEarRGroup);
+
+    // ── 3D Accessoires (Rosa Voxel-Schleife & Voxel-Zylinder) ──
     voxelBowMesh = new THREE.Group();
-    const bowMat = new THREE.MeshLambertMaterial({ color: 0xec4899 });
-    const bowKnot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.1), bowMat);
-    const bowWingL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.08), bowMat);
-    bowWingL.position.set(-0.14, 0.02, 0);
+    const bowMat = new THREE.MeshStandardMaterial({ color: 0xec4899, roughness: 0.4 });
+    const bowKnot = new THREE.Mesh(new THREE.BoxGeometry(B * 1.2, B * 1.2, B * 1.0), bowMat);
+    const bowWingL = new THREE.Mesh(new THREE.BoxGeometry(B * 1.6, B * 1.3, B * 0.9), bowMat);
+    bowWingL.position.set(-B * 1.2, 0.02, 0);
     bowWingL.rotation.z = 0.25;
-    const bowWingR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.08), bowMat);
-    bowWingR.position.set(0.14, 0.02, 0);
+    const bowWingR = new THREE.Mesh(new THREE.BoxGeometry(B * 1.6, B * 1.3, B * 0.9), bowMat);
+    bowWingR.position.set(B * 1.2, 0.02, 0);
     bowWingR.rotation.z = -0.25;
-    voxelBowMesh.add(bowKnot);
-    voxelBowMesh.add(bowWingL);
-    voxelBowMesh.add(bowWingR);
-    voxelBowMesh.position.set(-0.32, 0.48, 0.15); // Vorne am linken Ohr
+    voxelBowMesh.add(bowKnot, bowWingL, bowWingR);
+    voxelBowMesh.position.set(-2.5 * B, 4.6 * B, 1.5 * B);
     voxelBowMesh.visible = false;
     voxelHeadGroup.add(voxelBowMesh);
 
     voxelHatMesh = new THREE.Group();
-    const hatMat = new THREE.MeshLambertMaterial({ color: 0x18181b });
-    const hatBandMat = new THREE.MeshLambertMaterial({ color: 0xdc2626 });
-    const hatBrim = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.05, 14), hatMat);
-    const hatCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.45, 14), hatMat);
-    hatCrown.position.y = 0.25;
-    const hatBand = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.29, 0.08, 14), hatBandMat);
-    hatBand.position.y = 0.1;
-    voxelHatMesh.add(hatBrim);
-    voxelHatMesh.add(hatCrown);
-    voxelHatMesh.add(hatBand);
-    voxelHatMesh.position.set(0, 0.52, 0.05); // Oben auf dem Kopf
+    const hatMat = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.4 });
+    const hatBandMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.4 });
+    const hatBrim = new THREE.Mesh(new THREE.BoxGeometry(B * 5.0, B * 0.6, B * 5.0), hatMat);
+    const hatCrown = new THREE.Mesh(new THREE.BoxGeometry(B * 3.4, B * 3.2, B * 3.4), hatMat);
+    hatCrown.position.y = B * 1.8;
+    const hatBand = new THREE.Mesh(new THREE.BoxGeometry(B * 3.6, B * 0.7, B * 3.6), hatBandMat);
+    hatBand.position.y = B * 0.6;
+    voxelHatMesh.add(hatBrim, hatCrown, hatBand);
+    voxelHatMesh.position.set(0, 4.6 * B, 0.5 * B);
     voxelHatMesh.rotation.z = -0.08;
     voxelHatMesh.visible = false;
     voxelHeadGroup.add(voxelHatMesh);
 
-    // Hauptkopf
-    const headGeo = new THREE.BoxGeometry(1.0, 0.9, 0.9);
-    const headMesh = new THREE.Mesh(headGeo, mFur);
-    voxelHeadGroup.add(headMesh);
-
-    // Detail: Helle Bäckchen / Wangen
-    const cheekLGeo = new THREE.BoxGeometry(0.12, 0.35, 0.45);
-    const cheekL = new THREE.Mesh(cheekLGeo, mSnout);
-    cheekL.position.set(-0.48, -0.15, 0.22);
-    voxelHeadGroup.add(cheekL);
-
-    const cheekR = new THREE.Mesh(cheekLGeo, mSnout);
-    cheekR.position.set(0.48, -0.15, 0.22);
-    voxelHeadGroup.add(cheekR);
-
-    // Oberes Schnauzenstück (Fest am Kopf)
-    const upperSnoutGeo = new THREE.BoxGeometry(0.5, 0.24, 0.5);
-    const upperSnoutMesh = new THREE.Mesh(upperSnoutGeo, mSnout);
-    upperSnoutMesh.position.set(0, -0.08, 0.58);
-    voxelHeadGroup.add(upperSnoutMesh);
-
-    // Nase (Block auf oberer Schnauze)
-    const noseGeo = new THREE.BoxGeometry(0.2, 0.16, 0.16);
-    const noseMesh = new THREE.Mesh(noseGeo, mNose);
-    noseMesh.position.set(0, -0.02, 0.84);
-    voxelHeadGroup.add(noseMesh);
-
-    // ── Echter beweglicher Unterkiefer / Mund (öffnet sich beim Bellen!) ──
-    voxelJawGroup = new THREE.Group();
-    voxelJawGroup.position.set(0, -0.22, 0.42); // Scharnier-Achse hinten an der Schnauze
-    const jawGeo = new THREE.BoxGeometry(0.46, 0.14, 0.42);
-    const jawMesh = new THREE.Mesh(jawGeo, mSnout);
-    jawMesh.position.set(0, -0.06, 0.18);
-    voxelJawGroup.add(jawMesh);
-
-    // Rote Zunge / Mundinneres auf dem Unterkiefer
-    const tongueGeo = new THREE.BoxGeometry(0.3, 0.06, 0.28);
-    const tongueMesh = new THREE.Mesh(tongueGeo, mMouth);
-    tongueMesh.position.set(0, 0.02, 0.16);
-    voxelJawGroup.add(tongueMesh);
-    voxelHeadGroup.add(voxelJawGroup);
-
     // ── Gestohlener UI-Knopf in der Schnauze (bei Unordnung sichtbar) ──
-    const stolenItemGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.1, 12);
-    const mStolen = new THREE.MeshLambertMaterial({ color: 0x38bdf8 }); // Cyan/Blau wie die UI-Knöpfe
+    const stolenItemGeo = new THREE.BoxGeometry(B * 2.4, B * 0.8, B * 2.4);
+    const mStolen = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 });
     stolenItemMesh = new THREE.Mesh(stolenItemGeo, mStolen);
-    stolenItemMesh.rotation.x = Math.PI * 0.45;
-    stolenItemMesh.position.set(0, -0.16, 0.72);
+    stolenItemMesh.position.set(0, -1.8 * B, 5.2 * B);
     stolenItemMesh.visible = false;
     voxelHeadGroup.add(stolenItemMesh);
 
-    // Linkes Auge (Weiß + Pupille in Gruppe für Blinzeln & Schließen)
-    eyeLGroup = new THREE.Group();
-    eyeLGroup.position.set(-0.28, 0.1, 0.46);
-    const eyeWhiteGeo = new THREE.BoxGeometry(0.2, 0.2, 0.04);
-    const eyeLWhite = new THREE.Mesh(eyeWhiteGeo, mEyeWhite);
-    eyeLGroup.add(eyeLWhite);
-
-    const pupilGeo = new THREE.BoxGeometry(0.12, 0.14, 0.06);
-    const eyeLPupil = new THREE.Mesh(pupilGeo, mPupil);
-    eyeLPupil.position.set(0.02, -0.01, 0.01);
-    eyeLGroup.add(eyeLPupil);
-    voxelHeadGroup.add(eyeLGroup);
-
-    // Rechtes Auge (Weiß + Pupille in Gruppe für Blinzeln & Schließen)
-    eyeRGroup = new THREE.Group();
-    eyeRGroup.position.set(0.28, 0.1, 0.46);
-    const eyeRWhite = new THREE.Mesh(eyeWhiteGeo, mEyeWhite);
-    eyeRGroup.add(eyeRWhite);
-
-    const eyeRPupil = new THREE.Mesh(pupilGeo, mPupil);
-    eyeRPupil.position.set(-0.02, -0.01, 0.01);
-    eyeRGroup.add(eyeRPupil);
-    voxelHeadGroup.add(eyeRGroup);
-
-    // Ohren (Links & Rechts Schlappohren mit zweistufigem Fell-Look)
-    const earGeo = new THREE.BoxGeometry(0.24, 0.55, 0.3);
-    const earL = new THREE.Mesh(earGeo, mFurDark);
-    earL.position.set(-0.54, 0.1, 0.05);
-    earL.rotation.z = 0.15;
-    voxelHeadGroup.add(earL);
-
-    const earR = new THREE.Mesh(earGeo, mFurDark);
-    earR.position.set(0.54, 0.1, 0.05);
-    earR.rotation.z = -0.15;
-    voxelHeadGroup.add(earR);
-
     voxelPuppyGroup.add(voxelHeadGroup);
 
-    // ── Beine (4 Pfoten mit helleren Pfötchen-Socken) ──
-    const legGeo = new THREE.BoxGeometry(0.26, 0.55, 0.26);
-    const sockGeo = new THREE.BoxGeometry(0.28, 0.16, 0.28);
-
-    function createDetailedLeg(x, y, z) {
+    // ── 4 Beine & Pfötchen in GLEICHEM HELLEN BEIGEBRAUN wie der Körper, mit feiner Pfötchen-Abstufung (Bild 1-4!) ──
+    function createStandingLeg(x, y, z, isFront) {
       const legGroup = new THREE.Group();
       legGroup.position.set(x, y, z);
-      const legPart = new THREE.Mesh(legGeo, mFurDark);
-      legPart.position.set(0, -0.22, 0);
-      legGroup.add(legPart);
-      const sockPart = new THREE.Mesh(sockGeo, mSnout);
-      sockPart.position.set(0, -0.42, 0);
-      legGroup.add(sockPart);
+      // Beinsäule (2×4×2 Blöcke in hellem Beigebraun mFur!)
+      const topY = isFront ? 1 : 0;
+      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+        for (let iy = -3; iy <= topY; iy += 1.0) {
+          for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
+            addVoxel(ix, iy, iz, mFur, legGroup);
+          }
+        }
+      }
+      // Beim Hinterbein im Stehen: Feine horizontale Oberschenkel-Abstufung oben vorne (wie in Bild 2 & 3!)
+      if (!isFront) {
+        for (let s = 0; s < 4; s++) {
+          addVoxel(0, -0.2 - s * 0.25, 0.6 + (3 - s) * 0.22, mFur, legGroup, 1.95, 0.28, 0.65, false);
+        }
+      }
+      // Pfötchen-Basis unten in hellem Beigebraun mFur (NICHT dunkelbraun!) + kleine obere Pfötchen-Stufe!
+      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+        for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
+          addVoxel(ix, -4.0, iz, mFur, legGroup); // Gleiche helle Fellfarbe wie in allen 4 Bildern!
+        }
+      }
+      // Feine Pfötchen-Oberstufe (Manschette über den Zehen wie in Bild 1-4)
+      addVoxel(0, -3.35, 0.45, mFur, legGroup, 2.15, 0.35, 2.35, false);
       return legGroup;
     }
 
-    voxelLegFL = createDetailedLeg(-0.32, -0.32, 0.42);
+    voxelLegFL = createStandingLeg(-2.0 * B, -1.2 * B, 2.2 * B, true);
     voxelPuppyGroup.add(voxelLegFL);
 
-    voxelLegFR = createDetailedLeg(0.32, -0.32, 0.42);
+    voxelLegFR = createStandingLeg(2.0 * B, -1.2 * B, 2.2 * B, true);
     voxelPuppyGroup.add(voxelLegFR);
 
-    voxelLegBL = createDetailedLeg(-0.32, -0.32, -0.42);
+    voxelLegBL = createStandingLeg(-2.0 * B, -1.2 * B, -2.6 * B, false);
     voxelPuppyGroup.add(voxelLegBL);
 
-    voxelLegBR = createDetailedLeg(0.32, -0.32, -0.42);
+    voxelLegBR = createStandingLeg(2.0 * B, -1.2 * B, -2.6 * B, false);
     voxelPuppyGroup.add(voxelLegBR);
 
-    // ── Schwanz (animiertes Schwanzwedeln) ──
+    // ── Spezielle, kompakt angewinkelte Hinterbeine für das KORREKTE SITZEN (Exakt wie in Bild 1!) ──
+    function createSittingHindLeg(x) {
+      const sitLeg = new THREE.Group();
+      sitLeg.position.set(x, -1.2 * B, -1.2 * B);
+      // Seitlich am Rumpf anliegender, 2×2 Blöcke hoher Schenkel + darunterliegendes beigefarbenes Pfötchen
+      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+        for (let iy = -3.0; iy <= -1.0; iy += 1.0) {
+          for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
+            addVoxel(ix, iy, iz, mFur, sitLeg);
+          }
+        }
+        for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
+          addVoxel(ix, -4.0, iz, mFur, sitLeg);
+        }
+      }
+      addVoxel(0, -3.35, 0.45, mFur, sitLeg, 2.15, 0.35, 2.35, false);
+      sitLeg.visible = false;
+      return sitLeg;
+    }
+    voxelLegBLSit = createSittingHindLeg(-2.5 * B);
+    voxelLegBRSit = createSittingHindLeg(2.5 * B);
+    voxelPuppyGroup.add(voxelLegBLSit);
+    voxelPuppyGroup.add(voxelLegBRSit);
+
+    // ── Kurzer, hochstehender dunkelbrauner Schwanz mit feinen Mikro-Stufen auf der Innenseite (Bild 1-4!) ──
     voxelTailGroup = new THREE.Group();
-    voxelTailGroup.position.set(0, 0.18, -0.65);
-    const tailGeo = new THREE.BoxGeometry(0.18, 0.18, 0.5);
-    const tailMesh = new THREE.Mesh(tailGeo, mFurDark);
-    tailMesh.position.set(0, 0.15, -0.22);
-    tailMesh.rotation.x = 0.45;
-    voxelTailGroup.add(tailMesh);
+    voxelTailGroup.position.set(0, 0.2 * B, -4.2 * B);
+    for (let s = 0; s < 10; s++) {
+      const ty = s * 0.35;
+      const tz = -0.3 - Math.min(1.2, s * 0.18);
+      addVoxel(0, ty, tz, mFurDark, voxelTailGroup, 1.15, 0.42, 1.15, false);
+    }
+    // Obere glatte Schwanzspitze
+    addVoxel(0, 3.6, -1.5, mFurDark, voxelTailGroup, 1.15, 0.85, 1.05, false);
     voxelPuppyGroup.add(voxelTailGroup);
 
-    // ── Voxel-Häufchen (Initial unsichtbar, hinter Holly positioniert) ──
-    const poopGeo1 = new THREE.BoxGeometry(0.35, 0.12, 0.35);
-    const poopGeo2 = new THREE.BoxGeometry(0.2, 0.12, 0.2);
+    console.log(`[Tamaholly 3D Nanoblock Voxel] Nanoblock-Welpe (Stehen & Sitzen) erstellt: ${totalDogVoxels} Blöcke (${totalDogVoxels * 12} Dreiecke, Blockgröße=${B})`);
+
+    // ── Voxel-Häufchen (Geschichtet aus echten Voxel-Blöcken + kleine Augen/Glanz, zur Kamera ausgerichtet!) ──
     voxelPoopMesh = new THREE.Group();
-    const p1 = new THREE.Mesh(poopGeo1, mPoop);
-    p1.position.y = 0.06;
-    const p2 = new THREE.Mesh(poopGeo2, mPoop);
-    p2.position.y = 0.18;
-    voxelPoopMesh.add(p1);
-    voxelPoopMesh.add(p2);
-    voxelPoopMesh.position.set(0, -0.75, -1.15); // Direkt hinten hinter Holly
+    // Untere Basis-Schicht (3x3 Voxel)
+    for (let px = -1; px <= 1; px++) {
+      for (let pz = -1; pz <= 1; pz++) {
+        const pBlock = new THREE.Mesh(sharedVoxelGeo, (px + pz) % 2 === 0 ? mPoop : mPoopDark);
+        pBlock.position.set(px * B * 0.85, B * 0.5, pz * B * 0.85);
+        voxelPoopMesh.add(pBlock);
+      }
+    }
+    // Mittlere Schicht (2x2 versetzt)
+    for (let px = -0.5; px <= 0.5; px += 1) {
+      for (let pz = -0.5; pz <= 0.5; pz += 1) {
+        const pBlock = new THREE.Mesh(sharedVoxelGeo, mPoop);
+        pBlock.position.set(px * B * 0.85, B * 1.35, pz * B * 0.85);
+        voxelPoopMesh.add(pBlock);
+      }
+    }
+    // Spitze oben drauf
+    const poopTip = new THREE.Mesh(sharedVoxelGeo, mPoopDark);
+    poopTip.position.set(0, B * 2.2, 0);
+    voxelPoopMesh.add(poopTip);
+    // Gut sichtbar vorne Richtung Kamera positionieren und ausrichten
+    voxelPoopMesh.position.set(0.28, -0.75, 0.95);
+    voxelPoopMesh.rotation.set(0.15, 0, 0);
     voxelPoopMesh.visible = false;
     voxelScene.add(voxelPoopMesh);
 
-    // ── Voxel-Urin-Pfütze (Revier markieren) ──
-    const peeGeo = new THREE.CylinderGeometry(0.42, 0.46, 0.03, 14);
+    // ── Voxel-Urin-Pfütze (Aus flachen Voxel-Kacheln am Boden, verblasst nach einigen Sekunden sanft) ──
+    voxelPeeMesh = new THREE.Group();
     const mPee = new THREE.MeshLambertMaterial({
       color: 0xfacc15,
       transparent: true,
-      opacity: 0.82
+      opacity: 0.85
     });
-    voxelPeeMesh = new THREE.Mesh(peeGeo, mPee);
-    voxelPeeMesh.position.set(0.45, -0.78, -0.45);
+    const peePattern = [
+      [0, 0], [-1, 0], [1, 0], [0, -1], [0, 1],
+      [-1, -1], [1, 1], [-1, 1], [2, 0], [0, 2]
+    ];
+    const peeTileGeo = new THREE.BoxGeometry(B * 0.95, 0.025, B * 0.95);
+    peePattern.forEach(([px, pz]) => {
+      const tile = new THREE.Mesh(peeTileGeo, mPee);
+      tile.position.set(px * B * 0.9, 0, pz * B * 0.9);
+      voxelPeeMesh.add(tile);
+    });
+    voxelPeeMesh.userData.material = mPee;
+    voxelPeeMesh.position.set(0.35, -0.78, 0.55);
     voxelPeeMesh.visible = false;
     voxelScene.add(voxelPeeMesh);
 
-    // ── 3D Voxel-Fressnapf (Sehr detailliert: Metallring-Optik, Futterhaufen mit Kroketten-Struktur & Deko-Knochen) ──
+    // ── 3D Voxel-Fressnapf mit geschichteten Voxel-Futterstücken (leert sich von oben nach unten!) ──
     voxelTreatMesh = new THREE.Group();
-    // 1. Unterer Napf-Sockel / Gummiring
-    const baseRingGeo = new THREE.CylinderGeometry(0.54, 0.58, 0.06, 16);
-    const mBowlRubber = new THREE.MeshLambertMaterial({ color: 0x1e293b });
-    const baseRing = new THREE.Mesh(baseRingGeo, mBowlRubber);
-    baseRing.position.y = 0.03;
-    voxelTreatMesh.add(baseRing);
-
-    // 2. Napf-Außenwand (Glänzendes Königsblau mit Tiefe)
-    const bowlOuterGeo = new THREE.CylinderGeometry(0.50, 0.53, 0.22, 16);
     const mBowlOuter = new THREE.MeshLambertMaterial({ color: 0x2563eb });
-    const bowlOuter = new THREE.Mesh(bowlOuterGeo, mBowlOuter);
-    bowlOuter.position.y = 0.14;
-    voxelTreatMesh.add(bowlOuter);
-
-    // 3. Edelstahl-Kranz oben am Napfrand
-    const rimGeo = new THREE.CylinderGeometry(0.52, 0.50, 0.05, 16);
     const mBowlRim = new THREE.MeshLambertMaterial({ color: 0xe2e8f0 });
-    const bowlRim = new THREE.Mesh(rimGeo, mBowlRim);
-    bowlRim.position.y = 0.25;
-    voxelTreatMesh.add(bowlRim);
+    const mBowlBottom = new THREE.MeshLambertMaterial({ color: 0x1e293b });
 
-    // 4. Napf-Innere Mulde
-    const bowlInnerGeo = new THREE.CylinderGeometry(0.44, 0.38, 0.18, 16);
-    const mBowlInner = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
-    const bowlInner = new THREE.Mesh(bowlInnerGeo, mBowlInner);
-    bowlInner.position.y = 0.17;
-    voxelTreatMesh.add(bowlInner);
+    // Voxel-Napf-Ring & Boden aufbauen
+    for (let bx = -3; bx <= 3; bx++) {
+      for (let bz = -3; bz <= 3; bz++) {
+        const dist = Math.hypot(bx, bz);
+        if (dist <= 3.2) {
+          // Bodenplatte
+          const botBlock = new THREE.Mesh(new THREE.BoxGeometry(B * 0.9, B * 0.5, B * 0.9), mBowlBottom);
+          botBlock.position.set(bx * B * 0.85, 0.03, bz * B * 0.85);
+          voxelTreatMesh.add(botBlock);
+        }
+        if (dist >= 2.2 && dist <= 3.3) {
+          // Blaue Napfwand + silberner Rand
+          const wallBlock = new THREE.Mesh(new THREE.BoxGeometry(B * 0.9, B * 1.4, B * 0.9), mBowlOuter);
+          wallBlock.position.set(bx * B * 0.85, 0.14, bz * B * 0.85);
+          voxelTreatMesh.add(wallBlock);
+          const rimBlock = new THREE.Mesh(new THREE.BoxGeometry(B * 0.92, B * 0.35, B * 0.92), mBowlRim);
+          rimBlock.position.set(bx * B * 0.85, 0.25, bz * B * 0.85);
+          voxelTreatMesh.add(rimBlock);
+        }
+      }
+    }
 
-    // 5. Knackige Futterfüllung (in voxelFoodGroup gruppiert, leert sich beim Fressen!)
+    // Geschichtete Voxel-Futterstücke (3 Lagen von unten nach oben), die beim Fressen von oben nach unten verschwinden!
     voxelFoodGroup = new THREE.Group();
-    const foodHeapGeo = new THREE.CylinderGeometry(0.38, 0.40, 0.12, 12);
-    const mFoodBase = new THREE.MeshLambertMaterial({ color: 0x78350f });
-    const foodHeap = new THREE.Mesh(foodHeapGeo, mFoodBase);
-    foodHeap.position.y = 0.23;
-    voxelFoodGroup.add(foodHeap);
-
-    // Einzelne knusprige Kroketten-Blöcke aufgetürmt
-    const kibbleGeo = new THREE.BoxGeometry(0.11, 0.07, 0.11);
+    voxelFoodBlocks = [];
     const mKibble1 = new THREE.MeshLambertMaterial({ color: 0x92400e });
     const mKibble2 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
-    const kibbleOffsets = [
-      [-0.14, 0.30, -0.10, 0.3], [0.12, 0.30, -0.12, -0.4],
-      [-0.08, 0.31, 0.14, 0.6], [0.14, 0.31, 0.10, -0.2],
-      [0.0, 0.33, 0.0, 0.15], [-0.18, 0.29, 0.05, 0.8],
-      [0.17, 0.29, -0.02, -0.5]
-    ];
-    kibbleOffsets.forEach((kf, idx) => {
-      const kMesh = new THREE.Mesh(kibbleGeo, idx % 2 === 0 ? mKibble1 : mKibble2);
-      kMesh.position.set(kf[0], kf[1], kf[2]);
-      kMesh.rotation.y = kf[3];
-      voxelFoodGroup.add(kMesh);
-    });
-    voxelTreatMesh.add(voxelFoodGroup);
-
-    // 6. Feiner weiß-gelber Hundeknochen-Aufsatz
-    const boneCenterGeo = new THREE.BoxGeometry(0.24, 0.07, 0.08);
-    const boneKnobGeo = new THREE.BoxGeometry(0.08, 0.11, 0.12);
     const mBoneDeco = new THREE.MeshLambertMaterial({ color: 0xfef08a });
-    const boneCenter = new THREE.Mesh(boneCenterGeo, mBoneDeco);
-    boneCenter.position.set(0, 0.36, 0);
-    voxelTreatMesh.add(boneCenter);
-    const boneL = new THREE.Mesh(boneKnobGeo, mBoneDeco);
-    boneL.position.set(-0.12, 0.36, 0);
-    voxelTreatMesh.add(boneL);
-    const boneR = new THREE.Mesh(boneKnobGeo, mBoneDeco);
-    boneR.position.set(0.12, 0.36, 0);
-    voxelTreatMesh.add(boneR);
+    const kibbleVoxelGeo = new THREE.BoxGeometry(B * 0.78, B * 0.65, B * 0.78);
 
-    voxelTreatMesh.position.set(0, -0.65, 1.15);
+    // Lage 1 (unten im Napf, y = 0.10)
+    for (let fx = -2; fx <= 2; fx++) {
+      for (let fz = -2; fz <= 2; fz++) {
+        if (Math.hypot(fx, fz) <= 2.1) {
+          const kb = new THREE.Mesh(kibbleVoxelGeo, (fx + fz) % 2 === 0 ? mKibble1 : mKibble2);
+          kb.position.set(fx * B * 0.75, 0.10, fz * B * 0.75);
+          kb.userData.layerY = 1;
+          voxelFoodGroup.add(kb);
+          voxelFoodBlocks.push(kb);
+        }
+      }
+    }
+    // Lage 2 (Mitte, y = 0.18)
+    for (let fx = -1; fx <= 1; fx++) {
+      for (let fz = -1; fz <= 1; fz++) {
+        const kb = new THREE.Mesh(kibbleVoxelGeo, (fx * fz) % 2 === 0 ? mKibble2 : mKibble1);
+        kb.position.set(fx * B * 0.8, 0.18, fz * B * 0.8);
+        kb.userData.layerY = 2;
+        voxelFoodGroup.add(kb);
+        voxelFoodBlocks.push(kb);
+      }
+    }
+    // Lage 3 (Oben / Spitze + kleiner Knochen, y = 0.26..0.32)
+    [[-0.5, 0.25, 0], [0.5, 0.25, 0], [0, 0.25, -0.5], [0, 0.25, 0.5], [0, 0.31, 0]].forEach((pos, idx) => {
+      const kb = new THREE.Mesh(kibbleVoxelGeo, idx === 4 ? mBoneDeco : mKibble2);
+      kb.position.set(pos[0] * B, pos[1], pos[2] * B);
+      kb.userData.layerY = 3 + idx * 0.1;
+      voxelFoodGroup.add(kb);
+      voxelFoodBlocks.push(kb);
+    });
+
+    // Sortiere Futterblöcke absteigend nach Höhe (von oben nach unten!), damit beim Fressen zuerst die obersten verschwinden
+    voxelFoodBlocks.sort((a, b) => b.position.y - a.position.y);
+
+    voxelTreatMesh.add(voxelFoodGroup);
+    voxelTreatMesh.position.set(0, -0.68, 1.18);
     voxelTreatMesh.visible = false;
     voxelScene.add(voxelTreatMesh);
 
-    // ── 3D Hundeleine (verläuft sauber seitlich nach außen oben ohne Kopf/Körper zu durchqueren) ──
-    const leashCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.18, 0.20, 0.65),    // Am rechten Rand des Halsbands befestigt
-      new THREE.Vector3(0.55, 0.65, 0.95),    // Weit nach rechts außen geschwungen (frei von Kopf/Ohren)
-      new THREE.Vector3(0.95, 1.25, 1.25),
-      new THREE.Vector3(1.35, 1.85, 1.55)     // Zieht elegant nach oben rechts zum Halter
-    ]);
-    const leashGeo = new THREE.TubeGeometry(leashCurve, 18, 0.024, 6, false);
-    const mLeash = new THREE.MeshLambertMaterial({ color: 0xd97706 }); // Lederne Leine
-    voxelLeashMesh = new THREE.Mesh(leashGeo, mLeash);
+    // ── Dynamische Voxel-Hundeleine (im Weltkoordinatenraum, verläuft im hohen Bogen über dem Rücken!) ──
+    voxelLeashMesh = new THREE.Group();
+    voxelLeashBlocks = [];
+    const mLeash1 = new THREE.MeshLambertMaterial({ color: 0xd97706 });
+    const mLeash2 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+    const leashSegGeo = new THREE.BoxGeometry(B * 0.45, B * 0.45, B * 0.45);
+    for (let li = 0; li < 22; li++) {
+      const lSeg = new THREE.Mesh(leashSegGeo, li % 2 === 0 ? mLeash1 : mLeash2);
+      voxelLeashMesh.add(lSeg);
+      voxelLeashBlocks.push(lSeg);
+    }
     voxelLeashMesh.visible = false;
-    voxelPuppyGroup.add(voxelLeashMesh); // Direkt an Welpen gekoppelt für saubere Bewegungsfreiheit
+    voxelScene.add(voxelLeashMesh); // Direkt in der Szene, damit sie dynamisch über dem Rücken berechnet wird!
 
     // ── Schaumblasen für Voxel-Waschen ──
-    const bubbleGeo = new THREE.BoxGeometry(0.12, 0.12, 0.12);
+    const bubbleGeo = new THREE.BoxGeometry(0.11, 0.11, 0.11);
     const mBubble = new THREE.MeshLambertMaterial({
       color: 0x93c5fd,
       transparent: true,
@@ -3307,15 +3702,29 @@ const app = (() => {
       });
     }
 
-    // ── Voxel-Spielball (Spielen: Pink-blauer Ball-Würfel) ──
-    const ballGeo = new THREE.BoxGeometry(0.35, 0.35, 0.35);
-    const mBall = new THREE.MeshLambertMaterial({ color: 0xec4899 }); // Hot pink
-    voxelBallMesh = new THREE.Mesh(ballGeo, mBall);
+    // ── Voxel-Spielball (Mehrfarbiger 3D-Voxel-Ball aus kleinen Blöcken) ──
+    voxelBallMesh = new THREE.Group();
+    const mBallPink = new THREE.MeshLambertMaterial({ color: 0xec4899 });
+    const mBallCyan = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+    const mBallWhite = new THREE.MeshLambertMaterial({ color: 0xffffff });
+    const ballSubGeo = new THREE.BoxGeometry(B * 0.85, B * 0.85, B * 0.85);
+    for (let bx = -1; bx <= 1; bx++) {
+      for (let by = -1; by <= 1; by++) {
+        for (let bz = -1; bz <= 1; bz++) {
+          if (Math.abs(bx) + Math.abs(by) + Math.abs(bz) <= 2) {
+            const bMat = (bx === 0 && by === 0) ? mBallWhite : ((bx + by + bz) % 2 === 0 ? mBallPink : mBallCyan);
+            const bSub = new THREE.Mesh(ballSubGeo, bMat);
+            bSub.position.set(bx * B * 0.75, by * B * 0.75, bz * B * 0.75);
+            voxelBallMesh.add(bSub);
+          }
+        }
+      }
+    }
     voxelBallMesh.position.set(0.65, -0.55, 1.1);
     voxelBallMesh.visible = false;
     voxelScene.add(voxelBallMesh);
 
-    // Interaktives Drehen per Drag/Maus & Antippen/Klick für Freude / Ball-Klick / Häufchen
+    // Interaktives Drehen per Drag/Maus & Antippen/Klick für Freude / Interaktives Ball-Spielen / Häufchen
     let isDragging = false;
     let dragDistanceX = 0;
     let dragDistanceY = 0;
@@ -3323,48 +3732,51 @@ const app = (() => {
     let clickStartX = 0;
     let clickStartY = 0;
 
-    container.addEventListener('pointerdown', e => {
-      isDragging = true;
-      dragDistanceX = 0;
-      dragDistanceY = 0;
-      prevMouseX = e.clientX;
-      clickStartX = e.clientX;
-      clickStartY = e.clientY;
-    });
+    if (!container.dataset.listenersBound) {
+      container.dataset.listenersBound = 'true';
 
-    window.addEventListener('pointermove', e => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - prevMouseX;
-      dragDistanceX += Math.abs(deltaX);
-      prevMouseX = e.clientX;
-      if (voxelPuppyGroup && state.mode !== 'feed') {
-        voxelPuppyGroup.rotation.y += deltaX * 0.02;
-      }
-    });
+      container.addEventListener('pointerdown', e => {
+        isDragging = true;
+        dragDistanceX = 0;
+        dragDistanceY = 0;
+        prevMouseX = e.clientX;
+        clickStartX = e.clientX;
+        clickStartY = e.clientY;
+      });
 
-    window.addEventListener('pointerup', e => {
-      if (!isDragging) return;
-      isDragging = false;
-      dragDistanceY = Math.abs(e.clientY - clickStartY);
-      const totalMove = Math.hypot(e.clientX - clickStartX, e.clientY - clickStartY);
-
-      // Wenn die horizontale Wischbewegung groß war (> 35px), soll der View geswipt werden!
-      if (Math.abs(e.clientX - clickStartX) > 35 && Math.abs(e.clientX - clickStartX) > dragDistanceY) {
-        if (e.clientX < clickStartX) {
-          // Nach links gewischt
-          if (currentViewIndex < 2) switchView(currentViewIndex + 1);
-        } else {
-          // Nach rechts gewischt
-          if (currentViewIndex > 0) switchView(currentViewIndex - 1);
+      window.addEventListener('pointermove', e => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevMouseX;
+        dragDistanceX += Math.abs(deltaX);
+        prevMouseX = e.clientX;
+        if (voxelPuppyGroup && state.mode !== 'feed' && state.mode !== 'play') {
+          voxelCurrentRot += deltaX * 0.02;
+          voxelPuppyRot.y = voxelCurrentRot;
         }
-        return;
-      }
+      });
 
-      // Wenn es ein kurzer Klick/Tap war (kaum Bewegung < 10px)
-      if (totalMove < 10) {
-        handleVoxelContainerClick(e);
-      }
-    });
+      window.addEventListener('pointerup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        dragDistanceY = Math.abs(e.clientY - clickStartY);
+        const totalMove = Math.hypot(e.clientX - clickStartX, e.clientY - clickStartY);
+
+        // Wenn die horizontale Wischbewegung groß war (> 35px), soll der View geswipt werden!
+        if (Math.abs(e.clientX - clickStartX) > 35 && Math.abs(e.clientX - clickStartX) > dragDistanceY) {
+          if (e.clientX < clickStartX) {
+            if (currentViewIndex < 2) switchView(currentViewIndex + 1);
+          } else {
+            if (currentViewIndex > 0) switchView(currentViewIndex - 1);
+          }
+          return;
+        }
+
+        // Wenn es ein kurzer Klick/Tap war (kaum Bewegung < 12px)
+        if (totalMove < 12) {
+          handleVoxelContainerClick(e);
+        }
+      });
+    }
 
     // 7. Skalierung basierend auf aktueller Wachstumsstufe anwenden
     applyVoxelScale();
@@ -3373,30 +3785,34 @@ const app = (() => {
     animateVoxelPet();
     applyDogCustomization();
   }
+
+  function setVoxelBlockSize(newSize) {
+    const clamped = Math.max(0.075, Math.min(0.125, parseFloat(newSize) || 0.095));
+    VOXEL_BLOCK_SIZE = clamped;
+    const label = $('voxel-size-val');
+    if (label) label.textContent = clamped.toFixed(3);
+    const slider = $('voxel-size-slider');
+    if (slider) slider.value = String(clamped);
+    initVoxelPet();
+  }
+
   function applyDogCustomization() {
     if (!voxelPuppyGroup) return;
     const fur = DOG_FUR_PALETTES[state.custom.fur] || DOG_FUR_PALETTES.brown;
     const collarCol = DOG_COLLAR_COLORS[state.custom.collar] || DOG_COLLAR_COLORS.red;
+    const envName = state.custom.env || 'meadow';
 
-    // Materialien im 3D-Modell anpassen
-    voxelPuppyGroup.traverse(child => {
-      if (child.isMesh && child.material) {
-        // Fell-Farben
-        if (child.material === mFur) {
-          child.material.color.setHex(fur.fur);
-        } else if (child.material === mFurDark) {
-          child.material.color.setHex(fur.furDark);
-        } else if (child.material === mSnout) {
-          child.material.color.setHex(fur.snout);
-        } else if (child.material === mCollar) {
-          child.material.color.setHex(collarCol);
-        }
-      }
-    });
+    if (mFurMat) mFurMat.color.setHex(fur.fur);
+    if (mFurDarkMat) mFurDarkMat.color.setHex(fur.furDark);
+    if (mSnoutMat) mSnoutMat.color.setHex(fur.snout);
+    if (mCollarMat) mCollarMat.color.setHex(collarCol);
 
     // Accessoires ein-/ausblenden
     if (voxelBowMesh) voxelBowMesh.visible = (state.custom.accessory === 'bow');
     if (voxelHatMesh) voxelHatMesh.visible = (state.custom.accessory === 'hat');
+
+    // 3D-Umgebung aktualisieren
+    buildVoxelEnvironment(envName);
 
     // UI Pills im Anpassungsmenü synchronisieren
     document.querySelectorAll('.custom-fur-btn').forEach(b => {
@@ -3414,10 +3830,15 @@ const app = (() => {
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
+    document.querySelectorAll('.custom-env-btn').forEach(b => {
+      const active = b.dataset.env === envName;
+      b.style.background = active ? '#38bdf8' : '#27272a';
+      b.style.color = active ? '#000' : '#fff';
+    });
   }
 
   function setDogCustom(category, value) {
-    if (!state.custom) state.custom = { fur: 'brown', collar: 'red', accessory: 'none' };
+    if (!state.custom) state.custom = { fur: 'brown', collar: 'red', accessory: 'none', env: 'meadow' };
     state.custom[category] = value;
     applyDogCustomization();
     saveGameProgress();
@@ -3437,7 +3858,6 @@ const app = (() => {
     if (modal) modal.style.display = 'none';
   }
 
-
   function handleVoxelContainerClick(e) {
     if (state.locked && state.mode !== 'play') return;
 
@@ -3447,19 +3867,20 @@ const app = (() => {
       return;
     }
 
-    // Wenn ein Häufchen oder eine Pfütze da ist und darauf geklickt wird: Aufwischen / reinigen!
-    const rect = $('voxel-container').getBoundingClientRect();
+    const containerEl = $('voxel-container');
+    const rect = containerEl.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
     const relY = (e.clientY - rect.top) / rect.height;
 
-    if ((state.hasPoop || state.hasPee) && relY > 0.5) {
-      cleanPoop();
+    // Wenn Spielmodus aktiv ist: Klick/Touch auf das runde Display wirft den Voxel-Ball exakt dorthin, und Holly jagt & schnappt danach!
+    if (state.mode === 'play' || voxelPlayTimer > 0) {
+      kickVoxelBall(relX, relY);
       return;
     }
 
-    // Wenn Spielmodus aktiv ist: Klick auf den Ball lässt ihn woanders hinspringen!
-    if (state.mode === 'play') {
-      kickVoxelBall();
+    // Wenn ein Häufchen oder eine Pfütze da ist und in die untere Hälfte geklickt wird: Aufwischen / reinigen!
+    if ((state.hasPoop || state.hasPee) && relY > 0.52) {
+      cleanPoop();
       return;
     }
 
@@ -3467,17 +3888,33 @@ const app = (() => {
     voxelTriggerJoy();
   }
 
-  function kickVoxelBall() {
-    // Ball springt an eine neue zufällige Position im 3D Raum
-    const angles = [0.8, -0.8, 1.2, -1.2, 0.2, -0.2];
-    const pickX = angles[Math.floor(Math.random() * angles.length)];
-    const pickZ = 0.8 + Math.random() * 0.7;
-    voxelBallPos.targetX = pickX;
-    voxelBallPos.targetZ = pickZ;
+  function kickVoxelBall(relX, relY) {
+    // Wenn Touch-/Klick-Koordinaten vorhanden sind, Ball exakt an diese Stelle auf dem runden Display werfen!
+    if (typeof relX === 'number' && typeof relY === 'number') {
+      let tx = (relX - 0.5) * 2.6;
+      let tz = (relY - 0.52) * 2.4;
+      const r = Math.hypot(tx, tz);
+      if (r > 1.35) {
+        tx = (tx / r) * 1.35;
+        tz = (tz / r) * 1.35;
+      }
+      voxelBallPos.targetX = tx;
+      voxelBallPos.targetZ = Math.max(-0.6, Math.min(1.35, tz));
+    } else {
+      const angles = [0.85, -0.85, 1.15, -1.15, 0.35, -0.35];
+      voxelBallPos.targetX = angles[Math.floor(Math.random() * angles.length)];
+      voxelBallPos.targetZ = 0.5 + Math.random() * 0.8;
+    }
+
+    // Spielzeit bei aktivem Klick verlängern, damit man interaktiv weiterspielen kann
+    if (voxelPlayTimer > 0) {
+      voxelPlayTimer = Math.max(voxelPlayTimer, 3.2);
+    }
+    voxelSnapTimer = 0.45; // Kurz freudig schnappen
 
     spawnEffect('⚽', 3);
-    spawnEffect('✨', 3);
-    setStatus('Holly jagt begeistert dem springenden Ball hinterher! ⚽🐾');
+    spawnEffect('✨', 2);
+    setStatus('Holly jagt dem Ball hinterher und schnappt danach! ⚽🐶');
     addXp(5);
   }
 
@@ -3586,7 +4023,7 @@ const app = (() => {
     voxelAnimId = requestAnimationFrame(animateVoxelPet);
     if (!voxelRenderer || !voxelScene || !voxelCamera || !voxelPuppyGroup) return;
 
-    const delta = voxelClock ? voxelClock.getDelta() : 0.016;
+    const delta = voxelClock ? Math.min(0.05, voxelClock.getDelta()) : 0.016;
     const time = voxelClock ? voxelClock.getElapsedTime() : Date.now() * 0.001;
 
     // Timer dekrementieren
@@ -3596,65 +4033,73 @@ const app = (() => {
     const isWalk = (state.mode === 'walk') || (voxelWalkTimer > 0);
     const isSleep = (state.mode === 'sleep');
     const isWake = (state.mode === 'wake') || (voxelWakeTimer > 0);
+    const isPoopSquat = (voxelPoopSquatTimer > 0); // Echte Hocker-Pose beim Häufchen-Machen!
+    const B = VOXEL_BLOCK_SIZE;
 
     if (voxelJoyTimer > 0)  voxelJoyTimer = Math.max(0, voxelJoyTimer - delta);
     if (voxelFeedTimer > 0) voxelFeedTimer = Math.max(0, voxelFeedTimer - delta);
     if (voxelPlayTimer > 0) voxelPlayTimer = Math.max(0, voxelPlayTimer - delta);
     if (voxelWalkTimer > 0) voxelWalkTimer = Math.max(0, voxelWalkTimer - delta);
     if (voxelWakeTimer > 0) voxelWakeTimer = Math.max(0, voxelWakeTimer - delta);
+    if (voxelSnapTimer > 0) voxelSnapTimer = Math.max(0, voxelSnapTimer - delta);
+    if (voxelPoopSquatTimer > 0) voxelPoopSquatTimer = Math.max(0, voxelPoopSquatTimer - delta);
 
-    // ── Voxel Leckerli (Fressnapf) & Ball Sichtbarkeit & Animation ──
+    // ── Interaktives Füttern: Voxel-Futterstücke leeren sich schrittweise von oben nach unten! ──
     if (voxelTreatMesh) {
       voxelTreatMesh.visible = isFeed;
       if (isFeed) {
-        voxelTreatMesh.position.set(0, -0.65, 1.15);
-        // Fressnapf leert sich kontinuierlich während des Fressens
-        if (voxelFoodGroup) {
+        voxelTreatMesh.position.set(0, -0.68, 1.18);
+        if (voxelFoodBlocks && voxelFoodBlocks.length > 0) {
           const feedDuration = 3.5;
-          const foodRemaining = Math.max(0, Math.min(1, voxelFeedTimer / feedDuration));
-          voxelFoodGroup.scale.set(foodRemaining, foodRemaining, foodRemaining);
-          voxelFoodGroup.position.y = (foodRemaining - 1) * 0.12;
+          const foodFraction = Math.max(0, Math.min(1, voxelFeedTimer / feedDuration));
+          // Anzahl der Blöcke, die bereits von oben her weggefressen wurden
+          const eatenCount = Math.floor((1 - foodFraction) * voxelFoodBlocks.length);
+          voxelFoodBlocks.forEach((kb, idx) => {
+            kb.visible = (idx >= eatenCount);
+          });
         }
-      } else if (voxelFoodGroup) {
-        voxelFoodGroup.scale.set(1, 1, 1);
-        voxelFoodGroup.position.y = 0;
+      } else if (voxelFoodBlocks && voxelFoodBlocks.length > 0) {
+        // Wenn nicht gefüttert wird, Napf wieder voll für nächstes Mal vorbereiten
+        voxelFoodBlocks.forEach(kb => { kb.visible = true; });
       }
     }
+
+    // ── Interaktives Spielen: Voxel-Ball springt zum Touch-Ziel & Holly folgt/schnappt danach ──
     if (voxelBallMesh) {
       voxelBallMesh.visible = isPlay;
       if (isPlay) {
-        // Sanfte Interpolation zur Zielposition des Balls
-        voxelBallPos.x += (voxelBallPos.targetX - voxelBallPos.x) * 0.1;
-        voxelBallPos.z += (voxelBallPos.targetZ - voxelBallPos.z) * 0.1;
+        voxelBallPos.x += (voxelBallPos.targetX - voxelBallPos.x) * 0.14;
+        voxelBallPos.z += (voxelBallPos.targetZ - voxelBallPos.z) * 0.14;
 
-        voxelBallMesh.rotation.x += 0.08;
-        voxelBallMesh.rotation.y += 0.05;
+        voxelBallMesh.rotation.x += 0.09;
+        voxelBallMesh.rotation.y += 0.07;
         voxelBallMesh.position.set(
           voxelBallPos.x,
-          -0.55 + Math.abs(Math.sin(time * 10)) * 0.35,
+          -0.56 + Math.abs(Math.sin(time * 11)) * 0.32,
           voxelBallPos.z
         );
       }
     }
 
-    // ── Häufchen & Urin-Pfütze Synchronisation (Pfütze verschwindet langsam) ──
+    // ── Häufchen & Voxel-Urinpfütze Synchronisation (Pfütze verblasst langsam & sanft) ──
     if (voxelPoopMesh) {
       voxelPoopMesh.visible = state.hasPoop;
     }
     if (voxelPeeMesh) {
+      const peeMat = voxelPeeMesh.userData.material;
       if (state.hasPee) {
         voxelPeeTimer += delta;
-        // Nach 1.5s Verweilen beginnt die Pfütze über 3.5s hinweg langsam zu verblassen
-        if (voxelPeeTimer > 1.5) {
-          const fadeProgress = (voxelPeeTimer - 1.5) / 3.5;
-          const currentOpacity = Math.max(0, 0.82 * (1 - fadeProgress));
-          const currentScale = Math.max(0.01, 1 - fadeProgress * 0.4);
-          voxelPeeMesh.material.opacity = currentOpacity;
+        // Nach 2.0 Sekunden Verweilen verblasst die Voxel-Pfütze sanft über 3.5 Sekunden
+        if (voxelPeeTimer > 2.0) {
+          const fadeProgress = (voxelPeeTimer - 2.0) / 3.5;
+          const currentOpacity = Math.max(0, 0.85 * (1 - fadeProgress));
+          const currentScale = Math.max(0.01, 1 - fadeProgress * 0.35);
+          if (peeMat) peeMat.opacity = currentOpacity;
           voxelPeeMesh.scale.set(currentScale, 1, currentScale);
           if (fadeProgress >= 1.0) {
             state.hasPee = false;
             voxelPeeMesh.visible = false;
-            voxelPeeMesh.material.opacity = 0.82;
+            if (peeMat) peeMat.opacity = 0.85;
             voxelPeeMesh.scale.set(1, 1, 1);
             voxelPeeTimer = 0;
           }
@@ -3662,11 +4107,6 @@ const app = (() => {
       } else {
         voxelPeeMesh.visible = false;
       }
-    }
-
-    // ── Leine beim Gassi gehen ──
-    if (voxelLeashMesh) {
-      voxelLeashMesh.visible = isWalk;
     }
 
     // ── Schaumblasen beim Waschen ──
@@ -3685,37 +4125,23 @@ const app = (() => {
       });
     }
 
-    // ── Schlafpositionen (Bauch, Seite links, Rücken, Seite rechts) wechseln ──
-    if (isSleep) {
-      voxelNextPoseTimer += delta;
-      if (voxelNextPoseTimer > 6.0) { // Alle 6 Sekunden Positionswechsel
-        voxelNextPoseTimer = 0;
-        voxelSleepPose = (voxelSleepPose + 1) % 4;
-        spawnEffect('💤', 2);
-      }
-    } else {
-      voxelSleepPose = 0;
-      voxelNextPoseTimer = 0;
-    }
-
-    // ── Kamera-Positionierung (für Schräg-Ansicht von hinten beim Häufchen machen & flüssige Transitions) ──
+    // ── Kamera-Positionierung ──
     let targetCamX = 0;
-    let targetCamY = 1.2;
-    let targetCamZ = 4.8;
+    let targetCamY = 1.25;
+    let targetCamZ = 4.7;
     let targetLookX = 0;
-    let targetLookY = -0.3;
+    let targetLookY = -0.25;
     let targetLookZ = 0;
 
     if (isWalk) {
-      targetCamX = 1.0;
-      targetCamY = 1.2;
-      targetCamZ = 4.2;
+      targetCamX = 0.85;
+      targetCamY = 1.3;
+      targetCamZ = 4.3;
       targetLookX = 0;
       targetLookY = -0.2;
       targetLookZ = 0;
     }
 
-    // Flüssige Kamera-Interpolation
     voxelCamPos.x += (targetCamX - voxelCamPos.x) * 0.05;
     voxelCamPos.y += (targetCamY - voxelCamPos.y) * 0.05;
     voxelCamPos.z += (targetCamZ - voxelCamPos.z) * 0.05;
@@ -3729,203 +4155,221 @@ const app = (() => {
     // ── Blinzeln & Augen beim Schlafen schließen ──
     if (eyeLGroup && eyeRGroup) {
       if (isSleep) {
-        // Augen beim Schlafen komplett geschlossen (flach skaliert)
-        eyeLGroup.scale.y = 0.08;
-        eyeRGroup.scale.y = 0.08;
+        eyeLGroup.scale.y = 0.06;
+        eyeRGroup.scale.y = 0.06;
       } else {
-        // Blinzel-Zyklus (alle 3-4 Sekunden kurzes natürliches Schließen für 120ms)
         voxelBlinkTimer -= delta;
         if (voxelBlinkTimer <= 0) {
-          voxelBlinkTimer = 2.5 + Math.random() * 3.5;
+          // Natürlich blinzeln alle 1.8 bis 3.2 Sekunden (gelegentlich Doppel-Blinzeln)
+          voxelBlinkTimer = (Math.random() < 0.25) ? 0.42 : (1.8 + Math.random() * 1.4);
         }
-        const isBlinking = (voxelBlinkTimer > 0.02 && voxelBlinkTimer < 0.16);
-        const targetEyeScaleY = isBlinking ? 0.08 : 1.0;
-        eyeLGroup.scale.y += (targetEyeScaleY - eyeLGroup.scale.y) * 0.45;
-        eyeRGroup.scale.y += (targetEyeScaleY - eyeRGroup.scale.y) * 0.45;
+        const isBlinking = (voxelBlinkTimer > 0.02 && voxelBlinkTimer < 0.20);
+        const targetEyeScaleY = isBlinking ? 0.06 : 1.0;
+        eyeLGroup.scale.y += (targetEyeScaleY - eyeLGroup.scale.y) * 0.55;
+        eyeRGroup.scale.y += (targetEyeScaleY - eyeRGroup.scale.y) * 0.55;
       }
     }
 
-    // ── Autonomes Hundeverhalten im Leerlauf (Idle: wandern, schnuppern, bellen, neugierig schauen, hinsetzen, männchen machen) ──
+    // ── Bewegungs-Logik & Exakte Bewegungs-Begrenzung am Display-Rand ──
     const isNormalIdle = !isSleep && !isWake && !isFeed && !isPlay && !isWalk && !isJoy;
-    let isActuallyWalking = false;
+    let prevPosX = voxelCurrentPos.x;
+    let prevPosZ = voxelCurrentPos.z;
+    const maxBorderRadius = 1.45; // Sichere Begrenzung innerhalb des runden Displays
+
     if (isNormalIdle) {
       voxelBehaviorTimer -= delta;
       boredomTimer += delta;
 
       if (voxelBehaviorTimer <= 0) {
-        // Neues Verhalten zufällig auswählen: Schnuppern, Umherlaufen, Bellen, Hinsetzen, Männchen machen, Revier markieren
-        const behaviors = ['stand', 'wander', 'sniff', 'bark', 'curious', 'sit', 'beg', 'mark', 'wander'];
+        // Abwechslungsreiches Idle-Verhalten mit Fokus auf Sitzen (Bild 1) & Stehen (Bild 2–4)
+        const behaviors = ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'stand', 'curious', 'bark', 'mark'];
         if (boredomTimer > 45 && Math.random() < 0.25) {
           voxelIdleBehavior = 'messy';
-          boredomTimer = 0; // Timer zurücksetzen
+          boredomTimer = 0;
         } else {
           voxelIdleBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
         }
 
         if (voxelIdleBehavior === 'wander') {
-          // Großzügige Zielpunkte über das runde Display wählen (Radius max 1.5 damit sicher im Sichtfeld)
           const wanderAngle = Math.random() * Math.PI * 2;
-          const wanderDist = 0.4 + Math.random() * 1.1;
+          const wanderDist = 0.45 + Math.random() * 0.95;
           voxelTargetPos.x = Math.cos(wanderAngle) * wanderDist;
-          voxelTargetPos.z = Math.sin(wanderAngle) * (wanderDist * 0.7); // Z leicht stauchen wegen Neigung
-          // Zur Gehrichtung ausrichten
+          voxelTargetPos.z = Math.sin(wanderAngle) * (wanderDist * 0.75);
           const dx = voxelTargetPos.x - voxelCurrentPos.x;
           const dz = voxelTargetPos.z - voxelCurrentPos.z;
           voxelTargetRot = Math.atan2(dx, dz);
-          voxelBehaviorTimer = 3.5 + Math.random() * 2.5;
+          voxelBehaviorTimer = 3.2 + Math.random() * 2.2;
         } else if (voxelIdleBehavior === 'sniff') {
-          voxelBehaviorTimer = 2.2 + Math.random() * 1.5;
+          voxelBehaviorTimer = 2.6 + Math.random() * 1.4;
         } else if (voxelIdleBehavior === 'bark') {
-          // Bellen: Direkt zum Display / Betrachter drehen!
           voxelTargetRot = 0;
           voxelCurrentRot = 0;
           spawnEffect('🐾', 2);
           voxelBehaviorTimer = 2.0;
         } else if (voxelIdleBehavior === 'curious') {
-          voxelTargetRot = (Math.random() - 0.5) * 0.9;
+          voxelTargetRot = (Math.random() - 0.5) * 0.8;
           voxelBehaviorTimer = 2.5;
         } else if (voxelIdleBehavior === 'sit') {
-          // Hinsetzen: Holly ruht gemütlich und blickt nach vorne
-          voxelTargetRot = (Math.random() - 0.5) * 0.3;
-          voxelBehaviorTimer = 3.5 + Math.random() * 2.0;
+          voxelTargetRot = (Math.random() - 0.5) * 0.35;
+          voxelBehaviorTimer = 3.8 + Math.random() * 2.0;
         } else if (voxelIdleBehavior === 'beg') {
-          // Männchen machen! (Körper aufgerichtet, Vorderpfoten in die Luft)
           voxelTargetRot = (Math.random() - 0.5) * 0.4;
           voxelBehaviorTimer = 2.8 + Math.random() * 1.2;
           spawnEffect('✨', 2);
         } else if (voxelIdleBehavior === 'mark') {
-          // Revier markieren: Direkt zum Display blicken, Bein heben und Pfütze nach vorne platzieren
-          voxelTargetRot = 0; // Frontal zum Display
+          // Revier markieren: Bein heben & gelbe Voxel-Pfütze erzeugen, die danach langsam verblasst
+          voxelTargetRot = 0;
           voxelCurrentRot = 0;
-          voxelBehaviorTimer = 3.0;
-          // Nach 1.4s Pfütze vorne am Display spawnen
+          voxelBehaviorTimer = 3.2;
           setTimeout(() => {
             if (voxelPeeMesh && voxelPuppyGroup) {
-              const pX = voxelPuppyGroup.position.x + 0.35;
-              const pZ = voxelPuppyGroup.position.z + 0.35; // Vorne Richtung Display/Betrachter
+              const pX = Math.max(-0.85, Math.min(0.85, voxelPuppyGroup.position.x + 0.34));
+              const pZ = Math.max(-0.5, Math.min(1.1, voxelPuppyGroup.position.z + 0.32));
               voxelPeeMesh.position.set(pX, -0.78, pZ);
-              voxelPeeMesh.material.opacity = 0.82;
+              if (voxelPeeMesh.userData.material) voxelPeeMesh.userData.material.opacity = 0.85;
               voxelPeeMesh.scale.set(1, 1, 1);
               voxelPeeMesh.visible = true;
               state.hasPee = true;
-              voxelPeeTimer = 0; // Timer für langsames Verblassen starten
+              voxelPeeTimer = 0;
               spawnEffect('💧', 2);
             }
-          }, 1400);
+          }, 1100);
         } else if (voxelIdleBehavior === 'messy') {
-          // Frecher Welpe stibitzt einen Button
           triggerHollyMischief();
           voxelBehaviorTimer = 4.5;
         } else {
-          // Stehen & umschauen
-          voxelTargetRot = (Math.random() - 0.5) * 0.7;
-          voxelBehaviorTimer = 2.0 + Math.random() * 2.0;
+          voxelTargetRot = (Math.random() - 0.5) * 0.6;
+          voxelBehaviorTimer = 2.2 + Math.random() * 1.8;
         }
       }
 
-      // Sanfte, flüssige Bewegung zur Zielposition über das Display
       if (voxelIdleBehavior === 'wander') {
         const dx = voxelTargetPos.x - voxelCurrentPos.x;
         const dz = voxelTargetPos.z - voxelCurrentPos.z;
         const distToTarget = Math.hypot(dx, dz);
 
-        // Holly läuft vorwärts in Blickrichtung, anstatt seitlich zu rutschen!
-        const targetHeading = Math.atan2(dx, dz);
-        // Kürzesten Drehwinkel berechnen
-        let angleDiff = targetHeading - voxelCurrentRot;
-        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+        if (distToTarget > 0.06) {
+          const targetHeading = Math.atan2(dx, dz);
+          let angleDiff = targetHeading - voxelCurrentRot;
+          while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+          while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
 
-        voxelCurrentRot += angleDiff * 0.08;
+          voxelCurrentRot += angleDiff * 0.1;
 
-        // Rand-Kollisionsprüfung: Wenn Holly an den Displayrand kommt (Radius >= 1.6), sofort anhalten & umkehren!
-        const curDist = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
-        const maxBorderRadius = 1.6;
+          // Nur vorwärts bewegen, wenn schon grob in Laufrichtung gedreht
+          if (Math.abs(angleDiff) < 0.55) {
+            const step = Math.min(0.020, distToTarget);
+            const nextX = voxelCurrentPos.x + Math.sin(voxelCurrentRot) * step;
+            const nextZ = voxelCurrentPos.z + Math.cos(voxelCurrentRot) * step;
+            const nextDist = Math.hypot(nextX, nextZ);
 
-        if (curDist >= maxBorderRadius) {
-          // Am Rand: Beine stoppen! Direkt umdrehen zur Display-Mitte
-          const angleToCenter = Math.atan2(-voxelCurrentPos.x, -voxelCurrentPos.z);
-          voxelTargetRot = angleToCenter + (Math.random() - 0.5) * 0.4;
-          voxelTargetPos.x = Math.cos(angleToCenter) * (0.3 + Math.random() * 0.5);
-          voxelTargetPos.z = Math.sin(angleToCenter) * (0.3 + Math.random() * 0.4);
-
-          // Holly leicht vom Rand wegziehen
-          voxelCurrentPos.x = (voxelCurrentPos.x / curDist) * (maxBorderRadius - 0.04);
-          voxelCurrentPos.z = (voxelCurrentPos.z / curDist) * (maxBorderRadius - 0.04);
-          voxelBehaviorTimer = 3.5;
-          isActuallyWalking = false; // Beine bleiben stehen während sie sich dreht!
-        } else if (distToTarget > 0.08) {
-          // Nur vorwärts laufen, wenn der Blickwinkel einigermaßen zur Zielrichtung passt
-          if (Math.abs(angleDiff) < 0.6) {
-            const step = Math.min(0.022, distToTarget);
-            voxelCurrentPos.x += Math.sin(voxelCurrentRot) * step;
-            voxelCurrentPos.z += Math.cos(voxelCurrentRot) * step;
-            isActuallyWalking = true;
-          } else {
-            // Holly dreht sich erst auf der Stelle zum Ziel
-            isActuallyWalking = false;
+            // Bewegungs-Begrenzung am Display-Rand: Stoppt sofort am Rand (kein Laufen auf der Stelle!)
+            if (nextDist < maxBorderRadius) {
+              voxelCurrentPos.x = nextX;
+              voxelCurrentPos.z = nextZ;
+            } else {
+              // Exakt am Rand angekommen -> Wander-Bewegung beenden, damit Beine synchron mit dem Stopp anhalten!
+              const clampScale = (maxBorderRadius - 0.01) / Math.max(0.001, nextDist);
+              voxelCurrentPos.x = nextX * clampScale;
+              voxelCurrentPos.z = nextZ * clampScale;
+              voxelTargetPos.x = voxelCurrentPos.x;
+              voxelTargetPos.z = voxelCurrentPos.z;
+              voxelIdleBehavior = 'stand';
+              voxelBehaviorTimer = 1.4; // Kurz ruhig am Rand stehenbleiben, bevor ein neues Ziel gewählt wird
+            }
           }
         } else {
-          isActuallyWalking = false;
+          // Ziel erreicht -> sauber stehenbleiben
+          voxelIdleBehavior = 'stand';
         }
       }
+    } else if (isPlay) {
+      // Interaktives Spielen: Holly läuft aktiv zum Voxel-Ball und schnappt danach!
+      const goalX = voxelBallPos.x * 0.55;
+      const goalZ = Math.max(-0.5, voxelBallPos.z - 0.45);
+      const dx = goalX - voxelCurrentPos.x;
+      const dz = goalZ - voxelCurrentPos.z;
+      const distToBall = Math.hypot(dx, dz);
+
+      const targetAngle = Math.atan2(voxelBallPos.x - voxelCurrentPos.x, voxelBallPos.z - voxelCurrentPos.z);
+      let angleDiff = targetAngle - voxelCurrentRot;
+      while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+      while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+      voxelCurrentRot += angleDiff * 0.15;
+
+      if (distToBall > 0.08) {
+        const step = Math.min(0.032, distToBall);
+        const nextX = voxelCurrentPos.x + (dx / distToBall) * step;
+        const nextZ = voxelCurrentPos.z + (dz / distToBall) * step;
+        if (Math.hypot(nextX, nextZ) < maxBorderRadius) {
+          voxelCurrentPos.x = nextX;
+          voxelCurrentPos.z = nextZ;
+        }
+      } else if (voxelSnapTimer <= 0 && Math.random() < 0.08) {
+        // Am Ball angekommen -> freudig danach schnappen!
+        voxelSnapTimer = 0.35;
+      }
     } else {
-      // Wenn eine Aktion aktiv ist (Schlafen, Füttern, Gassi etc.):
-      // Holly dreht sich zur Mitte um und LÄUFT natürlich dorthin, statt seitlich verschoben zu werden!
+      // Bei Füttern, Schlafen, Gassi: Sanft zur Display-Mitte laufen
       const distToCenter = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
-      if (distToCenter > 0.12) {
+      if (distToCenter > 0.06 && !isSleep) {
         const headingToCenter = Math.atan2(-voxelCurrentPos.x, -voxelCurrentPos.z);
         let angleDiff = headingToCenter - voxelCurrentRot;
         while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
         while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
 
-        voxelCurrentRot += angleDiff * 0.1;
-        const step = Math.min(0.028, distToCenter);
-        voxelCurrentPos.x += Math.sin(voxelCurrentRot) * step;
-        voxelCurrentPos.z += Math.cos(voxelCurrentRot) * step;
-        if (!isSleep) isActuallyWalking = true;
-      } else {
-        voxelCurrentPos.x += (0 - voxelCurrentPos.x) * 0.06;
-        voxelCurrentPos.z += (0 - voxelCurrentPos.z) * 0.06;
+        voxelCurrentRot += angleDiff * 0.12;
+        const step = Math.min(0.026, distToCenter);
+        voxelCurrentPos.x += ( -voxelCurrentPos.x / distToCenter ) * step;
+        voxelCurrentPos.z += ( -voxelCurrentPos.z / distToCenter ) * step;
+      } else if (!isSleep) {
+        voxelCurrentPos.x = 0;
+        voxelCurrentPos.z = 0;
       }
     }
 
-    // ── A. Rotation (Y-Achse) & Körperneigung (Z- & X-Achse) ──
+    // Exakte Messung der tatsächlichen Ortsveränderung in diesem Frame:
+    // Wenn der Hund am Rand oder am Ziel stoppt (actualSpeed === 0), stoppt die Laufbewegung der Beine exakt synchron!
+    const actualMoveDist = Math.hypot(voxelCurrentPos.x - prevPosX, voxelCurrentPos.z - prevPosZ);
+    const isMovingInSpace = actualMoveDist > 0.002;
+
+    // ── Exakte Nanoblock-Sitzhaltung (Bild 1) vs. Standhaltung (Bild 2–4) umschalten ──
+    const isSittingPose = (!isSleep && !isWake && !isWalk && !isPoopSquat && !isMovingInSpace && !isPlay && !isJoy && (voxelIdleBehavior === 'sit'));
+    if (voxelBodyStandGroup && voxelBodySitGroup) {
+      voxelBodyStandGroup.visible = !isSittingPose;
+      voxelBodySitGroup.visible = isSittingPose;
+    }
+    if (voxelLegBL && voxelLegBR && voxelLegBLSit && voxelLegBRSit) {
+      voxelLegBL.visible = !isSittingPose;
+      voxelLegBR.visible = !isSittingPose;
+      voxelLegBLSit.visible = isSittingPose;
+      voxelLegBRSit.visible = isSittingPose;
+    }
+
+    // ── A. Rotation (Y-Achse) & Körperneigung (KEINE simple Gesamtrotation beim Schlafen, echte Hocker-Pose beim Häufchen!) ──
     let targetRotX = 0;
     let targetRotY = voxelCurrentRot;
     let targetRotZ = 0;
 
     if (isSleep) {
-      // Flüssige Übergänge zwischen Schlafposen berechnen
-      if (voxelSleepPose === 0) {
-        // Bauchlage: Leicht schräg, sanftes Schlummern
-        voxelSleepTargetRot = { x: 0, y: 0.8, z: 0 };
-      } else if (voxelSleepPose === 1) {
-        // Seitenlage links: Körper sanft zur Seite gerollt
-        voxelSleepTargetRot = { x: 0.1, y: 1.1, z: 0.6 };
-      } else if (voxelSleepPose === 2) {
-        // Rückenlage (süß! Pfötchen in die Luft)
-        voxelSleepTargetRot = { x: -0.2, y: 0.9, z: 2.65 };
-      } else {
-        // Seitenlage rechts
-        voxelSleepTargetRot = { x: 0.1, y: 0.5, z: -0.6 };
-      }
-
-      voxelSleepRot.x += (voxelSleepTargetRot.x - voxelSleepRot.x) * 0.05;
-      voxelSleepRot.y += (voxelSleepTargetRot.y - voxelSleepRot.y) * 0.05;
-      voxelSleepRot.z += (voxelSleepTargetRot.z - voxelSleepRot.z) * 0.05;
-
-      targetRotX = voxelSleepRot.x;
-      targetRotY = voxelSleepRot.y;
-      targetRotZ = voxelSleepRot.z;
+      // Kein Umkippen des gesamten Modells! Hund liegt entspannt in Bauchlage (Sphinx-Schlafhaltung),
+      // während sich der Brustkorb realistisch hebt und senkt.
+      targetRotX = 0.04;
+      targetRotY = 0.45;
+      targetRotZ = 0;
+    } else if (isPoopSquat) {
+      // Echte Hocker-Pose: Hund dreht sich beim Häufchen-Machen um (Hinterteil Richtung Kamera/Betrachter!)
+      // und hockt sich mit tief abgesenktem Hinterteil hin!
+      targetRotX = -0.36;
+      targetRotY = Math.PI - 0.25; // Um ~165° umgedreht, sodass das Hinterteil beim Hocken direkt nach vorne zur Kamera zeigt!
+      targetRotZ = 0;
     } else if (isFeed) {
-      targetRotX = 0;
+      targetRotX = 0.08;
       targetRotY = 0;
       targetRotZ = 0;
     } else if (isPlay) {
-      const targetAngle = Math.atan2(voxelBallPos.x, voxelBallPos.z);
-      targetRotX = 0;
-      targetRotY = targetAngle;
+      targetRotX = (voxelSnapTimer > 0) ? 0.14 : -0.06;
+      targetRotY = voxelCurrentRot;
       targetRotZ = 0;
     } else if (isJoy) {
       targetRotX = 0;
@@ -3933,46 +4377,123 @@ const app = (() => {
       targetRotZ = 0;
     } else if (isWalk) {
       targetRotX = 0;
-      targetRotY = Math.PI * 0.15 + Math.sin(time * 3) * 0.12;
+      targetRotY = Math.PI * 0.15 + Math.sin(time * 2.5) * 0.10;
       targetRotZ = 0;
     } else if (isWake) {
-      targetRotX = 0;
-      targetRotY = 0.6;
+      targetRotX = -0.18; // Strecken beim Aufwachen
+      targetRotY = 0.35;
       targetRotZ = 0;
     } else {
-      // Normaler Leerlauf
       if (voxelIdleBehavior === 'bark' || state.mode === 'bark' || voxelIdleBehavior === 'mark') {
-        targetRotY = 0; // Beim Bellen und Pinkeln/Markieren direkt zum Display blicken
+        targetRotY = 0;
       } else {
         targetRotY = voxelCurrentRot;
       }
       targetRotZ = 0;
 
-      if (voxelIdleBehavior === 'sit') {
-        // Echtes Sitzen: Körper neigt sich aufgerichtet nach oben/hinten (Brust hoch)
-        targetRotX = 0.42;
+      if (isSittingPose) {
+        // Aufrechtes, rastertreues Nanoblock-Sitzen (wie in Referenzbild 1): Kein schiefes Kippen des gesamten Körpers!
+        targetRotX = 0;
+      } else if (voxelIdleBehavior === 'sniff') {
+        // Beim Schnuppern neigt sich der vordere Rumpf leicht zum Boden
+        targetRotX = 0.14;
       } else if (voxelIdleBehavior === 'beg') {
-        const begWobble = Math.sin(time * 6) * 0.04;
-        targetRotX = -1.05 + begWobble; // Männchen machen
+        targetRotX = -0.95 + Math.sin(time * 6) * 0.04;
       } else if (voxelIdleBehavior === 'mark') {
-        targetRotX = 0.05;
-        targetRotZ = -0.15; // Neigt sich leicht beim Beinheben
+        targetRotX = 0.04;
+        targetRotZ = -0.14; // Neigt sich leicht beim Beinheben
       } else {
         targetRotX = 0;
       }
     }
 
-    // Sanfte Interpolation für absolut flüssige Übergänge aller Körper-Rotationen
     let dyRot = targetRotY - voxelPuppyRot.y;
     while (dyRot < -Math.PI) dyRot += Math.PI * 2;
     while (dyRot > Math.PI) dyRot -= Math.PI * 2;
-    voxelPuppyRot.y += dyRot * 0.08;
-    voxelPuppyRot.x += (targetRotX - voxelPuppyRot.x) * 0.08;
-    voxelPuppyRot.z += (targetRotZ - voxelPuppyRot.z) * 0.08;
+    voxelPuppyRot.y += dyRot * 0.10;
+    voxelPuppyRot.x += (targetRotX - voxelPuppyRot.x) * 0.10;
+    voxelPuppyRot.z += (targetRotZ - voxelPuppyRot.z) * 0.10;
 
-    voxelPuppyGroup.rotation.x = voxelPuppyRot.x;
-    voxelPuppyGroup.rotation.y = voxelPuppyRot.y;
-    voxelPuppyGroup.rotation.z = voxelPuppyRot.z;
+    voxelPuppyGroup.rotation.set(voxelPuppyRot.x, voxelPuppyRot.y, voxelPuppyRot.z);
+
+    // ── Realistische Voxel-Atembewegung des Brustkorbs beim Schlafen & im Idle ──
+    const activeBodyGroup = isSittingPose ? voxelBodySitGroup : voxelBodyStandGroup;
+    if (activeBodyGroup) {
+      if (isSleep) {
+        const breathCycle = Math.sin(time * 2.1); // Ruhiger, tiefer Atemrhythmus
+        activeBodyGroup.scale.set(
+          1.0 + breathCycle * 0.045, // Brustkorb weitet sich seitlich
+          1.0 + breathCycle * 0.065, // Brustkorb hebt und senkt sich deutlich
+          1.0 + breathCycle * 0.02
+        );
+        activeBodyGroup.position.y = breathCycle * 0.022;
+      } else {
+        const idleBreath = Math.sin(time * 3.2) * 0.010;
+        activeBodyGroup.scale.set(1.0 + idleBreath, 1.0 + idleBreath, 1.0);
+        activeBodyGroup.position.y = 0;
+      }
+    }
+
+    // ── Sinnvolle & lebendige Ohren-Animation (Gehen/Laufen, Schnuppern/Aufmerksamkeit, Schlafen) ──
+    if (voxelEarLGroup && voxelEarRGroup) {
+      const isWalkingOrRunning = (!isPoopSquat) && (isWalk || (isPlay && isMovingInSpace) || isMovingInSpace);
+      let targetEarLX = 0, targetEarLZ = 0.14;
+      let targetEarRX = 0, targetEarRZ = -0.14;
+
+      if (isSleep) {
+        // Beim Schlafen: Sanftes, minimales Senken passend zur Ruhephase + gelegentliches feines Zucken
+        const earTwitchWave = Math.pow(Math.max(0, Math.sin(time * 3.7)), 14) * 0.15;
+        const earBreath = Math.sin(time * 2.1) * 0.025;
+        targetEarLX = 0.08;
+        targetEarRX = 0.08;
+        targetEarLZ = 0.08 + earBreath + earTwitchWave;
+        targetEarRZ = -0.08 - earBreath - earTwitchWave * 0.65;
+      } else if (isWalkingOrRunning) {
+        // Beim Gehen/Laufen: Natürliches, lebendiges Wackeln & Mitschwingen im Takt der Schritte!
+        const stepFreq = isPlay ? 18 : (isWalk ? 15 : 12);
+        const bounce = Math.abs(Math.sin(time * stepFreq)) * 0.22;
+        const swing = Math.cos(time * stepFreq) * 0.14;
+        targetEarLZ = 0.16 + bounce;
+        targetEarRZ = -0.16 - bounce;
+        targetEarLX = swing;
+        targetEarRX = -swing;
+      } else if (voxelIdleBehavior === 'sniff' || isFeed) {
+        // Beim Schnuppern / Fressen: Deutliches Vorneigen der Schlappohren Richtung Boden/Nase
+        const sniffWobble = Math.sin(time * 12) * 0.05;
+        targetEarLX = 0.38 + sniffWobble;
+        targetEarRX = 0.38 - sniffWobble;
+        targetEarLZ = 0.25;
+        targetEarRZ = -0.25;
+      } else if (voxelIdleBehavior === 'curious' || voxelIdleBehavior === 'bark' || state.mode === 'bark' || voxelIdleBehavior === 'beg' || isJoy || isPlay) {
+        // Beim Aufmerksamsein / Lauschen / Bellen: Kurzes Aufstellen & Vorrichten der Ohren!
+        const perkPulse = Math.sin(time * 6) * 0.04;
+        targetEarLZ = 0.42 + perkPulse;
+        targetEarRZ = -0.42 - perkPulse;
+        targetEarLX = -0.18;
+        targetEarRX = -0.18;
+      } else if (isPoopSquat) {
+        // Bei der Hocker-Pose: Ohren leicht konzentriert angelegt
+        targetEarLZ = 0.26;
+        targetEarRZ = -0.26;
+        targetEarLX = -0.12;
+        targetEarRX = -0.12;
+      } else {
+        // Entspannter Stand: Sanftes Mikroleben
+        const gentleSway = Math.sin(time * 2.2) * 0.025;
+        targetEarLZ = 0.14 + gentleSway;
+        targetEarRZ = -0.14 - gentleSway;
+        targetEarLX = 0;
+        targetEarRX = 0;
+      }
+
+      voxelEarRot.lx += (targetEarLX - voxelEarRot.lx) * 0.22;
+      voxelEarRot.lz += (targetEarLZ - voxelEarRot.lz) * 0.22;
+      voxelEarRot.rx += (targetEarRX - voxelEarRot.rx) * 0.22;
+      voxelEarRot.rz += (targetEarRZ - voxelEarRot.rz) * 0.22;
+
+      voxelEarLGroup.rotation.set(voxelEarRot.lx, 0, voxelEarRot.lz);
+      voxelEarRGroup.rotation.set(voxelEarRot.rx, 0, voxelEarRot.rz);
+    }
 
     // ── B. Position & Höhe (X-, Y- & Z-Achse) ──
     voxelPuppyGroup.position.x = voxelCurrentPos.x;
@@ -3980,228 +4501,255 @@ const app = (() => {
 
     let targetPosY = 0;
     if (isSleep) {
-      const sleepBreath = Math.sin(time * 2) * 0.025;
-      targetPosY = (voxelSleepPose === 2) ? (-0.05 + sleepBreath) : (-0.15 + sleepBreath);
+      // Hund liegt flach mit angewinkelten Pfoten am Boden, sanftes Brustkorb-Atmen
+      targetPosY = -0.24 + Math.sin(time * 2.1) * 0.012;
+    } else if (isPoopSquat) {
+      // Echte Hocker-Pose: Hinterteil tief absenken + leichtes Pressen!
+      targetPosY = -0.19 + Math.sin(time * 18) * 0.008;
     } else if (isWake) {
-      targetPosY = -0.15 + Math.sin(time * 5) * 0.05;
+      targetPosY = -0.10 + Math.sin(time * 5) * 0.04;
     } else if (isPlay) {
-      targetPosY = Math.abs(Math.sin(time * 14)) * 0.18;
+      targetPosY = isMovingInSpace ? Math.abs(Math.sin(time * 15)) * 0.14 : Math.abs(Math.sin(time * 9)) * 0.06;
     } else if (isWalk) {
-      targetPosY = Math.sin(time * 10) * 0.04;
+      targetPosY = Math.abs(Math.sin(time * 12)) * 0.05;
     } else if (isJoy) {
-      targetPosY = Math.abs(Math.sin(time * 12)) * 0.22;
+      targetPosY = Math.abs(Math.sin(time * 12)) * 0.20;
     } else if (isFeed) {
-      targetPosY = 0;
+      targetPosY = -0.04;
     } else {
-      if (isActuallyWalking) {
-        targetPosY = Math.sin(time * 8) * 0.025;
-      } else if (voxelIdleBehavior === 'sit') {
-        targetPosY = -0.32; // Hintern tief absenken beim Sitzen
+      if (isMovingInSpace) {
+        targetPosY = Math.abs(Math.sin(time * 11)) * 0.035;
+      } else if (isSittingPose) {
+        targetPosY = 0; // Sitz-Rumpf und Sitz-Hinterbeine ruhen exakt auf Bodenhöhe (-5.2 * B) wie in Bild 1!
       } else if (voxelIdleBehavior === 'beg') {
         targetPosY = 0.08 + Math.sin(time * 6) * 0.02;
       } else if (voxelIdleBehavior === 'sniff') {
         targetPosY = -0.06;
       } else if (voxelIdleBehavior === 'mark') {
-        targetPosY = -0.02;
+        targetPosY = -0.01;
       } else {
-        targetPosY = Math.sin(time * 2) * 0.012;
+        targetPosY = Math.sin(time * 2.5) * 0.008;
       }
     }
-    // Y-Höhe sanft interpolieren
-    voxelPuppyPosY += (targetPosY - voxelPuppyPosY) * 0.1;
+    voxelPuppyPosY += (targetPosY - voxelPuppyPosY) * 0.12;
     voxelPuppyGroup.position.y = voxelPuppyPosY;
 
-    // ── C. Kopf-Animation (weiche Übergänge für Rotation & Position) ──
-    let targetHeadX = 0, targetHeadY = 0.45, targetHeadZ = 0.75;
+    // ── C. Kopf-Animation (Proportional zur aktuellen Nanoblock Voxel-Blockgröße B!) ──
+    const baseHeadY = 4.8 * B;
+    const baseHeadZ = 1.2 * B;
+    let targetHeadX = 0, targetHeadY = baseHeadY, targetHeadZ = baseHeadZ;
     let targetHeadRotX = 0, targetHeadRotY = 0, targetHeadRotZ = 0;
 
     if (voxelHeadGroup) {
       if (isSleep) {
-        if (voxelSleepPose === 2) {
-          targetHeadX = 0; targetHeadY = 0.35; targetHeadZ = 0.7;
-          targetHeadRotX = -0.3;
-          targetHeadRotY = 0;
-          targetHeadRotZ = Math.sin(time * 1.5) * 0.08;
-        } else {
-          targetHeadX = 0; targetHeadY = 0.25; targetHeadZ = 0.75;
-          targetHeadRotX = 0.45;
-          targetHeadRotY = 0.15 + Math.sin(time * 1.5) * 0.05;
-          targetHeadRotZ = 0;
-        }
-      } else if (isWake) {
-        targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
-        targetHeadRotX = -0.3 + Math.sin(time * 4) * 0.15;
-        targetHeadRotY = 0; targetHeadRotZ = 0;
-      } else if (isFeed) {
-        targetHeadX = 0; targetHeadY = 0.35; targetHeadZ = 0.78;
-        targetHeadRotX = 0.45 + Math.sin(time * 12) * 0.2;
-        targetHeadRotY = Math.sin(time * 6) * 0.06;
+        const headBreath = Math.sin(time * 2.1) * 0.022;
+        targetHeadX = 0;
+        targetHeadY = 3.0 * B + headBreath;
+        targetHeadZ = 2.0 * B;
+        targetHeadRotX = 0.22 + headBreath * 0.6;
+        targetHeadRotY = 0.12;
         targetHeadRotZ = 0;
+      } else if (isPoopSquat) {
+        // Beim Hocken (mit dem Hinterteil zur Kamera umgedreht): Hund blickt leicht über die Schulter zurück!
+        targetHeadX = 0;
+        targetHeadY = 4.9 * B;
+        targetHeadZ = 1.15 * B;
+        targetHeadRotX = 0.22;
+        targetHeadRotY = -0.45;
+      } else if (isWake) {
+        targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
+        targetHeadRotX = -0.28 + Math.sin(time * 4) * 0.12;
+      } else if (isFeed) {
+        // Kopf senkt sich in den Fressnapf und pickt die Voxel-Kroketten auf
+        targetHeadX = 0; targetHeadY = 3.2 * B; targetHeadZ = 2.2 * B;
+        targetHeadRotX = 0.52 + Math.sin(time * 14) * 0.16;
+        targetHeadRotY = Math.sin(time * 6) * 0.06;
       } else if (isPlay) {
-        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-        targetHeadRotX = 0.15 + Math.sin(time * 18) * 0.12;
-        targetHeadRotY = Math.sin(time * 8) * 0.15;
-        targetHeadRotZ = Math.sin(time * 8) * 0.08;
+        targetHeadX = 0; targetHeadY = 4.6 * B; targetHeadZ = 1.5 * B;
+        targetHeadRotX = (voxelSnapTimer > 0) ? 0.35 : (0.12 + Math.sin(time * 16) * 0.10);
+        targetHeadRotY = Math.sin(time * 8) * 0.12;
       } else if (isWalk) {
-        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-        targetHeadRotX = Math.sin(time * 16) * 0.12;
-        targetHeadRotY = Math.sin(time * 8) * 0.15;
-        targetHeadRotZ = Math.sin(time * 8) * 0.08;
+        targetHeadX = 0; targetHeadY = baseHeadY; targetHeadZ = baseHeadZ;
+        targetHeadRotX = Math.sin(time * 12) * 0.08;
+        targetHeadRotY = Math.sin(time * 6) * 0.12;
       } else if (isJoy) {
-        targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
+        targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
         targetHeadRotX = -0.15 + Math.sin(time * 14) * 0.12;
-        targetHeadRotY = 0;
-        targetHeadRotZ = Math.sin(time * 10) * 0.1;
+        targetHeadRotZ = Math.sin(time * 10) * 0.10;
       } else {
         if (voxelIdleBehavior === 'sniff') {
-          targetHeadX = 0; targetHeadY = 0.28; targetHeadZ = 0.82;
-          targetHeadRotX = 0.55 + Math.sin(time * 10) * 0.08;
-          targetHeadRotY = Math.sin(time * 6) * 0.25;
-          targetHeadRotZ = 0;
+          // Schnuppern: Hund senkt den Kopf tief zum Boden und schnüffelt rasch hin und her
+          targetHeadX = Math.sin(time * 7) * 0.05;
+          targetHeadY = 2.6 * B;
+          targetHeadZ = 2.4 * B;
+          targetHeadRotX = 0.62 + Math.sin(time * 14) * 0.08;
+          targetHeadRotY = Math.sin(time * 5) * 0.28;
         } else if (voxelIdleBehavior === 'curious') {
-          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
-          targetHeadRotX = -0.1;
-          targetHeadRotY = 0.1;
-          targetHeadRotZ = 0.35 + Math.sin(time * 2) * 0.08;
+          targetHeadX = 0; targetHeadY = 4.9 * B; targetHeadZ = baseHeadZ;
+          targetHeadRotX = -0.08;
+          targetHeadRotY = 0.08;
+          targetHeadRotZ = 0.34 + Math.sin(time * 2) * 0.06;
         } else if (voxelIdleBehavior === 'bark') {
-          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
-          targetHeadRotX = -0.35 + Math.sin(time * 12) * 0.2;
-          targetHeadRotY = 0; targetHeadRotZ = 0;
-        } else if (voxelIdleBehavior === 'sit') {
-          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-          targetHeadRotX = -0.35; // Kopf schaut aufrecht nach vorne/oben zum Betrachter
-          targetHeadRotY = Math.sin(time * 2) * 0.08;
-          targetHeadRotZ = 0;
+          targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
+          targetHeadRotX = -0.32 + Math.sin(time * 12) * 0.18;
+        } else if (isSittingPose) {
+          targetHeadX = 0; targetHeadY = baseHeadY; targetHeadZ = baseHeadZ;
+          targetHeadRotX = Math.sin(time * 2) * 0.03;
+          targetHeadRotY = Math.sin(time * 1.5) * 0.08;
         } else if (voxelIdleBehavior === 'mark') {
-          targetHeadX = 0; targetHeadY = 0.42; targetHeadZ = 0.75;
-          targetHeadRotX = 0.2;
-          targetHeadRotY = 0.45; // Schaut nach hinten zur Seite
-          targetHeadRotZ = 0;
+          targetHeadX = 0; targetHeadY = 4.8 * B; targetHeadZ = baseHeadZ;
+          targetHeadRotX = 0.10;
+          targetHeadRotY = 0.25;
         } else if (voxelIdleBehavior === 'beg') {
-          targetHeadX = 0; targetHeadY = 0.48; targetHeadZ = 0.75;
-          targetHeadRotX = 0.85;
+          targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
+          targetHeadRotX = 0.80;
           targetHeadRotY = Math.sin(time * 3) * 0.1;
-          targetHeadRotZ = Math.sin(time * 2) * 0.06;
         } else {
-          targetHeadX = 0; targetHeadY = 0.45; targetHeadZ = 0.75;
-          targetHeadRotX = Math.sin(time * 2) * 0.06;
-          targetHeadRotY = Math.sin(time * 1.5) * 0.12;
-          targetHeadRotZ = 0;
+          targetHeadX = 0; targetHeadY = baseHeadY; targetHeadZ = baseHeadZ;
+          targetHeadRotX = Math.sin(time * 2) * 0.04;
+          targetHeadRotY = Math.sin(time * 1.5) * 0.08;
         }
       }
 
-      voxelHeadPos.x += (targetHeadX - voxelHeadPos.x) * 0.1;
-      voxelHeadPos.y += (targetHeadY - voxelHeadPos.y) * 0.1;
-      voxelHeadPos.z += (targetHeadZ - voxelHeadPos.z) * 0.1;
-      voxelHeadRot.x += (targetHeadRotX - voxelHeadRot.x) * 0.1;
-      voxelHeadRot.y += (targetHeadRotY - voxelHeadRot.y) * 0.1;
-      voxelHeadRot.z += (targetHeadRotZ - voxelHeadRot.z) * 0.1;
+      voxelHeadPos.x += (targetHeadX - voxelHeadPos.x) * 0.12;
+      voxelHeadPos.y += (targetHeadY - voxelHeadPos.y) * 0.12;
+      voxelHeadPos.z += (targetHeadZ - voxelHeadPos.z) * 0.12;
+      voxelHeadRot.x += (targetHeadRotX - voxelHeadRot.x) * 0.12;
+      voxelHeadRot.y += (targetHeadRotY - voxelHeadRot.y) * 0.12;
+      voxelHeadRot.z += (targetHeadRotZ - voxelHeadRot.z) * 0.12;
 
       voxelHeadGroup.position.set(voxelHeadPos.x, voxelHeadPos.y, voxelHeadPos.z);
       voxelHeadGroup.rotation.set(voxelHeadRot.x, voxelHeadRot.y, voxelHeadRot.z);
     }
 
-    // ── Unterkiefer-Animation (Mund öffnen beim Bellen, Kauen & sanfte Atmung beim Schlafen) ──
+    // ── Unterkiefer-Animation (Bellen, Fressen, Schnappen beim Ballspiel & ruhige Schlafatmung) ──
     if (voxelJawGroup) {
       if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
-        voxelJawGroup.rotation.x = 0.45 + Math.sin(time * 20) * 0.35;
+        voxelJawGroup.rotation.x = 0.42 + Math.sin(time * 20) * 0.32;
       } else if (isFeed) {
-        voxelJawGroup.rotation.x = 0.2 + Math.abs(Math.sin(time * 14)) * 0.25;
+        voxelJawGroup.rotation.x = 0.22 + Math.abs(Math.sin(time * 15)) * 0.28;
+      } else if (isPlay && voxelSnapTimer > 0) {
+        // Schnapp-Bewegung nach dem Voxel-Ball!
+        voxelJawGroup.rotation.x = Math.abs(Math.sin(time * 24)) * 0.52;
       } else if (isSleep) {
-        // Beim Schlafen: Sehr sanfte, langsame Atembewegung des Mauls (entspannter Rhythmus)
-        voxelJawGroup.rotation.x = Math.max(0, Math.sin(time * 1.5) * 0.04);
+        voxelJawGroup.rotation.x = Math.max(0, Math.sin(time * 2.1) * 0.035);
       } else {
         voxelJawGroup.rotation.x = 0;
       }
     }
 
-    // ── D. Schwanzwedeln ──
+    // ── D. Schwanzwedeln (Beim Sitzen tiefer am abfallenden Rücken angesetzt wie in Bild 1, beim Stehen oben wie in Bild 2–4!) ──
     if (voxelTailGroup) {
+      const targetTailY = isSittingPose ? (-1.8 * B) : (0.2 * B);
+      voxelTailGroup.position.y += (targetTailY - voxelTailGroup.position.y) * 0.2;
       if (isSleep) {
-        voxelTailGroup.rotation.y = Math.sin(time * 3) * 0.15;
+        voxelTailGroup.rotation.y = Math.sin(time * 2.1) * 0.08;
+        voxelTailGroup.rotation.x = -0.15;
+      } else if (isPoopSquat) {
+        // Rute beim Häufchen-Machen nach hinten-oben abspreizen
+        voxelTailGroup.rotation.y = 0;
+        voxelTailGroup.rotation.x = 0.45;
       } else if (isJoy || isPlay) {
-        voxelTailGroup.rotation.y = Math.sin(time * 26) * 0.75;
+        voxelTailGroup.rotation.y = Math.sin(time * 26) * 0.65;
+        voxelTailGroup.rotation.x = 0;
       } else if (isWalk) {
-        voxelTailGroup.rotation.y = Math.sin(time * 18) * 0.55;
-        voxelTailGroup.rotation.x = 0.45;
+        voxelTailGroup.rotation.y = Math.sin(time * 18) * 0.45;
+        voxelTailGroup.rotation.x = 0;
       } else if (isFeed) {
-        voxelTailGroup.rotation.y = Math.sin(time * 20) * 0.65;
-        voxelTailGroup.rotation.x = 0.45;
+        voxelTailGroup.rotation.y = Math.sin(time * 20) * 0.55;
+        voxelTailGroup.rotation.x = 0;
       } else {
-        voxelTailGroup.rotation.y = Math.sin(time * 10) * 0.45;
-        voxelTailGroup.rotation.x = 0.45;
+        voxelTailGroup.rotation.y = Math.sin(time * 8) * 0.28;
+        voxelTailGroup.rotation.x = 0;
       }
     }
 
-    // ── E. Beine (Weiche Übergänge beim Hinsetzen, Männchen machen & Laufen) ──
+    // ── E. Beine (Exakt synchron mit Fortbewegung, leises Pfoten-Zucken im Schlaf, echtes Sitzen & Hocker-Pose!) ──
     if (voxelLegFL && voxelLegFR && voxelLegBL && voxelLegBR) {
       let tFL = 0, tFR = 0, tBL = 0, tBR = 0;
+      const defaultBackZ = -2.5 * B;
+      let targetBLZ = defaultBackZ, targetBRZ = defaultBackZ;
 
       if (isSleep) {
-        if (voxelSleepPose === 2) {
-          const dreamTwitch = Math.sin(time * 4) * 0.08;
-          tFL = -0.5 + dreamTwitch;
-          tFR = -0.6 - dreamTwitch;
-          tBL = 0.5 + dreamTwitch;
-          tBR = 0.6 - dreamTwitch;
-        } else {
-          tFL = -1.25;
-          tFR = -1.25;
-          tBL = 1.25;
-          tBR = 1.25;
-        }
+        // Entspannte Sphinx-Schlafhaltung mit leisem Traum-Zucken der Pfoten
+        const pawTwitchL = Math.pow(Math.max(0, Math.sin(time * 4.3)), 14) * 0.16;
+        const pawTwitchR = Math.pow(Math.max(0, Math.sin(time * 3.9 + 1.5)), 14) * 0.16;
+        tFL = -1.22 + pawTwitchL; // Vorderpfoten nach vorne ausgestreckt
+        tFR = -1.22 + pawTwitchR;
+        tBL = 1.25 - pawTwitchR * 0.5; // Hinterläufe gemütlich eingeklappt
+        tBR = 1.25 - pawTwitchL * 0.5;
+      } else if (isPoopSquat) {
+        // Echte Hocker-Pose beim Häufchen-Machen:
+        // Hund stoppt den Schritt, stützt die Vorderbeine schräg ab und winkelt die Hinterläufe tief in die Hocke!
+        tFL = 0.26;
+        tFR = 0.26;
+        tBL = -0.95;
+        tBR = -0.95;
+        targetBLZ = -1.35 * B;
+        targetBRZ = -1.35 * B;
       } else if (isWake) {
-        tFL = -0.8;
-        tFR = -0.8;
-        tBL = 0.3;
-        tBR = 0.3;
+        tFL = -0.75;
+        tFR = -0.75;
+        tBL = 0.25;
+        tBR = 0.25;
       } else if (isFeed) {
-        tFL = 0.05;
-        tFR = 0.05;
+        tFL = 0.08;
+        tFR = 0.08;
         tBL = 0;
         tBR = 0;
-      } else if (isPlay) {
-        const legSpeed = 18;
-        tFL = Math.sin(time * legSpeed) * 0.75;
-        tFR = -Math.sin(time * legSpeed) * 0.75;
-        tBL = -Math.sin(time * legSpeed) * 0.75;
-        tBR = Math.sin(time * legSpeed) * 0.75;
       } else if (isWalk) {
-        const legSpeed = 16;
+        const legSpeed = 15;
         tFL = Math.sin(time * legSpeed) * 0.65;
         tFR = -Math.sin(time * legSpeed) * 0.65;
         tBL = -Math.sin(time * legSpeed) * 0.65;
         tBR = Math.sin(time * legSpeed) * 0.65;
-      } else if (isJoy) {
-        tFL = Math.sin(time * 14) * 0.3;
-        tFR = -Math.sin(time * 14) * 0.3;
-        tBL = -Math.sin(time * 14) * 0.3;
-        tBR = Math.sin(time * 14) * 0.3;
-      } else {
-        if ((voxelIdleBehavior === 'wander' || !isNormalIdle) && isActuallyWalking) {
-          const stepSpeed = 10;
-          tFL = Math.sin(time * stepSpeed) * 0.45;
-          tFR = -Math.sin(time * stepSpeed) * 0.45;
-          tBL = -Math.sin(time * stepSpeed) * 0.45;
-          tBR = Math.sin(time * stepSpeed) * 0.45;
-        } else if (voxelIdleBehavior === 'sit') {
-          // Vorderbeine gerade nach unten abstützen, Hinterbeine flach unter den Po anwinkeln
-          tFL = -0.42;
-          tFR = -0.42;
-          tBL = 1.55;
-          tBR = 1.55;
-        } else if (voxelIdleBehavior === 'mark') {
-          // Rechter Hinterlauf angehoben zum Revier markieren
-          tFL = 0.05;
-          tFR = 0.05;
+      } else if (isPlay) {
+        if (isMovingInSpace) {
+          const legSpeed = 18;
+          tFL = Math.sin(time * legSpeed) * 0.72;
+          tFR = -Math.sin(time * legSpeed) * 0.72;
+          tBL = -Math.sin(time * legSpeed) * 0.72;
+          tBR = Math.sin(time * legSpeed) * 0.72;
+        } else {
+          // Spiel-Verbeugung / Schnappen vor dem Ball
+          tFL = -0.35;
+          tFR = -0.35;
           tBL = 0.1;
-          tBR = -1.25;
+          tBR = 0.1;
+        }
+      } else if (isJoy) {
+        tFL = Math.sin(time * 14) * 0.35;
+        tFR = -Math.sin(time * 14) * 0.35;
+        tBL = -Math.sin(time * 14) * 0.35;
+        tBR = Math.sin(time * 14) * 0.35;
+      } else {
+        // Freie Bewegung im Display: Beine laufen NUR, wenn isMovingInSpace === true!
+        // Sobald der Hund am Display-Rand stoppt, stoppen die Beine exakt synchron!
+        if (isMovingInSpace) {
+          const stepSpeed = 12;
+          tFL = Math.sin(time * stepSpeed) * 0.52;
+          tFR = -Math.sin(time * stepSpeed) * 0.52;
+          tBL = -Math.sin(time * stepSpeed) * 0.52;
+          tBR = Math.sin(time * stepSpeed) * 0.52;
+        } else if (isSittingPose) {
+          // Beim Nanoblock-Sitzen (Bild 1) stehen die Vorderbeine exakt senkrecht (0 rad),
+          // während die gefalteten Sitz-Hinterbeine (voxelLegBLSit/BRSit) seitlich am Boden ruhen!
+          tFL = 0;
+          tFR = 0;
+          tBL = 0;
+          tBR = 0;
+        } else if (voxelIdleBehavior === 'mark') {
+          // Revier markieren: Rechtes Hinterbein seitlich hochheben
+          tFL = 0.04;
+          tFR = 0.04;
+          tBL = 0.08;
+          tBR = -1.15;
         } else if (voxelIdleBehavior === 'beg') {
           const begPawWave = Math.sin(time * 8) * 0.25;
-          tFL = -1.45 + begPawWave;
-          tFR = -1.45 - begPawWave;
-          tBL = 0.95;
-          tBR = 0.95;
+          tFL = -1.35 + begPawWave;
+          tFR = -1.35 - begPawWave;
+          tBL = 0.90;
+          tBR = 0.90;
         } else {
           tFL = 0;
           tFR = 0;
@@ -4210,22 +4758,123 @@ const app = (() => {
         }
       }
 
-      // Beine sanft interpolieren, sodass Hinsetzen, Aufstehen und Loslaufen weich ineinandergleiten
-      voxelLegRot.fl += (tFL - voxelLegRot.fl) * 0.15;
-      voxelLegRot.fr += (tFR - voxelLegRot.fr) * 0.15;
-      voxelLegRot.bl += (tBL - voxelLegRot.bl) * 0.15;
-      voxelLegRot.br += (tBR - voxelLegRot.br) * 0.15;
+      voxelLegRot.fl += (tFL - voxelLegRot.fl) * 0.20;
+      voxelLegRot.fr += (tFR - voxelLegRot.fr) * 0.20;
+      voxelLegRot.bl += (tBL - voxelLegRot.bl) * 0.20;
+      voxelLegRot.br += (tBR - voxelLegRot.br) * 0.20;
+
+      voxelLegPosZ.bl += (targetBLZ - voxelLegPosZ.bl) * 0.15;
+      voxelLegPosZ.br += (targetBRZ - voxelLegPosZ.br) * 0.15;
 
       voxelLegFL.rotation.x = voxelLegRot.fl;
       voxelLegFR.rotation.x = voxelLegRot.fr;
       voxelLegBL.rotation.x = voxelLegRot.bl;
       voxelLegBR.rotation.x = voxelLegRot.br;
 
-      // Beim Revier markieren zusätzlich Z-Winkel spreizen
-      if (voxelIdleBehavior === 'mark') {
-        voxelLegBR.rotation.z = -0.65;
+      voxelLegBL.position.z = voxelLegPosZ.bl;
+      voxelLegBR.position.z = voxelLegPosZ.br;
+
+      if (voxelIdleBehavior === 'mark' && !isMovingInSpace) {
+        voxelLegBR.rotation.z = -0.68;
+      } else if (isPoopSquat) {
+        // Beim Hocken Hinterbeine leicht breitbeinig abstützen
+        voxelLegBL.rotation.z = 0.18;
+        voxelLegBR.rotation.z = -0.18;
       } else {
+        voxelLegBL.rotation.z = 0;
         voxelLegBR.rotation.z = 0;
+      }
+    }
+
+    // ── F. Dynamische Voxel-Leinen-Logik (läuft garantiert frei über dem Rücken, niemals durch Kopf/Körper/Beine!) ──
+    if (voxelLeashMesh) {
+      voxelLeashMesh.visible = isWalk;
+      if (isWalk && voxelCollarAnchor && voxelLeashBlocks.length > 0) {
+        voxelPuppyGroup.updateMatrixWorld(true);
+        const startWorld = new THREE.Vector3();
+        voxelCollarAnchor.getWorldPosition(startWorld);
+
+        // Rücken-Richtung des Hundes in Weltkoordinaten bestimmen (vom Kopf nach hinten zur Rute)
+        const backDir = new THREE.Vector3(0, 0, -1).applyEuler(voxelPuppyGroup.rotation).normalize();
+        const rightDir = new THREE.Vector3(1, 0, 0).applyEuler(voxelPuppyGroup.rotation).normalize();
+
+        // Stützpunkte einer sanften Parabel/Kurve:
+        // Startet exakt oben am Halsbandring, steigt sofort steil über den Rücken nach hinten-oben an
+        // und führt hoch oben rechts aus dem Display zum Halter.
+        const p0 = startWorld.clone().add(new THREE.Vector3(0, 0.04, 0));
+        const p1 = startWorld.clone()
+          .addScaledVector(backDir, 0.35)
+          .addScaledVector(rightDir, 0.18)
+          .add(new THREE.Vector3(0, 0.38, 0)); // Hoch über dem Rücken!
+        const p2 = startWorld.clone()
+          .addScaledVector(backDir, 0.75)
+          .addScaledVector(rightDir, 0.55)
+          .add(new THREE.Vector3(0, 0.85, 0));
+        const p3 = new THREE.Vector3(1.15, 1.55 + Math.sin(time * 6) * 0.03, -0.35); // Handposition oben rechts hinten
+
+        const nSegs = voxelLeashBlocks.length;
+        for (let i = 0; i < nSegs; i++) {
+          const t = i / (nSegs - 1);
+          const u = 1 - t;
+          // Kubische Bézier-Interpolation über dem Rücken
+          const bx = u*u*u * p0.x + 3*u*u*t * p1.x + 3*u*t*t * p2.x + t*t*t * p3.x;
+          const by = u*u*u * p0.y + 3*u*u*t * p1.y + 3*u*t*t * p2.y + t*t*t * p3.y;
+          const bz = u*u*u * p0.z + 3*u*u*t * p1.z + 3*u*t*t * p2.z + t*t*t * p3.z;
+          voxelLeashBlocks[i].position.set(bx, by, bz);
+        }
+      }
+    }
+
+    // ── G. Bewegter Boden beim Gassi-Gehen (Laufband-Effekt passend zur Laufrichtung, stoppt beim Hocken!) ──
+    if (voxelEnvGroup) {
+      if (isWalk && !isPoopSquat) {
+        const walkAngle = voxelPuppyGroup.rotation.y;
+        const scrollSpeed = 1.35; // Geschwindigkeit passend zum Pfotenschritt
+        const tilePeriod = 0.32;  // 2 * tileB (0.16 * 2) für nahtloses Schachbrett-Wrapping!
+        const dxScroll = -Math.sin(walkAngle) * scrollSpeed * delta;
+        const dzScroll = -Math.cos(walkAngle) * scrollSpeed * delta;
+
+        // Boden bewegt sich entgegen der Blick-/Laufrichtung des Hundes unter ihm hindurch
+        voxelGroundScroll.x += dxScroll;
+        voxelGroundScroll.z += dzScroll;
+
+        // Wenn während des Gassi-Gehens ein Häufchen oder eine Pfütze auf dem Boden liegt,
+        // wandert es exakt mit der Bodenbewegung unter dem Hund weiter!
+        if (voxelPoopMesh && voxelPoopMesh.visible) {
+          voxelPoopMesh.position.x += dxScroll;
+          voxelPoopMesh.position.z += dzScroll;
+        }
+        if (voxelPeeMesh && voxelPeeMesh.visible) {
+          voxelPeeMesh.position.x += dxScroll;
+          voxelPeeMesh.position.z += dzScroll;
+        }
+
+        const wrapX = ((voxelGroundScroll.x % tilePeriod) + tilePeriod) % tilePeriod - tilePeriod * 0.5;
+        const wrapZ = ((voxelGroundScroll.z % tilePeriod) + tilePeriod) % tilePeriod - tilePeriod * 0.5;
+        voxelEnvGroup.position.set(wrapX, -0.82, wrapZ);
+
+        // Deko-Elemente (Blümchen, Seesterne, Blütenblätter) gleiten über die volle Distanz vorbei
+        voxelEnvGroup.children.forEach(ch => {
+          if (ch.userData && ch.userData.isProp) {
+            const span = 2.6;
+            const px = ((ch.userData.baseX + voxelGroundScroll.x + span * 0.5) % span + span) % span - span * 0.5;
+            const pz = ((ch.userData.baseZ + voxelGroundScroll.z + span * 0.5) % span + span) % span - span * 0.5;
+            ch.position.x = px - wrapX;
+            ch.position.z = pz - wrapZ;
+          }
+        });
+      } else if (!isWalk) {
+        // Im Normalzustand sanft zur Ausgangsposition zurückgleiten
+        voxelGroundScroll.x = 0;
+        voxelGroundScroll.z = 0;
+        voxelEnvGroup.position.x += (0 - voxelEnvGroup.position.x) * 0.15;
+        voxelEnvGroup.position.z += (0 - voxelEnvGroup.position.z) * 0.15;
+        voxelEnvGroup.children.forEach(ch => {
+          if (ch.userData && ch.userData.isProp) {
+            ch.position.x += (ch.userData.baseX - ch.position.x) * 0.15;
+            ch.position.z += (ch.userData.baseZ - ch.position.z) * 0.15;
+          }
+        });
       }
     }
 
@@ -4335,7 +4984,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, applyDogCustomization, init, state };
+  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, setVoxelBlockSize, applyDogCustomization, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
