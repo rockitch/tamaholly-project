@@ -1385,8 +1385,8 @@
               <!-- Touch-Zone in der Display-Mitte: Bei Klick/Tap bellt Holly oder wacht auf wenn sie schläft -->
               <div class="center-touch-trigger" id="center-touch-trigger" onclick="app.touchCenter()" title="Holly streicheln / wecken"></div>
 
-              <!-- Häufchen auf dem Display bei Missachtung des Gassi-Gehens -->
-              <div class="realistic-poop" id="realistic-poop" onclick="app.cleanPoop()" title="Häufchen wegputzen! 💩">💩</div>
+              <!-- Unsichtbare Touch-Zone für Häufchen auf dem 2D-Display (3D Voxel-Häufchen übernimmt die Optik) -->
+              <div class="realistic-poop" id="realistic-poop" onclick="app.cleanPoop()" title="Häufchen reinigen" style="display:none; opacity:0; pointer-events:auto;"></div>
 
               <!-- On-Display Rand-Tasten -->
               <button class="ring-btn btn-wash btn-pos-wash" id="btn-wash" onclick="app.wash()" title="Waschen / Duschen">
@@ -2477,9 +2477,10 @@ const app = (() => {
     if (state.playCooldown || state.mode !== 'idle') return;
     state.playCooldown = true;
     state.locked = true;
-    voxelPlayTimer = 4.0;
+    voxelPlayTimer = 5.5;
     switchMode('play');
-    setStatus('Spielmodus aktiv.');
+    setStatus('Spielmodus: Ball ca. 30 Würfel weit geworfen! Klicke in die Landschaft zum Nachwerfen.');
+    kickVoxelBall();
 
     const vid = videos.play;
     function finishPlay() {
@@ -2490,14 +2491,14 @@ const app = (() => {
       state.playCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly hat gespielt und ist glücklich! 🐾 (+12 XP)');
+      setStatus('Holly hat gespielt und ist glücklich! (+12 XP)');
     }
 
     if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
       const playDuration = Math.min(vid.duration * 1000, 6000);
       setTimeout(finishPlay, playDuration);
     } else {
-      setTimeout(finishPlay, 4000);
+      setTimeout(finishPlay, 5500);
     }
   }
 
@@ -3146,26 +3147,75 @@ const app = (() => {
     const tileB = 0.16;
     const tileGeo = new THREE.BoxGeometry(tileB * 1.005, 0.04, tileB * 1.005);
 
+    // Kachel-Materialien für das leuchtende Schachbrettmuster (wie in Referenz-AMOLED)
+    let mGrass1, mGrass2;
+    if (themeName === 'beach') {
+      mGrass1 = new THREE.MeshLambertMaterial({ color: 0xfde68a });
+      mGrass2 = new THREE.MeshLambertMaterial({ color: 0xfcd34d });
+    } else if (themeName === 'sakura') {
+      mGrass1 = new THREE.MeshLambertMaterial({ color: 0x86efac });
+      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4ade80 });
+    } else if (themeName === 'livingroom') {
+      mGrass1 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x92400e });
+    } else {
+      // Standard Wiese: Strahlendes Limettengrün / warmes Wiesengrün im Schachbrett
+      mGrass1 = new THREE.MeshLambertMaterial({ color: 0x84cc16 });
+      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x65a30d });
+    }
+    voxelEnvGroup.userData.themeMaterials = { m1: mGrass1, m2: mGrass2 };
+
     // Kacheln im erweiterten Sichtfeld anlegen (bis Radius 2.45)
     for (let gx = -15; gx <= 15; gx++) {
       for (let gz = -14; gz <= 15; gz++) {
         const r = Math.hypot(gx * tileB, gz * tileB);
         if (r > 2.45) continue;
-        const tMesh = new THREE.Mesh(tileGeo, new THREE.MeshLambertMaterial({ color: 0x65a30d }));
+        const initialMat = ((gx + gz) % 2 === 0) ? mGrass1 : mGrass2;
+        const tMesh = new THREE.Mesh(tileGeo, initialMat);
         tMesh.position.set(gx * tileB, 0, gz * tileB);
         tMesh.userData = { gridX: gx, gridZ: gz };
         voxelEnvGroup.add(tMesh);
       }
     }
 
+    // ── Zierblümchen am Spielfeldrand (Gelb, Rosa, Weiß auf grünem Stängel wie in AMOLED-Vorlage) ──
+    const mFlowerY = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
+    const mFlowerP = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
+    const mFlowerW = new THREE.MeshLambertMaterial({ color: 0xffffff });
+    const mFlowerStem = new THREE.MeshLambertMaterial({ color: 0x15803d });
+
+    const flowerSpots = [
+      [-1.38, -0.62, mFlowerY], [1.34, -0.58, mFlowerP],
+      [-1.24, 0.58, mFlowerW],  [1.26, 0.54, mFlowerY],
+      [-0.92, -1.18, mFlowerP], [0.94, -1.14, mFlowerW],
+      [-0.78, 1.28, mFlowerW],  [0.82, 1.24, mFlowerP],
+      [-1.52, 0.02, mFlowerP],  [1.50, -0.06, mFlowerW],
+      [-0.45, -1.45, mFlowerY], [0.48, -1.42, mFlowerP]
+    ];
+
+    flowerSpots.forEach(([fx, fz, fMat]) => {
+      const flGrp = new THREE.Group();
+      flGrp.position.set(fx, 0, fz);
+      flGrp.userData = { worldX: fx, worldZ: fz, isFlowerProp: true };
+      const stem = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.10, 0.045), mFlowerStem);
+      stem.position.set(0, 0.05, 0);
+      const bloom = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.12), fMat);
+      bloom.position.set(0, 0.11, 0);
+      flGrp.add(stem, bloom);
+      voxelEnvGroup.add(flGrp);
+    });
+
     // Einmalige zufällige, aber dann feste Landschaftsobjekte in der endlosen Welt platzieren
     if (voxelWorldProps.length === 0) {
-      const propTypes = ['tree', 'rock', 'bush', 'flower', 'mushroom', 'bench', 'fence', 'lantern'];
-      for (let i = 0; i < 40; i++) {
+      const propTypes = [
+        'tree', 'rock', 'bush', 'flower_yellow', 'flower_pink', 'flower_white',
+        'tree', 'lantern', 'bench', 'bush', 'flower_yellow', 'flower_white', 'rock'
+      ];
+      for (let i = 0; i < 48; i++) {
         // Welt-Koordinaten von -18 bis +18 Einheiten
-        const wx = (Math.random() - 0.5) * 32;
-        const wz = (Math.random() - 0.5) * 32;
-        if (Math.hypot(wx, wz) < 1.2) continue; // Startbereich freihalten
+        const wx = (Math.random() - 0.5) * 34;
+        const wz = (Math.random() - 0.5) * 34;
+        if (Math.hypot(wx, wz) < 1.35) continue; // Startbereich freihalten
         const type = propTypes[Math.floor(Math.random() * propTypes.length)];
         voxelWorldProps.push({ type, wx, wz, rotY: Math.random() * Math.PI * 2 });
       }
@@ -3216,14 +3266,29 @@ const app = (() => {
       const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), mGlow);
       lamp.position.y = 0.85;
       grp.add(pole, lamp);
+    } else if (type === 'bench') {
+      const mWood = new THREE.MeshLambertMaterial({ color: 0x92400e });
+      const mLegs = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.05, 0.22), mWood);
+      seat.position.y = 0.14;
+      const back = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.20, 0.05), mWood);
+      back.position.set(0, 0.24, -0.09);
+      const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.14, 0.20), mLegs);
+      leg1.position.set(-0.20, 0.07, 0);
+      const leg2 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.14, 0.20), mLegs);
+      leg2.position.set(0.20, 0.07, 0);
+      grp.add(seat, back, leg1, leg2);
     } else {
-      // Voxel-Blume
+      // Voxel-Blume (Gelb, Rosa oder Weiß)
       const mStem = new THREE.MeshLambertMaterial({ color: 0x15803d });
-      const mBloom = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xfbcfe8 : 0xfacc15 });
-      const stem = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.18, 0.05), mStem);
-      stem.position.y = 0.09;
-      const bloom = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.1, 0.16), mBloom);
-      bloom.position.y = 0.2;
+      let bloomColor = 0xfacc15;
+      if (type === 'flower_pink' || theme === 'sakura') bloomColor = 0xf472b6;
+      else if (type === 'flower_white') bloomColor = 0xffffff;
+      const mBloom = new THREE.MeshLambertMaterial({ color: bloomColor });
+      const stem = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.14, 0.05), mStem);
+      stem.position.y = 0.07;
+      const bloom = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.08, 0.14), mBloom);
+      bloom.position.y = 0.16;
       grp.add(stem, bloom);
     }
     return grp;
@@ -4367,27 +4432,7 @@ const app = (() => {
       }
     }
 
-    // ── Interaktives Spielen: Voxel-Ball springt zum Touch-Ziel & Holly folgt/schnappt danach ──
-    if (voxelBallMesh) {
-      voxelBallMesh.visible = isPlay;
-      if (isPlay) {
-        voxelBallPos.x += (voxelBallPos.targetX - voxelBallPos.x) * 0.14;
-        voxelBallPos.z += (voxelBallPos.targetZ - voxelBallPos.z) * 0.14;
-
-        voxelBallMesh.rotation.x += 0.09;
-        voxelBallMesh.rotation.y += 0.07;
-        voxelBallMesh.position.set(
-          voxelBallPos.x,
-          -0.56 + Math.abs(Math.sin(time * 11)) * 0.32,
-          voxelBallPos.z
-        );
-      }
-    }
-
-    // ── Häufchen & Voxel-Urinpfütze Synchronisation (Pfütze verblasst langsam & sanft) ──
-    if (voxelPoopMesh) {
-      voxelPoopMesh.visible = state.hasPoop;
-    }
+    // ── Voxel-Urinpfütze Synchronisation (Pfütze verblasst langsam & sanft) ──
     if (voxelPeeMesh) {
       const peeMat = voxelPeeMesh.userData.material;
       if (state.hasPee) {
@@ -4463,6 +4508,10 @@ const app = (() => {
       if (isSleep) {
         eyeLGroup.scale.y = 0.06;
         eyeRGroup.scale.y = 0.06;
+      } else if (isWash) {
+        // Beim Waschen: Entspannt zusammengekniffene Augen gegen Seifenschaum
+        eyeLGroup.scale.y = 0.14;
+        eyeRGroup.scale.y = 0.14;
       } else {
         voxelBlinkTimer -= delta;
         if (voxelBlinkTimer <= 0) {
@@ -4617,9 +4666,11 @@ const app = (() => {
       }
     } else if (isWalk) {
       // Beim Gassi-Gehen wandert die Landschaft kontinuierlich unter dem Hund durch
-      const walkSpeed = 0.028;
-      voxelWorldOffset.x += Math.sin(time * 0.8) * walkSpeed * 0.4;
-      voxelWorldOffset.z += walkSpeed;
+      if (!isPoopSquat) {
+        const walkSpeed = 0.028;
+        voxelWorldOffset.x += Math.sin(time * 0.8) * walkSpeed * 0.4;
+        voxelWorldOffset.z += walkSpeed;
+      }
     } else {
       // Sanftes Auspendeln zur Bildmitte
       const distToCenter = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
@@ -4632,6 +4683,8 @@ const app = (() => {
     // ── Endlose Landschafts-Verschiebung (Kacheln & Props im Sichtkreis) ──
     const tileB = 0.16;
     if (voxelEnvGroup) {
+      voxelEnvGroup.position.set(0, -0.82, 0);
+      const mats = voxelEnvGroup.userData.themeMaterials;
       voxelEnvGroup.children.forEach(obj => {
         if (obj.userData && typeof obj.userData.gridX === 'number') {
           // Kacheln endlos weitertakten (Tiling Wrapping)
@@ -4643,8 +4696,22 @@ const app = (() => {
           obj.position.z = lz;
           const dist = Math.hypot(lx, lz);
           obj.visible = (dist <= 2.45);
+
+          // Echtes, stabiles Schachbrettmuster in Weltkoordinaten:
+          if (mats && mats.m1 && mats.m2) {
+            const worldGX = Math.round((lx + voxelWorldOffset.x) / tileB);
+            const worldGZ = Math.round((lz + voxelWorldOffset.z) / tileB);
+            obj.material = ((worldGX + worldGZ) % 2 === 0) ? mats.m1 : mats.m2;
+          }
         } else if (obj.userData && typeof obj.userData.worldX === 'number') {
-          // Feste Landschaftsobjekte (Bäume, Felsen, Laternen)
+          // Feste Landschaftsobjekte (Bäume, Felsen, Laternen, Bänke)
+          const rx = obj.userData.worldX - voxelWorldOffset.x;
+          const rz = obj.userData.worldZ - voxelWorldOffset.z;
+          obj.position.set(rx, 0, rz);
+          const dist = Math.hypot(rx, rz);
+          obj.visible = (dist <= 2.45);
+        } else if (obj.userData && obj.userData.isFlowerProp) {
+          // Rand-Blümchen & Deko-Blumen in der Welt
           const rx = obj.userData.worldX - voxelWorldOffset.x;
           const rz = obj.userData.worldZ - voxelWorldOffset.z;
           obj.position.set(rx, 0, rz);
@@ -4672,6 +4739,8 @@ const app = (() => {
     if (voxelBallMesh) {
       const ballRelX = voxelBallWorldPos.x - voxelWorldOffset.x;
       const ballRelZ = voxelBallWorldPos.z - voxelWorldOffset.z;
+      voxelBallMesh.rotation.x += 0.12;
+      voxelBallMesh.rotation.y += 0.08;
       voxelBallMesh.position.set(ballRelX, -0.56 + Math.abs(Math.sin(time * 11)) * 0.28, ballRelZ);
       const ballDist = Math.hypot(ballRelX, ballRelZ);
       voxelBallMesh.visible = (isPlay && ballDist <= 2.45);
@@ -4724,6 +4793,10 @@ const app = (() => {
       targetRotX = 0;
       targetRotY = voxelPuppyRot.y + 0.06;
       targetRotZ = 0;
+    } else if (isWash) {
+      targetRotX = 0;
+      targetRotY = Math.sin(time * 6) * 0.12;
+      targetRotZ = Math.sin(time * 26) * 0.08; // Fröhliches Schütteln beim Baden
     } else if (isWalk) {
       targetRotX = 0;
       targetRotY = Math.PI * 0.15 + Math.sin(time * 2.5) * 0.10;
@@ -4826,6 +4899,12 @@ const app = (() => {
         targetEarRZ = -0.26;
         targetEarLX = -0.12;
         targetEarRX = -0.12;
+      } else if (isWash) {
+        // Beim Waschen: Ohren flach angelegt gegen Wasser
+        targetEarLZ = 0.42;
+        targetEarRZ = -0.42;
+        targetEarLX = -0.15;
+        targetEarRX = -0.15;
       } else {
         // Entspannter Stand: Sanftes Mikroleben
         const gentleSway = Math.sin(time * 2.2) * 0.025;
@@ -4863,6 +4942,8 @@ const app = (() => {
       targetPosY = Math.abs(Math.sin(time * 12)) * 0.05;
     } else if (isJoy) {
       targetPosY = Math.abs(Math.sin(time * 12)) * 0.20;
+    } else if (isWash) {
+      targetPosY = Math.abs(Math.sin(time * 16)) * 0.04;
     } else if (isFeed) {
       targetPosY = -0.04;
     } else {
@@ -4925,6 +5006,11 @@ const app = (() => {
         targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
         targetHeadRotX = -0.15 + Math.sin(time * 14) * 0.12;
         targetHeadRotZ = Math.sin(time * 10) * 0.10;
+      } else if (isWash) {
+        targetHeadX = 0; targetHeadY = baseHeadY; targetHeadZ = baseHeadZ;
+        targetHeadRotX = 0.14;
+        targetHeadRotZ = Math.sin(time * 26) * 0.16;
+        targetHeadRotY = Math.sin(time * 13) * 0.12;
       } else {
         if (voxelIdleBehavior === 'sniff') {
           // Schnuppern: Hund senkt den Kopf tief zum Boden und schnüffelt rasch hin und her
@@ -5013,7 +5099,7 @@ const app = (() => {
         // Rute beim Häufchen-Machen nach hinten-oben abspreizen
         voxelTailGroup.rotation.y = 0;
         voxelTailGroup.rotation.x = 0.45;
-      } else if (isJoy || isPlay) {
+      } else if (isJoy || isPlay || isWash) {
         voxelTailGroup.rotation.y = Math.sin(time * 26) * 0.65;
         voxelTailGroup.rotation.x = 0;
       } else if (isWalk) {
@@ -5061,6 +5147,11 @@ const app = (() => {
         tFR = 0.08;
         tBL = 0;
         tBR = 0;
+      } else if (isWash) {
+        tFL = Math.sin(time * 16) * 0.18;
+        tFR = -Math.sin(time * 16) * 0.18;
+        tBL = -Math.sin(time * 16) * 0.18;
+        tBR = Math.sin(time * 16) * 0.18;
       } else if (isWalk) {
         const legSpeed = 15;
         tFL = Math.sin(time * legSpeed) * 0.65;
@@ -5152,8 +5243,8 @@ const app = (() => {
 
     // ── F. Dynamische Voxel-Leinen-Logik (läuft garantiert frei über dem Rücken, niemals durch Kopf/Körper/Beine!) ──
     if (voxelLeashMesh) {
-      voxelLeashMesh.visible = isWalk;
-      if (isWalk && voxelCollarAnchor && voxelLeashBlocks.length > 0) {
+      voxelLeashMesh.visible = isWalk && !isPoopSquat;
+      if (isWalk && !isPoopSquat && voxelCollarAnchor && voxelLeashBlocks.length > 0) {
         voxelPuppyGroup.updateMatrixWorld(true);
         const startWorld = new THREE.Vector3();
         voxelCollarAnchor.getWorldPosition(startWorld);
@@ -5186,59 +5277,6 @@ const app = (() => {
           const bz = u*u*u * p0.z + 3*u*u*t * p1.z + 3*u*t*t * p2.z + t*t*t * p3.z;
           voxelLeashBlocks[i].position.set(bx, by, bz);
         }
-      }
-    }
-
-    // ── G. Bewegter Boden beim Gassi-Gehen (Laufband-Effekt passend zur Laufrichtung, stoppt beim Hocken!) ──
-    if (voxelEnvGroup) {
-      if (isWalk && !isPoopSquat) {
-        const walkAngle = voxelPuppyGroup.rotation.y;
-        const scrollSpeed = 1.35; // Geschwindigkeit passend zum Pfotenschritt
-        const tilePeriod = 0.32;  // 2 * tileB (0.16 * 2) für nahtloses Schachbrett-Wrapping!
-        const dxScroll = -Math.sin(walkAngle) * scrollSpeed * delta;
-        const dzScroll = -Math.cos(walkAngle) * scrollSpeed * delta;
-
-        // Boden bewegt sich entgegen der Blick-/Laufrichtung des Hundes unter ihm hindurch
-        voxelGroundScroll.x += dxScroll;
-        voxelGroundScroll.z += dzScroll;
-
-        // Wenn während des Gassi-Gehens ein Häufchen oder eine Pfütze auf dem Boden liegt,
-        // wandert es exakt mit der Bodenbewegung unter dem Hund weiter!
-        if (voxelPoopMesh && voxelPoopMesh.visible) {
-          voxelPoopMesh.position.x += dxScroll;
-          voxelPoopMesh.position.z += dzScroll;
-        }
-        if (voxelPeeMesh && voxelPeeMesh.visible) {
-          voxelPeeMesh.position.x += dxScroll;
-          voxelPeeMesh.position.z += dzScroll;
-        }
-
-        const wrapX = ((voxelGroundScroll.x % tilePeriod) + tilePeriod) % tilePeriod - tilePeriod * 0.5;
-        const wrapZ = ((voxelGroundScroll.z % tilePeriod) + tilePeriod) % tilePeriod - tilePeriod * 0.5;
-        voxelEnvGroup.position.set(wrapX, -0.82, wrapZ);
-
-        // Deko-Elemente (Blümchen, Seesterne, Blütenblätter) gleiten über die volle Distanz vorbei
-        voxelEnvGroup.children.forEach(ch => {
-          if (ch.userData && ch.userData.isProp) {
-            const span = 2.6;
-            const px = ((ch.userData.baseX + voxelGroundScroll.x + span * 0.5) % span + span) % span - span * 0.5;
-            const pz = ((ch.userData.baseZ + voxelGroundScroll.z + span * 0.5) % span + span) % span - span * 0.5;
-            ch.position.x = px - wrapX;
-            ch.position.z = pz - wrapZ;
-          }
-        });
-      } else if (!isWalk) {
-        // Im Normalzustand sanft zur Ausgangsposition zurückgleiten
-        voxelGroundScroll.x = 0;
-        voxelGroundScroll.z = 0;
-        voxelEnvGroup.position.x += (0 - voxelEnvGroup.position.x) * 0.15;
-        voxelEnvGroup.position.z += (0 - voxelEnvGroup.position.z) * 0.15;
-        voxelEnvGroup.children.forEach(ch => {
-          if (ch.userData && ch.userData.isProp) {
-            ch.position.x += (ch.userData.baseX - ch.position.x) * 0.15;
-            ch.position.z += (ch.userData.baseZ - ch.position.z) * 0.15;
-          }
-        });
       }
     }
 
