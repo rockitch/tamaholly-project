@@ -416,26 +416,61 @@
 
     .pixel-top-icons {
       display: flex;
-      gap: 10px;
-      font-size: 18px;
-      opacity: 0.92;
-      filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3));
+      gap: 4px;
       position: relative;
       z-index: 15;
-      background: rgba(15, 23, 42, 0.35);
-      padding: 4px 12px;
+      background: rgba(15, 23, 42, 0.72);
+      padding: 4px 10px;
       border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
     }
     .pixel-icon-btn {
       cursor: pointer;
-      padding: 4px;
-      border-radius: 6px;
-      transition: transform 0.1s;
+      padding: 3px 5px;
+      min-width: 34px;
+      border-radius: 10px;
+      transition: transform 0.12s ease, background 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: #f8fafc;
+      user-select: none;
     }
-    .pixel-icon-btn:hover { transform: scale(1.15); }
-    .pixel-icon-btn:active { transform: scale(0.9); }
+    .pixel-icon-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+    }
+    .pixel-icon-btn .px-btn-lbl {
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+      font-size: 6.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .pixel-icon-btn:hover {
+      transform: scale(1.1);
+      background: rgba(56, 189, 248, 0.22);
+      color: #38bdf8;
+    }
+    .pixel-icon-btn:active { transform: scale(0.92); }
+    .pixel-icon-btn.urgent {
+      background: rgba(245, 158, 11, 0.28);
+      color: #fde047;
+      animation: walk-pulse 1s infinite alternate;
+    }
 
     .pixel-canvas-area {
       position: absolute;
@@ -472,38 +507,46 @@
 
     #pixel-status-text {
       position: absolute;
-      bottom: 74px;
+      bottom: 78px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 10px;
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+      font-size: 9px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.1px;
       z-index: 15;
-      background: rgba(143, 163, 130, 0.7);
+      background: rgba(15, 23, 42, 0.82);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.18);
       padding: 2px 10px;
       border-radius: 8px;
       pointer-events: none;
+      white-space: nowrap;
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .pixel-hud-stats {
       position: absolute;
-      bottom: 22px;
+      bottom: 33px;
       left: 50%;
       transform: translateX(-50%);
-      width: 170px;
-      background: rgba(15, 23, 42, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
-      padding: 3px 8px;
+      width: 176px;
+      background: rgba(15, 23, 42, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      border-radius: 11px;
+      padding: 4px 9px;
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
       font-size: 8px;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2px 8px;
       z-index: 15;
       backdrop-filter: blur(6px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -512,16 +555,19 @@
       justify-content: space-between;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
     }
     .pixel-row-label {
       color: #94a3b8;
-      font-size: 8px;
+      font-size: 7.5px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .pixel-hearts {
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       font-size: 8px;
       color: #38bdf8;
+      white-space: nowrap;
     }
 
     /* View Switch Indicator Dots */
@@ -1409,24 +1455,45 @@
             <!-- ════ PAGE 2: KLASSISCHES PIXEL ART TAMAGOTCHI (1996 LCD) ════ -->
             <div class="view-page" id="view-pixel">
               <div class="pixel-world">
-                <!-- Retro Icon Bar oben (Alle Aktionen: Gassi, Waschen, Füttern, Spielen, Schlafen, Putzen) -->
+                <!-- Icon-Menüleiste oben (ohne Emojis, passt sich an die Bedürfnisse der gewählten Tierart an) -->
                 <div class="pixel-top-icons">
-                  <span class="pixel-icon-btn" onclick="app.walk()" title="Gassi gehen">🦮</span>
-                  <span class="pixel-icon-btn" onclick="app.wash()" title="Waschen / Duschen">🚿</span>
-                  <span class="pixel-icon-btn" onclick="app.feed()" title="Füttern (Fressnapf)">🥣</span>
-                  <span class="pixel-icon-btn" onclick="app.play()" title="Spielen (Klick auf Ball)">⚽</span>
-                  <span class="pixel-icon-btn" onclick="app.sleep()" title="Licht aus / Schlafen">💡</span>
-                  <span class="pixel-icon-btn" onclick="app.cleanPoop()" title="Reinigen / Putzen">🧹</span>
-                  <span class="pixel-icon-btn" onclick="app.openCustomModal()" title="Aussehen anpassen">🎨</span>
+                  <span class="pixel-icon-btn" id="pixel-btn-walk" onclick="app.walk()" title="Gassi gehen">
+                    <svg viewBox="0 0 24 24"><path d="M13 4v4l-5 5H4v4h4l5-5h4V8l-4-4z"/><circle cx="17" cy="5" r="2"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-walk">GASSI</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-wash" onclick="app.wash()" title="Waschen / Pflege">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h6v4a4 4 0 0 1-4 4H4V4z"/><path d="M8 15v2m4-3v3m4-2v2m-6 3v2m4-2v2"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-wash">PFLEGE</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-feed" onclick="app.feed()" title="Füttern">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h18l-2 6H5l-2-6z"/><path d="M6 13a6 6 0 0 1 12 0"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-feed">FUTTER</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-play" onclick="app.play()" title="Spielen">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-play">BALL</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-sleep" onclick="app.sleep()" title="Schlafen / Wecken">
+                    <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-sleep">RUHE</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-clean" onclick="app.cleanPoop()" title="Reinigen / Putzen">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v9m-5 0h10l2 8H5l2-8z"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-clean">PUTZEN</span>
+                  </span>
+                  <span class="pixel-icon-btn" id="pixel-btn-custom" onclick="app.openCustomModal()" title="Einstellungen & Tierwahl">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span class="px-btn-lbl" id="px-lbl-custom">MENÜ</span>
+                  </span>
                 </div>
 
                 <!-- Voxel Welpe 3D Container & Status Animation -->
                 <div class="pixel-canvas-area">
-                  <div id="voxel-container" title="3D Holly streicheln / im Spielmodus Ball werfen">
+                  <div id="voxel-container" title="3D Gefährten streicheln / im Spielmodus Spielzeug werfen">
                     <!-- Z-Z-Z Schlafpartikel Container für 3D Ansicht -->
                     <div class="zzz-container" id="zzz-container-voxel"></div>
                   </div>
-                  <div style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 4px;" id="pixel-status-text">HOLLY: VOXEL 3D 🐾</div>
+                  <div id="pixel-status-text">SHIBA INU: VOXEL 3D</div>
                 </div>
 
                 <!-- Kompakter Statusbalken (ohne Emojis, dezente Text-Labels & Balken) -->
@@ -1453,7 +1520,7 @@
                   </div>
                   <div class="pixel-row">
                     <span class="pixel-row-label">STUFE</span>
-                    <span style="font-size: 8px; font-weight: bold; color: #38bdf8;" id="pixel-level-text">1</span>
+                    <span style="font-size: 8px; font-weight: bold; color: #38bdf8; white-space: nowrap;" id="pixel-level-text">LVL 1</span>
                   </div>
                 </div>
               </div>
@@ -1855,7 +1922,10 @@ const app = (() => {
         if (typeof d.dirt === 'number') state.dirt = d.dirt;
         if (typeof d.hasPoop === 'boolean') state.hasPoop = d.hasPoop;
         if (d.custom && typeof d.custom === 'object') {
+          if (d.custom.species) state.custom.species = d.custom.species;
+          if (d.custom.breed) state.custom.breed = d.custom.breed;
           if (d.custom.fur) state.custom.fur = d.custom.fur;
+          if (d.custom.eye) state.custom.eye = d.custom.eye;
           if (d.custom.collar) state.custom.collar = d.custom.collar;
           if (d.custom.accessory) state.custom.accessory = d.custom.accessory;
           if (d.custom.env) state.custom.env = d.custom.env;
@@ -1897,29 +1967,26 @@ const app = (() => {
     }
   }
 
+  function getDefaultPixelTitle() {
+    const sp = (state.custom && state.custom.species) ? state.custom.species : 'dog';
+    if (sp === 'cat') return 'KATZE: VOXEL 3D';
+    if (sp === 'bird') return 'WELLENSITTICH: 3D';
+    if (sp === 'bunny') return 'KANINCHEN: VOXEL 3D';
+    const br = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
+    const bNames = { shiba: 'SHIBA INU', corgi: 'WELSH CORGI', husky: 'SIBERIAN HUSKY', golden: 'GOLDEN RETRIEVER' };
+    return `${bNames[br] || 'SHIBA INU'}: 3D`;
+  }
+
   function triggerLevelUp() {
     const newCfg = GROWTH_CONFIG[state.growthStage];
     applyVoxelScale();
     saveGameProgress();
     updateBars();
 
-    // Visuelles Feedback
-    spawnEffect('🌟', 8);
-    spawnEffect('💖', 8);
-    spawnEffect('🎉', 5);
-    setStatus(`Juhu! Tamaholly ist gewachsen! 📈🎉 (${newCfg.name})`, true);
+    setStatus(`Level Up! Stufe ${state.growthStage} (${newCfg.name}) erreicht!`, true);
 
-    // Voxel Freuden-Hüpfer
     if (voxelPuppyGroup) {
       voxelJoyTimer = 2.5;
-    }
-
-    const statusText = $('pixel-status-text');
-    if (statusText) {
-      statusText.textContent = `LEVEL UP: ${newCfg.name}! 🎉`;
-      setTimeout(() => {
-        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
-      }, 3000);
     }
   }
 
@@ -1961,7 +2028,7 @@ const app = (() => {
       hudLevelBadge.textContent = `LVL ${state.growthStage}: ${cfg.name}`;
     }
     if (pixelLevelText) {
-      pixelLevelText.textContent = `${state.growthStage} (${cfg.name})`;
+      pixelLevelText.textContent = `LVL ${state.growthStage}`;
     }
 
     valHunger.textContent = Math.round(h);
@@ -1976,6 +2043,13 @@ const app = (() => {
     if (btnWash) {
       btnWash.classList.toggle('urgent', d >= 75);
     }
+    const pxBtnWalk = $('pixel-btn-walk');
+    const pxBtnWash = $('pixel-btn-wash');
+    const pxBtnClean = $('pixel-btn-clean');
+    if (pxBtnWalk) pxBtnWalk.classList.toggle('urgent', b >= 75);
+    if (pxBtnWash) pxBtnWash.classList.toggle('urgent', d >= 75);
+    if (pxBtnClean) pxBtnClean.classList.toggle('urgent', Boolean(state.hasPoop || state.hasPee));
+
     if (stinkContainer) {
       // Dezent stinkende Geruchswolken aufsteigen lassen, wenn Holly dreckig ist (>= 60) oder ein Häufchen daliegt
       const isStinky = state.hasPoop || state.dirt >= 60;
@@ -2005,12 +2079,35 @@ const app = (() => {
     else                moodIcon.textContent = '😵';
   }
 
+  let pixelStatusResetTimer = null;
   function setStatus(msg, isAlert=false) {
-    statusMsg.textContent = msg;
+    // Emojis aus Statusmeldungen entfernen für klares Spiel-Design
+    const cleanMsg = String(msg || '')
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    statusMsg.textContent = cleanMsg;
     statusMsg.classList.toggle('alert', isAlert);
+
+    const pxStatus = $('pixel-status-text');
+    if (pxStatus && cleanMsg) {
+      pxStatus.textContent = cleanMsg.length > 32 ? (cleanMsg.slice(0, 30) + '..').toUpperCase() : cleanMsg.toUpperCase();
+      pxStatus.style.borderColor = isAlert ? 'rgba(249, 115, 22, 0.7)' : 'rgba(255, 255, 255, 0.18)';
+      pxStatus.style.color = isAlert ? '#fdba74' : '#f8fafc';
+      clearTimeout(pixelStatusResetTimer);
+      pixelStatusResetTimer = setTimeout(() => {
+        if (pxStatus && (state.mode === 'idle' || state.mode === 'wave' || state.mode === 'tap')) {
+          pxStatus.textContent = getDefaultPixelTitle();
+          pxStatus.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+          pxStatus.style.color = '#f8fafc';
+        }
+      }, 3600);
+    }
   }
 
   function spawnEffect(emoji, count=5) {
+    // In der 3D-Voxel-Ansicht (View 2) keine schwebenden 2D-Emojis anzeigen
+    if (typeof currentViewIndex === 'number' && currentViewIndex === 2) return;
     for (let i = 0; i < count; i++) {
       const el = document.createElement('div');
       el.className = 'floating-item';
@@ -2140,8 +2237,16 @@ const app = (() => {
   }
 
 
+  function cancelCasualIdleIfActive() {
+    if (state.mode === 'wave' || state.mode === 'tap') {
+      state.locked = false;
+      switchMode('idle');
+    }
+  }
+
   function triggerPoopVideo() {
     if (state.mode === 'sleep' || state.mode === 'walk' || state.mode === 'wash' || state.mode === 'feed' || state.mode === 'play') return;
+    cancelCasualIdleIfActive();
     state.potty = 0; // Erleichtert
     state.happy = clamp(state.happy - 25);
     state.locked = true;
@@ -2149,8 +2254,7 @@ const app = (() => {
     if (realisticPoop) realisticPoop.style.display = 'none';
 
     switchMode('poop');
-    spawnEffect('💩', 5);
-    setStatus('Oh nein! Holly musste dringend und hat ein Häufchen gemacht! 💩', true);
+    setStatus('Dringendes Bedürfnis: Häufchen wird erledigt!', true);
 
     const pVid = videos.poop;
     let poopShown = false;
@@ -2162,10 +2266,11 @@ const app = (() => {
       state.hasPoop = true;
       if (realisticPoop) realisticPoop.style.display = 'block';
       if (voxelPoopMesh && voxelPuppyGroup) {
-        // Häufchen exakt unter dem zur Kamera gedrehten Hinterteil der Hocker-Pose platzieren!
-        const frontX = Math.max(-0.45, Math.min(0.45, voxelPuppyGroup.position.x + 0.12));
-        const frontZ = Math.max(0.55, voxelPuppyGroup.position.z + 0.52);
-        voxelPoopMesh.position.set(frontX, -0.75, frontZ);
+        // Häufchen hinter dem Tier in Weltkoordinaten platzieren
+        voxelWorldPoopPos = {
+          x: voxelWorldOffset.x + voxelCurrentPos.x - 0.26,
+          z: voxelWorldOffset.z + voxelCurrentPos.z - 0.24
+        };
         voxelPoopMesh.rotation.set(0.15, 0, 0);
         voxelPoopMesh.visible = true;
       }
@@ -2177,7 +2282,7 @@ const app = (() => {
       if (state.mode === 'poop') {
         voxelPoopSquatTimer = 1.6;
       }
-    }, 2600);
+    }, 2200);
 
     function finishPoop() {
       if (poopFinished) return;
@@ -2186,16 +2291,14 @@ const app = (() => {
       state.locked = false;
       switchMode('idle');
       if (realisticPoop) realisticPoop.style.display = 'block';
-      setStatus('Bitte das Häufchen mit dem Besen wegräumen! 💩🧹', true);
+      updateBars();
+      setStatus('Bitte das Häufchen mit Putzen entfernen!', true);
       scheduleRandomIdleAnimation();
     }
 
-    if (pVid) {
+    if (pVid && currentViewIndex !== 2 && pVid.readyState >= 1 && pVid.duration && isFinite(pVid.duration) && pVid.duration > 0) {
       pVid.currentTime = 0;
-      let poopDuration = 5200;
-      if (pVid.duration && isFinite(pVid.duration) && pVid.duration > 0) {
-        poopDuration = pVid.duration * 1000;
-      }
+      const poopDuration = pVid.duration * 1000;
 
       const onPoopTimeUpdate = () => {
         if (pVid.currentTime >= 4.0) {
@@ -2206,10 +2309,8 @@ const app = (() => {
       pVid.addEventListener('timeupdate', onPoopTimeUpdate);
 
       setTimeout(() => {
-        if (state.mode === 'poop') {
-          showPoopIcon();
-        }
-      }, 4000);
+        if (state.mode === 'poop') showPoopIcon();
+      }, 3600);
 
       pVid.onended = () => {
         pVid.onended = null;
@@ -2219,8 +2320,8 @@ const app = (() => {
 
       setTimeout(finishPoop, poopDuration + 500);
     } else {
-      setTimeout(showPoopIcon, 4000);
-      setTimeout(finishPoop, 5200);
+      setTimeout(showPoopIcon, 3400);
+      setTimeout(finishPoop, 4400);
     }
   }
 
@@ -2230,34 +2331,33 @@ const app = (() => {
     clearInterval(tickInterval);
     tickInterval = setInterval(() => {
       if (state.mode === 'sleep' || state.mode === 'wake') {
-        state.energy = clamp(state.energy + 0.5);
+        state.energy = clamp(state.energy + 1.2);
         state.hunger = clamp(state.hunger - 0.1);
-        state.potty  = clamp(state.potty  + 0.15); // Blase füllt sich auch nachts langsam
+        state.potty  = clamp(state.potty  + 0.12); // Blase füllt sich auch nachts langsam
         state.dirt   = clamp(state.dirt   + 0.05); // Nachts minimale Verstaubung
       } else {
-        state.energy = clamp(state.energy - 0.3);
-        state.hunger = clamp(state.hunger - 0.5);
+        state.energy = clamp(state.energy - 0.25);
+        state.hunger = clamp(state.hunger - 0.4);
         state.happy  = clamp(state.happy  - 0.1);
-        state.potty  = clamp(state.potty  + 0.45); // Nach ca. 3-4 Minuten voller Drang
-        state.dirt   = clamp(state.dirt   + 0.25); // Schmutz steigt im Alltag langsam an
+        state.potty  = clamp(state.potty  + 0.40);
+        state.dirt   = clamp(state.dirt   + 0.22);
       }
 
-      // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Holly macht ein Häufchen (Hauefchen.mp4)!
-      // Läuft eine spontane Idle-Aktion wie Winken oder Tap, hat das dringende Häufchen Vorrang!
+      // Wenn Gassi gehen zu lange ignoriert wird (potty >= 100): Häufchen!
       if (state.potty >= 100 && !state.hasPoop && state.mode !== 'sleep' && state.mode !== 'walk' && state.mode !== 'poop') {
         triggerPoopVideo();
       }
 
-      // Hinweis wenn Holly dringend muss
+      // Hinweis wenn das Tier dringend raus muss
       if (state.potty >= 80 && !state.hasPoop && state.mode === 'idle') {
-        setStatus('Holly muss dringend Gassi gehen! 🦮', true);
+        setStatus('Dringendes Bedürfnis: Bitte Auslauf starten!', true);
       }
 
       updateBars();
       updateMood();
 
       // Automatisches Einschlafen wenn keine Energie mehr da ist
-      if (state.energy <= 0 && state.mode === 'idle' && !state.locked) {
+      if (state.energy <= 0 && (state.mode === 'idle' || state.mode === 'wave' || state.mode === 'tap') && !state.locked) {
         console.log('[Waveshare ESP32-S3] Energie erschöpft -> Automatisches Einschlafen');
         sleep();
         return;
@@ -2268,18 +2368,33 @@ const app = (() => {
   // ── Actions ────────────────────────────────────────────────────────────────
   function walk() {
     state.idleActionsCount = 0;
+    if (state.mode === 'sleep') {
+      setStatus('Schläft gerade — tippe auf Ruhe zum Wecken.');
+      return;
+    }
+    cancelCasualIdleIfActive();
     if (state.walkCooldown || state.mode !== 'idle') return;
     state.walkCooldown = true;
     state.locked = true;
-    voxelWalkTimer = 7.0;
+    voxelWalkTimer = 6.0;
 
     // Vor dem Spaziergang bisherige Wohnungshäufchen zurücksetzen
     state.hasPoop = false;
+    voxelWorldPoopPos = null;
     if (realisticPoop) realisticPoop.style.display = 'none';
     if (voxelPoopMesh) voxelPoopMesh.visible = false;
 
+    const sp = (state.custom && state.custom.species) ? state.custom.species : 'dog';
     switchMode('walk');
-    setStatus('Spaziergang aktiv.');
+    if (sp === 'bird') {
+      setStatus('Freiflug aktiv: Fliegt hoch über die Landschaft!');
+    } else if (sp === 'cat') {
+      setStatus('Streifzug & Kratzbaum aktiv...');
+    } else if (sp === 'bunny') {
+      setStatus('Freilauf: Hoppelt fröhlich über die Wiese!');
+    } else {
+      setStatus('Spaziergang aktiv.');
+    }
 
     const vid = videos.walk;
     let poopSpawned = false;
@@ -2290,32 +2405,30 @@ const app = (() => {
       state.hasPoop = true;
       if (realisticPoop) realisticPoop.style.display = 'block';
       if (voxelPoopMesh && voxelPuppyGroup) {
-        // Welt-Koordinaten für das Häufchen festhalten
+        // Welt-Koordinaten für das Häufchen hinter dem Tier festhalten
         voxelWorldPoopPos = {
-          x: voxelWorldOffset.x + voxelCurrentPos.x + 0.12,
-          z: voxelWorldOffset.z + voxelCurrentPos.z + 0.52
+          x: voxelWorldOffset.x + voxelCurrentPos.x - 0.26,
+          z: voxelWorldOffset.z + voxelCurrentPos.z - 0.24
         };
-        voxelPoopMesh.position.set(0.12, -0.75, 0.52);
         voxelPoopMesh.rotation.set(0.15, 0, 0);
         voxelPoopMesh.visible = true;
       }
-      setStatus('Häufchen erledigt.');
+      setStatus('Geschäft erledigt.');
     }
 
-    // Ab Sekunde 3.5 beim Gassi-Gehen: Holly stoppt und nimmt die charakteristische Hocker-Pose (Hinterteil tief absenken) ein!
+    // Ab Sekunde 3.3 beim Auslauf: Hocker-Pose vor dem Häufchen
     setTimeout(() => {
       if (state.mode === 'walk' && !poopSpawned) {
-        voxelPoopSquatTimer = 1.65;
+        voxelPoopSquatTimer = 1.5;
         setStatus('Sucht sich ein Plätzchen...');
       }
-    }, 3500);
+    }, 3300);
 
     function finishWalk() {
       state.potty  = 0;  // Blase & Darm komplett entleert
-      state.dirt   = clamp(state.dirt + 35); // Schmutz steigt durch Toben draußen
+      state.dirt   = clamp(state.dirt + 30);
       state.happy  = clamp(state.happy + 25);
       state.energy = clamp(state.energy - 8);
-      // Häufchen bleibt liegen, bis der Spieler es mit dem Besen / Putz-Icon wegräumt!
       if (!poopSpawned) {
         triggerPoop();
       }
@@ -2325,28 +2438,26 @@ const app = (() => {
       state.walkCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Spaziergang beendet.');
+      if (sp === 'bird') setStatus('Freiflug beendet (+15 XP).');
+      else if (sp === 'bunny') setStatus('Hoppeln beendet (+15 XP).');
+      else setStatus('Auslauf beendet (+15 XP).');
     }
 
-    if (vid) {
+    if (vid && currentViewIndex !== 2 && vid.readyState >= 1 && vid.duration && isFinite(vid.duration) && vid.duration > 0) {
       vid.currentTime = 0;
       let walkFinished = false;
 
       const onWalkTimeUpdate = () => {
-        // Bei Sekunde 5.0 macht Holly im Video das Häufchen
-        if (vid.currentTime >= 5.0) {
+        if (vid.currentTime >= 4.8) {
           triggerPoop();
           vid.removeEventListener('timeupdate', onWalkTimeUpdate);
         }
       };
       vid.addEventListener('timeupdate', onWalkTimeUpdate);
 
-      // Fallback Timer nach 5.0s
       setTimeout(() => {
-        if (state.mode === 'walk') {
-          triggerPoop();
-        }
-      }, 5000);
+        if (state.mode === 'walk') triggerPoop();
+      }, 4800);
 
       const endWalk = () => {
         if (walkFinished) return;
@@ -2356,25 +2467,18 @@ const app = (() => {
         finishWalk();
       };
       vid.onended = endWalk;
-
-      if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
-        setTimeout(endWalk, (vid.duration * 1000) + 500);
-      } else {
-        vid.addEventListener('loadedmetadata', () => {
-          if (!walkFinished && vid.duration && isFinite(vid.duration)) {
-            setTimeout(endWalk, (vid.duration * 1000) + 500);
-          }
-        }, { once: true });
-        setTimeout(endWalk, 7500);
-      }
+      setTimeout(endWalk, (vid.duration * 1000) + 400);
     } else {
-      setTimeout(triggerPoop, 5000);
-      setTimeout(finishWalk, 6500);
+      setTimeout(triggerPoop, 4500);
+      setTimeout(finishWalk, 6000);
     }
   }
 
   function cleanPoop() {
-    if (!state.hasPoop && !state.hasPee) return;
+    if (!state.hasPoop && !state.hasPee) {
+      setStatus('Alles ist bereits sauber.');
+      return;
+    }
     state.hasPoop = false;
     state.hasPee = false;
     voxelWorldPoopPos = null;
@@ -2386,115 +2490,133 @@ const app = (() => {
     addXp(10);
     updateBars();
     updateMood();
-    setStatus('Bereich sauber gereinigt.');
+    saveGameProgress();
+    setStatus('Bereich sauber gereinigt (+10 XP).');
   }
 
   function wash() {
     state.idleActionsCount = 0;
+    if (state.mode === 'sleep') {
+      setStatus('Schläft gerade — tippe auf Ruhe zum Wecken.');
+      return;
+    }
+    cancelCasualIdleIfActive();
     if (state.washCooldown || state.mode !== 'idle') return;
     state.washCooldown = true;
     state.locked = true;
+    voxelWashTimer = 4.6;
 
     switchMode('wash');
-    setStatus('Waschen & Pflege aktiv...');
+    setStatus('Brause & Schaumbad aktiv...');
 
     const vid = videos.wash;
+    let washFinished = false;
     function finishWash() {
+      if (washFinished) return;
+      washFinished = true;
       state.happy = clamp(state.happy + 20);
       state.dirt = 0; // Nach dem Baden blitzeblank sauber!
       state.energy = clamp(state.energy - 5);
       addXp(12);
       updateBars();
+      saveGameProgress();
       state.washCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Sauber gewaschen und gepflegt.');
+      setStatus('Frisch geduscht und blitzsauber (+12 XP).');
     }
 
-    if (vid) {
+    if (vid && currentViewIndex !== 2 && vid.readyState >= 1 && vid.duration && isFinite(vid.duration) && vid.duration > 0) {
       vid.currentTime = 0;
-      let washFinished = false;
-      const endWash = () => {
-        if (washFinished) return;
-        washFinished = true;
+      vid.onended = () => {
         vid.onended = null;
         finishWash();
       };
-      vid.onended = endWash;
-      if (vid.duration && isFinite(vid.duration) && vid.duration > 0) {
-        setTimeout(endWash, (vid.duration * 1000) + 500);
-      } else {
-        vid.addEventListener('loadedmetadata', () => {
-          if (!washFinished && vid.duration && isFinite(vid.duration)) {
-            setTimeout(endWash, (vid.duration * 1000) + 500);
-          }
-        }, { once: true });
-        setTimeout(endWash, 10000);
-      }
+      setTimeout(finishWash, Math.min(vid.duration * 1000 + 400, 6500));
     } else {
-      setTimeout(finishWash, 5000);
+      setTimeout(finishWash, 4600);
     }
   }
 
   function feed() {
-    state.idleActionsCount = 0; // Benutzerinteraktion setzt Idle-Zähler zurück
+    state.idleActionsCount = 0;
+    if (state.mode === 'sleep') {
+      setStatus('Schläft gerade — tippe auf Ruhe zum Wecken.');
+      return;
+    }
+    cancelCasualIdleIfActive();
     if (state.feedCooldown || state.mode !== 'idle') return;
     state.feedCooldown = true;
     state.locked = true;
-    voxelFeedTimer = 3.5;
+    voxelFeedTimer = 3.6;
     switchMode('feed');
-    // Keine schwebenden Knochen-Emojis mehr (Knochen im Video enthalten)
-    setStatus('Lecker! Futter verabreicht 😋');
+
+    const sp = (state.custom && state.custom.species) ? state.custom.species : 'dog';
+    if (sp === 'cat') setStatus('Fischnapf serviert...');
+    else if (sp === 'bird') setStatus('Körnermischung serviert...');
+    else if (sp === 'bunny') setStatus('Frische Karotten serviert...');
+    else setStatus('Fressnapf gefüllt...');
 
     const vid = videos.feed;
+    let feedFinished = false;
     function finishFeed() {
-      state.hunger = clamp(state.hunger + 30);
-      state.happy  = clamp(state.happy  + 5);
-      // Wenn man Holly füttert, füllt sich die Blase schneller (+25 Harndrang!)
-      state.potty  = clamp(state.potty  + 25);
+      if (feedFinished) return;
+      feedFinished = true;
+      state.hunger = clamp(state.hunger + 35);
+      state.happy  = clamp(state.happy  + 8);
+      state.potty  = clamp(state.potty  + 22);
       addXp(10);
       if (state.potty >= 75) {
-        setStatus('Holly ist satt, muss aber bald Gassi gehen! 🦮😋 (+10 XP)');
+        setStatus('Satt gefüttert — braucht bald Auslauf! (+10 XP)');
       } else {
-        setStatus('Holly ist jetzt gesättigt! 🐾 (+10 XP)');
+        setStatus('Lecker! Jetzt gut gesättigt (+10 XP).');
       }
       updateBars();
+      saveGameProgress();
       state.feedCooldown = false;
       state.locked = false;
       switchMode('idle');
     }
 
-    if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
-      const feedDuration = Math.min(vid.duration * 1000, 6000);
+    if (vid && currentViewIndex !== 2 && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
+      const feedDuration = Math.min(vid.duration * 1000, 5500);
       setTimeout(finishFeed, feedDuration);
     } else {
-      setTimeout(finishFeed, 3500);
+      setTimeout(finishFeed, 3600);
     }
   }
 
   function play() {
-    state.idleActionsCount = 0; // Benutzerinteraktion setzt Idle-Zähler zurück
+    state.idleActionsCount = 0;
+    if (state.mode === 'sleep') {
+      setStatus('Schläft gerade — tippe auf Ruhe zum Wecken.');
+      return;
+    }
+    cancelCasualIdleIfActive();
     if (state.playCooldown || state.mode !== 'idle') return;
     state.playCooldown = true;
     state.locked = true;
     voxelPlayTimer = 5.5;
     switchMode('play');
-    setStatus('Spielmodus: Ball ca. 30 Würfel weit geworfen! Klicke in die Landschaft zum Nachwerfen.');
     kickVoxelBall();
 
     const vid = videos.play;
+    let playFinished = false;
     function finishPlay() {
-      state.happy  = clamp(state.happy  + 20);
-      state.energy = clamp(state.energy - 10);
+      if (playFinished) return;
+      playFinished = true;
+      state.happy  = clamp(state.happy  + 22);
+      state.energy = clamp(state.energy - 8);
       addXp(12);
       updateBars();
+      saveGameProgress();
       state.playCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly hat gespielt und ist glücklich! (+12 XP)');
+      setStatus('Ausgiebig gespielt und glücklich (+12 XP).');
     }
 
-    if (vid && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
+    if (vid && currentViewIndex !== 2 && vid.readyState >= 1 && vid.duration && isFinite(vid.duration)) {
       const playDuration = Math.min(vid.duration * 1000, 6000);
       setTimeout(finishPlay, playDuration);
     } else {
@@ -2503,6 +2625,12 @@ const app = (() => {
   }
 
   function sleep() {
+    // Im Voxel-Menü schaltet der Ruhe-Button zwischen Schlafen und Aufwachen um!
+    if (state.mode === 'sleep') {
+      wake();
+      return;
+    }
+    cancelCasualIdleIfActive();
     if (state.mode !== 'idle') return;
 
     // Zufallsauswahl: 50% Schlafen 1 (mit Aufwachen 1), 50% Schlafen 2 (mit Aufwachen 2)
@@ -2510,7 +2638,7 @@ const app = (() => {
     console.log(`[Waveshare ESP32-S3] Starte Schlafsequenz Variante ${state.sleepVariant}`);
 
     switchMode('sleep');
-    setStatus('Ruhemodus aktiv: Schlafsystem läuft... zzZ');
+    setStatus('Ruhemodus aktiv: Schläft tief und lädt Energie...');
 
     if (state.sleepVariant === 1) {
       // ── Variante 1: Schlafen gehen (schlafen.mp4) -> nahtlos zu Schlafen 1 (schlafloop1.mp4 vor und zurück) ──
@@ -2621,7 +2749,7 @@ const app = (() => {
     stopZzz();
 
     state.locked = true;
-    voxelWakeTimer = 2.5;
+    voxelWakeTimer = 2.0;
 
     // Alle aktiven Schlaf-Videos stoppen
     ['sleep', 'sleeploop1', 'sleep2', 'sleeploop2'].forEach(k => {
@@ -2632,28 +2760,28 @@ const app = (() => {
     });
 
     switchMode('wake');
-    spawnEffect('☀️', 4);
-    setStatus('Wake-up Interrupt getriggert! 🌅');
+    setStatus('Wacht auf und streckt sich...');
 
     // Passendes Aufwach-Video zur Schlaf-Variante
     const vid = (state.sleepVariant === 2) ? videos.wake2 : videos.wake;
+    let wakeDone = false;
     function finishWake() {
+      if (wakeDone) return;
+      wakeDone = true;
       state.locked = false;
       switchMode('idle');
-      setStatus('Guten Morgen Holly! System online! ☀️');
+      setStatus('Wach und munter — bereit zum Spielen!');
     }
 
-    if (vid) {
+    if (vid && currentViewIndex !== 2 && vid.readyState >= 1 && vid.duration && isFinite(vid.duration) && vid.duration > 0) {
       vid.currentTime = 0;
       vid.onended = () => {
         vid.onended = null;
         finishWake();
       };
-      setTimeout(() => {
-        if (state.mode === 'wake') finishWake();
-      }, 5000);
+      setTimeout(finishWake, Math.min(vid.duration * 1000 + 300, 4500));
     } else {
-      setTimeout(finishWake, 2500);
+      setTimeout(finishWake, 2000);
     }
   }
 
@@ -2672,6 +2800,7 @@ const app = (() => {
   }
 
   function touchBark() {
+    cancelCasualIdleIfActive();
     if (state.mode !== 'idle' || state.locked) return;
     console.log('[Waveshare ESP32-S3] Center Touch Event -> Holly gestreichelt! Bellen + Happy');
     state.idleActionsCount = 0; // Klick zählt als Interaktion
@@ -3047,6 +3176,26 @@ const app = (() => {
     dark:   { fur: 0x3f3f46, furDark: 0x18181b, snout: 0x52525b },
     cream:  { fur: 0xfde047, furDark: 0xa16207, snout: 0xfef08a }
   };
+  const SPECIES_PALETTES = {
+    cat: {
+      brown:  { fur: 0xea580c, furDark: 0x9a3412, snout: 0xfff7ed }, // Rotgetigerte Katze
+      golden: { fur: 0xf59e0b, furDark: 0xb45309, snout: 0xfef3c7 }, // Gold-Sand
+      dark:   { fur: 0x1e293b, furDark: 0x0f172a, snout: 0xf8fafc }, // Smoking-Katze (Schwarz-Weiß)
+      cream:  { fur: 0xf8fafc, furDark: 0xcbd5e1, snout: 0xffffff }  // Weiße Perserkatze
+    },
+    bird: {
+      brown:  { fur: 0x22c55e, furDark: 0x15803d, snout: 0xfacc15 }, // Klassischer Grün-Gelber Wellensittich
+      golden: { fur: 0xfacc15, furDark: 0xca8a04, snout: 0xfef08a }, // Lutino Gold-Gelb
+      dark:   { fur: 0x0ea5e9, furDark: 0x0369a1, snout: 0xffffff }, // Himmelblau-Weißer Wellensittich
+      cream:  { fur: 0xe2e8f0, furDark: 0x94a3b8, snout: 0xffffff }  // Albino Weiß
+    },
+    bunny: {
+      brown:  { fur: 0xb45309, furDark: 0x78350f, snout: 0xfef3c7 }, // Wildbraun / Karamell
+      golden: { fur: 0xd97706, furDark: 0x92400e, snout: 0xffedd5 }, // Honig-Zwergkaninchen
+      dark:   { fur: 0x475569, furDark: 0x1e293b, snout: 0xf1f5f9 }, // Schiefergrau
+      cream:  { fur: 0xffffff, furDark: 0xcbd5e1, snout: 0xfff1f2 }  // Schneeweiß
+    }
+  };
   const DOG_COLLAR_COLORS = {
     red:    0xdc2626,
     blue:   0x2563eb,
@@ -3057,27 +3206,27 @@ const app = (() => {
   const VOXEL_ENV_THEMES = {
     meadow: {
       bg: 'radial-gradient(circle at 50% 42%, #a7d18c 0%, #6ea159 62%, #3f6a34 100%)',
-      hudBg: 'rgba(22, 46, 24, 0.55)',
-      hudBorder: '#365e32',
-      statusBg: 'rgba(134, 184, 112, 0.82)'
+      hudBg: 'rgba(15, 23, 42, 0.80)',
+      hudBorder: 'rgba(255, 255, 255, 0.22)',
+      statusBg: 'rgba(15, 23, 42, 0.82)'
     },
     beach: {
       bg: 'radial-gradient(circle at 50% 40%, #fef08a 0%, #f59e0b 58%, #0284c7 100%)',
-      hudBg: 'rgba(12, 58, 86, 0.58)',
-      hudBorder: '#0ea5e9',
-      statusBg: 'rgba(253, 224, 71, 0.85)'
+      hudBg: 'rgba(12, 58, 86, 0.80)',
+      hudBorder: '#38bdf8',
+      statusBg: 'rgba(12, 58, 86, 0.84)'
     },
     sakura: {
       bg: 'radial-gradient(circle at 50% 42%, #fbcfe8 0%, #f472b6 62%, #831843 100%)',
-      hudBg: 'rgba(74, 16, 48, 0.58)',
-      hudBorder: '#ec4899',
-      statusBg: 'rgba(249, 168, 212, 0.85)'
+      hudBg: 'rgba(74, 16, 48, 0.80)',
+      hudBorder: '#f472b6',
+      statusBg: 'rgba(74, 16, 48, 0.84)'
     },
     livingroom: {
       bg: 'radial-gradient(circle at 50% 42%, #fed7aa 0%, #d97706 62%, #78350f 100%)',
-      hudBg: 'rgba(62, 30, 12, 0.58)',
-      hudBorder: '#b45309',
-      statusBg: 'rgba(253, 186, 116, 0.85)'
+      hudBg: 'rgba(62, 30, 12, 0.80)',
+      hudBorder: '#f59e0b',
+      statusBg: 'rgba(62, 30, 12, 0.84)'
     }
   };
 
@@ -3086,7 +3235,13 @@ const app = (() => {
   let voxelFeedTimer = 0;  // Fütter-Animation
   let voxelPlayTimer = 0;  // Spiel- & Lauf-Animation
   let voxelWalkTimer = 0;  // Gassi-Lauf-Animation
+  let voxelWashTimer = 0;  // Brause- & Schaumbad-Animation
   let voxelWakeTimer = 0;  // Streck-Animation beim Aufwachen
+  let voxelShowerGroup = null; // 3D Voxel-Duschkopf + Wasserstrahlen beim Waschen
+  let voxelWaterDrops = [];    // Einzelne fallende Wassertropfen
+  let voxelFoamBubbles = [];   // Dicht am Körper sitzende Seifenschaum-Wolken
+  let voxelHemiLight = null;
+  let voxelDirLight1 = null;
   let voxelBallPos = { x: 0.65, z: 1.1, targetX: 0.65, targetZ: 1.1 }; // Dynamische Ball-Position
 
   // Autonomes Hundeverhalten im Leerlauf (Sitzen wie in Bild 1, Stehen wie in Bild 2–4, Schnuppern, Umherbewegen, Bellen, Markieren)
@@ -3331,6 +3486,7 @@ const app = (() => {
 
     // 4. Beleuchtung (MagicaVoxel Raytracing / Ambient Occlusion Vibe mit klaren Kanten & Schatten)
     const hemiLight = new THREE.HemisphereLight(0xfffbeb, 0x334155, 0.72);
+    voxelHemiLight = hemiLight;
     voxelScene.add(hemiLight);
 
     const dirLight1 = new THREE.DirectionalLight(0xfff7ed, 0.98);
@@ -3341,6 +3497,7 @@ const app = (() => {
     dirLight1.shadow.camera.near = 0.5;
     dirLight1.shadow.camera.far = 20;
     dirLight1.shadow.bias = -0.0015;
+    voxelDirLight1 = dirLight1;
     voxelScene.add(dirLight1);
 
     const dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.38);
@@ -3350,19 +3507,30 @@ const app = (() => {
     // 4b. Gestaltbare 3D-Voxel-Umgebung aufbauen
     buildVoxelEnvironment((state.custom && state.custom.env) ? state.custom.env : 'meadow');
 
-    // 5. Voxel Materialien für die gewählte Rasse & Farbe
+    // 5. Voxel Materialien für die gewählte Tierart, Rasse & Farbe
+    const currentSpecies = (state.custom && state.custom.species) ? state.custom.species : 'dog';
     const currentBreed = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
     const breedInfo = DOG_BREEDS[currentBreed] || DOG_BREEDS.shiba;
     const furCategory = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
-    const furDef = (breedInfo.basePalettes && breedInfo.basePalettes[furCategory])
-      ? breedInfo.basePalettes[furCategory]
-      : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
+
+    let furDef;
+    if (currentSpecies !== 'dog' && SPECIES_PALETTES[currentSpecies]) {
+      furDef = SPECIES_PALETTES[currentSpecies][furCategory] || SPECIES_PALETTES[currentSpecies].brown;
+    } else {
+      furDef = (breedInfo.basePalettes && breedInfo.basePalettes[furCategory])
+        ? breedInfo.basePalettes[furCategory]
+        : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
+    }
 
     const mFur = new THREE.MeshStandardMaterial({ color: furDef.fur, roughness: 0.45, metalness: 0.04 });
     const mFurDark = new THREE.MeshStandardMaterial({ color: furDef.furDark, roughness: 0.50, metalness: 0.04 });
     const mSnout = new THREE.MeshStandardMaterial({ color: furDef.snout, roughness: 0.44, metalness: 0.03 });
-    const mNose = new THREE.MeshStandardMaterial({ color: 0x241812, roughness: 0.35, metalness: 0.08 });
-    
+    const mNose = new THREE.MeshStandardMaterial({ color: (currentSpecies === 'cat' || currentSpecies === 'bunny') ? 0xf472b6 : 0x241812, roughness: 0.35, metalness: 0.08 });
+    const mPinkInner = new THREE.MeshStandardMaterial({ color: 0xf9a8d4, roughness: 0.45 });
+    const mWhitePure = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 });
+    const mOrangeBeak = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35 });
+    const mBlueCheek = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.4 });
+
     // Wählbare Augenfarbe (schwarz, eisblau, bernstein, smaragdgrün)
     const eyePalette = {
       black:   0x141416,
@@ -3370,7 +3538,8 @@ const app = (() => {
       amber:   0xf59e0b,
       green:   0x22c55e
     };
-    const eyeChoice = (state.custom && state.custom.eye) ? state.custom.eye : ((currentBreed === 'husky') ? 'iceblue' : 'black');
+    const defaultEye = (currentSpecies === 'cat') ? 'green' : ((currentSpecies === 'dog' && currentBreed === 'husky') ? 'iceblue' : 'black');
+    const eyeChoice = (state.custom && state.custom.eye) ? state.custom.eye : defaultEye;
     const eyeColorHex = eyePalette[eyeChoice] || 0x141416;
     const mPupil = new THREE.MeshStandardMaterial({ color: eyeColorHex, roughness: 0.25, metalness: 0.25 });
     const collarColorHex = (DOG_COLLAR_COLORS[state.custom.collar]) ? DOG_COLLAR_COLORS[state.custom.collar] : 0xdc2626;
@@ -3409,80 +3578,101 @@ const app = (() => {
       return mesh;
     }
 
-    // 6. Sweet Spot Voxel-Hund aufbauen (Shiba Inu, Welsh Corgi, Siberian Husky, Golden Retriever)
+    // 6. Sweet Spot Voxel-Haustier aufbauen (Hund mit 4 Rassen, Katze, Wellensittich, Zwergkaninchen)
     voxelPuppyGroup = new THREE.Group();
     voxelScene.add(voxelPuppyGroup);
 
-    // Rassen-spezifische Rumpf-Maße & Proportionen (Chibi-Lego Sweet Spot)
-    const isCorgi = (currentBreed === 'corgi');
-    const isHusky = (currentBreed === 'husky');
-    const isGolden = (currentBreed === 'golden');
-    const isShiba = (currentBreed === 'shiba');
+    const isBird = (currentSpecies === 'bird');
+    const isCat = (currentSpecies === 'cat');
+    const isBunny = (currentSpecies === 'bunny');
+    const isDog = (currentSpecies === 'dog');
+
+    const isCorgi = isDog && (currentBreed === 'corgi');
+    const isHusky = isDog && (currentBreed === 'husky');
+    const isGolden = isDog && (currentBreed === 'golden');
+    const isShiba = isDog && (currentBreed === 'shiba');
 
     // ── A. Rumpf im STEHEN ──
     voxelBodyStandGroup = new THREE.Group();
     voxelPuppyGroup.add(voxelBodyStandGroup);
 
-    const bodyLenMin = isCorgi ? -4.5 : -4.0;
-    const bodyLenMax = isCorgi ? 3.5 : 3.0;
-
-    for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
-      for (let iy = -1.0; iy <= 2.0; iy += 1.0) {
-        for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
-          if (iy === 2.0 && Math.abs(ix) === 2.5 && iz <= 1.0) continue;
-          const isOuter = (Math.abs(ix) >= 1.5 || iy === -1.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax);
-          if (!isOuter) continue;
-          // Bauchlatz weiß bei Shiba, Corgi & Husky
-          const isBelly = (iy <= 0.0 && Math.abs(ix) <= 1.5 && iz >= 0.5) || (iy === -1.0 && Math.abs(ix) <= 0.5);
-          const blockMat = isBelly ? mSnout : mFur;
-          addVoxel(ix, iy, iz, blockMat, voxelBodyStandGroup);
-        }
-      }
-    }
-    // Kräftige Vorderbrust
-    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
-      for (let iz = 1.0; iz <= bodyLenMax; iz += 1.0) {
-        const isBelly = Math.abs(ix) <= 0.5;
-        addVoxel(ix, -2.0, iz, isBelly ? mSnout : mFur, voxelBodyStandGroup);
-      }
-    }
-    // Oberschenkel-Fasen hinten
-    for (let step = 0; step < 3; step++) {
-      addVoxel(-2.15 - step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
-      addVoxel(2.15 + step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
-    }
-    // Po-Kreuz ('X')
-    const xOffsets = [
-      [0, 0],
-      [-1, 1], [-2, 2], [1, 1], [2, 2],
-      [-1, -1], [-2, -2], [1, -1], [2, -2]
-    ];
-    xOffsets.forEach(([ox, oy]) => {
-      addVoxel(ox * 0.22, 0.15 + oy * 0.22, bodyLenMin - 0.52, mAnus, voxelBodyStandGroup, 0.24, 0.24, 0.18, false);
-    });
-
-    // ── B. Rumpf im SITZEN (Diagonale Treppe nach hinten-unten zum Boden) ──
     voxelBodySitGroup = new THREE.Group();
     voxelBodySitGroup.visible = false;
     voxelPuppyGroup.add(voxelBodySitGroup);
 
-    for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
-      for (let iy = -4.0; iy <= 2.0; iy += 1.0) {
-        for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
-          if (iy === 2.0 && iz < 0.0) continue;
-          if (iy === 1.0 && iz < -1.0) continue;
-          if (iy === 0.0 && iz < -2.0) continue;
-          if (iy === -1.0 && iz < -3.0) continue;
-          if (Math.abs(ix) === 2.5 && iy === 2.0) continue;
-          if (Math.abs(ix) === 2.5 && iz === bodyLenMax && iy <= 0.0) continue;
-          if (iz === bodyLenMax && iy <= -2.0 && Math.abs(ix) <= 1.5) continue;
+    if (isBird) {
+      // ── WELLENSITTICH: Aufrechter Vogel-Torso mit gelbem Brustlatz & Wellenmuster ──
+      for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+        for (let iy = -2.5; iy <= 2.5; iy += 1.0) {
+          for (let iz = -2.0; iz <= 2.0; iz += 1.0) {
+            if (Math.abs(ix) === 1.5 && (iy === 2.5 || iy === -2.5) && Math.abs(iz) === 2.0) continue;
+            const isOuter = (Math.abs(ix) === 1.5 || iy === -2.5 || iy === 2.5 || Math.abs(iz) === 2.0);
+            if (!isOuter) continue;
+            const isNeckMask = (iy >= 1.5 && iz >= 0.5);
+            const isBackScallop = (iz <= -1.0 && (Math.round(ix + iy) % 2 === 0));
+            const mat = isNeckMask ? mSnout : (isBackScallop ? mFurDark : mFur);
+            addVoxel(ix, iy, iz, mat, voxelBodyStandGroup);
+            addVoxel(ix, iy, iz, mat, voxelBodySitGroup);
+          }
+        }
+      }
+      // Gewölbte Vogelbrust vorne
+      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+        for (let iy = -1.5; iy <= 1.5; iy += 1.0) {
+          addVoxel(ix, iy, 2.5, iy >= 1.0 ? mSnout : mFur, voxelBodyStandGroup);
+          addVoxel(ix, iy, 2.5, iy >= 1.0 ? mSnout : mFur, voxelBodySitGroup);
+        }
+      }
+    } else {
+      // ── HUND, KATZE & ZWERGKANINCHEN: Vierbeiner-Torso ──
+      const bodyLenMin = isCorgi ? -4.5 : (isBunny ? -3.0 : -4.0);
+      const bodyLenMax = isCorgi ? 3.5 : (isBunny ? 2.5 : 3.0);
+      const halfW = isCat ? 2.0 : 2.5;
 
-          const isOuterSit = (
-            Math.abs(ix) >= 1.5 || iy === -4.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax || (iy >= -1.0 && iz <= 0.0)
-          );
-          if (!isOuterSit) continue;
-          const isBellySit = (iz >= 0.5 && Math.abs(ix) <= 1.5 && iy <= 1.0);
-          addVoxel(ix, iy, iz, isBellySit ? mSnout : mFur, voxelBodySitGroup);
+      for (let ix = -halfW; ix <= halfW; ix += 1.0) {
+        for (let iy = -1.0; iy <= 2.0; iy += 1.0) {
+          for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
+            if (iy === 2.0 && Math.abs(ix) === halfW && iz <= 1.0) continue;
+            const isOuter = (Math.abs(ix) >= (halfW - 1.0) || iy === -1.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax);
+            if (!isOuter) continue;
+            const isBelly = (iy <= 0.0 && Math.abs(ix) <= 1.5 && iz >= 0.5) || (iy === -1.0 && Math.abs(ix) <= 0.5);
+            const blockMat = isBelly ? mSnout : mFur;
+            addVoxel(ix, iy, iz, blockMat, voxelBodyStandGroup);
+          }
+        }
+      }
+      // Vorderbrust
+      for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+        for (let iz = 1.0; iz <= bodyLenMax; iz += 1.0) {
+          const isBelly = Math.abs(ix) <= 0.5;
+          addVoxel(ix, -2.0, iz, isBelly ? mSnout : mFur, voxelBodyStandGroup);
+        }
+      }
+      // Oberschenkel-Fasen hinten
+      for (let step = 0; step < 3; step++) {
+        addVoxel(-(halfW - 0.35) - step * 0.12, 1.85 - step * 0.25, -2.2, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.4, false);
+        addVoxel((halfW - 0.35) + step * 0.12, 1.85 - step * 0.25, -2.2, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.4, false);
+      }
+
+      // ── B. Rumpf im SITZEN ──
+      for (let ix = -halfW; ix <= halfW; ix += 1.0) {
+        for (let iy = -4.0; iy <= 2.0; iy += 1.0) {
+          for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
+            if (iy === 2.0 && iz < 0.0) continue;
+            if (iy === 1.0 && iz < -1.0) continue;
+            if (iy === 0.0 && iz < -2.0) continue;
+            if (iy === -1.0 && iz < -3.0) continue;
+            if (Math.abs(ix) === halfW && iy === 2.0) continue;
+            if (Math.abs(ix) === halfW && iz === bodyLenMax && iy <= 0.0) continue;
+            if (iz === bodyLenMax && iy <= -2.0 && Math.abs(ix) <= 1.5) continue;
+
+            const isOuterSit = (
+              Math.abs(ix) >= (halfW - 1.0) || iy === -4.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax || (iy >= -1.0 && iz <= 0.0)
+            );
+            if (!isOuterSit) continue;
+            const isBellySit = (iz >= 0.5 && Math.abs(ix) <= 1.5 && iy <= 1.0);
+            addVoxel(ix, iy, iz, isBellySit ? mSnout : mFur, voxelBodySitGroup);
+          }
         }
       }
     }
@@ -3492,40 +3682,119 @@ const app = (() => {
     voxelCollarAnchor.position.set(0, 3.0 * B, 1.5 * B);
     voxelPuppyGroup.add(voxelCollarAnchor);
 
-    // ── Voxel-Kopf (Harmonische 7×7×6 Struktur) ──
+    // ── Voxel-Kopf ──
     voxelHeadGroup = new THREE.Group();
     voxelHeadGroup.position.set(0, 4.8 * B, 1.2 * B);
 
-    for (let ix = -3.5; ix <= 3.5; ix += 1.0) {
-      for (let iy = -2.0; iy <= 4.0; iy += 1.0) {
-        for (let iz = -2.0; iz <= 3.0; iz += 1.0) {
-          if (iy === 4.0 && (Math.abs(ix) === 3.5 || iz === 3.0 || iz === -2.0)) continue;
-          if (Math.abs(ix) === 3.5 && (iz === -2.0 || iz === 3.0)) continue;
-          if (iy === -2.0 && Math.abs(ix) === 3.5) continue;
-
-          const isSurface = (Math.abs(ix) >= 2.5 || iy === -2.0 || iy >= 3.0 || iz === -2.0 || iz >= 2.0);
-          if (!isSurface) continue;
-
-          // Weiße Blesse / Maske:
-          // Corgi: Weiße Blesse mittig auf der Stirn (ix === 0 oder -0.5..0.5)
-          // Husky: Weiße Maske um Augen & Stirn
-          // Shiba: Weiße Backen unten (-2.0 <= iy <= 0)
-          let headMat = mFur;
-          if (isCorgi && Math.abs(ix) <= 0.5 && iz >= 1.5) {
-            headMat = mSnout;
-          } else if (isHusky && (Math.abs(ix) <= 1.5 && iy >= 2.0 && iz >= 1.5 || (iy <= 0.0 && iz >= 1.5))) {
-            headMat = mSnout;
-          } else if (isShiba && iy <= 0.0 && Math.abs(ix) >= 1.5 && iz >= 1.5) {
-            headMat = mSnout;
+    if (isBird) {
+      // ── WELLENSITTICH-KOPF: Gelbe/Weiße Gesichtsmaske, blaue Wangenflecken & Krummschnabel ──
+      for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
+        for (let iy = -1.5; iy <= 3.5; iy += 1.0) {
+          for (let iz = -1.5; iz <= 2.5; iz += 1.0) {
+            if (iy === 3.5 && (Math.abs(ix) === 2.5 || Math.abs(iz) >= 1.5)) continue;
+            if (Math.abs(ix) === 2.5 && Math.abs(iz) >= 1.5) continue;
+            const isSurf = (Math.abs(ix) >= 1.5 || iy === -1.5 || iy >= 2.5 || iz === -1.5 || iz >= 1.5);
+            if (!isSurf) continue;
+            // Gesichtsmaske vorne & Krone oben in mSnout (Gelb/Weiß), Hinterkopf mit Wellenstreifen
+            let hMat = (iz >= 0.5 || iy >= 2.5) ? mSnout : ((Math.round(iy + ix) % 2 === 0) ? mFurDark : mFur);
+            addVoxel(ix, iy, iz, hMat, voxelHeadGroup);
           }
-          addVoxel(ix, iy, iz, headMat, voxelHeadGroup);
         }
       }
+      // Kobaltblaue Wangenflecken & schwarze Kehltupfen
+      addVoxel(-2.3, -0.4, 1.8, mBlueCheek, voxelHeadGroup, 0.5, 0.9, 0.7, false);
+      addVoxel(2.3, -0.4, 1.8, mBlueCheek, voxelHeadGroup, 0.5, 0.9, 0.7, false);
+      addVoxel(-1.1, -1.2, 2.55, mNose, voxelHeadGroup, 0.45, 0.45, 0.3, false);
+      addVoxel(1.1, -1.2, 2.55, mNose, voxelHeadGroup, 0.45, 0.45, 0.3, false);
+
+      // Wachshaut (Cere) + Gebogener Papageien-/Wellensittich-Krummschnabel
+      const mCere = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.4 });
+      addVoxel(0, 0.65, 3.0, mCere, voxelHeadGroup, 1.4, 0.6, 0.7, false);
+      addVoxel(0, 0.0, 3.3, mOrangeBeak, voxelHeadGroup, 1.5, 0.9, 1.1, false);
+      addVoxel(0, -0.75, 3.45, mOrangeBeak, voxelHeadGroup, 1.0, 0.85, 0.8, false);
+      addVoxel(0, -1.3, 3.35, mOrangeBeak, voxelHeadGroup, 0.65, 0.55, 0.6, false);
+
+      voxelJawGroup = new THREE.Group();
+      voxelJawGroup.position.set(0, -1.1 * B, 2.6 * B);
+      addVoxel(0, 0, 0.3, mOrangeBeak, voxelJawGroup, 1.1, 0.5, 0.8, false);
+      voxelHeadGroup.add(voxelJawGroup);
+    } else {
+      // ── HUND, KATZE & KANINCHEN-KOPF ──
+      for (let ix = -3.5; ix <= 3.5; ix += 1.0) {
+        for (let iy = -2.0; iy <= 4.0; iy += 1.0) {
+          for (let iz = -2.0; iz <= 3.0; iz += 1.0) {
+            if (iy === 4.0 && (Math.abs(ix) === 3.5 || iz === 3.0 || iz === -2.0)) continue;
+            if (Math.abs(ix) === 3.5 && (iz === -2.0 || iz === 3.0)) continue;
+            if (iy === -2.0 && Math.abs(ix) === 3.5 && !isBunny) continue;
+
+            const isSurface = (Math.abs(ix) >= 2.5 || iy === -2.0 || iy >= 3.0 || iz === -2.0 || iz >= 2.0);
+            if (!isSurface) continue;
+
+            let headMat = mFur;
+            if (isCorgi && Math.abs(ix) <= 0.5 && iz >= 1.5) {
+              headMat = mSnout;
+            } else if (isHusky && (Math.abs(ix) <= 1.5 && iy >= 2.0 && iz >= 1.5 || (iy <= 0.0 && iz >= 1.5))) {
+              headMat = mSnout;
+            } else if ((isShiba || isCat || isBunny) && iy <= 0.0 && Math.abs(ix) >= 1.5 && iz >= 1.5) {
+              headMat = mSnout;
+            }
+            addVoxel(ix, iy, iz, headMat, voxelHeadGroup);
+          }
+        }
+      }
+
+      // Schnauze & Nase
+      const snoutMaxZ = (isCat || isBunny) ? 4.2 : 5.0;
+      for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+        for (let iy = -1.0; iy <= 0.0; iy += 1.0) {
+          for (let iz = 3.5; iz <= snoutMaxZ; iz += 1.0) {
+            addVoxel(ix, iy, iz, mSnout, voxelHeadGroup);
+          }
+        }
+      }
+      addVoxel(-0.5, 0.5, 3.5, mSnout, voxelHeadGroup, 1.0, 0.5, 1.2, false);
+      addVoxel(0.5, 0.5, 3.5, mSnout, voxelHeadGroup, 1.0, 0.5, 1.2, false);
+
+      const noseZ = (isCat || isBunny) ? 4.45 : 5.25;
+      addVoxel(0, 0.15, noseZ, mNose, voxelHeadGroup, isCat ? 1.35 : 1.85, 1.05, 0.85, false);
+      addVoxel(0, 0.52, noseZ - 0.18, mNose, voxelHeadGroup, isCat ? 1.15 : 1.55, 0.42, 0.80, false);
+
+      if (isCat) {
+        // ── 3D Katzen-Schnurrhaare links & rechts an den Wangen ──
+        addVoxel(-3.8, -0.35, 3.1, mWhitePure, voxelHeadGroup, 1.8, 0.22, 0.22, false);
+        addVoxel(-3.7, -0.95, 3.1, mWhitePure, voxelHeadGroup, 1.6, 0.22, 0.22, false);
+        addVoxel(3.8, -0.35, 3.1, mWhitePure, voxelHeadGroup, 1.8, 0.22, 0.22, false);
+        addVoxel(3.7, -0.95, 3.1, mWhitePure, voxelHeadGroup, 1.6, 0.22, 0.22, false);
+      } else if (isBunny) {
+        // ── 2 weiße Kaninchen-Hasenzähne unter der Schnauze ──
+        addVoxel(-0.38, -1.25, 4.25, mWhitePure, voxelHeadGroup, 0.65, 0.75, 0.35, false);
+        addVoxel(0.38, -1.25, 4.25, mWhitePure, voxelHeadGroup, 0.65, 0.75, 0.35, false);
+      }
+
+      // Unterkiefer & gelegentlich herausgestreckte Zunge
+      voxelJawGroup = new THREE.Group();
+      voxelJawGroup.position.set(0, -1.5 * B, 3.5 * B);
+      for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+        addVoxel(ix, -0.35, 0.5, mSnout, voxelJawGroup);
+      }
+      const tongueMeshGroup = new THREE.Group();
+      tongueMeshGroup.name = 'dogTongue';
+      addVoxel(-0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
+      addVoxel(0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
+      addVoxel(-0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
+      addVoxel(0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
+      addVoxel(-0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
+      addVoxel(0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
+      tongueMeshGroup.scale.set(0.001, 0.001, 0.001);
+      voxelJawGroup.add(tongueMeshGroup);
+      voxelHeadGroup.add(voxelJawGroup);
     }
 
-    // ── Augen (Schwarz oder Husky-Eisblau) ──
+    // ── Augen ──
+    const eyeX = isBird ? 1.85 : 2.0;
+    const eyeZ = isBird ? 2.55 : 3.12;
     eyeLGroup = new THREE.Group();
-    eyeLGroup.position.set(-2.0 * B, 1.35 * B, 3.12 * B);
+    eyeLGroup.position.set(-eyeX * B, 1.35 * B, eyeZ * B);
     for (let ex = -0.5; ex <= 0.5; ex += 1.0) {
       for (let ey = -0.5; ey <= 0.5; ey += 1.0) {
         addVoxel(ex, ey, 0, mPupil, eyeLGroup, 0.96, 0.96, 0.45, false);
@@ -3535,7 +3804,7 @@ const app = (() => {
     voxelHeadGroup.add(eyeLGroup);
 
     eyeRGroup = new THREE.Group();
-    eyeRGroup.position.set(2.0 * B, 1.35 * B, 3.12 * B);
+    eyeRGroup.position.set(eyeX * B, 1.35 * B, eyeZ * B);
     for (let ex = -0.5; ex <= 0.5; ex += 1.0) {
       for (let ey = -0.5; ey <= 0.5; ey += 1.0) {
         addVoxel(ex, ey, 0, mPupil, eyeRGroup, 0.96, 0.96, 0.45, false);
@@ -3544,55 +3813,58 @@ const app = (() => {
     addVoxel(0, -0.25, 0.28, mPupil, eyeRGroup, 1.1, 0.65, 0.35, false);
     voxelHeadGroup.add(eyeRGroup);
 
-    // ── Schnauze & zweistufige Knopf-Nase ──
-    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
-      for (let iy = -1.0; iy <= 0.0; iy += 1.0) {
-        for (let iz = 4.0; iz <= 5.0; iz += 1.0) {
-          addVoxel(ix, iy, iz, mSnout, voxelHeadGroup);
-        }
-      }
-    }
-    addVoxel(-0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
-    addVoxel(0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
-
-    addVoxel(0, 0.15, 5.25, mNose, voxelHeadGroup, 1.85, 1.15, 0.9, false);
-    addVoxel(0, 0.55, 5.05, mNose, voxelHeadGroup, 1.55, 0.45, 0.85, false);
-
-    // ── Unterkiefer & gelegentlich herausgestreckte Zunge ──
-    voxelJawGroup = new THREE.Group();
-    voxelJawGroup.position.set(0, -1.5 * B, 3.5 * B);
-    for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
-      addVoxel(ix, -0.35, 0.5, mSnout, voxelJawGroup);
-    }
-    // Zunge in separater Gruppe, damit sie gelegentlich ein- und ausgefahren werden kann
-    const tongueMeshGroup = new THREE.Group();
-    tongueMeshGroup.name = 'dogTongue';
-    addVoxel(-0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
-    addVoxel(0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
-    addVoxel(-0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
-    addVoxel(0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
-    addVoxel(-0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
-    addVoxel(0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
-    tongueMeshGroup.scale.set(0.001, 0.001, 0.001); // Standardmäßig eingezogen
-    voxelJawGroup.add(tongueMeshGroup);
-    voxelHeadGroup.add(voxelJawGroup);
-
-    // ── Rassen-spezifische Ohren (Stehohren für Shiba & Husky, riesige Fledermausohren für Corgi, Schlappohren für Golden) ──
+    // ── Tier- & Rassen-spezifische Ohren / Kopffedern ──
     voxelEarLGroup = new THREE.Group();
     voxelEarRGroup = new THREE.Group();
 
-    if (breedInfo.earType === 'pointy') {
-      // 🦊 Shiba / 🐺 Husky: Aufrecht spitze Stehohren (Dreiecks-Treppen)
+    if (isBunny) {
+      // ── ZWERGKANINCHEN: Sehr lange, aufrechte Löffel-Ohren mit rosa Innenseite ──
+      voxelEarLGroup.position.set(-1.6 * B, 4.1 * B, 0.3 * B);
+      voxelEarRGroup.position.set(1.6 * B, 4.1 * B, 0.3 * B);
+      for (let ey = 0.5; ey <= 5.5; ey += 1.0) {
+        const w = (ey >= 5.0) ? 1.1 : 1.5;
+        addVoxel(0, ey, 0, mFur, voxelEarLGroup, w, 1.05, 1.1);
+        addVoxel(0, ey, 0, mFur, voxelEarRGroup, w, 1.05, 1.1);
+        if (ey <= 4.5) {
+          addVoxel(0, ey, 0.48, mPinkInner, voxelEarLGroup, 0.75, 0.95, 0.35, false);
+          addVoxel(0, ey, 0.48, mPinkInner, voxelEarRGroup, 0.75, 0.95, 0.35, false);
+        }
+      }
+      voxelEarLGroup.rotation.set(0.08, 0, 0.12);
+      voxelEarRGroup.rotation.set(0.08, 0, -0.12);
+    } else if (isCat) {
+      // ── KATZE: Spitze Dreiecks-Katzenohren mit rosa Innenohr ──
+      voxelEarLGroup.position.set(-2.5 * B, 4.1 * B, 0.6 * B);
+      voxelEarRGroup.position.set(2.5 * B, 4.1 * B, 0.6 * B);
+
+      addVoxel(0, 0.5, 0, mFurDark, voxelEarLGroup, 1.9, 1.0, 1.4);
+      addVoxel(-0.2, 1.45, 0, mFurDark, voxelEarLGroup, 1.35, 1.0, 1.2);
+      addVoxel(-0.35, 2.35, 0, mFurDark, voxelEarLGroup, 0.8, 0.9, 0.9);
+      addVoxel(0.15, 0.9, 0.45, mPinkInner, voxelEarLGroup, 0.85, 1.25, 0.35, false);
+
+      addVoxel(0, 0.5, 0, mFurDark, voxelEarRGroup, 1.9, 1.0, 1.4);
+      addVoxel(0.2, 1.45, 0, mFurDark, voxelEarRGroup, 1.35, 1.0, 1.2);
+      addVoxel(0.35, 2.35, 0, mFurDark, voxelEarRGroup, 0.8, 0.9, 0.9);
+      addVoxel(-0.15, 0.9, 0.45, mPinkInner, voxelEarRGroup, 0.85, 1.25, 0.35, false);
+
+      voxelEarLGroup.rotation.set(0.05, 0, 0.14);
+      voxelEarRGroup.rotation.set(0.05, 0, -0.14);
+    } else if (isBird) {
+      // ── WELLENSITTICH: Kleine Kopffeder-Haube ──
+      voxelEarLGroup.position.set(-0.6 * B, 3.8 * B, 0.8 * B);
+      voxelEarRGroup.position.set(0.6 * B, 3.8 * B, 0.8 * B);
+      addVoxel(0, 0.5, 0, mSnout, voxelEarLGroup, 0.7, 1.1, 0.7, false);
+      addVoxel(0, 0.5, 0, mSnout, voxelEarRGroup, 0.7, 1.1, 0.7, false);
+    } else if (breedInfo.earType === 'pointy') {
+      // Shiba / Husky: Aufrecht spitze Stehohren
       voxelEarLGroup.position.set(-2.5 * B, 4.2 * B, 0.5 * B);
       voxelEarRGroup.position.set(2.5 * B, 4.2 * B, 0.5 * B);
 
-      // Linkes Ohr
       addVoxel(0, 0.5, 0, mFurDark, voxelEarLGroup, 1.8, 1.0, 1.6);
       addVoxel(-0.3, 1.4, 0, mFurDark, voxelEarLGroup, 1.4, 1.0, 1.4);
       addVoxel(-0.5, 2.3, 0, mFurDark, voxelEarLGroup, 0.9, 0.9, 1.0);
-      addVoxel(0.3, 0.8, 0.35, mSnout, voxelEarLGroup, 0.8, 1.2, 0.4, false); // Ohrinnenfell
+      addVoxel(0.3, 0.8, 0.35, mSnout, voxelEarLGroup, 0.8, 1.2, 0.4, false);
 
-      // Rechtes Ohr
       addVoxel(0, 0.5, 0, mFurDark, voxelEarRGroup, 1.8, 1.0, 1.6);
       addVoxel(0.3, 1.4, 0, mFurDark, voxelEarRGroup, 1.4, 1.0, 1.4);
       addVoxel(0.5, 2.3, 0, mFurDark, voxelEarRGroup, 0.9, 0.9, 1.0);
@@ -3601,18 +3873,16 @@ const app = (() => {
       voxelEarLGroup.rotation.set(0.12, 0, 0.18);
       voxelEarRGroup.rotation.set(0.12, 0, -0.18);
     } else if (breedInfo.earType === 'large_pointy') {
-      // 🍞 Corgi: Große breite Fledermaus-Stehohren
+      // Corgi: Große breite Fledermaus-Stehohren
       voxelEarLGroup.position.set(-3.0 * B, 4.0 * B, 0.5 * B);
       voxelEarRGroup.position.set(3.0 * B, 4.0 * B, 0.5 * B);
 
-      // Linkes großes Fledermausohr
       addVoxel(0, 0.6, 0, mFurDark, voxelEarLGroup, 2.2, 1.1, 1.5);
       addVoxel(-0.4, 1.6, 0, mFurDark, voxelEarLGroup, 2.0, 1.1, 1.3);
       addVoxel(-0.8, 2.6, 0, mFurDark, voxelEarLGroup, 1.6, 1.0, 1.1);
       addVoxel(-1.1, 3.4, 0, mFurDark, voxelEarLGroup, 1.0, 0.8, 0.9);
       addVoxel(0.2, 1.3, 0.35, mSnout, voxelEarLGroup, 1.2, 1.8, 0.4, false);
 
-      // Rechtes großes Fledermausohr
       addVoxel(0, 0.6, 0, mFurDark, voxelEarRGroup, 2.2, 1.1, 1.5);
       addVoxel(0.4, 1.6, 0, mFurDark, voxelEarRGroup, 2.0, 1.1, 1.3);
       addVoxel(0.8, 2.6, 0, mFurDark, voxelEarRGroup, 1.6, 1.0, 1.1);
@@ -3622,7 +3892,7 @@ const app = (() => {
       voxelEarLGroup.rotation.set(0.15, 0, 0.28);
       voxelEarRGroup.rotation.set(0.15, 0, -0.28);
     } else {
-      // 🐶 Golden Retriever: Treppenförmig herabfallende Schlappohren
+      // Golden Retriever: Treppenförmig herabfallende Schlappohren
       voxelEarLGroup.position.set(-3.5 * B, 3.5 * B, 0.5 * B);
       voxelEarRGroup.position.set(3.5 * B, 3.5 * B, 0.5 * B);
 
@@ -3670,7 +3940,7 @@ const app = (() => {
     bowWingR.position.set(B * 1.2, 0.02, 0);
     bowWingR.rotation.z = -0.25;
     voxelBowMesh.add(bowKnot, bowWingL, bowWingR);
-    voxelBowMesh.position.set(-2.5 * B, 4.6 * B, 1.5 * B);
+    voxelBowMesh.position.set(-2.2 * B, 4.5 * B, 1.5 * B);
     voxelBowMesh.visible = false;
     voxelHeadGroup.add(voxelBowMesh);
 
@@ -3683,7 +3953,7 @@ const app = (() => {
     const hatBand = new THREE.Mesh(new THREE.BoxGeometry(B * 3.6, B * 0.7, B * 3.6), hatBandMat);
     hatBand.position.y = B * 0.6;
     voxelHatMesh.add(hatBrim, hatCrown, hatBand);
-    voxelHatMesh.position.set(0, 4.6 * B, 0.5 * B);
+    voxelHatMesh.position.set(0, 4.5 * B, 0.5 * B);
     voxelHatMesh.rotation.z = -0.08;
     voxelHatMesh.visible = false;
     voxelHeadGroup.add(voxelHatMesh);
@@ -3691,96 +3961,153 @@ const app = (() => {
     const stolenItemGeo = new THREE.BoxGeometry(B * 2.4, B * 0.8, B * 2.4);
     const mStolen = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 });
     stolenItemMesh = new THREE.Mesh(stolenItemGeo, mStolen);
-    stolenItemMesh.position.set(0, -1.8 * B, 5.2 * B);
+    stolenItemMesh.position.set(0, -1.8 * B, 4.8 * B);
     stolenItemMesh.visible = false;
     voxelHeadGroup.add(stolenItemMesh);
 
     voxelPuppyGroup.add(voxelHeadGroup);
 
-    // ── 4 Beine (Beim Corgi kurze 2×2 Stummelbeine, sonst schlankere Stützen) ──
-    const legThick = isCorgi ? 1.0 : 0.5;
-    const legPawMat = (isShiba || isCorgi || isHusky) ? mSnout : mFur;
-
-    function createStandingLeg(x, y, z, isFront) {
-      const legGroup = new THREE.Group();
-      legGroup.position.set(x, y, z);
-      const topY = isFront ? 1 : 0;
-      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
-        for (let iy = -3; iy <= topY; iy += 1.0) {
-          for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
-            addVoxel(ix, iy, iz, mFur, legGroup);
+    // ── Beine bzw. beim Wellensittich 3D-Flügel & Krallenfüße ──
+    if (isBird) {
+      // voxelLegFL & voxelLegFR sind beim Wellensittich die beweglichen 3D-Flügel!
+      function createBirdWing(isLeft) {
+        const wingGrp = new THREE.Group();
+        const sign = isLeft ? -1 : 1;
+        wingGrp.position.set(sign * 2.0 * B, 1.2 * B, 0.4 * B);
+        for (let wy = 0; wy >= -3.0; wy -= 1.0) {
+          for (let wz = 1.0; wz >= -2.5; wz -= 1.0) {
+            if (wy === -3.0 && wz > -0.5) continue;
+            const wMat = ((Math.round(wy + wz) % 2 === 0) ? mFurDark : mFur);
+            addVoxel(sign * 0.4, wy, wz, wMat, wingGrp, 0.85, 0.95, 0.95);
           }
         }
+        return wingGrp;
       }
-      if (!isFront) {
-        for (let s = 0; s < 4; s++) {
-          addVoxel(0, -0.2 - s * 0.25, 0.6 + (3 - s) * 0.22, mFur, legGroup, 1.95, 0.28, 0.65, false);
-        }
-      }
-      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
-        for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
-          addVoxel(ix, -4.0, iz, legPawMat, legGroup);
-        }
-      }
-      addVoxel(0, -3.35, 0.45, legPawMat, legGroup, 2.15, 0.35, 2.35, false);
-      return legGroup;
-    }
+      voxelLegFL = createBirdWing(true);
+      voxelLegFR = createBirdWing(false);
+      voxelPuppyGroup.add(voxelLegFL, voxelLegFR);
 
-    const legZFront = isCorgi ? 2.5 * B : 2.2 * B;
-    const legZBack = isCorgi ? -2.9 * B : -2.6 * B;
-
-    voxelLegFL = createStandingLeg(-2.0 * B, -1.2 * B, legZFront, true);
-    voxelPuppyGroup.add(voxelLegFL);
-
-    voxelLegFR = createStandingLeg(2.0 * B, -1.2 * B, legZFront, true);
-    voxelPuppyGroup.add(voxelLegFR);
-
-    voxelLegBL = createStandingLeg(-2.0 * B, -1.2 * B, legZBack, false);
-    voxelPuppyGroup.add(voxelLegBL);
-
-    voxelLegBR = createStandingLeg(2.0 * B, -1.2 * B, legZBack, false);
-    voxelPuppyGroup.add(voxelLegBR);
-
-    function createSittingHindLeg(x) {
-      const sitLeg = new THREE.Group();
-      sitLeg.position.set(x, -1.2 * B, -1.2 * B);
-      for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+      function createBirdFoot(x) {
+        const footGrp = new THREE.Group();
+        footGrp.position.set(x, -1.2 * B, 0.2 * B);
         for (let iy = -3.0; iy <= -1.0; iy += 1.0) {
-          for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
-            addVoxel(ix, iy, iz, mFur, sitLeg);
+          addVoxel(0, iy, 0, mOrangeBeak, footGrp, 0.75, 1.0, 0.75);
+        }
+        addVoxel(-0.45, -4.0, 0.8, mOrangeBeak, footGrp, 0.55, 0.5, 1.8, false);
+        addVoxel(0.45, -4.0, 0.8, mOrangeBeak, footGrp, 0.55, 0.5, 1.8, false);
+        addVoxel(0, -4.0, -0.7, mOrangeBeak, footGrp, 0.55, 0.5, 1.1, false);
+        return footGrp;
+      }
+      voxelLegBL = createBirdFoot(-1.1 * B);
+      voxelLegBR = createBirdFoot(1.1 * B);
+      voxelLegBLSit = createBirdFoot(-1.1 * B);
+      voxelLegBRSit = createBirdFoot(1.1 * B);
+      voxelLegBLSit.visible = false;
+      voxelLegBRSit.visible = false;
+      voxelPuppyGroup.add(voxelLegBL, voxelLegBR, voxelLegBLSit, voxelLegBRSit);
+    } else {
+      const legPawMat = (isShiba || isCorgi || isHusky || isCat || isBunny) ? mSnout : mFur;
+
+      function createStandingLeg(x, y, z, isFront) {
+        const legGroup = new THREE.Group();
+        legGroup.position.set(x, y, z);
+        const topY = isFront ? 1 : 0;
+        for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+          for (let iy = -3; iy <= topY; iy += 1.0) {
+            for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
+              addVoxel(ix, iy, iz, mFur, legGroup);
+            }
           }
         }
-        for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
-          addVoxel(ix, -4.0, iz, legPawMat, sitLeg);
+        if (!isFront) {
+          for (let s = 0; s < 4; s++) {
+            addVoxel(0, -0.2 - s * 0.25, 0.6 + (3 - s) * 0.22, mFur, legGroup, 1.95, 0.28, 0.65, false);
+          }
         }
+        const pawMaxZ = (!isFront && isBunny) ? 2.2 : 1.5;
+        for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+          for (let iz = -0.5; iz <= pawMaxZ; iz += 1.0) {
+            addVoxel(ix, -4.0, iz, legPawMat, legGroup);
+          }
+        }
+        addVoxel(0, -3.35, 0.45, legPawMat, legGroup, 2.15, 0.35, 2.35, false);
+        return legGroup;
       }
-      addVoxel(0, -3.35, 0.45, legPawMat, sitLeg, 2.15, 0.35, 2.35, false);
-      sitLeg.visible = false;
-      return sitLeg;
-    }
-    voxelLegBLSit = createSittingHindLeg(-2.5 * B);
-    voxelLegBRSit = createSittingHindLeg(2.5 * B);
-    voxelPuppyGroup.add(voxelLegBLSit);
-    voxelPuppyGroup.add(voxelLegBRSit);
 
-    // ── Rute (Shiba Ringelrute, Corgi Stummel, Husky Busch-Rute, Golden Aufrecht) ──
+      const legX = isCat ? 1.65 * B : 2.0 * B;
+      const legZFront = isCorgi ? 2.5 * B : (isBunny ? 1.8 * B : 2.2 * B);
+      const legZBack = isCorgi ? -2.9 * B : (isBunny ? -2.0 * B : -2.6 * B);
+
+      voxelLegFL = createStandingLeg(-legX, -1.2 * B, legZFront, true);
+      voxelPuppyGroup.add(voxelLegFL);
+
+      voxelLegFR = createStandingLeg(legX, -1.2 * B, legZFront, true);
+      voxelPuppyGroup.add(voxelLegFR);
+
+      voxelLegBL = createStandingLeg(-legX, -1.2 * B, legZBack, false);
+      voxelPuppyGroup.add(voxelLegBL);
+
+      voxelLegBR = createStandingLeg(legX, -1.2 * B, legZBack, false);
+      voxelPuppyGroup.add(voxelLegBR);
+
+      function createSittingHindLeg(x) {
+        const sitLeg = new THREE.Group();
+        sitLeg.position.set(x, -1.2 * B, -1.2 * B);
+        for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
+          for (let iy = -3.0; iy <= -1.0; iy += 1.0) {
+            for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
+              addVoxel(ix, iy, iz, mFur, sitLeg);
+            }
+          }
+          for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
+            addVoxel(ix, -4.0, iz, legPawMat, sitLeg);
+          }
+        }
+        addVoxel(0, -3.35, 0.45, legPawMat, sitLeg, 2.15, 0.35, 2.35, false);
+        sitLeg.visible = false;
+        return sitLeg;
+      }
+      voxelLegBLSit = createSittingHindLeg(-2.4 * B);
+      voxelLegBRSit = createSittingHindLeg(2.4 * B);
+      voxelPuppyGroup.add(voxelLegBLSit);
+      voxelPuppyGroup.add(voxelLegBRSit);
+    }
+
+    // ── Rute / Schwanz (Tier- und Rassen-spezifisch) ──
     voxelTailGroup = new THREE.Group();
-    const tailBaseZ = isCorgi ? -4.7 * B : -4.2 * B;
+    const tailBaseZ = isCorgi ? -4.7 * B : (isBird ? -2.2 * B : (isBunny ? -3.3 * B : -4.2 * B));
     voxelTailGroup.position.set(0, 0.2 * B, tailBaseZ);
 
-    if (breedInfo.tailType === 'curl') {
-      // 🦊 Shiba Inu: Typische 3D-Ringelrute über den Rücken gerollt!
+    if (isBird) {
+      // ── WELLENSITTICH: Lange, schräg nach hinten-unten laufende Schwanzfedern ──
+      for (let s = 0; s < 7; s++) {
+        addVoxel(0, -s * 0.32, -s * 0.65, (s >= 4) ? mBlueCheek : mFurDark, voxelTailGroup, 1.15 - s * 0.08, 0.45, 0.9, false);
+      }
+    } else if (isBunny) {
+      // ── ZWERGKANINCHEN:auschiges weißes Blume-/Puschel-Schwänzchen ──
+      addVoxel(0, 0.5, -0.5, mWhitePure, voxelTailGroup, 1.8, 1.8, 1.6);
+      addVoxel(0, 0.8, -0.9, mWhitePure, voxelTailGroup, 1.3, 1.3, 1.1);
+    } else if (isCat) {
+      // ── KATZE: Langer, geschmeidig hochgeschwungener S-Katzenschwanz ──
+      for (let s = 0; s < 10; s++) {
+        const ty = s * 0.52;
+        const tz = -0.3 - Math.sin(s * 0.38) * 0.85;
+        const tCol = (s >= 8) ? mSnout : mFurDark;
+        addVoxel(0, ty, tz, tCol, voxelTailGroup, 0.95, 0.65, 0.95, false);
+      }
+    } else if (breedInfo.tailType === 'curl') {
+      // Shiba Inu: 3D-Ringelrute über den Rücken gerollt
       addVoxel(0, 0.6, 0.2, mFur, voxelTailGroup, 1.4, 1.0, 1.2);
       addVoxel(0.2, 1.5, 0.5, mFur, voxelTailGroup, 1.3, 1.0, 1.2);
       addVoxel(0.3, 2.3, 0.9, mFur, voxelTailGroup, 1.2, 1.0, 1.2);
-      addVoxel(0.1, 2.9, 1.3, mSnout, voxelTailGroup, 1.1, 0.9, 1.1); // Weiße Rutenquaste
+      addVoxel(0.1, 2.9, 1.3, mSnout, voxelTailGroup, 1.1, 0.9, 1.1);
       addVoxel(-0.2, 2.6, 1.6, mSnout, voxelTailGroup, 0.9, 0.8, 1.0);
     } else if (breedInfo.tailType === 'stubby') {
-      // 🍞 Corgi: Kleiner, knuffiger Stummelschwanz
+      // Corgi: Stummelschwanz
       addVoxel(0, 0.4, -0.4, mSnout, voxelTailGroup, 1.3, 1.1, 1.3);
       addVoxel(0, 0.8, -0.7, mFur, voxelTailGroup, 1.0, 0.9, 1.0);
     } else if (breedInfo.tailType === 'bushy') {
-      // 🐺 Husky: Buschige, aufrecht geschwungene Fuchsrute mit weißer Spitze
+      // Husky: Buschige Fuchsrute
       for (let s = 0; s < 7; s++) {
         const ty = s * 0.48;
         const tz = -0.2 - s * 0.25;
@@ -3789,7 +4116,7 @@ const app = (() => {
       }
       addVoxel(0, 3.5, -1.8, mSnout, voxelTailGroup, 1.1, 0.7, 1.1, false);
     } else {
-      // 🐶 Golden Retriever: Aufrecht nach oben geschwungen
+      // Golden Retriever: Aufrecht nach oben geschwungen
       for (let s = 0; s < 10; s++) {
         const ty = s * 0.35;
         const tz = -0.3 - Math.min(1.2, s * 0.18);
@@ -3799,13 +4126,10 @@ const app = (() => {
     }
     voxelPuppyGroup.add(voxelTailGroup);
 
-    console.log(`[Tamaholly 3D Voxel Pet] Rasse "${breedInfo.name}" aufgebaut: ~${totalDogVoxels} Würfel (Sweet Spot 300-600)`);
+    console.log(`[Tamaholly 3D Voxel Pet] Tierart "${currentSpecies}" (${breedInfo.name}) aufgebaut: ~${totalDogVoxels} Würfel`);
 
-    console.log(`[Tamaholly 3D Nanoblock Voxel] Nanoblock-Welpe (Stehen & Sitzen) erstellt: ${totalDogVoxels} Blöcke (${totalDogVoxels * 12} Dreiecke, Blockgröße=${B})`);
-
-    // ── Voxel-Häufchen (Geschichtet aus echten Voxel-Blöcken + kleine Augen/Glanz, zur Kamera ausgerichtet!) ──
+    // ── Voxel-Häufchen (Geschichtet aus echten Voxel-Blöcken) ──
     voxelPoopMesh = new THREE.Group();
-    // Untere Basis-Schicht (3x3 Voxel)
     for (let px = -1; px <= 1; px++) {
       for (let pz = -1; pz <= 1; pz++) {
         const pBlock = new THREE.Mesh(sharedVoxelGeo, (px + pz) % 2 === 0 ? mPoop : mPoopDark);
@@ -3813,7 +4137,6 @@ const app = (() => {
         voxelPoopMesh.add(pBlock);
       }
     }
-    // Mittlere Schicht (2x2 versetzt)
     for (let px = -0.5; px <= 0.5; px += 1) {
       for (let pz = -0.5; pz <= 0.5; pz += 1) {
         const pBlock = new THREE.Mesh(sharedVoxelGeo, mPoop);
@@ -3821,17 +4144,15 @@ const app = (() => {
         voxelPoopMesh.add(pBlock);
       }
     }
-    // Spitze oben drauf
     const poopTip = new THREE.Mesh(sharedVoxelGeo, mPoopDark);
     poopTip.position.set(0, B * 2.2, 0);
     voxelPoopMesh.add(poopTip);
-    // Gut sichtbar vorne Richtung Kamera positionieren und ausrichten
-    voxelPoopMesh.position.set(0.28, -0.75, 0.95);
+    voxelPoopMesh.position.set(-0.26, -0.40, -0.24);
     voxelPoopMesh.rotation.set(0.15, 0, 0);
     voxelPoopMesh.visible = false;
     voxelScene.add(voxelPoopMesh);
 
-    // ── Voxel-Urin-Pfütze (Aus flachen Voxel-Kacheln am Boden, verblasst nach einigen Sekunden sanft) ──
+    // ── Voxel-Urin-Pfütze ──
     voxelPeeMesh = new THREE.Group();
     const mPee = new THREE.MeshLambertMaterial({
       color: 0xfacc15,
@@ -3849,28 +4170,25 @@ const app = (() => {
       voxelPeeMesh.add(tile);
     });
     voxelPeeMesh.userData.material = mPee;
-    voxelPeeMesh.position.set(0.35, -0.78, 0.55);
+    voxelPeeMesh.position.set(0.32, -0.39, 0.25);
     voxelPeeMesh.visible = false;
     voxelScene.add(voxelPeeMesh);
 
-    // ── 3D Voxel-Fressnapf mit geschichteten Voxel-Futterstücken (leert sich von oben nach unten!) ──
+    // ── 3D Voxel-Fressnapf mit geschichteten Voxel-Futterstücken (direkt vor der Schnauze!) ──
     voxelTreatMesh = new THREE.Group();
     const mBowlOuter = new THREE.MeshLambertMaterial({ color: 0x2563eb });
     const mBowlRim = new THREE.MeshLambertMaterial({ color: 0xe2e8f0 });
     const mBowlBottom = new THREE.MeshLambertMaterial({ color: 0x1e293b });
 
-    // Voxel-Napf-Ring & Boden aufbauen
     for (let bx = -3; bx <= 3; bx++) {
       for (let bz = -3; bz <= 3; bz++) {
         const dist = Math.hypot(bx, bz);
         if (dist <= 3.2) {
-          // Bodenplatte
           const botBlock = new THREE.Mesh(new THREE.BoxGeometry(B * 0.9, B * 0.5, B * 0.9), mBowlBottom);
           botBlock.position.set(bx * B * 0.85, 0.03, bz * B * 0.85);
           voxelTreatMesh.add(botBlock);
         }
         if (dist >= 2.2 && dist <= 3.3) {
-          // Blaue Napfwand + silberner Rand
           const wallBlock = new THREE.Mesh(new THREE.BoxGeometry(B * 0.9, B * 1.4, B * 0.9), mBowlOuter);
           wallBlock.position.set(bx * B * 0.85, 0.14, bz * B * 0.85);
           voxelTreatMesh.add(wallBlock);
@@ -3881,15 +4199,15 @@ const app = (() => {
       }
     }
 
-    // Geschichtete Voxel-Futterstücke (3 Lagen von unten nach oben), die beim Fressen von oben nach unten verschwinden!
     voxelFoodGroup = new THREE.Group();
     voxelFoodBlocks = [];
-    const mKibble1 = new THREE.MeshLambertMaterial({ color: 0x92400e });
-    const mKibble2 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+    const foodCol1 = isCat ? 0x38bdf8 : (isBird ? 0xfacc15 : (isBunny ? 0xf97316 : 0x92400e));
+    const foodCol2 = isCat ? 0x0284c7 : (isBird ? 0xeab308 : (isBunny ? 0x22c55e : 0xb45309));
+    const mKibble1 = new THREE.MeshLambertMaterial({ color: foodCol1 });
+    const mKibble2 = new THREE.MeshLambertMaterial({ color: foodCol2 });
     const mBoneDeco = new THREE.MeshLambertMaterial({ color: 0xfef08a });
     const kibbleVoxelGeo = new THREE.BoxGeometry(B * 0.78, B * 0.65, B * 0.78);
 
-    // Lage 1 (unten im Napf, y = 0.10)
     for (let fx = -2; fx <= 2; fx++) {
       for (let fz = -2; fz <= 2; fz++) {
         if (Math.hypot(fx, fz) <= 2.1) {
@@ -3901,7 +4219,6 @@ const app = (() => {
         }
       }
     }
-    // Lage 2 (Mitte, y = 0.18)
     for (let fx = -1; fx <= 1; fx++) {
       for (let fz = -1; fz <= 1; fz++) {
         const kb = new THREE.Mesh(kibbleVoxelGeo, (fx * fz) % 2 === 0 ? mKibble2 : mKibble1);
@@ -3911,7 +4228,6 @@ const app = (() => {
         voxelFoodBlocks.push(kb);
       }
     }
-    // Lage 3 (Oben / Spitze + kleiner Knochen, y = 0.26..0.32)
     [[-0.5, 0.25, 0], [0.5, 0.25, 0], [0, 0.25, -0.5], [0, 0.25, 0.5], [0, 0.31, 0]].forEach((pos, idx) => {
       const kb = new THREE.Mesh(kibbleVoxelGeo, idx === 4 ? mBoneDeco : mKibble2);
       kb.position.set(pos[0] * B, pos[1], pos[2] * B);
@@ -3920,15 +4236,14 @@ const app = (() => {
       voxelFoodBlocks.push(kb);
     });
 
-    // Sortiere Futterblöcke absteigend nach Höhe (von oben nach unten!), damit beim Fressen zuerst die obersten verschwinden
     voxelFoodBlocks.sort((a, b) => b.position.y - a.position.y);
-
     voxelTreatMesh.add(voxelFoodGroup);
-    voxelTreatMesh.position.set(0, -0.68, 1.18);
+    voxelTreatMesh.scale.set(0.82, 0.82, 0.82);
+    voxelTreatMesh.position.set(0, -0.39, 0.36);
     voxelTreatMesh.visible = false;
     voxelScene.add(voxelTreatMesh);
 
-    // ── Dynamische Voxel-Hundeleine (im Weltkoordinatenraum, verläuft im hohen Bogen über dem Rücken!) ──
+    // ── Dynamische Voxel-Hundeleine (nur für Hunde beim Gassi-Gehen) ──
     voxelLeashMesh = new THREE.Group();
     voxelLeashBlocks = [];
     const mLeash1 = new THREE.MeshLambertMaterial({ color: 0xd97706 });
@@ -3940,48 +4255,113 @@ const app = (() => {
       voxelLeashBlocks.push(lSeg);
     }
     voxelLeashMesh.visible = false;
-    voxelScene.add(voxelLeashMesh); // Direkt in der Szene, damit sie dynamisch über dem Rücken berechnet wird!
+    voxelScene.add(voxelLeashMesh);
 
-    // ── Schaumblasen für Voxel-Waschen ──
-    const bubbleGeo = new THREE.BoxGeometry(0.11, 0.11, 0.11);
-    const mBubble = new THREE.MeshLambertMaterial({
-      color: 0x93c5fd,
-      transparent: true,
-      opacity: 0.75
-    });
-    voxelSoapBubbles = [];
-    for (let bi = 0; bi < 12; bi++) {
-      const bMesh = new THREE.Mesh(bubbleGeo, mBubble);
-      bMesh.visible = false;
-      voxelScene.add(bMesh);
-      voxelSoapBubbles.push({
-        mesh: bMesh,
-        ox: (Math.random() - 0.5) * 1.2,
-        oz: (Math.random() - 0.5) * 1.2,
-        speed: 0.8 + Math.random() * 0.8,
-        phase: Math.random() * Math.PI * 2
+    // ── NEU: 3D Voxel-Brausekopf, Wasserstrahlen & dichter Seifenschaum beim Waschen ──
+    voxelShowerGroup = new THREE.Group();
+    const mChrome = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.25, metalness: 0.6 });
+    const mChromeDark = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.35, metalness: 0.5 });
+    const mGoldPipe = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.3, metalness: 0.5 });
+
+    // Duschkopf-Teller und Zuleitungsrohr oben über dem Tier
+    const showerPlate = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.08, 0.42), mChrome);
+    showerPlate.position.set(0, 0.92, 0.05);
+    const showerNozzle = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.04, 0.34), mChromeDark);
+    showerNozzle.position.set(0, 0.87, 0.05);
+    const showerNeck = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.24, 0.10), mGoldPipe);
+    showerNeck.position.set(0, 1.06, 0.05);
+    const showerArm = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.10, 0.55), mGoldPipe);
+    showerArm.position.set(0, 1.16, -0.18);
+    voxelShowerGroup.add(showerPlate, showerNozzle, showerNeck, showerArm);
+
+    // 18 animierte Voxel-Wassertropfen aus der Brause
+    voxelWaterDrops = [];
+    const dropGeo = new THREE.BoxGeometry(0.055, 0.12, 0.055);
+    const mWaterDrop = new THREE.MeshLambertMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85 });
+    for (let wi = 0; wi < 18; wi++) {
+      const dMesh = new THREE.Mesh(dropGeo, mWaterDrop);
+      voxelShowerGroup.add(dMesh);
+      voxelWaterDrops.push({
+        mesh: dMesh,
+        ox: ((wi % 3) - 1) * 0.11 + (Math.random() - 0.5) * 0.04,
+        oz: (Math.floor(wi / 3) % 3 - 1) * 0.11 + 0.05,
+        speed: 1.8 + (wi % 4) * 0.35,
+        phase: (wi / 18)
       });
     }
 
-    // ── Voxel-Spielball (Mehrfarbiger 3D-Voxel-Ball aus kleinen Blöcken) ──
+    // 18 flauschig weiße Seifenschaum-Blöcke direkt am Körper/Kopf des Tiers
+    voxelFoamBubbles = [];
+    const foamGeo = new THREE.BoxGeometry(0.11, 0.11, 0.11);
+    const mFoamWhite = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.92 });
+    const mFoamBlue = new THREE.MeshLambertMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.88 });
+    for (let fi = 0; fi < 18; fi++) {
+      const fMesh = new THREE.Mesh(foamGeo, fi % 3 === 0 ? mFoamBlue : mFoamWhite);
+      voxelShowerGroup.add(fMesh);
+      const angle = (fi / 18) * Math.PI * 2;
+      const rad = 0.14 + (fi % 3) * 0.07;
+      voxelFoamBubbles.push({
+        mesh: fMesh,
+        angle,
+        rad,
+        baseY: -0.22 + (fi % 5) * 0.14,
+        phase: fi * 0.7
+      });
+    }
+    voxelShowerGroup.visible = false;
+    voxelScene.add(voxelShowerGroup);
+    voxelSoapBubbles = [];
+
+    // ── Tier-spezifisches 3D Voxel-Spielzeug (Ball für Hund, Spielzeugmaus für Katze, Glocke für Vogel, Karotte für Kaninchen) ──
     voxelBallMesh = new THREE.Group();
-    const mBallPink = new THREE.MeshLambertMaterial({ color: 0xec4899 });
-    const mBallCyan = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
-    const mBallWhite = new THREE.MeshLambertMaterial({ color: 0xffffff });
     const ballSubGeo = new THREE.BoxGeometry(B * 0.85, B * 0.85, B * 0.85);
-    for (let bx = -1; bx <= 1; bx++) {
-      for (let by = -1; by <= 1; by++) {
-        for (let bz = -1; bz <= 1; bz++) {
-          if (Math.abs(bx) + Math.abs(by) + Math.abs(bz) <= 2) {
-            const bMat = (bx === 0 && by === 0) ? mBallWhite : ((bx + by + bz) % 2 === 0 ? mBallPink : mBallCyan);
-            const bSub = new THREE.Mesh(ballSubGeo, bMat);
-            bSub.position.set(bx * B * 0.75, by * B * 0.75, bz * B * 0.75);
-            voxelBallMesh.add(bSub);
+    if (isCat) {
+      // ── 3D VOXEL-SPIELZEUGMAUS für die Katze ──
+      const mMouseGrey = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
+      const mMousePink = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
+      const mMouseBody = new THREE.Mesh(new THREE.BoxGeometry(B * 1.8, B * 1.3, B * 2.6), mMouseGrey);
+      mMouseBody.position.set(0, B * 0.65, 0);
+      const mMouseHead = new THREE.Mesh(new THREE.BoxGeometry(B * 1.3, B * 1.0, B * 1.2), mMouseGrey);
+      mMouseHead.position.set(0, B * 0.55, B * 1.6);
+      const mMouseNose = new THREE.Mesh(new THREE.BoxGeometry(B * 0.55, B * 0.55, B * 0.55), mMousePink);
+      mMouseNose.position.set(0, B * 0.55, B * 2.3);
+      const mMouseEarL = new THREE.Mesh(new THREE.BoxGeometry(B * 0.7, B * 0.8, B * 0.35), mMousePink);
+      mMouseEarL.position.set(-B * 0.65, B * 1.25, B * 1.2);
+      const mMouseEarR = new THREE.Mesh(new THREE.BoxGeometry(B * 0.7, B * 0.8, B * 0.35), mMousePink);
+      mMouseEarR.position.set(B * 0.65, B * 1.25, B * 1.2);
+      const mMouseTail = new THREE.Mesh(new THREE.BoxGeometry(B * 0.35, B * 0.35, B * 2.2), mMousePink);
+      mMouseTail.position.set(0, B * 0.4, -B * 2.1);
+      voxelBallMesh.add(mMouseBody, mMouseHead, mMouseNose, mMouseEarL, mMouseEarR, mMouseTail);
+      voxelBallMesh.userData.isMouse = true;
+    } else if (isBunny) {
+      // ── 3D VOXEL-KAROTTE für das Zwergkaninchen ──
+      const mCarrot = new THREE.MeshLambertMaterial({ color: 0xf97316 });
+      const mLeaf = new THREE.MeshLambertMaterial({ color: 0x22c55e });
+      const c1 = new THREE.Mesh(new THREE.BoxGeometry(B * 1.4, B * 1.4, B * 2.4), mCarrot);
+      const c2 = new THREE.Mesh(new THREE.BoxGeometry(B * 0.9, B * 0.9, B * 1.4), mCarrot);
+      c2.position.set(0, 0, B * 1.7);
+      const l1 = new THREE.Mesh(new THREE.BoxGeometry(B * 0.8, B * 0.8, B * 1.0), mLeaf);
+      l1.position.set(0, 0, -B * 1.5);
+      voxelBallMesh.add(c1, c2, l1);
+    } else {
+      // ── Mehrfarbiger 3D-Voxel-Ball ──
+      const mBallPink = new THREE.MeshLambertMaterial({ color: isBird ? 0xfacc15 : 0xec4899 });
+      const mBallCyan = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+      const mBallWhite = new THREE.MeshLambertMaterial({ color: 0xffffff });
+      for (let bx = -1; bx <= 1; bx++) {
+        for (let by = -1; by <= 1; by++) {
+          for (let bz = -1; bz <= 1; bz++) {
+            if (Math.abs(bx) + Math.abs(by) + Math.abs(bz) <= 2) {
+              const bMat = (bx === 0 && by === 0) ? mBallWhite : ((bx + by + bz) % 2 === 0 ? mBallPink : mBallCyan);
+              const bSub = new THREE.Mesh(ballSubGeo, bMat);
+              bSub.position.set(bx * B * 0.75, by * B * 0.75, bz * B * 0.75);
+              voxelBallMesh.add(bSub);
+            }
           }
         }
       }
     }
-    voxelBallMesh.position.set(0.65, -0.55, 1.1);
+    voxelBallMesh.position.set(0.65, -0.35, 1.1);
     voxelBallMesh.visible = false;
     voxelScene.add(voxelBallMesh);
 
@@ -4059,12 +4439,19 @@ const app = (() => {
 
   function applyDogCustomization() {
     if (!voxelPuppyGroup) return;
+    const currentSpecies = (state.custom && state.custom.species) ? state.custom.species : 'dog';
     const currentBreedKey = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
     const breedConfig = DOG_BREEDS[currentBreedKey] || DOG_BREEDS.shiba;
     const furCategory = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
-    const fur = (breedConfig.basePalettes && breedConfig.basePalettes[furCategory])
-      ? breedConfig.basePalettes[furCategory]
-      : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
+
+    let fur;
+    if (currentSpecies !== 'dog' && SPECIES_PALETTES[currentSpecies]) {
+      fur = SPECIES_PALETTES[currentSpecies][furCategory] || SPECIES_PALETTES[currentSpecies].brown;
+    } else {
+      fur = (breedConfig.basePalettes && breedConfig.basePalettes[furCategory])
+        ? breedConfig.basePalettes[furCategory]
+        : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
+    }
     const collarCol = DOG_COLLAR_COLORS[state.custom.collar] || DOG_COLLAR_COLORS.red;
     const envName = state.custom.env || 'meadow';
 
@@ -4075,7 +4462,8 @@ const app = (() => {
 
     // Augenfarbe aktualisieren
     const eyePalette = { black: 0x141416, iceblue: 0x38bdf8, amber: 0xf59e0b, green: 0x22c55e };
-    const curEye = (state.custom && state.custom.eye) ? state.custom.eye : 'black';
+    const defaultEye = (currentSpecies === 'cat') ? 'green' : ((currentSpecies === 'dog' && currentBreedKey === 'husky') ? 'iceblue' : 'black');
+    const curEye = (state.custom && state.custom.eye) ? state.custom.eye : defaultEye;
     if (mPupilMat) {
       mPupilMat.color.setHex(eyePalette[curEye] || 0x141416);
     }
@@ -4108,11 +4496,16 @@ const app = (() => {
   function setPetSpecies(species) {
     if (!state.custom) state.custom = {};
     state.custom.species = species;
-    
-    // Tier-spezifische Bedürfnisse anpassen:
-    // Katze: kein Gassi (Walk), dafür Mäusejagd & Kratzbaum
-    // Wellensittich: kein Gassi, dafür Freiflug (Fly) & Körner
-    // Kaninchen: Hoppeln & Karotten
+    if (species === 'cat') {
+      state.custom.eye = 'green';
+    } else if (species === 'bird') {
+      state.custom.fur = 'brown';
+      state.custom.eye = 'black';
+    } else if (species === 'bunny') {
+      state.custom.fur = 'brown';
+      state.custom.eye = 'black';
+    }
+
     applySpeciesNeeds(species);
 
     const breedBox = $('breed-subselector');
@@ -4130,31 +4523,73 @@ const app = (() => {
     const btnFeed = $('btn-feed');
     const lblHunger = $('lbl-stat-hunger');
     const lblHappy = $('lbl-stat-happy');
+    const lblPotty = $('lbl-stat-potty');
+
+    const pxLblWalk = $('px-lbl-walk');
+    const pxLblWash = $('px-lbl-wash');
+    const pxLblFeed = $('px-lbl-feed');
+    const pxLblPlay = $('px-lbl-play');
+    const pxBtnWalk = $('pixel-btn-walk');
+    const pxBtnWash = $('pixel-btn-wash');
+    const pxBtnFeed = $('pixel-btn-feed');
+    const pxBtnPlay = $('pixel-btn-play');
 
     if (species === 'cat') {
       if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🐾</span>Kratzen';
       if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🧶</span>Mausjagd';
       if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🐟</span>Fisch';
-      if (lblHappy) lblHappy.textContent = 'SCHNURREN';
-      setStatus('Katze ausgewählt: Liebt Mäusejagd, Kratzen und Fisch.');
+      if (pxLblWalk) pxLblWalk.textContent = 'KRATZEN';
+      if (pxLblWash) pxLblWash.textContent = 'PFLEGE';
+      if (pxLblFeed) pxLblFeed.textContent = 'FISCH';
+      if (pxLblPlay) pxLblPlay.textContent = 'MAUS';
+      if (pxBtnWalk) pxBtnWalk.title = 'Kratzbaum & Streifzug';
+      if (pxBtnFeed) pxBtnFeed.title = 'Fischnapf füttern';
+      if (pxBtnPlay) pxBtnPlay.title = 'Mäusejagd spielen';
+      if (lblHappy) lblHappy.textContent = 'LAUNE';
+      if (lblPotty) lblPotty.textContent = 'KISTCHEN';
+      setStatus('Katze aktiv: Liebt Mäusejagd, Kratzen und Fisch.');
     } else if (species === 'bird') {
       if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🪶</span>Freiflug';
       if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🔔</span>Glöckchen';
       if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🌾</span>Körner';
-      if (lblHappy) lblHappy.textContent = 'ZWITSCHERN';
-      setStatus('Wellensittich ausgewählt: Benötigt Freiflug und Körner.');
+      if (pxLblWalk) pxLblWalk.textContent = 'FLIEGEN';
+      if (pxLblWash) pxLblWash.textContent = 'BAD';
+      if (pxLblFeed) pxLblFeed.textContent = 'KÖRNER';
+      if (pxLblPlay) pxLblPlay.textContent = 'GLOCKE';
+      if (pxBtnWalk) pxBtnWalk.title = 'Freiflug durch die Luft';
+      if (pxBtnFeed) pxBtnFeed.title = 'Körnermischung füttern';
+      if (pxBtnPlay) pxBtnPlay.title = 'Mit Glöckchen spielen';
+      if (lblHappy) lblHappy.textContent = 'GESANG';
+      if (lblPotty) lblPotty.textContent = 'FREIFLUG';
+      setStatus('Wellensittich aktiv: Benötigt Freiflug und Körner.');
     } else if (species === 'bunny') {
       if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🌿</span>Hoppeln';
       if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🥕</span>Tunnel';
       if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🥕</span>Möhre';
-      if (lblHappy) lblHappy.textContent = 'KUSCHELN';
-      setStatus('Zwergkaninchen ausgewählt: Liebt Hoppeln und Möhren.');
+      if (pxLblWalk) pxLblWalk.textContent = 'HOPPELN';
+      if (pxLblWash) pxLblWash.textContent = 'PFLEGE';
+      if (pxLblFeed) pxLblFeed.textContent = 'KAROTTE';
+      if (pxLblPlay) pxLblPlay.textContent = 'SPIEL';
+      if (pxBtnWalk) pxBtnWalk.title = 'Freilauf & Hoppeln';
+      if (pxBtnFeed) pxBtnFeed.title = 'Karotten füttern';
+      if (pxBtnPlay) pxBtnPlay.title = 'Hoppeln & Spielen';
+      if (lblHappy) lblHappy.textContent = 'FREUDE';
+      if (lblPotty) lblPotty.textContent = 'AUSLAUF';
+      setStatus('Zwergkaninchen aktiv: Liebt Hoppeln und Karotten.');
     } else {
       if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🦮</span>Gassi';
       if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🎾</span>Spielen';
       if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🍖</span>Füttern';
+      if (pxLblWalk) pxLblWalk.textContent = 'GASSI';
+      if (pxLblWash) pxLblWash.textContent = 'PFLEGE';
+      if (pxLblFeed) pxLblFeed.textContent = 'FUTTER';
+      if (pxLblPlay) pxLblPlay.textContent = 'BALL';
+      if (pxBtnWalk) pxBtnWalk.title = 'Gassi gehen';
+      if (pxBtnFeed) pxBtnFeed.title = 'Füttern (Fressnapf)';
+      if (pxBtnPlay) pxBtnPlay.title = 'Ball werfen & jagen';
       if (lblHappy) lblHappy.textContent = 'FREUDE';
-      setStatus('Hund ausgewählt: Freut sich auf Gassi und Ballspiel.');
+      if (lblPotty) lblPotty.textContent = 'BLASE';
+      setStatus('Hund aktiv: Freut sich auf Gassi und Balljagd.');
     }
   }
 
@@ -4166,6 +4601,11 @@ const app = (() => {
     const curCollar = (state.custom && state.custom.collar) ? state.custom.collar : 'red';
     const curAcc = (state.custom && state.custom.accessory) ? state.custom.accessory : 'none';
     const curEnv = (state.custom && state.custom.env) ? state.custom.env : 'meadow';
+
+    const breedBox = $('breed-subselector');
+    if (breedBox) {
+      breedBox.style.display = (curSpecies === 'dog') ? 'flex' : 'none';
+    }
 
     document.querySelectorAll('.custom-species-btn').forEach(b => {
       const active = b.dataset.species === curSpecies;
@@ -4205,17 +4645,30 @@ const app = (() => {
   }
 
   function setDogCustom(category, value) {
-    if (!state.custom) state.custom = { breed: 'shiba', fur: 'brown', collar: 'red', accessory: 'none', env: 'meadow' };
+    if (!state.custom) state.custom = { species: 'dog', breed: 'shiba', fur: 'brown', eye: 'black', collar: 'red', accessory: 'none', env: 'meadow' };
     const prevBreed = state.custom.breed;
     state.custom[category] = value;
-    if (category === 'breed' && prevBreed !== value) {
-      // Wenn Rasse gewechselt wurde, 3D-Voxelmodell im Sweet Spot neu generieren
+    if (category === 'breed') {
+      state.custom.species = 'dog';
+      // Charakteristische Standard-Farben für die gewählte Rasse setzen (auf Seite 2 jederzeit frei änderbar)
+      if (value === 'husky') {
+        state.custom.fur = 'dark';
+        state.custom.eye = 'iceblue';
+      } else if (value === 'golden') {
+        state.custom.fur = 'golden';
+        state.custom.eye = 'black';
+      } else {
+        state.custom.fur = 'brown';
+        state.custom.eye = 'black';
+      }
+      applySpeciesNeeds('dog');
+      initVoxelPet();
+    } else if (prevBreed !== state.custom.breed) {
       initVoxelPet();
     } else {
       applyDogCustomization();
     }
     saveGameProgress();
-    spawnEffect('✨', 3);
   }
 
   function openCustomModal() {
@@ -4232,9 +4685,10 @@ const app = (() => {
   }
 
   function handleVoxelContainerClick(e) {
+    cancelCasualIdleIfActive();
     if (state.locked && state.mode !== 'play') return;
 
-    // Wenn Holly schläft: Sanftes Aufwecken
+    // Wenn das Tier schläft: Sanftes Aufwecken
     if (state.mode === 'sleep') {
       wake();
       return;
@@ -4245,7 +4699,7 @@ const app = (() => {
     const relX = (e.clientX - rect.left) / rect.width;
     const relY = (e.clientY - rect.top) / rect.height;
 
-    // Wenn Spielmodus aktiv ist: Klick/Touch auf das runde Display wirft den Voxel-Ball exakt dorthin, und Holly jagt & schnappt danach!
+    // Wenn Spielmodus aktiv ist: Klick/Touch auf das runde Display wirft den Voxel-Ball / das Spielzeug ca. 30 Würfel weit!
     if (state.mode === 'play' || voxelPlayTimer > 0) {
       kickVoxelBall(relX, relY);
       return;
@@ -4262,8 +4716,8 @@ const app = (() => {
   }
 
   function kickVoxelBall(relX, relY) {
-    // Weitwurf: Ball fliegt ca. 30 Würfel (~2.8 Einheiten) weit in die Landschaft!
-    const throwDistance = 2.85; // ca. 30 Würfel
+    // Weitwurf: Spielzeug springt ca. 30 Würfel (~2.85 Einheiten) weit in die Landschaft!
+    const throwDistance = 2.85;
     let throwAngle = voxelPuppyRot.y + (Math.random() - 0.5) * 0.5;
 
     if (typeof relX === 'number' && typeof relY === 'number') {
@@ -4272,17 +4726,19 @@ const app = (() => {
       throwAngle = Math.atan2(clickDirX, clickDirZ);
     }
 
-    // Ball-Position in der Welt setzen
     voxelBallWorldPos.x = voxelWorldOffset.x + voxelCurrentPos.x + Math.sin(throwAngle) * throwDistance;
     voxelBallWorldPos.z = voxelWorldOffset.z + voxelCurrentPos.z + Math.cos(throwAngle) * throwDistance;
 
     if (voxelPlayTimer > 0) {
-      voxelPlayTimer = Math.max(voxelPlayTimer, 4.5);
+      voxelPlayTimer = Math.max(voxelPlayTimer, 4.8);
     }
     voxelSnapTimer = 0.5;
 
-    // Keine Emojis mehr
-    setStatus('Ball weit geworfen! Holly stürmt hinterher...');
+    const sp = (state.custom && state.custom.species) ? state.custom.species : 'dog';
+    if (sp === 'cat') setStatus('Spielzeugmaus flitzt davon — Mäusejagd!');
+    else if (sp === 'bird') setStatus('Glöckchen geworfen — fliegt hinterher!');
+    else if (sp === 'bunny') setStatus('Karotte geworfen — hoppelt hinterher!');
+    else setStatus('Ball 30 Würfel weit geworfen — sprintet hinterher!');
     addXp(6);
   }
 
@@ -4290,43 +4746,38 @@ const app = (() => {
     if (voxelMessyActive || state.mode === 'sleep' || state.locked) return;
     voxelMessyActive = true;
 
-    // Holly schnappt sich einen Button in die Schnauze!
     if (stolenItemMesh) stolenItemMesh.visible = true;
 
-    spawnEffect('🐾', 4);
-    spawnEffect('⚡', 3);
-    setStatus('Holly stibitzt frech einen Button und macht Unordnung! 🐶🦴🐾');
-    const statusText = $('pixel-status-text');
-    if (statusText) statusText.textContent = 'HOLLY: STIBITZT! 🐾';
+    setStatus('Schabernack: Hat frech ein Teil stibitzt!');
 
     const buttons = document.querySelectorAll('.ring-btn');
     const hudTelemetry = document.querySelector('.hud-bottom-telemetry');
     const pixelHud = document.querySelector('.pixel-hud-stats');
 
-    // Knöpfe deutlich sichtbar verschieben und verdrehen
     buttons.forEach((btn, idx) => {
-      const rx = (Math.random() - 0.5) * 36;
-      const ry = (Math.random() - 0.5) * 36;
-      const rdeg = (Math.random() - 0.5) * 35;
+      const rx = (Math.random() - 0.5) * 28;
+      const ry = (Math.random() - 0.5) * 28;
+      const rdeg = (Math.random() - 0.5) * 25;
       btn.style.transform = `translate(${rx}px, ${ry}px) rotate(${rdeg}deg)`;
-      // Den oberen Gassi-Button kurz 'verschwinden' bzw. wackeln lassen, als hätte Holly ihn im Maul!
       if (idx === 0) {
         btn.style.opacity = '0.35';
       }
     });
 
-    // Auch Telemetrie oder Pixel-HUD leicht schief stellen
     if (hudTelemetry) {
-      hudTelemetry.style.transform = `translate(${(Math.random() - 0.5) * 20}px, ${(Math.random() - 0.5) * 14}px) rotate(${(Math.random() - 0.5) * 8}deg)`;
+      hudTelemetry.style.transform = `translate(${(Math.random() - 0.5) * 14}px, ${(Math.random() - 0.5) * 10}px) rotate(${(Math.random() - 0.5) * 5}deg)`;
     }
     if (pixelHud) {
-      pixelHud.style.transform = `translate(${(Math.random() - 0.5) * 18}px, ${(Math.random() - 0.5) * 12}px) rotate(${(Math.random() - 0.5) * 6}deg)`;
+      // WICHTIG: translateX(-50%) beibehalten, damit das HUD im runden Display zentriert bleibt!
+      const ox = ((Math.random() - 0.5) * 10).toFixed(1);
+      const oy = ((Math.random() - 0.5) * 6).toFixed(1);
+      const odeg = ((Math.random() - 0.5) * 4).toFixed(1);
+      pixelHud.style.transform = `translate(calc(-50% + ${ox}px), ${oy}px) rotate(${odeg}deg)`;
     }
 
-    // Nach 5.5 Sekunden räumt das System wieder auf oder bei Klick
     setTimeout(() => {
       resetHollyMischief();
-    }, 5500);
+    }, 5000);
   }
 
   function resetHollyMischief() {
@@ -4349,11 +4800,12 @@ const app = (() => {
 
     const statusText = $('pixel-status-text');
     if (statusText && (statusText.textContent.includes('SCHABERNACK') || statusText.textContent.includes('STIBITZT'))) {
-      statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
+      statusText.textContent = getDefaultPixelTitle();
     }
   }
 
   function voxelTriggerJoy() {
+    cancelCasualIdleIfActive();
     if (state.locked) return;
     if (voxelMessyActive) {
       resetHollyMischief();
@@ -4363,28 +4815,14 @@ const app = (() => {
       return;
     }
 
-    // 1. Freuden-Timer setzen: 1.8 Sekunden schnellere Drehung & Hüpfen
     voxelJoyTimer = 1.8;
 
-    // 2. Belohnung: Happy steigern, XP addieren & Partikel aufsteigen lassen
     state.happy = clamp(state.happy + 15);
     addXp(8);
     updateBars();
     updateMood();
 
-    // 3. Aufsteigende Herzen über spawnEffect
-    spawnEffect('💖', 5);
-    spawnEffect('✨', 3);
-
-    // 4. Statusmeldungen aktualisieren
-    setStatus('Voxel-Holly freut sich riesig! 🐶💖 (+8 XP)');
-    const statusText = $('pixel-status-text');
-    if (statusText) {
-      statusText.textContent = 'HOLLY: JIPPIE! 💖';
-      setTimeout(() => {
-        if (statusText && voxelJoyTimer <= 0) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
-      }, 2000);
-    }
+    setStatus('Freut sich riesig über die Streicheleinheit (+8 XP)!');
   }
 
   function animateVoxelPet() {
@@ -4399,35 +4837,48 @@ const app = (() => {
     const isFeed = (state.mode === 'feed') || (voxelFeedTimer > 0);
     const isPlay = (state.mode === 'play') || (voxelPlayTimer > 0);
     const isWalk = (state.mode === 'walk') || (voxelWalkTimer > 0);
+    const isWash = (state.mode === 'wash') || (voxelWashTimer > 0);
     const isSleep = (state.mode === 'sleep');
     const isWake = (state.mode === 'wake') || (voxelWakeTimer > 0);
     const isPoopSquat = (voxelPoopSquatTimer > 0); // Echte Hocker-Pose beim Häufchen-Machen!
     const B = VOXEL_BLOCK_SIZE;
+    const currentSpecies = (state.custom && state.custom.species) || 'dog';
+    const curScale = (voxelPuppyGroup && voxelPuppyGroup.scale) ? voxelPuppyGroup.scale.y : 0.70;
+    const pawFloorY = -5.6 * B * curScale; // Exakte Standebene der Pfoten im 3D-Raum (~ -0.38)
 
     if (voxelJoyTimer > 0)  voxelJoyTimer = Math.max(0, voxelJoyTimer - delta);
     if (voxelFeedTimer > 0) voxelFeedTimer = Math.max(0, voxelFeedTimer - delta);
     if (voxelPlayTimer > 0) voxelPlayTimer = Math.max(0, voxelPlayTimer - delta);
     if (voxelWalkTimer > 0) voxelWalkTimer = Math.max(0, voxelWalkTimer - delta);
+    if (voxelWashTimer > 0) voxelWashTimer = Math.max(0, voxelWashTimer - delta);
     if (voxelWakeTimer > 0) voxelWakeTimer = Math.max(0, voxelWakeTimer - delta);
     if (voxelSnapTimer > 0) voxelSnapTimer = Math.max(0, voxelSnapTimer - delta);
     if (voxelPoopSquatTimer > 0) voxelPoopSquatTimer = Math.max(0, voxelPoopSquatTimer - delta);
 
-    // ── Interaktives Füttern: Voxel-Futterstücke leeren sich schrittweise von oben nach unten! ──
+    // ── Nachtlicht-Dimmung beim Schlafen ──
+    if (voxelHemiLight && voxelDirLight1) {
+      const targetHemi = isSleep ? 0.30 : 0.72;
+      const targetDir = isSleep ? 0.34 : 0.98;
+      voxelHemiLight.intensity += (targetHemi - voxelHemiLight.intensity) * 0.08;
+      voxelDirLight1.intensity += (targetDir - voxelDirLight1.intensity) * 0.08;
+    }
+
+    // ── Interaktives Füttern: Fressnapf direkt vor der Schnauze auf Pfotenhöhe, Futterstücke leeren sich! ──
     if (voxelTreatMesh) {
       voxelTreatMesh.visible = isFeed;
       if (isFeed) {
-        voxelTreatMesh.position.set(0, -0.68, 1.18);
+        const bowlX = voxelCurrentPos.x + Math.sin(voxelPuppyRot.y) * 0.34;
+        const bowlZ = voxelCurrentPos.z + Math.cos(voxelPuppyRot.y) * 0.34;
+        voxelTreatMesh.position.set(bowlX, pawFloorY - 0.02, bowlZ);
         if (voxelFoodBlocks && voxelFoodBlocks.length > 0) {
           const feedDuration = 3.5;
           const foodFraction = Math.max(0, Math.min(1, voxelFeedTimer / feedDuration));
-          // Anzahl der Blöcke, die bereits von oben her weggefressen wurden
           const eatenCount = Math.floor((1 - foodFraction) * voxelFoodBlocks.length);
           voxelFoodBlocks.forEach((kb, idx) => {
             kb.visible = (idx >= eatenCount);
           });
         }
       } else if (voxelFoodBlocks && voxelFoodBlocks.length > 0) {
-        // Wenn nicht gefüttert wird, Napf wieder voll für nächstes Mal vorbereiten
         voxelFoodBlocks.forEach(kb => { kb.visible = true; });
       }
     }
@@ -4437,7 +4888,6 @@ const app = (() => {
       const peeMat = voxelPeeMesh.userData.material;
       if (state.hasPee) {
         voxelPeeTimer += delta;
-        // Nach 2.0 Sekunden Verweilen verblasst die Voxel-Pfütze sanft über 3.5 Sekunden
         if (voxelPeeTimer > 2.0) {
           const fadeProgress = (voxelPeeTimer - 2.0) / 3.5;
           const currentOpacity = Math.max(0, 0.85 * (1 - fadeProgress));
@@ -4457,20 +4907,47 @@ const app = (() => {
       }
     }
 
-    // ── Schaumpartikel & Wasserfontänen beim Waschen (Moderne, spritzige Voxel-Animation) ──
-    const isWash = (state.mode === 'wash');
+    // ── 3D Voxel-Duschbrause, Wasserstrahlen & dichter Seifenschaum am Körper ──
+    if (voxelShowerGroup) {
+      voxelShowerGroup.visible = isWash;
+      if (isWash) {
+        voxelShowerGroup.position.set(
+          voxelCurrentPos.x,
+          voxelPuppyPosY,
+          voxelCurrentPos.z
+        );
+        // 1. Fallende Wassertröpfchen aus den Düsen der Duschbrause
+        voxelWaterDrops.forEach((d, idx) => {
+          const cycle = ((time * d.speed + d.phase) % 1.0);
+          const wy = 0.86 - cycle * 1.15;
+          const spread = 1.0 + cycle * 0.65;
+          d.mesh.position.set(d.ox * spread, wy, d.oz * spread);
+          d.mesh.rotation.y = time * 4 + idx;
+        });
+        // 2. Pulsierender Seifenschaum direkt auf Kopf & Rumpf des Tiers
+        voxelFoamBubbles.forEach((f, idx) => {
+          const wobbleX = Math.sin(time * 7 + f.phase) * 0.03;
+          const wobbleY = Math.cos(time * 8 + f.phase) * 0.03;
+          const wobbleZ = Math.sin(time * 6 + idx) * 0.03;
+          f.mesh.position.set(f.baseX + wobbleX, f.baseY + wobbleY, f.baseZ + wobbleZ);
+          const pulse = f.baseScale * (0.75 + Math.sin(time * 11 + f.phase) * 0.35);
+          f.mesh.scale.set(pulse, pulse, pulse);
+          f.mesh.rotation.x += 0.08;
+          f.mesh.rotation.y += 0.10;
+        });
+      }
+    }
     if (voxelSoapBubbles && voxelSoapBubbles.length > 0) {
       voxelSoapBubbles.forEach((b, idx) => {
         b.mesh.visible = isWash;
         if (isWash) {
-          const px = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0) + b.ox * (0.8 + Math.sin(time * 6 + idx) * 0.3);
-          const pz = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) + b.oz * (0.8 + Math.cos(time * 6 + idx) * 0.3);
-          // Wasserfontäne sprudelt von oben herab und schäumt
-          const py = -0.6 + ((time * b.speed * 1.5 + b.phase) % 1.9);
+          const px = voxelCurrentPos.x + b.ox * (0.55 + Math.sin(time * 6 + idx) * 0.2);
+          const pz = voxelCurrentPos.z + b.oz * (0.55 + Math.cos(time * 6 + idx) * 0.2);
+          const py = pawFloorY + 0.08 + ((time * b.speed * 0.9 + b.phase) % 0.85);
           b.mesh.position.set(px, py, pz);
-          b.mesh.rotation.x += 0.12;
-          b.mesh.rotation.y += 0.16;
-          const s = 0.8 + Math.sin(time * 10 + idx) * 0.4;
+          b.mesh.rotation.x += 0.10;
+          b.mesh.rotation.y += 0.14;
+          const s = 0.75 + Math.sin(time * 10 + idx) * 0.35;
           b.mesh.scale.set(s, s, s);
         }
       });
@@ -4509,13 +4986,11 @@ const app = (() => {
         eyeLGroup.scale.y = 0.06;
         eyeRGroup.scale.y = 0.06;
       } else if (isWash) {
-        // Beim Waschen: Entspannt zusammengekniffene Augen gegen Seifenschaum
         eyeLGroup.scale.y = 0.14;
         eyeRGroup.scale.y = 0.14;
       } else {
         voxelBlinkTimer -= delta;
         if (voxelBlinkTimer <= 0) {
-          // Natürlich blinzeln alle 1.8 bis 3.2 Sekunden (gelegentlich Doppel-Blinzeln)
           voxelBlinkTimer = (Math.random() < 0.25) ? 0.42 : (1.8 + Math.random() * 1.4);
         }
         const isBlinking = (voxelBlinkTimer > 0.02 && voxelBlinkTimer < 0.20);
@@ -4526,17 +5001,19 @@ const app = (() => {
     }
 
     // ── Bewegungs-Logik: Endlose weite Welt durch Boden-Verschiebung ──
-    const isNormalIdle = !isSleep && !isWake && !isFeed && !isPlay && !isWalk && !isJoy;
+    const isNormalIdle = !isSleep && !isWake && !isFeed && !isPlay && !isWalk && !isWash && !isJoy && !isPoopSquat;
     let prevPosX = voxelCurrentPos.x;
     let prevPosZ = voxelCurrentPos.z;
-    const maxInnerRadius = 0.95; // Radius, ab dem sich die Landschaft unter dem Hund verschiebt!
+    const maxInnerRadius = 0.95;
 
     if (isNormalIdle) {
       voxelBehaviorTimer -= delta;
       boredomTimer += delta;
 
       if (voxelBehaviorTimer <= 0) {
-        const behaviors = ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'wander', 'curious', 'bark', 'mark'];
+        const behaviors = currentSpecies === 'dog'
+          ? ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'wander', 'curious', 'bark', 'mark']
+          : ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'wander', 'curious', 'bark'];
         if (boredomTimer > 45 && Math.random() < 0.25) {
           voxelIdleBehavior = 'messy';
           boredomTimer = 0;
@@ -4574,10 +5051,9 @@ const app = (() => {
           voxelBehaviorTimer = 3.2;
           setTimeout(() => {
             if (voxelPeeMesh && voxelPuppyGroup) {
-              // Pfütze in Weltkoordinaten merken
               voxelWorldPeePos = {
-                x: voxelWorldOffset.x + voxelCurrentPos.x + 0.3,
-                z: voxelWorldOffset.z + voxelCurrentPos.z + 0.3
+                x: voxelWorldOffset.x + voxelCurrentPos.x + 0.24,
+                z: voxelWorldOffset.z + voxelCurrentPos.z - 0.16
               };
               state.hasPee = true;
               voxelPeeTimer = 0;
@@ -4613,11 +5089,9 @@ const app = (() => {
             const nextZ = voxelCurrentPos.z + moveZ;
             const nextDist = Math.hypot(nextX, nextZ);
 
-            // Wenn der Hund über den inneren Radius läuft, verschiebt sich die endlose Welt unter ihm!
             if (nextDist > maxInnerRadius) {
               voxelWorldOffset.x += moveX;
               voxelWorldOffset.z += moveZ;
-              // Hund bleibt optisch sanft zentriert
               voxelCurrentPos.x = (nextX / nextDist) * maxInnerRadius;
               voxelCurrentPos.z = (nextZ / nextDist) * maxInnerRadius;
             } else {
@@ -4630,8 +5104,7 @@ const app = (() => {
         }
       }
     } else if (isPlay) {
-      // Interaktives Weitwurf-Spielen: Ball flog ca. 30 Würfel (~2.8 Einheiten) weit in die Landschaft!
-      // Holly rennt mit hoher Geschwindigkeit hinterher, während sich der Boden unter ihr verschiebt!
+      // Interaktives Weitwurf-Spielen / Mausjagd (~30 Würfel weit in die Landschaft!)
       const relBallX = voxelBallWorldPos.x - voxelWorldOffset.x;
       const relBallZ = voxelBallWorldPos.z - voxelWorldOffset.z;
       const dx = relBallX - voxelCurrentPos.x;
@@ -4644,8 +5117,9 @@ const app = (() => {
       while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
       voxelCurrentRot += angleDiff * 0.16;
 
-      if (distToBall > 0.14) {
-        const step = Math.min(0.045, distToBall);
+      // Stoppt kurz vor dem Ball/der Maus (0.34 Einheiten Abstand), damit die Schnauze direkt vor dem Spielzeug schnappt!
+      if (distToBall > 0.34) {
+        const step = Math.min(0.045, distToBall - 0.30);
         const moveX = (dx / distToBall) * step;
         const moveZ = (dz / distToBall) * step;
         const nextX = voxelCurrentPos.x + moveX;
@@ -4662,21 +5136,19 @@ const app = (() => {
           voxelCurrentPos.z = nextZ;
         }
       } else if (voxelSnapTimer <= 0) {
-        voxelSnapTimer = 0.45; // Am Ball angekommen -> freudig schnappen!
+        voxelSnapTimer = 0.45;
       }
     } else if (isWalk) {
-      // Beim Gassi-Gehen wandert die Landschaft kontinuierlich unter dem Hund durch
       if (!isPoopSquat) {
-        const walkSpeed = 0.028;
+        const walkSpeed = currentSpecies === 'bird' ? 0.036 : 0.028;
         voxelWorldOffset.x += Math.sin(time * 0.8) * walkSpeed * 0.4;
         voxelWorldOffset.z += walkSpeed;
       }
     } else {
-      // Sanftes Auspendeln zur Bildmitte
       const distToCenter = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
       if (distToCenter > 0.06 && !isSleep) {
-        voxelCurrentPos.x += ( -voxelCurrentPos.x ) * 0.05;
-        voxelCurrentPos.z += ( -voxelCurrentPos.z ) * 0.05;
+        voxelCurrentPos.x += ( -voxelCurrentPos.x ) * 0.08;
+        voxelCurrentPos.z += ( -voxelCurrentPos.z ) * 0.08;
       }
     }
 
@@ -4687,7 +5159,6 @@ const app = (() => {
       const mats = voxelEnvGroup.userData.themeMaterials;
       voxelEnvGroup.children.forEach(obj => {
         if (obj.userData && typeof obj.userData.gridX === 'number') {
-          // Kacheln endlos weitertakten (Tiling Wrapping)
           const gx = obj.userData.gridX;
           const gz = obj.userData.gridZ;
           let lx = (gx * tileB - (voxelWorldOffset.x % tileB));
@@ -4697,21 +5168,18 @@ const app = (() => {
           const dist = Math.hypot(lx, lz);
           obj.visible = (dist <= 2.45);
 
-          // Echtes, stabiles Schachbrettmuster in Weltkoordinaten:
           if (mats && mats.m1 && mats.m2) {
             const worldGX = Math.round((lx + voxelWorldOffset.x) / tileB);
             const worldGZ = Math.round((lz + voxelWorldOffset.z) / tileB);
             obj.material = ((worldGX + worldGZ) % 2 === 0) ? mats.m1 : mats.m2;
           }
         } else if (obj.userData && typeof obj.userData.worldX === 'number') {
-          // Feste Landschaftsobjekte (Bäume, Felsen, Laternen, Bänke)
           const rx = obj.userData.worldX - voxelWorldOffset.x;
           const rz = obj.userData.worldZ - voxelWorldOffset.z;
           obj.position.set(rx, 0, rz);
           const dist = Math.hypot(rx, rz);
           obj.visible = (dist <= 2.45);
         } else if (obj.userData && obj.userData.isFlowerProp) {
-          // Rand-Blümchen & Deko-Blumen in der Welt
           const rx = obj.userData.worldX - voxelWorldOffset.x;
           const rz = obj.userData.worldZ - voxelWorldOffset.z;
           obj.position.set(rx, 0, rz);
@@ -4721,38 +5189,52 @@ const app = (() => {
       });
     }
 
-    // ── Häufchen & Pfützen nur im sichtbaren Bereich der endlosen Welt anzeigen ──
-    if (voxelPoopMesh && voxelWorldPoopPos) {
-      const poopRelX = voxelWorldPoopPos.x - voxelWorldOffset.x;
-      const poopRelZ = voxelWorldPoopPos.z - voxelWorldOffset.z;
-      const poopDist = Math.hypot(poopRelX, poopRelZ);
-      voxelPoopMesh.position.set(poopRelX, -0.75, poopRelZ);
-      voxelPoopMesh.visible = (state.hasPoop && poopDist <= 2.2);
+    // ── Häufchen & Pfützen auf Pfoten-Bodenhöhe im sichtbaren Bereich der endlosen Welt anzeigen ──
+    if (state.hasPoop && !voxelWorldPoopPos) {
+      voxelWorldPoopPos = {
+        x: voxelWorldOffset.x + voxelCurrentPos.x - 0.26,
+        z: voxelWorldOffset.z + voxelCurrentPos.z - 0.24
+      };
+    }
+    if (voxelPoopMesh) {
+      if (state.hasPoop && voxelWorldPoopPos) {
+        const poopRelX = voxelWorldPoopPos.x - voxelWorldOffset.x;
+        const poopRelZ = voxelWorldPoopPos.z - voxelWorldOffset.z;
+        const poopDist = Math.hypot(poopRelX, poopRelZ);
+        voxelPoopMesh.position.set(poopRelX, pawFloorY - 0.02, poopRelZ);
+        voxelPoopMesh.visible = (poopDist <= 2.35);
+      } else {
+        voxelPoopMesh.visible = false;
+      }
     }
     if (voxelPeeMesh && voxelWorldPeePos) {
       const peeRelX = voxelWorldPeePos.x - voxelWorldOffset.x;
       const peeRelZ = voxelWorldPeePos.z - voxelWorldOffset.z;
       const peeDist = Math.hypot(peeRelX, peeRelZ);
-      voxelPeeMesh.position.set(peeRelX, -0.78, peeRelZ);
-      voxelPeeMesh.visible = (state.hasPee && peeDist <= 2.2);
+      voxelPeeMesh.position.set(peeRelX, pawFloorY - 0.01, peeRelZ);
+      voxelPeeMesh.visible = (state.hasPee && peeDist <= 2.35);
     }
     if (voxelBallMesh) {
       const ballRelX = voxelBallWorldPos.x - voxelWorldOffset.x;
       const ballRelZ = voxelBallWorldPos.z - voxelWorldOffset.z;
-      voxelBallMesh.rotation.x += 0.12;
-      voxelBallMesh.rotation.y += 0.08;
-      voxelBallMesh.position.set(ballRelX, -0.56 + Math.abs(Math.sin(time * 11)) * 0.28, ballRelZ);
+      const isMouseToy = Boolean(voxelBallMesh.userData && voxelBallMesh.userData.isMouse);
+      if (isMouseToy) {
+        voxelBallMesh.rotation.set(0, Math.sin(time * 10) * 0.35 + voxelCurrentRot, 0);
+        voxelBallMesh.position.set(ballRelX, pawFloorY + 0.02 + Math.abs(Math.sin(time * 18)) * 0.04, ballRelZ);
+      } else {
+        voxelBallMesh.rotation.x += 0.12;
+        voxelBallMesh.rotation.y += 0.08;
+        voxelBallMesh.position.set(ballRelX, pawFloorY + 0.10 + Math.abs(Math.sin(time * 11)) * 0.22, ballRelZ);
+      }
       const ballDist = Math.hypot(ballRelX, ballRelZ);
       voxelBallMesh.visible = (isPlay && ballDist <= 2.45);
     }
 
-    // Exakte Messung der tatsächlichen Ortsveränderung in diesem Frame:
-    // Wenn der Hund am Rand oder am Ziel stoppt (actualSpeed === 0), stoppt die Laufbewegung der Beine exakt synchron!
     const actualMoveDist = Math.hypot(voxelCurrentPos.x - prevPosX, voxelCurrentPos.z - prevPosZ);
-    const isMovingInSpace = actualMoveDist > 0.002;
+    const isMovingInSpace = actualMoveDist > 0.0018;
 
-    // ── Exakte Nanoblock-Sitzhaltung (Bild 1) vs. Standhaltung (Bild 2–4) umschalten ──
-    const isSittingPose = (!isSleep && !isWake && !isWalk && !isPoopSquat && !isMovingInSpace && !isPlay && !isJoy && (voxelIdleBehavior === 'sit'));
+    // ── Exakte Nanoblock-Sitzhaltung vs. Standhaltung umschalten ──
+    const isSittingPose = (currentSpecies !== 'bird') && (!isSleep && !isWake && !isWalk && !isWash && !isFeed && !isPoopSquat && !isMovingInSpace && !isPlay && !isJoy && (voxelIdleBehavior === 'sit'));
     if (voxelBodyStandGroup && voxelBodySitGroup) {
       voxelBodyStandGroup.visible = !isSittingPose;
       voxelBodySitGroup.visible = isSittingPose;
@@ -4764,25 +5246,22 @@ const app = (() => {
       voxelLegBRSit.visible = isSittingPose;
     }
 
-    // ── A. Rotation (Y-Achse) & Körperneigung (KEINE simple Gesamtrotation beim Schlafen, echte Hocker-Pose beim Häufchen!) ──
+    // ── A. Rotation (Y-Achse) & Körperneigung ──
     let targetRotX = 0;
     let targetRotY = voxelCurrentRot;
     let targetRotZ = 0;
 
     if (isSleep) {
-      // Kein Umkippen des gesamten Modells! Hund liegt entspannt in Bauchlage (Sphinx-Schlafhaltung),
-      // während sich der Brustkorb realistisch hebt und senkt.
-      targetRotX = 0.04;
+      targetRotX = currentSpecies === 'bird' ? 0.08 : 0.04;
       targetRotY = 0.45;
       targetRotZ = 0;
     } else if (isPoopSquat) {
-      // Echte Hocker-Pose: Hund dreht sich beim Häufchen-Machen um (Hinterteil Richtung Kamera/Betrachter!)
-      // und hockt sich mit tief abgesenktem Hinterteil hin!
-      targetRotX = -0.36;
-      targetRotY = Math.PI - 0.25; // Um ~165° umgedreht, sodass das Hinterteil beim Hocken direkt nach vorne zur Kamera zeigt!
+      // Hocker-Pose in 3/4-Seitenansicht: Rücken gekrümmt, Hinterteil über dem Häufchen dahinter!
+      targetRotX = -0.34;
+      targetRotY = 0.65;
       targetRotZ = 0;
     } else if (isFeed) {
-      targetRotX = 0.08;
+      targetRotX = 0.12;
       targetRotY = 0;
       targetRotZ = 0;
     } else if (isPlay) {
@@ -4795,14 +5274,14 @@ const app = (() => {
       targetRotZ = 0;
     } else if (isWash) {
       targetRotX = 0;
-      targetRotY = Math.sin(time * 6) * 0.12;
-      targetRotZ = Math.sin(time * 26) * 0.08; // Fröhliches Schütteln beim Baden
+      targetRotY = Math.sin(time * 6) * 0.14;
+      targetRotZ = Math.sin(time * 26) * 0.09;
     } else if (isWalk) {
-      targetRotX = 0;
+      targetRotX = currentSpecies === 'bird' ? 0.18 : 0;
       targetRotY = Math.PI * 0.15 + Math.sin(time * 2.5) * 0.10;
-      targetRotZ = 0;
+      targetRotZ = currentSpecies === 'bird' ? Math.sin(time * 4) * 0.08 : 0;
     } else if (isWake) {
-      targetRotX = -0.18; // Strecken beim Aufwachen
+      targetRotX = -0.18;
       targetRotY = 0.35;
       targetRotZ = 0;
     } else {
@@ -4814,16 +5293,14 @@ const app = (() => {
       targetRotZ = 0;
 
       if (isSittingPose) {
-        // Aufrechtes, rastertreues Nanoblock-Sitzen (wie in Referenzbild 1): Kein schiefes Kippen des gesamten Körpers!
         targetRotX = 0;
       } else if (voxelIdleBehavior === 'sniff') {
-        // Beim Schnuppern neigt sich der vordere Rumpf leicht zum Boden
         targetRotX = 0.14;
       } else if (voxelIdleBehavior === 'beg') {
         targetRotX = -0.95 + Math.sin(time * 6) * 0.04;
       } else if (voxelIdleBehavior === 'mark') {
         targetRotX = 0.04;
-        targetRotZ = -0.14; // Neigt sich leicht beim Beinheben
+        targetRotZ = -0.14;
       } else {
         targetRotX = 0;
       }
@@ -4842,10 +5319,10 @@ const app = (() => {
     const activeBodyGroup = isSittingPose ? voxelBodySitGroup : voxelBodyStandGroup;
     if (activeBodyGroup) {
       if (isSleep) {
-        const breathCycle = Math.sin(time * 2.1); // Ruhiger, tiefer Atemrhythmus
+        const breathCycle = Math.sin(time * 2.1);
         activeBodyGroup.scale.set(
-          1.0 + breathCycle * 0.045, // Brustkorb weitet sich seitlich
-          1.0 + breathCycle * 0.065, // Brustkorb hebt und senkt sich deutlich
+          1.0 + breathCycle * 0.045,
+          1.0 + breathCycle * 0.065,
           1.0 + breathCycle * 0.02
         );
         activeBodyGroup.position.y = breathCycle * 0.022;
@@ -4856,14 +5333,13 @@ const app = (() => {
       }
     }
 
-    // ── Sinnvolle & lebendige Ohren-Animation (Gehen/Laufen, Schnuppern/Aufmerksamkeit, Schlafen) ──
+    // ── Sinnvolle & lebendige Ohren-Animation ──
     if (voxelEarLGroup && voxelEarRGroup) {
       const isWalkingOrRunning = (!isPoopSquat) && (isWalk || (isPlay && isMovingInSpace) || isMovingInSpace);
       let targetEarLX = 0, targetEarLZ = 0.14;
       let targetEarRX = 0, targetEarRZ = -0.14;
 
       if (isSleep) {
-        // Beim Schlafen: Sanftes, minimales Senken passend zur Ruhephase + gelegentliches feines Zucken
         const earTwitchWave = Math.pow(Math.max(0, Math.sin(time * 3.7)), 14) * 0.15;
         const earBreath = Math.sin(time * 2.1) * 0.025;
         targetEarLX = 0.08;
@@ -4871,7 +5347,6 @@ const app = (() => {
         targetEarLZ = 0.08 + earBreath + earTwitchWave;
         targetEarRZ = -0.08 - earBreath - earTwitchWave * 0.65;
       } else if (isWalkingOrRunning) {
-        // Beim Gehen/Laufen: Natürliches, lebendiges Wackeln & Mitschwingen im Takt der Schritte!
         const stepFreq = isPlay ? 18 : (isWalk ? 15 : 12);
         const bounce = Math.abs(Math.sin(time * stepFreq)) * 0.22;
         const swing = Math.cos(time * stepFreq) * 0.14;
@@ -4880,33 +5355,28 @@ const app = (() => {
         targetEarLX = swing;
         targetEarRX = -swing;
       } else if (voxelIdleBehavior === 'sniff' || isFeed) {
-        // Beim Schnuppern / Fressen: Deutliches Vorneigen der Schlappohren Richtung Boden/Nase
         const sniffWobble = Math.sin(time * 12) * 0.05;
         targetEarLX = 0.38 + sniffWobble;
         targetEarRX = 0.38 - sniffWobble;
         targetEarLZ = 0.25;
         targetEarRZ = -0.25;
       } else if (voxelIdleBehavior === 'curious' || voxelIdleBehavior === 'bark' || state.mode === 'bark' || voxelIdleBehavior === 'beg' || isJoy || isPlay) {
-        // Beim Aufmerksamsein / Lauschen / Bellen: Kurzes Aufstellen & Vorrichten der Ohren!
         const perkPulse = Math.sin(time * 6) * 0.04;
         targetEarLZ = 0.42 + perkPulse;
         targetEarRZ = -0.42 - perkPulse;
         targetEarLX = -0.18;
         targetEarRX = -0.18;
       } else if (isPoopSquat) {
-        // Bei der Hocker-Pose: Ohren leicht konzentriert angelegt
         targetEarLZ = 0.26;
         targetEarRZ = -0.26;
         targetEarLX = -0.12;
         targetEarRX = -0.12;
       } else if (isWash) {
-        // Beim Waschen: Ohren flach angelegt gegen Wasser
         targetEarLZ = 0.42;
         targetEarRZ = -0.42;
         targetEarLX = -0.15;
         targetEarRX = -0.15;
       } else {
-        // Entspannter Stand: Sanftes Mikroleben
         const gentleSway = Math.sin(time * 2.2) * 0.025;
         targetEarLZ = 0.14 + gentleSway;
         targetEarRZ = -0.14 - gentleSway;
@@ -4923,19 +5393,23 @@ const app = (() => {
       voxelEarRGroup.rotation.set(voxelEarRot.rx, 0, voxelEarRot.rz);
     }
 
-    // ── B. Position & Höhe (X-, Y- & Z-Achse) ──
+    // ── B. Position & Höhe (inkl. Wellensittich-Freiflug & Kaninchen-Hoppeln!) ──
     voxelPuppyGroup.position.x = voxelCurrentPos.x;
     voxelPuppyGroup.position.z = voxelCurrentPos.z;
 
     let targetPosY = 0;
     if (isSleep) {
-      // Hund liegt flach mit angewinkelten Pfoten am Boden, sanftes Brustkorb-Atmen
-      targetPosY = -0.24 + Math.sin(time * 2.1) * 0.012;
+      targetPosY = (currentSpecies === 'bird' ? -0.10 : -0.24) + Math.sin(time * 2.1) * 0.012;
     } else if (isPoopSquat) {
-      // Echte Hocker-Pose: Hinterteil tief absenken + leichtes Pressen!
       targetPosY = -0.19 + Math.sin(time * 18) * 0.008;
     } else if (isWake) {
       targetPosY = -0.10 + Math.sin(time * 5) * 0.04;
+    } else if (currentSpecies === 'bird' && (isWalk || isPlay || isJoy || isMovingInSpace)) {
+      // Wellensittich fliegt beim Freiflug / Spielen hoch durch die Luft!
+      targetPosY = 0.36 + Math.sin(time * 7) * 0.14;
+    } else if (currentSpecies === 'bunny' && (isWalk || (isPlay && isMovingInSpace) || isMovingInSpace)) {
+      // Zwergkaninchen hoppelt mit großen Sprüngen!
+      targetPosY = Math.abs(Math.sin(time * 14)) * 0.16;
     } else if (isPlay) {
       targetPosY = isMovingInSpace ? Math.abs(Math.sin(time * 15)) * 0.14 : Math.abs(Math.sin(time * 9)) * 0.06;
     } else if (isWalk) {
@@ -4945,12 +5419,12 @@ const app = (() => {
     } else if (isWash) {
       targetPosY = Math.abs(Math.sin(time * 16)) * 0.04;
     } else if (isFeed) {
-      targetPosY = -0.04;
+      targetPosY = -0.06;
     } else {
       if (isMovingInSpace) {
         targetPosY = Math.abs(Math.sin(time * 11)) * 0.035;
       } else if (isSittingPose) {
-        targetPosY = 0; // Sitz-Rumpf und Sitz-Hinterbeine ruhen exakt auf Bodenhöhe (-5.2 * B) wie in Bild 1!
+        targetPosY = 0;
       } else if (voxelIdleBehavior === 'beg') {
         targetPosY = 0.08 + Math.sin(time * 6) * 0.02;
       } else if (voxelIdleBehavior === 'sniff') {
@@ -4964,7 +5438,7 @@ const app = (() => {
     voxelPuppyPosY += (targetPosY - voxelPuppyPosY) * 0.12;
     voxelPuppyGroup.position.y = voxelPuppyPosY;
 
-    // ── C. Kopf-Animation (Proportional zur aktuellen Nanoblock Voxel-Blockgröße B!) ──
+    // ── C. Kopf-Animation ──
     const baseHeadY = 4.8 * B;
     const baseHeadZ = 1.2 * B;
     let targetHeadX = 0, targetHeadY = baseHeadY, targetHeadZ = baseHeadZ;
@@ -4980,23 +5454,22 @@ const app = (() => {
         targetHeadRotY = 0.12;
         targetHeadRotZ = 0;
       } else if (isPoopSquat) {
-        // Beim Hocken (mit dem Hinterteil zur Kamera umgedreht): Hund blickt leicht über die Schulter zurück!
         targetHeadX = 0;
-        targetHeadY = 4.9 * B;
-        targetHeadZ = 1.15 * B;
-        targetHeadRotX = 0.22;
-        targetHeadRotY = -0.45;
+        targetHeadY = 4.8 * B;
+        targetHeadZ = 1.2 * B;
+        targetHeadRotX = 0.18;
+        targetHeadRotY = -0.35;
       } else if (isWake) {
         targetHeadX = 0; targetHeadY = 5.0 * B; targetHeadZ = baseHeadZ;
         targetHeadRotX = -0.28 + Math.sin(time * 4) * 0.12;
       } else if (isFeed) {
-        // Kopf senkt sich in den Fressnapf und pickt die Voxel-Kroketten auf
-        targetHeadX = 0; targetHeadY = 3.2 * B; targetHeadZ = 2.2 * B;
-        targetHeadRotX = 0.52 + Math.sin(time * 14) * 0.16;
+        // Kopf senkt sich tief direkt in den Fressnapf vor den Vorderpfoten!
+        targetHeadX = 0; targetHeadY = 2.1 * B; targetHeadZ = 2.4 * B;
+        targetHeadRotX = 0.58 + Math.sin(time * 15) * 0.16;
         targetHeadRotY = Math.sin(time * 6) * 0.06;
       } else if (isPlay) {
-        targetHeadX = 0; targetHeadY = 4.6 * B; targetHeadZ = 1.5 * B;
-        targetHeadRotX = (voxelSnapTimer > 0) ? 0.35 : (0.12 + Math.sin(time * 16) * 0.10);
+        targetHeadX = 0; targetHeadY = 4.4 * B; targetHeadZ = 1.6 * B;
+        targetHeadRotX = (voxelSnapTimer > 0) ? 0.38 : (0.14 + Math.sin(time * 16) * 0.10);
         targetHeadRotY = Math.sin(time * 8) * 0.12;
       } else if (isWalk) {
         targetHeadX = 0; targetHeadY = baseHeadY; targetHeadZ = baseHeadZ;
@@ -5013,9 +5486,8 @@ const app = (() => {
         targetHeadRotY = Math.sin(time * 13) * 0.12;
       } else {
         if (voxelIdleBehavior === 'sniff') {
-          // Schnuppern: Hund senkt den Kopf tief zum Boden und schnüffelt rasch hin und her
           targetHeadX = Math.sin(time * 7) * 0.05;
-          targetHeadY = 2.6 * B;
+          targetHeadY = 2.4 * B;
           targetHeadZ = 2.4 * B;
           targetHeadRotX = 0.62 + Math.sin(time * 14) * 0.08;
           targetHeadRotY = Math.sin(time * 5) * 0.28;
@@ -5059,7 +5531,6 @@ const app = (() => {
 
     // ── Unterkiefer-Animation & Gelegentliches Zunge-Herausstrecken ──
     if (voxelJawGroup) {
-      // Zungen-Logik: Zunge hängt nur gelegentlich (alle paar Sekunden für 1.5s) oder beim Hecheln heraus
       voxelTongueTimer -= delta;
       if (voxelTongueTimer <= 0) {
         voxelTongueVisible = !voxelTongueVisible;
@@ -5067,7 +5538,7 @@ const app = (() => {
       }
       const tongueObj = voxelJawGroup.getObjectByName('dogTongue');
       if (tongueObj) {
-        const isPanting = (isJoy || isPlay || voxelTongueVisible) && !isSleep;
+        const isPanting = (currentSpecies === 'dog') && (isJoy || isPlay || voxelTongueVisible) && !isSleep;
         const targetScale = isPanting ? 1.0 : 0.001;
         tongueObj.scale.x += (targetScale - tongueObj.scale.x) * 0.25;
         tongueObj.scale.y += (targetScale - tongueObj.scale.y) * 0.25;
@@ -5079,7 +5550,6 @@ const app = (() => {
       } else if (isFeed) {
         voxelJawGroup.rotation.x = 0.22 + Math.abs(Math.sin(time * 15)) * 0.28;
       } else if (isPlay && voxelSnapTimer > 0) {
-        // Schnapp-Bewegung nach dem Voxel-Ball!
         voxelJawGroup.rotation.x = Math.abs(Math.sin(time * 24)) * 0.52;
       } else if (isSleep) {
         voxelJawGroup.rotation.x = Math.max(0, Math.sin(time * 2.1) * 0.035);
@@ -5088,7 +5558,7 @@ const app = (() => {
       }
     }
 
-    // ── D. Schwanzwedeln (Beim Sitzen tiefer am abfallenden Rücken angesetzt wie in Bild 1, beim Stehen oben wie in Bild 2–4!) ──
+    // ── D. Schwanzwedeln ──
     if (voxelTailGroup) {
       const targetTailY = isSittingPose ? (-1.8 * B) : (0.2 * B);
       voxelTailGroup.position.y += (targetTailY - voxelTailGroup.position.y) * 0.2;
@@ -5096,7 +5566,6 @@ const app = (() => {
         voxelTailGroup.rotation.y = Math.sin(time * 2.1) * 0.08;
         voxelTailGroup.rotation.x = -0.15;
       } else if (isPoopSquat) {
-        // Rute beim Häufchen-Machen nach hinten-oben abspreizen
         voxelTailGroup.rotation.y = 0;
         voxelTailGroup.rotation.x = 0.45;
       } else if (isJoy || isPlay || isWash) {
@@ -5109,169 +5578,189 @@ const app = (() => {
         voxelTailGroup.rotation.y = Math.sin(time * 20) * 0.55;
         voxelTailGroup.rotation.x = 0;
       } else {
-        voxelTailGroup.rotation.y = Math.sin(time * 8) * 0.28;
+        const tailSpeed = currentSpecies === 'cat' ? 4 : 8;
+        voxelTailGroup.rotation.y = Math.sin(time * tailSpeed) * 0.28;
         voxelTailGroup.rotation.x = 0;
       }
     }
 
-    // ── E. Beine (Exakt synchron mit Fortbewegung, leises Pfoten-Zucken im Schlaf, echtes Sitzen & Hocker-Pose!) ──
+    // ── E. Beine & Flügel (inkl. Wellensittich-Flügelschlag & Kaninchen-Hoppeln!) ──
     if (voxelLegFL && voxelLegFR && voxelLegBL && voxelLegBR) {
       let tFL = 0, tFR = 0, tBL = 0, tBR = 0;
-      const defaultBackZ = -2.5 * B;
+      const defaultBackZ = (currentSpecies === 'bird') ? (-0.2 * B) : (-2.5 * B);
       let targetBLZ = defaultBackZ, targetBRZ = defaultBackZ;
 
-      if (isSleep) {
-        // Entspannte Sphinx-Schlafhaltung mit leisem Traum-Zucken der Pfoten
-        const pawTwitchL = Math.pow(Math.max(0, Math.sin(time * 4.3)), 14) * 0.16;
-        const pawTwitchR = Math.pow(Math.max(0, Math.sin(time * 3.9 + 1.5)), 14) * 0.16;
-        tFL = -1.22 + pawTwitchL; // Vorderpfoten nach vorne ausgestreckt
-        tFR = -1.22 + pawTwitchR;
-        tBL = 1.25 - pawTwitchR * 0.5; // Hinterläufe gemütlich eingeklappt
-        tBR = 1.25 - pawTwitchL * 0.5;
-      } else if (isPoopSquat) {
-        // Echte Hocker-Pose beim Häufchen-Machen:
-        // Hund stoppt den Schritt, stützt die Vorderbeine schräg ab und winkelt die Hinterläufe tief in die Hocke!
-        tFL = 0.26;
-        tFR = 0.26;
-        tBL = -0.95;
-        tBR = -0.95;
-        targetBLZ = -1.35 * B;
-        targetBRZ = -1.35 * B;
-      } else if (isWake) {
-        tFL = -0.75;
-        tFR = -0.75;
-        tBL = 0.25;
-        tBR = 0.25;
-      } else if (isFeed) {
-        tFL = 0.08;
-        tFR = 0.08;
-        tBL = 0;
-        tBR = 0;
-      } else if (isWash) {
-        tFL = Math.sin(time * 16) * 0.18;
-        tFR = -Math.sin(time * 16) * 0.18;
-        tBL = -Math.sin(time * 16) * 0.18;
-        tBR = Math.sin(time * 16) * 0.18;
-      } else if (isWalk) {
-        const legSpeed = 15;
-        tFL = Math.sin(time * legSpeed) * 0.65;
-        tFR = -Math.sin(time * legSpeed) * 0.65;
-        tBL = -Math.sin(time * legSpeed) * 0.65;
-        tBR = Math.sin(time * legSpeed) * 0.65;
-      } else if (isPlay) {
-        if (isMovingInSpace) {
-          const legSpeed = 18;
-          tFL = Math.sin(time * legSpeed) * 0.72;
-          tFR = -Math.sin(time * legSpeed) * 0.72;
-          tBL = -Math.sin(time * legSpeed) * 0.72;
-          tBR = Math.sin(time * legSpeed) * 0.72;
+      if (currentSpecies === 'bird') {
+        // Beim Wellensittich sind voxelLegFL / voxelLegFR die beiden seitlichen 3D-Flügel!
+        const isFlying = isWalk || isPlay || isJoy || isMovingInSpace;
+        if (isFlying) {
+          const flap = Math.abs(Math.sin(time * 28)) * 0.95;
+          voxelLegFL.rotation.set(0, 0, -0.35 - flap);
+          voxelLegFR.rotation.set(0, 0, 0.35 + flap);
+          voxelLegBL.rotation.set(0.35, 0, 0);
+          voxelLegBR.rotation.set(0.35, 0, 0);
+        } else if (isWash) {
+          const shakeFlap = Math.abs(Math.sin(time * 22)) * 0.55;
+          voxelLegFL.rotation.set(0, 0, -0.15 - shakeFlap);
+          voxelLegFR.rotation.set(0, 0, 0.15 + shakeFlap);
+          voxelLegBL.rotation.set(0, 0, 0);
+          voxelLegBR.rotation.set(0, 0, 0);
         } else {
-          // Spiel-Verbeugung / Schnappen vor dem Ball
-          tFL = -0.35;
-          tFR = -0.35;
-          tBL = 0.1;
-          tBR = 0.1;
+          voxelLegFL.rotation.set(0, 0, 0);
+          voxelLegFR.rotation.set(0, 0, 0);
+          voxelLegBL.rotation.set(0, 0, 0);
+          voxelLegBR.rotation.set(0, 0, 0);
         }
-      } else if (isJoy) {
-        tFL = Math.sin(time * 14) * 0.35;
-        tFR = -Math.sin(time * 14) * 0.35;
-        tBL = -Math.sin(time * 14) * 0.35;
-        tBR = Math.sin(time * 14) * 0.35;
       } else {
-        // Freie Bewegung im Display: Beine laufen NUR, wenn isMovingInSpace === true!
-        // Sobald der Hund am Display-Rand stoppt, stoppen die Beine exakt synchron!
-        if (isMovingInSpace) {
-          const stepSpeed = 12;
-          tFL = Math.sin(time * stepSpeed) * 0.52;
-          tFR = -Math.sin(time * stepSpeed) * 0.52;
-          tBL = -Math.sin(time * stepSpeed) * 0.52;
-          tBR = Math.sin(time * stepSpeed) * 0.52;
-        } else if (isSittingPose) {
-          // Beim Nanoblock-Sitzen (Bild 1) stehen die Vorderbeine exakt senkrecht (0 rad),
-          // während die gefalteten Sitz-Hinterbeine (voxelLegBLSit/BRSit) seitlich am Boden ruhen!
-          tFL = 0;
-          tFR = 0;
+        voxelLegFL.rotation.z = 0;
+        voxelLegFR.rotation.z = 0;
+
+        if (isSleep) {
+          const pawTwitchL = Math.pow(Math.max(0, Math.sin(time * 4.3)), 14) * 0.16;
+          const pawTwitchR = Math.pow(Math.max(0, Math.sin(time * 3.9 + 1.5)), 14) * 0.16;
+          tFL = -1.22 + pawTwitchL;
+          tFR = -1.22 + pawTwitchR;
+          tBL = 1.25 - pawTwitchR * 0.5;
+          tBR = 1.25 - pawTwitchL * 0.5;
+        } else if (isPoopSquat) {
+          tFL = 0.26;
+          tFR = 0.26;
+          tBL = -0.95;
+          tBR = -0.95;
+          targetBLZ = -1.35 * B;
+          targetBRZ = -1.35 * B;
+        } else if (isWake) {
+          tFL = -0.75;
+          tFR = -0.75;
+          tBL = 0.25;
+          tBR = 0.25;
+        } else if (isFeed) {
+          tFL = 0.14;
+          tFR = 0.14;
           tBL = 0;
           tBR = 0;
-        } else if (voxelIdleBehavior === 'mark') {
-          // Revier markieren: Rechtes Hinterbein seitlich hochheben
-          tFL = 0.04;
-          tFR = 0.04;
-          tBL = 0.08;
-          tBR = -1.15;
-        } else if (voxelIdleBehavior === 'beg') {
-          const begPawWave = Math.sin(time * 8) * 0.25;
-          tFL = -1.35 + begPawWave;
-          tFR = -1.35 - begPawWave;
-          tBL = 0.90;
-          tBR = 0.90;
+        } else if (isWash) {
+          tFL = Math.sin(time * 16) * 0.18;
+          tFR = -Math.sin(time * 16) * 0.18;
+          tBL = -Math.sin(time * 16) * 0.18;
+          tBR = Math.sin(time * 16) * 0.18;
+        } else if (currentSpecies === 'bunny' && (isWalk || (isPlay && isMovingInSpace) || isMovingInSpace)) {
+          // Kaninchen hoppelt mit synchronen Vorder- und Hinterläufen!
+          const hopWave = Math.sin(time * 14);
+          tFL = hopWave * 0.65;
+          tFR = hopWave * 0.65;
+          tBL = -hopWave * 0.75;
+          tBR = -hopWave * 0.75;
+        } else if (isWalk) {
+          const legSpeed = 15;
+          tFL = Math.sin(time * legSpeed) * 0.65;
+          tFR = -Math.sin(time * legSpeed) * 0.65;
+          tBL = -Math.sin(time * legSpeed) * 0.65;
+          tBR = Math.sin(time * legSpeed) * 0.65;
+        } else if (isPlay) {
+          if (isMovingInSpace) {
+            const legSpeed = 18;
+            tFL = Math.sin(time * legSpeed) * 0.72;
+            tFR = -Math.sin(time * legSpeed) * 0.72;
+            tBL = -Math.sin(time * legSpeed) * 0.72;
+            tBR = Math.sin(time * legSpeed) * 0.72;
+          } else {
+            tFL = -0.35;
+            tFR = -0.35;
+            tBL = 0.1;
+            tBR = 0.1;
+          }
+        } else if (isJoy) {
+          tFL = Math.sin(time * 14) * 0.35;
+          tFR = -Math.sin(time * 14) * 0.35;
+          tBL = -Math.sin(time * 14) * 0.35;
+          tBR = Math.sin(time * 14) * 0.35;
         } else {
-          tFL = 0;
-          tFR = 0;
-          tBL = 0;
-          tBR = 0;
+          if (isMovingInSpace) {
+            const stepSpeed = 12;
+            tFL = Math.sin(time * stepSpeed) * 0.52;
+            tFR = -Math.sin(time * stepSpeed) * 0.52;
+            tBL = -Math.sin(time * stepSpeed) * 0.52;
+            tBR = Math.sin(time * stepSpeed) * 0.52;
+          } else if (isSittingPose) {
+            tFL = 0;
+            tFR = 0;
+            tBL = 0;
+            tBR = 0;
+          } else if (voxelIdleBehavior === 'mark') {
+            tFL = 0.04;
+            tFR = 0.04;
+            tBL = 0.08;
+            tBR = -1.15;
+          } else if (voxelIdleBehavior === 'beg') {
+            const begPawWave = Math.sin(time * 8) * 0.25;
+            tFL = -1.35 + begPawWave;
+            tFR = -1.35 - begPawWave;
+            tBL = 0.90;
+            tBR = 0.90;
+          } else {
+            tFL = 0;
+            tFR = 0;
+            tBL = 0;
+            tBR = 0;
+          }
         }
-      }
 
-      voxelLegRot.fl += (tFL - voxelLegRot.fl) * 0.20;
-      voxelLegRot.fr += (tFR - voxelLegRot.fr) * 0.20;
-      voxelLegRot.bl += (tBL - voxelLegRot.bl) * 0.20;
-      voxelLegRot.br += (tBR - voxelLegRot.br) * 0.20;
+        voxelLegRot.fl += (tFL - voxelLegRot.fl) * 0.20;
+        voxelLegRot.fr += (tFR - voxelLegRot.fr) * 0.20;
+        voxelLegRot.bl += (tBL - voxelLegRot.bl) * 0.20;
+        voxelLegRot.br += (tBR - voxelLegRot.br) * 0.20;
 
-      voxelLegPosZ.bl += (targetBLZ - voxelLegPosZ.bl) * 0.15;
-      voxelLegPosZ.br += (targetBRZ - voxelLegPosZ.br) * 0.15;
+        voxelLegPosZ.bl += (targetBLZ - voxelLegPosZ.bl) * 0.15;
+        voxelLegPosZ.br += (targetBRZ - voxelLegPosZ.br) * 0.15;
 
-      voxelLegFL.rotation.x = voxelLegRot.fl;
-      voxelLegFR.rotation.x = voxelLegRot.fr;
-      voxelLegBL.rotation.x = voxelLegRot.bl;
-      voxelLegBR.rotation.x = voxelLegRot.br;
+        voxelLegFL.rotation.x = voxelLegRot.fl;
+        voxelLegFR.rotation.x = voxelLegRot.fr;
+        voxelLegBL.rotation.x = voxelLegRot.bl;
+        voxelLegBR.rotation.x = voxelLegRot.br;
 
-      voxelLegBL.position.z = voxelLegPosZ.bl;
-      voxelLegBR.position.z = voxelLegPosZ.br;
+        voxelLegBL.position.z = voxelLegPosZ.bl;
+        voxelLegBR.position.z = voxelLegPosZ.br;
 
-      if (voxelIdleBehavior === 'mark' && !isMovingInSpace) {
-        voxelLegBR.rotation.z = -0.68;
-      } else if (isPoopSquat) {
-        // Beim Hocken Hinterbeine leicht breitbeinig abstützen
-        voxelLegBL.rotation.z = 0.18;
-        voxelLegBR.rotation.z = -0.18;
-      } else {
-        voxelLegBL.rotation.z = 0;
-        voxelLegBR.rotation.z = 0;
+        if (voxelIdleBehavior === 'mark' && !isMovingInSpace) {
+          voxelLegBR.rotation.z = -0.68;
+        } else if (isPoopSquat) {
+          voxelLegBL.rotation.z = 0.18;
+          voxelLegBR.rotation.z = -0.18;
+        } else {
+          voxelLegBL.rotation.z = 0;
+          voxelLegBR.rotation.z = 0;
+        }
       }
     }
 
-    // ── F. Dynamische Voxel-Leinen-Logik (läuft garantiert frei über dem Rücken, niemals durch Kopf/Körper/Beine!) ──
+    // ── F. Dynamische Voxel-Leinen-Logik (nur beim Hund während Gassi!) ──
     if (voxelLeashMesh) {
-      voxelLeashMesh.visible = isWalk && !isPoopSquat;
-      if (isWalk && !isPoopSquat && voxelCollarAnchor && voxelLeashBlocks.length > 0) {
+      const showLeash = (currentSpecies === 'dog') && isWalk && !isPoopSquat;
+      voxelLeashMesh.visible = showLeash;
+      if (showLeash && voxelCollarAnchor && voxelLeashBlocks.length > 0) {
         voxelPuppyGroup.updateMatrixWorld(true);
         const startWorld = new THREE.Vector3();
         voxelCollarAnchor.getWorldPosition(startWorld);
 
-        // Rücken-Richtung des Hundes in Weltkoordinaten bestimmen (vom Kopf nach hinten zur Rute)
         const backDir = new THREE.Vector3(0, 0, -1).applyEuler(voxelPuppyGroup.rotation).normalize();
         const rightDir = new THREE.Vector3(1, 0, 0).applyEuler(voxelPuppyGroup.rotation).normalize();
 
-        // Stützpunkte einer sanften Parabel/Kurve:
-        // Startet exakt oben am Halsbandring, steigt sofort steil über den Rücken nach hinten-oben an
-        // und führt hoch oben rechts aus dem Display zum Halter.
         const p0 = startWorld.clone().add(new THREE.Vector3(0, 0.04, 0));
         const p1 = startWorld.clone()
           .addScaledVector(backDir, 0.35)
           .addScaledVector(rightDir, 0.18)
-          .add(new THREE.Vector3(0, 0.38, 0)); // Hoch über dem Rücken!
+          .add(new THREE.Vector3(0, 0.38, 0));
         const p2 = startWorld.clone()
           .addScaledVector(backDir, 0.75)
           .addScaledVector(rightDir, 0.55)
           .add(new THREE.Vector3(0, 0.85, 0));
-        const p3 = new THREE.Vector3(1.15, 1.55 + Math.sin(time * 6) * 0.03, -0.35); // Handposition oben rechts hinten
+        const p3 = new THREE.Vector3(1.15, 1.55 + Math.sin(time * 6) * 0.03, -0.35);
 
         const nSegs = voxelLeashBlocks.length;
         for (let i = 0; i < nSegs; i++) {
           const t = i / (nSegs - 1);
           const u = 1 - t;
-          // Kubische Bézier-Interpolation über dem Rücken
           const bx = u*u*u * p0.x + 3*u*u*t * p1.x + 3*u*t*t * p2.x + t*t*t * p3.x;
           const by = u*u*u * p0.y + 3*u*u*t * p1.y + 3*u*t*t * p2.y + t*t*t * p3.y;
           const bz = u*u*u * p0.z + 3*u*u*t * p1.z + 3*u*t*t * p2.z + t*t*t * p3.z;
@@ -5284,41 +5773,24 @@ const app = (() => {
   }
 
   function voxelTouchBark() {
+    cancelCasualIdleIfActive();
     if (state.locked) return;
     if (state.mode === 'sleep') {
       wake();
       return;
     }
-    // Holly im 3D Raum streicheln: Bellen, Herzchen & Happy +15
     state.happy = clamp(state.happy + 15);
     addXp(6);
     updateBars();
     updateMood();
-    spawnEffect('💖', 4);
-    setStatus('Voxel-Holly freut sich über deine Streicheleinheit! 🐶💖 (+6 XP)');
-    const statusText = $('pixel-status-text');
-    if (statusText) {
-      statusText.textContent = 'HOLLY: WAU WAU! 💖';
-      setTimeout(() => {
-        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
-      }, 2000);
-    }
-    // Kleiner fröhlicher Voxel-Hüpfer
-    if (voxelPuppyGroup) {
-      voxelPuppyGroup.position.y += 0.25;
-      setTimeout(() => { if (voxelPuppyGroup) voxelPuppyGroup.position.y -= 0.25; }, 180);
-    }
+    voxelJoyTimer = 1.8;
+    const sp = (state.custom && state.custom.species) || 'dog';
+    const soundTxt = sp === 'cat' ? 'MIAU! SCHNURR!' : (sp === 'bird' ? 'PIEP PIEP!' : (sp === 'bunny' ? 'MUMMEL! FREUDE!' : 'WAU WAU! (+6 XP)'));
+    setStatus(soundTxt);
   }
 
   function pixelClean() {
     cleanPoop();
-    const statusText = $('pixel-status-text');
-    if (statusText) {
-      statusText.textContent = 'HOLLY: GEREINIGT 🧹';
-      setTimeout(() => {
-        if (statusText) statusText.textContent = 'HOLLY: VOXEL 3D 🐾';
-      }, 2500);
-    }
   }
 
   function updatePixelStats() {
@@ -5340,15 +5812,13 @@ const app = (() => {
     if (hHunger) hHunger.textContent = getHearts(state.hunger);
     if (hHappy)  hHappy.textContent  = getHearts(state.happy);
     if (hEnergy) hEnergy.textContent = getHearts(state.energy);
-    // Bei der Blase: 4 volle Herzen bedeuten, dass die Blase noch entspannt ist (100 - potty)
     if (hPotty)  hPotty.textContent  = getHearts(Math.max(0, 100 - state.potty));
-    // Beim Schmutz: 4 volle Herzen bedeuten, dass Holly sauber ist (100 - dirt)
     if (hDirt)   hDirt.textContent   = getHearts(Math.max(0, 100 - state.dirt));
   }
 
   // ── Init ───────────────────────────────────────────────────────────────────
   function init() {
-    console.log('[Waveshare ESP32-S3] 🚀 System Booted - 466x466 AMOLED Ready');
+    console.log('[Waveshare ESP32-S3] System Booted - 466x466 AMOLED Ready');
     loadGameProgress();
     if (state.custom && state.custom.species) {
       applySpeciesNeeds(state.custom.species);
@@ -5368,11 +5838,6 @@ const app = (() => {
     // Auto-Save alle 15 Sekunden
     setInterval(saveGameProgress, 15000);
 
-    // Gelegentlich ein Voxel-Häufchen nach 45s für tamagotchi gameplay
-    setTimeout(() => {
-      if (voxelPoopMesh) voxelPoopMesh.visible = true;
-    }, 45000);
-
     // Idle-Video (Blinzeln) direkt starten
     if (videos.idle) {
       videos.idle.play().catch(err => {
@@ -5389,7 +5854,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, setDogCustom, setVoxelBlockSize, applyDogCustomization, init, state };
+  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, switchCustomPage, setPetSpecies, applySpeciesNeeds, setDogCustom, setVoxelBlockSize, applyDogCustomization, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
