@@ -487,23 +487,23 @@
 
     .pixel-hud-stats {
       position: absolute;
-      bottom: 18px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%);
-      width: 250px;
-      background: rgba(30, 45, 26, 0.45);
-      border: 2px solid #2d3e28;
+      width: 170px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 12px;
-      padding: 4px 12px;
-      font-size: 10px;
+      padding: 3px 8px;
+      font-size: 8px;
       font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
+      letter-spacing: 0.5px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 8px;
       z-index: 15;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -511,9 +511,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 4px;
+    }
+    .pixel-row-label {
+      color: #94a3b8;
+      font-size: 8px;
+      text-transform: uppercase;
     }
     .pixel-hearts {
-      letter-spacing: 2px;
+      letter-spacing: 1px;
+      font-size: 8px;
+      color: #38bdf8;
     }
 
     /* View Switch Indicator Dots */
@@ -1421,31 +1429,31 @@
                   <div style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 4px;" id="pixel-status-text">HOLLY: VOXEL 3D 🐾</div>
                 </div>
 
-                <!-- Klassischer LCD Statusbalken (Pixel Hearts) -->
-                <div class="pixel-hud-stats">
+                <!-- Kompakter Statusbalken (ohne Emojis, dezente Text-Labels & Balken) -->
+                <div class="pixel-hud-stats" id="pixel-hud-stats">
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Hunger">🍖</span>
-                    <span class="pixel-hearts" id="pixel-hearts-hunger">♥♥♥♥</span>
+                    <span class="pixel-row-label" id="lbl-stat-hunger">SATTHEIT</span>
+                    <span class="pixel-hearts" id="pixel-hearts-hunger">••••</span>
                   </div>
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Zufriedenheit">💖</span>
-                    <span class="pixel-hearts" id="pixel-hearts-happy">♥♥♥♥</span>
+                    <span class="pixel-row-label" id="lbl-stat-happy">FREUDE</span>
+                    <span class="pixel-hearts" id="pixel-hearts-happy">••••</span>
                   </div>
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Energie">⚡</span>
-                    <span class="pixel-hearts" id="pixel-hearts-energy">♥♥♥♥</span>
+                    <span class="pixel-row-label" id="lbl-stat-energy">ENERGIE</span>
+                    <span class="pixel-hearts" id="pixel-hearts-energy">••••</span>
                   </div>
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Blase">💧</span>
-                    <span class="pixel-hearts" id="pixel-hearts-potty">♥♥♥♥</span>
+                    <span class="pixel-row-label" id="lbl-stat-potty">BLASE</span>
+                    <span class="pixel-hearts" id="pixel-hearts-potty">••••</span>
                   </div>
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Reinheit / Pflege">🧼</span>
-                    <span class="pixel-hearts" id="pixel-hearts-dirt">♥♥♥♥</span>
+                    <span class="pixel-row-label" id="lbl-stat-dirt">HYGIENE</span>
+                    <span class="pixel-hearts" id="pixel-hearts-dirt">••••</span>
                   </div>
                   <div class="pixel-row">
-                    <span style="font-size: 11px;" title="Level">⭐</span>
-                    <span style="font-size: 8px; font-weight: bold; color: #38bdf8;" id="pixel-level-text">1 (BABY)</span>
+                    <span class="pixel-row-label">STUFE</span>
+                    <span style="font-size: 8px; font-weight: bold; color: #38bdf8;" id="pixel-level-text">1</span>
                   </div>
                 </div>
               </div>
@@ -1460,65 +1468,109 @@
             <div class="view-dot" id="dot-page-2" onclick="app.switchView(2)" title="Retro Pixel Tamagotchi"></div>
           </div>
 
-          <!-- Aussehen-Anpassungsmenü (Circular Modal Overlay) -->
-          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.96); backdrop-filter: blur(10px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 18px 20px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
-            <div style="font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 3px;">🎨 RASSE, AUSSEHEN & WELT</div>
+          <!-- Aussehen- & Tier-Anpassungsmenü (Circular Multi-Page Overlay, maßgeschneidert für 466x466 AMOLED) -->
+          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.97); backdrop-filter: blur(12px); z-index: 100; flex-direction: column; align-items: center; justify-content: space-between; box-sizing: border-box; padding: 28px 24px 24px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
             
-            <!-- Hunderasse (Sweet Spot 300–600 Würfel) -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Hunderasse</div>
-            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
-              <button type="button" class="custom-pill custom-breed-btn" data-breed="shiba" onclick="app.setDogCustom('breed','shiba')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ea580c; background: #38bdf8; color: #000; font-size: 9px; font-weight: 700; cursor: pointer;">🦊 Shiba</button>
-              <button type="button" class="custom-pill custom-breed-btn" data-breed="corgi" onclick="app.setDogCustom('breed','corgi')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 9px; font-weight: 700; cursor: pointer;">🍞 Corgi</button>
-              <button type="button" class="custom-pill custom-breed-btn" data-breed="husky" onclick="app.setDogCustom('breed','husky')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #38bdf8; background: #27272a; color: #bae6fd; font-size: 9px; font-weight: 700; cursor: pointer;">🐺 Husky</button>
-              <button type="button" class="custom-pill custom-breed-btn" data-breed="golden" onclick="app.setDogCustom('breed','golden')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #d97706; background: #27272a; color: #fde68a; font-size: 9px; font-weight: 700; cursor: pointer;">🐶 Golden</button>
+            <!-- Modal Header mit Seitenreitern (Page 1 = Tier & Rasse, Page 2 = Farben & Augen, Page 3 = Welt & Stil) -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+              <div style="font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase;">ANPASSUNG & GEFÄHRTE</div>
+              <div style="display: flex; gap: 6px; margin-top: 5px;">
+                <button type="button" class="custom-tab-btn active" id="modal-tab-1" onclick="app.switchCustomPage(1)" style="padding: 3px 10px; border-radius: 12px; border: 1px solid #38bdf8; background: #38bdf8; color: #000; font-size: 9px; font-weight: 800; cursor: pointer;">1. TIERART</button>
+                <button type="button" class="custom-tab-btn" id="modal-tab-2" onclick="app.switchCustomPage(2)" style="padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: 800; cursor: pointer;">2. FARBEN & AUGEN</button>
+                <button type="button" class="custom-tab-btn" id="modal-tab-3" onclick="app.switchCustomPage(3)" style="padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: 800; cursor: pointer;">3. WELT & DEKO</button>
+              </div>
             </div>
 
-            <!-- Fellfarbe / Farbvariante -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe / Variante</div>
-            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Standard</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 9px; font-weight: 700; cursor: pointer;">Gold</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 9px; font-weight: 700; cursor: pointer;">Dunkel</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 9px; font-weight: 700; cursor: pointer;">Creme</button>
+            <!-- ── SEITE 1: TIERARTEN MIT INDIVIDUELLEN BEDÜRFNISSEN ── -->
+            <div class="custom-page-container" id="custom-page-1" style="display: flex; flex-direction: column; align-items: center; width: 100%; gap: 6px;">
+              <div style="font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Wähle dein Haustier:</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 280px;">
+                <button type="button" class="custom-pill custom-species-btn" data-species="dog" onclick="app.setPetSpecies('dog')" style="padding: 6px 8px; border-radius: 10px; border: 1.5px solid #38bdf8; background: #38bdf8; color: #000; font-size: 9px; font-weight: 800; cursor: pointer; text-align: left;">
+                  HUND<br><span style="font-size: 7.5px; opacity: 0.85; font-weight: 500;">Gassi, Balljagd & Treue</span>
+                </button>
+                <button type="button" class="custom-pill custom-species-btn" data-species="cat" onclick="app.setPetSpecies('cat')" style="padding: 6px 8px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.2); background: #1e293b; color: #f8fafc; font-size: 9px; font-weight: 800; cursor: pointer; text-align: left;">
+                  KATZE<br><span style="font-size: 7.5px; opacity: 0.85; font-weight: 500;">Mäusejagd & Putzen</span>
+                </button>
+                <button type="button" class="custom-pill custom-species-btn" data-species="bird" onclick="app.setPetSpecies('bird')" style="padding: 6px 8px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.2); background: #1e293b; color: #f8fafc; font-size: 9px; font-weight: 800; cursor: pointer; text-align: left;">
+                  WELLENSITTICH<br><span style="font-size: 7.5px; opacity: 0.85; font-weight: 500;">Fliegen & Körner</span>
+                </button>
+                <button type="button" class="custom-pill custom-species-btn" data-species="bunny" onclick="app.setPetSpecies('bunny')" style="padding: 6px 8px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.2); background: #1e293b; color: #f8fafc; font-size: 9px; font-weight: 800; cursor: pointer; text-align: left;">
+                  ZWERGKANINCHEN<br><span style="font-size: 7.5px; opacity: 0.85; font-weight: 500;">Hoppeln & Karotten</span>
+                </button>
+              </div>
+
+              <!-- Rasse-Auswahl wenn Hund aktiv -->
+              <div id="breed-subselector" style="display: flex; flex-direction: column; align-items: center; margin-top: 4px;">
+                <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-bottom: 3px; text-transform: uppercase;">Hunderasse:</div>
+                <div style="display: flex; gap: 4px;">
+                  <button type="button" class="custom-pill custom-breed-btn" data-breed="shiba" onclick="app.setDogCustom('breed','shiba')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #ea580c; background: #38bdf8; color: #000; font-size: 8.5px; font-weight: 800; cursor: pointer;">Shiba</button>
+                  <button type="button" class="custom-pill custom-breed-btn" data-breed="corgi" onclick="app.setDogCustom('breed','corgi')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 8.5px; font-weight: 800; cursor: pointer;">Corgi</button>
+                  <button type="button" class="custom-pill custom-breed-btn" data-breed="husky" onclick="app.setDogCustom('breed','husky')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #38bdf8; background: #27272a; color: #bae6fd; font-size: 8.5px; font-weight: 800; cursor: pointer;">Husky</button>
+                  <button type="button" class="custom-pill custom-breed-btn" data-breed="golden" onclick="app.setDogCustom('breed','golden')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #d97706; background: #27272a; color: #fde68a; font-size: 8.5px; font-weight: 800; cursor: pointer;">Golden</button>
+                </div>
+              </div>
             </div>
 
-            <!-- Halsbandfarbe -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
-            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Rot</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 9px; font-weight: 700; cursor: pointer;">Blau</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 9px; font-weight: 700; cursor: pointer;">Rosa</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 9px; font-weight: 700; cursor: pointer;">Grün</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 9px; font-weight: 700; cursor: pointer;">Lila</button>
+            <!-- ── SEITE 2: FELL, AUGENFARBE & ACCESSOIRE ── -->
+            <div class="custom-page-container" id="custom-page-2" style="display: none; flex-direction: column; align-items: center; width: 100%; gap: 6px;">
+              <!-- Augenfarbe -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Augenfarbe:</div>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" class="custom-pill custom-eye-btn" data-eye="black" onclick="app.setDogCustom('eye','black')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #52525b; background: #141416; color: #fff; font-size: 8.5px; font-weight: 800; cursor: pointer;">Schwarz</button>
+                <button type="button" class="custom-pill custom-eye-btn" data-eye="iceblue" onclick="app.setDogCustom('eye','iceblue')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #38bdf8; background: #0284c7; color: #e0f2fe; font-size: 8.5px; font-weight: 800; cursor: pointer;">Eisblau</button>
+                <button type="button" class="custom-pill custom-eye-btn" data-eye="amber" onclick="app.setDogCustom('eye','amber')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #f59e0b; background: #b45309; color: #fef3c7; font-size: 8.5px; font-weight: 800; cursor: pointer;">Bernstein</button>
+                <button type="button" class="custom-pill custom-eye-btn" data-eye="green" onclick="app.setDogCustom('eye','green')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #22c55e; background: #15803d; color: #dcfce7; font-size: 8.5px; font-weight: 800; cursor: pointer;">Smaragd</button>
+              </div>
+
+              <!-- Fellfarbe / Farbvariante -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Fell- / Federfarbe:</div>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 8.5px; font-weight: 800; cursor: pointer;">Klassisch</button>
+                <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 8.5px; font-weight: 800; cursor: pointer;">Gold</button>
+                <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 8.5px; font-weight: 800; cursor: pointer;">Anthrazit</button>
+                <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 8.5px; font-weight: 800; cursor: pointer;">Creme / Weiß</button>
+              </div>
+
+              <!-- Halsbandfarbe -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Halsband / Ring:</div>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 3px 7px; border-radius: 8px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 8.5px; font-weight: 800; cursor: pointer;">Rot</button>
+                <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 3px 7px; border-radius: 8px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 8.5px; font-weight: 800; cursor: pointer;">Blau</button>
+                <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 3px 7px; border-radius: 8px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 8.5px; font-weight: 800; cursor: pointer;">Rosa</button>
+                <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 3px 7px; border-radius: 8px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 8.5px; font-weight: 800; cursor: pointer;">Grün</button>
+              </div>
+
+              <!-- Accessoire -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Accessoire:</div>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 8.5px; font-weight: 800; cursor: pointer;">Keins</button>
+                <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 8.5px; font-weight: 800; cursor: pointer;">Schleife</button>
+                <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 8.5px; font-weight: 800; cursor: pointer;">Zylinder</button>
+              </div>
             </div>
 
-            <!-- Accessoire -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
-            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Keins</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 9px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 9px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
+            <!-- ── SEITE 3: GROSSER BODEN, WEITE LANDSCHAFT & GRÖSSE ── -->
+            <div class="custom-page-container" id="custom-page-3" style="display: none; flex-direction: column; align-items: center; width: 100%; gap: 6px;">
+              <!-- Landschaft / Biom -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Weite Landschaft:</div>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #22c55e; background: #38bdf8; color: #000; font-size: 8.5px; font-weight: 800; cursor: pointer;">Wiese & Pfad</button>
+                <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 8.5px; font-weight: 800; cursor: pointer;">Strandküste</button>
+                <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #ec4899; background: #27272a; color: #fbcfe8; font-size: 8.5px; font-weight: 800; cursor: pointer;">Kirschgarten</button>
+                <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 3px 8px; border-radius: 8px; border: 1.5px solid #b45309; background: #27272a; color: #fed7aa; font-size: 8.5px; font-weight: 800; cursor: pointer;">Zimmer</button>
+              </div>
+
+              <!-- Voxel Block-Größe Regler -->
+              <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 4px; text-transform: uppercase;">Voxel-Größe: <span id="voxel-size-val" style="color: #38bdf8;">0.095</span></div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 8px; color: #64748b;">Fein</span>
+                <input type="range" id="voxel-size-slider" min="0.075" max="0.125" step="0.005" value="0.095" oninput="app.setVoxelBlockSize(parseFloat(this.value))" style="width: 110px; accent-color: #38bdf8; cursor: pointer;">
+                <span style="font-size: 8px; color: #64748b;">Groß</span>
+              </div>
             </div>
 
-            <!-- Umgebung / 3D-Bodenwelt -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Umgebung</div>
-            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
-              <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #22c55e; background: #38bdf8; color: #000; font-size: 8.5px; font-weight: 700; cursor: pointer;">🌿 Wiese</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 8.5px; font-weight: 700; cursor: pointer;">🏖️ Strand</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #fbcfe8; font-size: 8.5px; font-weight: 700; cursor: pointer;">🌸 Sakura</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #b45309; background: #27272a; color: #fed7aa; font-size: 8.5px; font-weight: 700; cursor: pointer;">🛋️ Zimmer</button>
-            </div>
-
-            <!-- Voxel Block-Größe Regler (Sweet Spot 300-600 Würfel) -->
-            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Voxel-Größe: <span id="voxel-size-val" style="color: #38bdf8;">0.095</span></div>
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-              <span style="font-size: 8.5px; color: #64748b;">Fein</span>
-              <input type="range" id="voxel-size-slider" min="0.075" max="0.125" step="0.005" value="0.095" oninput="app.setVoxelBlockSize(parseFloat(this.value))" style="width: 110px; accent-color: #38bdf8; cursor: pointer;">
-              <span style="font-size: 8.5px; color: #64748b;">Groß</span>
-            </div>
-
-            <!-- Schließen Button -->
-            <button type="button" onclick="app.closeCustomModal()" style="padding: 4px 20px; border-radius: 18px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
+            <!-- Footer: Fertig-Button -->
+            <button type="button" onclick="app.closeCustomModal()" style="padding: 5px 24px; border-radius: 18px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">SPEICHERN & ZURÜCK</button>
           </div>
 
           <!-- Action Particles Container -->
@@ -2227,8 +2279,7 @@ const app = (() => {
     if (voxelPoopMesh) voxelPoopMesh.visible = false;
 
     switchMode('walk');
-    spawnEffect('🦮', 4);
-    setStatus('Herrlicher Spaziergang mit Holly! Frische Luft schnappen... 🌳🐾');
+    setStatus('Spaziergang aktiv.');
 
     const vid = videos.walk;
     let poopSpawned = false;
@@ -2239,22 +2290,23 @@ const app = (() => {
       state.hasPoop = true;
       if (realisticPoop) realisticPoop.style.display = 'block';
       if (voxelPoopMesh && voxelPuppyGroup) {
-        // Häufchen direkt unter dem zur Kamera gedrehten Hinterteil der Hocker-Pose platzieren!
-        const frontX = Math.max(-0.45, Math.min(0.45, voxelPuppyGroup.position.x + 0.12));
-        const frontZ = Math.max(0.55, voxelPuppyGroup.position.z + 0.52);
-        voxelPoopMesh.position.set(frontX, -0.75, frontZ);
-        voxelPoopMesh.rotation.set(0.15, 0, 0); // Direkt zum Betrachter geneigt
+        // Welt-Koordinaten für das Häufchen festhalten
+        voxelWorldPoopPos = {
+          x: voxelWorldOffset.x + voxelCurrentPos.x + 0.12,
+          z: voxelWorldOffset.z + voxelCurrentPos.z + 0.52
+        };
+        voxelPoopMesh.position.set(0.12, -0.75, 0.52);
+        voxelPoopMesh.rotation.set(0.15, 0, 0);
         voxelPoopMesh.visible = true;
       }
-      spawnEffect('💩', 4);
-      setStatus('Holly hat draußen ihr Häufchen gemacht! 💩🧹');
+      setStatus('Häufchen erledigt.');
     }
 
     // Ab Sekunde 3.5 beim Gassi-Gehen: Holly stoppt und nimmt die charakteristische Hocker-Pose (Hinterteil tief absenken) ein!
     setTimeout(() => {
       if (state.mode === 'walk' && !poopSpawned) {
         voxelPoopSquatTimer = 1.65;
-        setStatus('Holly sucht sich ein Plätzchen und hockt sich hin... 🦮🐾');
+        setStatus('Sucht sich ein Plätzchen...');
       }
     }, 3500);
 
@@ -2273,7 +2325,7 @@ const app = (() => {
       state.walkCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Spaziergang beendet! Holly ist erleichtert und glücklich! 🦮✨ (+15 XP)');
+      setStatus('Spaziergang beendet.');
     }
 
     if (vid) {
@@ -2325,16 +2377,16 @@ const app = (() => {
     if (!state.hasPoop && !state.hasPee) return;
     state.hasPoop = false;
     state.hasPee = false;
+    voxelWorldPoopPos = null;
+    voxelWorldPeePos = null;
     if (voxelPoopMesh) voxelPoopMesh.visible = false;
     if (voxelPeeMesh) voxelPeeMesh.visible = false;
     if (realisticPoop) realisticPoop.style.display = 'none';
-    spawnEffect('🧹', 4);
-    spawnEffect('✨', 4);
     state.happy = clamp(state.happy + 10);
     addXp(10);
     updateBars();
     updateMood();
-    setStatus('Vorbildlich! Bereich gründlich gereinigt & sauber gefegt! 🧹✨ (+10 XP)');
+    setStatus('Bereich sauber gereinigt.');
   }
 
   function wash() {
@@ -2344,9 +2396,7 @@ const app = (() => {
     state.locked = true;
 
     switchMode('wash');
-    spawnEffect('🫧', 5);
-    spawnEffect('✨', 3);
-    setStatus('Herrliches Schaumbad! Holly wird gründlich gewaschen & gepflegt... 🛁🫧');
+    setStatus('Waschen & Pflege aktiv...');
 
     const vid = videos.wash;
     function finishWash() {
@@ -2358,7 +2408,7 @@ const app = (() => {
       state.washCooldown = false;
       state.locked = false;
       switchMode('idle');
-      setStatus('Holly duftet frisch und hat wunderschön glänzendes Fell! ✨🐾 (+12 XP)');
+      setStatus('Sauber gewaschen und gepflegt.');
     }
 
     if (vid) {
@@ -2429,8 +2479,7 @@ const app = (() => {
     state.locked = true;
     voxelPlayTimer = 4.0;
     switchMode('play');
-    spawnEffect('🎾', 5);
-    setStatus('Interaktive Spielsequenz gestartet! 🎉');
+    setStatus('Spielmodus aktiv.');
 
     const vid = videos.play;
     function finishPlay() {
@@ -2931,7 +2980,7 @@ const app = (() => {
   let stolenItemMesh = null;  // Gestohlener Ring-Button im Maul bei Unordnung/Schabernack!
   let voxelBowMesh = null;    // Rosa Schleifen-Accessoire
   let voxelHatMesh = null;    // Zylinder-Accessoire
-  let mFurMat = null, mFurDarkMat = null, mSnoutMat = null, mCollarMat = null; // Für Farbwechsel
+  let mFurMat = null, mFurDarkMat = null, mSnoutMat = null, mCollarMat = null, mPupilMat = null; // Für Farbwechsel
   let voxelSnapTimer = 0;     // Schnapp-Animation wenn Holly den Spielball erreicht
   let voxelPoopSquatTimer = 0; // Echte Hocker-Pose (Hinterteil tief absenken) vor dem Häufchen!
   let voxelGroundScroll = { x: 0, z: 0 }; // Laufband-Offset für sich bewegenden Boden beim Gassi-Gehen!
@@ -3056,11 +3105,21 @@ const app = (() => {
   let voxelLegRot = { fl: 0, fr: 0, bl: 0, br: 0 };
   let voxelLegPosZ = { bl: -0.42, br: -0.42 };
   let voxelPuppyPosY = 0;
-  let voxelCamPos = { x: 0, y: 1.8, z: 4.6 };
-  let voxelCamLook = { x: 0, y: 0.1, z: 0 };
+  let voxelCamPos = { x: 0, y: 2.1, z: 5.0 };
+  let voxelCamLook = { x: 0, y: -0.15, z: 0 };
   let voxelBlinkTimer = 1.2; // Blinzel-Timer
+  let voxelTongueVisible = false; // Zunge hängt nur gelegentlich heraus
+  let voxelTongueTimer = 3.5;
+  let voxelCurrentCustomPage = 1; // Aktiver Tab im Einstellungsmenü (1..3)
 
-  // ── 3D-Voxel-Umgebung aufbauen (Wiese, Strand, Sakura-Garten, Wohnzimmer) ──
+  // Endlose Welt & Verschiebung des Bodens (World Offset)
+  let voxelWorldOffset = { x: 0, z: 0 };
+  let voxelWorldPoopPos = null; // Koordinaten des Häufchens in der endlosen Welt
+  let voxelWorldPeePos = null;
+  let voxelBallWorldPos = { x: 0.65, z: 1.1 };
+  let voxelWorldProps = []; // Einmal zufällig generierte Landschaftsobjekte mit festen Koordinaten
+
+  // ── 3D-Voxel-Umgebung aufbauen (Endlose Kachel-Welt & feste Landschaftsobjekte) ──
   function buildVoxelEnvironment(themeName) {
     if (!voxelScene) return;
     if (voxelEnvGroup) {
@@ -3085,124 +3144,89 @@ const app = (() => {
     }
 
     const tileB = 0.16;
-    const tileGeo = new THREE.BoxGeometry(tileB * 1.005, 0.04, tileB * 1.005); // Lückenloses Boden-Relief
+    const tileGeo = new THREE.BoxGeometry(tileB * 1.005, 0.04, tileB * 1.005);
 
-    if (themeName === 'beach') {
-      const mSand1 = new THREE.MeshLambertMaterial({ color: 0xfde68a });
-      const mSand2 = new THREE.MeshLambertMaterial({ color: 0xfcd34d });
-      const mWater = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
-      const mFoam  = new THREE.MeshLambertMaterial({ color: 0xe0f2fe });
-      const mCoral = new THREE.MeshLambertMaterial({ color: 0xf43f5e });
-
-      for (let gx = -10; gx <= 10; gx++) {
-        for (let gz = -8; gz <= 9; gz++) {
-          const r = Math.hypot(gx * tileB, gz * tileB);
-          if (r > 1.72) continue;
-          let mat = (gx + gz) % 2 === 0 ? mSand1 : mSand2;
-          let ty = 0;
-          if (gz >= 5) { mat = mWater; ty = -0.02; }
-          else if (gz === 4) { mat = mFoam; ty = -0.005; }
-          const tMesh = new THREE.Mesh(tileGeo, mat);
-          tMesh.position.set(gx * tileB, ty, gz * tileB);
-          voxelEnvGroup.add(tMesh);
-        }
+    // Kacheln im erweiterten Sichtfeld anlegen (bis Radius 2.45)
+    for (let gx = -15; gx <= 15; gx++) {
+      for (let gz = -14; gz <= 15; gz++) {
+        const r = Math.hypot(gx * tileB, gz * tileB);
+        if (r > 2.45) continue;
+        const tMesh = new THREE.Mesh(tileGeo, new THREE.MeshLambertMaterial({ color: 0x65a30d }));
+        tMesh.position.set(gx * tileB, 0, gz * tileB);
+        tMesh.userData = { gridX: gx, gridZ: gz };
+        voxelEnvGroup.add(tMesh);
       }
-      // Kleine Voxel-Seesterne & Muscheln am Rand
-      [[-1.25, -0.6], [1.22, -0.45], [-1.1, 0.45]].forEach(([sx, sz]) => {
-        const star = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.04, 0.11), mCoral);
-        star.position.set(sx, 0.03, sz);
-        star.rotation.y = 0.4;
-        star.userData = { baseX: sx, baseZ: sz, isProp: true };
-        voxelEnvGroup.add(star);
-      });
-    } else if (themeName === 'sakura') {
-      const mGrass1 = new THREE.MeshLambertMaterial({ color: 0x86efac });
-      const mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4ade80 });
-      const mStone  = new THREE.MeshLambertMaterial({ color: 0xcbd5e1 });
-      const mPetal1 = new THREE.MeshLambertMaterial({ color: 0xf9a8d4 });
-      const mPetal2 = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
-
-      for (let gx = -10; gx <= 10; gx++) {
-        for (let gz = -8; gz <= 9; gz++) {
-          const r = Math.hypot(gx * tileB, gz * tileB);
-          if (r > 1.72) continue;
-          const isPath = (Math.abs(gx - gz * 0.4) < 1.3 && (gx + gz) % 2 === 0);
-          const mat = isPath ? mStone : ((gx + gz) % 2 === 0 ? mGrass1 : mGrass2);
-          const tMesh = new THREE.Mesh(tileGeo, mat);
-          tMesh.position.set(gx * tileB, isPath ? 0.01 : 0, gz * tileB);
-          voxelEnvGroup.add(tMesh);
-        }
-      }
-      // Verstreute Kirschblüten-Blätter am Rand
-      [[-1.2, -0.7], [1.18, -0.65], [-1.3, 0.2], [1.28, 0.3], [-0.95, -1.0], [0.95, -0.95]].forEach(([px, pz], i) => {
-        const petal = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.03, 0.09), i % 2 === 0 ? mPetal1 : mPetal2);
-        petal.position.set(px, 0.025, pz);
-        petal.userData = { baseX: px, baseZ: pz, isProp: true };
-        voxelEnvGroup.add(petal);
-      });
-    } else if (themeName === 'livingroom') {
-      const mWood1 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
-      const mWood2 = new THREE.MeshLambertMaterial({ color: 0x92400e });
-      const mRug1  = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
-      const mRug2  = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
-      const mRugBorder = new THREE.MeshLambertMaterial({ color: 0xfef08a });
-
-      for (let gx = -10; gx <= 10; gx++) {
-        for (let gz = -8; gz <= 9; gz++) {
-          const r = Math.hypot(gx * tileB, gz * tileB);
-          if (r > 1.72) continue;
-          let mat = (gx % 2 === 0) ? mWood1 : mWood2;
-          let ty = 0;
-          if (r < 1.12) {
-            mat = (r > 0.96) ? mRugBorder : ((gx + gz) % 2 === 0 ? mRug1 : mRug2);
-            ty = 0.015;
-          }
-          const tMesh = new THREE.Mesh(tileGeo, mat);
-          tMesh.position.set(gx * tileB, ty, gz * tileB);
-          voxelEnvGroup.add(tMesh);
-        }
-      }
-    } else {
-      // Standard: 'meadow' (Sonnige Blumenwiese mit Steinpfad, Grasbüscheln & Voxel-Blümchen)
-      const mGrass1 = new THREE.MeshLambertMaterial({ color: 0x65a30d });
-      const mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4d7c0f });
-      const mPath   = new THREE.MeshLambertMaterial({ color: 0xd6d3d1 });
-      const mFlowerY = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
-      const mFlowerP = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
-      const mFlowerW = new THREE.MeshLambertMaterial({ color: 0xffffff });
-      const mStem    = new THREE.MeshLambertMaterial({ color: 0x15803d });
-
-      for (let gx = -10; gx <= 10; gx++) {
-        for (let gz = -8; gz <= 9; gz++) {
-          const r = Math.hypot(gx * tileB, gz * tileB);
-          if (r > 1.72) continue;
-          const isStone = ((gx === -3 && gz === 4) || (gx === -2 && gz === 5) || (gx === 3 && gz === 3) || (gx === 4 && gz === 4));
-          const mat = isStone ? mPath : ((gx + gz) % 2 === 0 ? mGrass1 : mGrass2);
-          const tMesh = new THREE.Mesh(tileGeo, mat);
-          tMesh.position.set(gx * tileB, isStone ? 0.012 : 0, gz * tileB);
-          voxelEnvGroup.add(tMesh);
-        }
-      }
-      // Kleine 3D-Voxel-Blümchen & Grasbüschel am Wiesenrand
-      const flowerSpots = [
-        [-1.25, -0.55, mFlowerY], [1.25, -0.50, mFlowerP],
-        [-1.15, 0.45, mFlowerW],  [1.18, 0.48, mFlowerY],
-        [-0.85, -0.95, mFlowerP], [0.90, -0.90, mFlowerW]
-      ];
-      flowerSpots.forEach(([fx, fz, fMat]) => {
-        const flowerGrp = new THREE.Group();
-        flowerGrp.position.set(fx, 0, fz);
-        flowerGrp.userData = { baseX: fx, baseZ: fz, isProp: true };
-        const stem = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.08, 0.05), mStem);
-        stem.position.set(0, 0.05, 0);
-        const blossom = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.05, 0.10), fMat);
-        blossom.position.set(0, 0.10, 0);
-        flowerGrp.add(stem, blossom);
-        voxelEnvGroup.add(flowerGrp);
-      });
     }
 
+    // Einmalige zufällige, aber dann feste Landschaftsobjekte in der endlosen Welt platzieren
+    if (voxelWorldProps.length === 0) {
+      const propTypes = ['tree', 'rock', 'bush', 'flower', 'mushroom', 'bench', 'fence', 'lantern'];
+      for (let i = 0; i < 40; i++) {
+        // Welt-Koordinaten von -18 bis +18 Einheiten
+        const wx = (Math.random() - 0.5) * 32;
+        const wz = (Math.random() - 0.5) * 32;
+        if (Math.hypot(wx, wz) < 1.2) continue; // Startbereich freihalten
+        const type = propTypes[Math.floor(Math.random() * propTypes.length)];
+        voxelWorldProps.push({ type, wx, wz, rotY: Math.random() * Math.PI * 2 });
+      }
+    }
+
+    // 3D-Meshes für die Landschaftsobjekte aufbauen
+    voxelWorldProps.forEach(prop => {
+      const propGroup = createWorldPropMesh(prop.type, themeName);
+      propGroup.rotation.y = prop.rotY;
+      propGroup.userData = { worldX: prop.wx, worldZ: prop.wz };
+      prop.mesh = propGroup;
+      voxelEnvGroup.add(propGroup);
+    });
+
     voxelScene.add(voxelEnvGroup);
+  }
+
+  function createWorldPropMesh(type, theme) {
+    const grp = new THREE.Group();
+    const B = VOXEL_BLOCK_SIZE;
+
+    if (type === 'tree') {
+      // Voxel-Baum mit Stamm und Krone
+      const mTrunk = new THREE.MeshLambertMaterial({ color: 0x78350f });
+      const mLeaves = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xf472b6 : 0x15803d });
+      const trunk = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.65, 0.18), mTrunk);
+      trunk.position.y = 0.32;
+      const crown = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.65, 0.65), mLeaves);
+      crown.position.y = 0.85;
+      grp.add(trunk, crown);
+    } else if (type === 'rock') {
+      const mRock = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
+      const rock1 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.22, 0.3), mRock);
+      rock1.position.y = 0.11;
+      const rock2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.15, 0.2), mRock);
+      rock2.position.set(0.12, 0.18, 0.05);
+      grp.add(rock1, rock2);
+    } else if (type === 'bush') {
+      const mBush = new THREE.MeshLambertMaterial({ color: (theme === 'beach') ? 0x059669 : 0x16a34a });
+      const bush = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.28, 0.42), mBush);
+      bush.position.y = 0.14;
+      grp.add(bush);
+    } else if (type === 'lantern') {
+      const mPole = new THREE.MeshLambertMaterial({ color: 0x334155 });
+      const mGlow = new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xfacc15, emissiveIntensity: 0.6 });
+      const pole = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.8, 0.08), mPole);
+      pole.position.y = 0.4;
+      const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), mGlow);
+      lamp.position.y = 0.85;
+      grp.add(pole, lamp);
+    } else {
+      // Voxel-Blume
+      const mStem = new THREE.MeshLambertMaterial({ color: 0x15803d });
+      const mBloom = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xfbcfe8 : 0xfacc15 });
+      const stem = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.18, 0.05), mStem);
+      stem.position.y = 0.09;
+      const bloom = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.1, 0.16), mBloom);
+      bloom.position.y = 0.2;
+      grp.add(stem, bloom);
+    }
+    return grp;
   }
 
   function initVoxelPet() {
@@ -3227,10 +3251,10 @@ const app = (() => {
     // 1. Scene
     voxelScene = new THREE.Scene();
 
-    // 2. Camera (Perspektivisch für schöne Block-Tiefe)
-    voxelCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    voxelCamera.position.set(0, 1.8, 4.6);
-    voxelCamera.lookAt(0, 0.1, 0);
+    // 2. Camera (Perspektivisch auf weite Landschaft angepasst)
+    voxelCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    voxelCamera.position.set(0, 2.3, 5.1);
+    voxelCamera.lookAt(0, 0.05, 0);
 
     // 3. WebGL Renderer mit Alphatransparenz für das AMOLED-Display
     voxelRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -3273,9 +3297,17 @@ const app = (() => {
     const mFurDark = new THREE.MeshStandardMaterial({ color: furDef.furDark, roughness: 0.50, metalness: 0.04 });
     const mSnout = new THREE.MeshStandardMaterial({ color: furDef.snout, roughness: 0.44, metalness: 0.03 });
     const mNose = new THREE.MeshStandardMaterial({ color: 0x241812, roughness: 0.35, metalness: 0.08 });
-    // Bei Husky eisblaue Augen, sonst tiefschwarze 2×2 Knopfaugen mit 3D-Stud
-    const eyeColorHex = (currentBreed === 'husky') ? 0x38bdf8 : 0x141416;
-    const mPupil = new THREE.MeshStandardMaterial({ color: eyeColorHex, roughness: 0.25, metalness: (currentBreed === 'husky' ? 0.35 : 0.15) });
+    
+    // Wählbare Augenfarbe (schwarz, eisblau, bernstein, smaragdgrün)
+    const eyePalette = {
+      black:   0x141416,
+      iceblue: 0x38bdf8,
+      amber:   0xf59e0b,
+      green:   0x22c55e
+    };
+    const eyeChoice = (state.custom && state.custom.eye) ? state.custom.eye : ((currentBreed === 'husky') ? 'iceblue' : 'black');
+    const eyeColorHex = eyePalette[eyeChoice] || 0x141416;
+    const mPupil = new THREE.MeshStandardMaterial({ color: eyeColorHex, roughness: 0.25, metalness: 0.25 });
     const collarColorHex = (DOG_COLLAR_COLORS[state.custom.collar]) ? DOG_COLLAR_COLORS[state.custom.collar] : 0xdc2626;
     const mCollar = new THREE.MeshStandardMaterial({ color: collarColorHex, roughness: 0.4, metalness: 0.1 });
     const mMouth = new THREE.MeshStandardMaterial({ color: 0xe64848, roughness: 0.38, metalness: 0.05 });
@@ -3287,6 +3319,7 @@ const app = (() => {
     mFurDarkMat = mFurDark;
     mSnoutMat = mSnout;
     mCollarMat = mCollar;
+    mPupilMat = mPupil;
 
     // NANOBLOCK / SWEET SPOT VOXEL GEOMETRIE (300 bis 600 Blöcke):
     const B = VOXEL_BLOCK_SIZE; // Standard: 0.095
@@ -3460,18 +3493,23 @@ const app = (() => {
     addVoxel(0, 0.15, 5.25, mNose, voxelHeadGroup, 1.85, 1.15, 0.9, false);
     addVoxel(0, 0.55, 5.05, mNose, voxelHeadGroup, 1.55, 0.45, 0.85, false);
 
-    // ── Unterkiefer & korallrote Zunge mit Rille ──
+    // ── Unterkiefer & gelegentlich herausgestreckte Zunge ──
     voxelJawGroup = new THREE.Group();
     voxelJawGroup.position.set(0, -1.5 * B, 3.5 * B);
     for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
       addVoxel(ix, -0.35, 0.5, mSnout, voxelJawGroup);
     }
-    addVoxel(-0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
-    addVoxel(0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
-    addVoxel(-0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
-    addVoxel(0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
-    addVoxel(-0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
-    addVoxel(0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
+    // Zunge in separater Gruppe, damit sie gelegentlich ein- und ausgefahren werden kann
+    const tongueMeshGroup = new THREE.Group();
+    tongueMeshGroup.name = 'dogTongue';
+    addVoxel(-0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
+    addVoxel(0.48, -0.35, 1.35, mMouth, tongueMeshGroup, 0.90, 0.95, 0.45, false);
+    addVoxel(-0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
+    addVoxel(0.48, -1.05, 1.35, mMouth, tongueMeshGroup, 0.90, 0.75, 0.45, false);
+    addVoxel(-0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
+    addVoxel(0.35, -1.48, 1.32, mMouth, tongueMeshGroup, 0.65, 0.35, 0.40, false);
+    tongueMeshGroup.scale.set(0.001, 0.001, 0.001); // Standardmäßig eingezogen
+    voxelJawGroup.add(tongueMeshGroup);
     voxelHeadGroup.add(voxelJawGroup);
 
     // ── Rassen-spezifische Ohren (Stehohren für Shiba & Husky, riesige Fledermausohren für Corgi, Schlappohren für Golden) ──
@@ -3970,6 +4008,13 @@ const app = (() => {
     if (mSnoutMat) mSnoutMat.color.setHex(fur.snout);
     if (mCollarMat) mCollarMat.color.setHex(collarCol);
 
+    // Augenfarbe aktualisieren
+    const eyePalette = { black: 0x141416, iceblue: 0x38bdf8, amber: 0xf59e0b, green: 0x22c55e };
+    const curEye = (state.custom && state.custom.eye) ? state.custom.eye : 'black';
+    if (mPupilMat) {
+      mPupilMat.color.setHex(eyePalette[curEye] || 0x141416);
+    }
+
     // Accessoires ein-/ausblenden
     if (voxelBowMesh) voxelBowMesh.visible = (state.custom.accessory === 'bow');
     if (voxelHatMesh) voxelHatMesh.visible = (state.custom.accessory === 'hat');
@@ -3977,29 +4022,118 @@ const app = (() => {
     // 3D-Umgebung aktualisieren
     buildVoxelEnvironment(envName);
 
-    // UI Pills im Anpassungsmenü synchronisieren
+    // Menü-Buttons & Tabs synchronisieren
+    syncCustomModalUI();
+  }
+
+  function switchCustomPage(pageNumber) {
+    voxelCurrentCustomPage = pageNumber;
+    for (let i = 1; i <= 3; i++) {
+      const pEl = $(`custom-page-${i}`);
+      const tEl = $(`modal-tab-${i}`);
+      if (pEl) pEl.style.display = (i === pageNumber) ? 'flex' : 'none';
+      if (tEl) {
+        tEl.style.background = (i === pageNumber) ? '#38bdf8' : '#1e293b';
+        tEl.style.color = (i === pageNumber) ? '#000' : '#94a3b8';
+        tEl.style.borderColor = (i === pageNumber) ? '#38bdf8' : 'rgba(255,255,255,0.2)';
+      }
+    }
+  }
+
+  function setPetSpecies(species) {
+    if (!state.custom) state.custom = {};
+    state.custom.species = species;
+    
+    // Tier-spezifische Bedürfnisse anpassen:
+    // Katze: kein Gassi (Walk), dafür Mäusejagd & Kratzbaum
+    // Wellensittich: kein Gassi, dafür Freiflug (Fly) & Körner
+    // Kaninchen: Hoppeln & Karotten
+    applySpeciesNeeds(species);
+
+    const breedBox = $('breed-subselector');
+    if (breedBox) {
+      breedBox.style.display = (species === 'dog') ? 'flex' : 'none';
+    }
+
+    initVoxelPet();
+    saveGameProgress();
+  }
+
+  function applySpeciesNeeds(species) {
+    const btnWalk = $('btn-walk');
+    const btnPlay = $('btn-play');
+    const btnFeed = $('btn-feed');
+    const lblHunger = $('lbl-stat-hunger');
+    const lblHappy = $('lbl-stat-happy');
+
+    if (species === 'cat') {
+      if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🐾</span>Kratzen';
+      if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🧶</span>Mausjagd';
+      if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🐟</span>Fisch';
+      if (lblHappy) lblHappy.textContent = 'SCHNURREN';
+      setStatus('Katze ausgewählt: Liebt Mäusejagd, Kratzen und Fisch.');
+    } else if (species === 'bird') {
+      if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🪶</span>Freiflug';
+      if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🔔</span>Glöckchen';
+      if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🌾</span>Körner';
+      if (lblHappy) lblHappy.textContent = 'ZWITSCHERN';
+      setStatus('Wellensittich ausgewählt: Benötigt Freiflug und Körner.');
+    } else if (species === 'bunny') {
+      if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🌿</span>Hoppeln';
+      if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🥕</span>Tunnel';
+      if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🥕</span>Möhre';
+      if (lblHappy) lblHappy.textContent = 'KUSCHELN';
+      setStatus('Zwergkaninchen ausgewählt: Liebt Hoppeln und Möhren.');
+    } else {
+      if (btnWalk) btnWalk.innerHTML = '<span class="btn-ico">🦮</span>Gassi';
+      if (btnPlay) btnPlay.innerHTML = '<span class="btn-ico">🎾</span>Spielen';
+      if (btnFeed) btnFeed.innerHTML = '<span class="btn-ico">🍖</span>Füttern';
+      if (lblHappy) lblHappy.textContent = 'FREUDE';
+      setStatus('Hund ausgewählt: Freut sich auf Gassi und Ballspiel.');
+    }
+  }
+
+  function syncCustomModalUI() {
+    const curSpecies = (state.custom && state.custom.species) ? state.custom.species : 'dog';
+    const curBreed = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
+    const curFur = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
+    const curEye = (state.custom && state.custom.eye) ? state.custom.eye : 'black';
+    const curCollar = (state.custom && state.custom.collar) ? state.custom.collar : 'red';
+    const curAcc = (state.custom && state.custom.accessory) ? state.custom.accessory : 'none';
+    const curEnv = (state.custom && state.custom.env) ? state.custom.env : 'meadow';
+
+    document.querySelectorAll('.custom-species-btn').forEach(b => {
+      const active = b.dataset.species === curSpecies;
+      b.style.background = active ? '#38bdf8' : '#1e293b';
+      b.style.color = active ? '#000' : '#f8fafc';
+    });
     document.querySelectorAll('.custom-breed-btn').forEach(b => {
-      const active = b.dataset.breed === currentBreedKey;
+      const active = b.dataset.breed === curBreed;
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
     document.querySelectorAll('.custom-fur-btn').forEach(b => {
-      const active = b.dataset.fur === furCategory;
+      const active = b.dataset.fur === curFur;
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
+    document.querySelectorAll('.custom-eye-btn').forEach(b => {
+      const active = b.dataset.eye === curEye;
+      b.style.opacity = active ? '1' : '0.55';
+      b.style.border = active ? '2px solid #38bdf8' : '1px solid #52525b';
+    });
     document.querySelectorAll('.custom-collar-btn').forEach(b => {
-      const active = b.dataset.collar === state.custom.collar;
+      const active = b.dataset.collar === curCollar;
       b.style.opacity = active ? '1' : '0.45';
       b.style.transform = active ? 'scale(1.1)' : 'scale(1)';
     });
     document.querySelectorAll('.custom-acc-btn').forEach(b => {
-      const active = b.dataset.acc === state.custom.accessory;
+      const active = b.dataset.acc === curAcc;
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
     document.querySelectorAll('.custom-env-btn').forEach(b => {
-      const active = b.dataset.env === envName;
+      const active = b.dataset.env === curEnv;
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
@@ -4063,33 +4197,28 @@ const app = (() => {
   }
 
   function kickVoxelBall(relX, relY) {
-    // Wenn Touch-/Klick-Koordinaten vorhanden sind, Ball exakt an diese Stelle auf dem runden Display werfen!
+    // Weitwurf: Ball fliegt ca. 30 Würfel (~2.8 Einheiten) weit in die Landschaft!
+    const throwDistance = 2.85; // ca. 30 Würfel
+    let throwAngle = voxelPuppyRot.y + (Math.random() - 0.5) * 0.5;
+
     if (typeof relX === 'number' && typeof relY === 'number') {
-      let tx = (relX - 0.5) * 2.6;
-      let tz = (relY - 0.52) * 2.4;
-      const r = Math.hypot(tx, tz);
-      if (r > 1.35) {
-        tx = (tx / r) * 1.35;
-        tz = (tz / r) * 1.35;
-      }
-      voxelBallPos.targetX = tx;
-      voxelBallPos.targetZ = Math.max(-0.6, Math.min(1.35, tz));
-    } else {
-      const angles = [0.85, -0.85, 1.15, -1.15, 0.35, -0.35];
-      voxelBallPos.targetX = angles[Math.floor(Math.random() * angles.length)];
-      voxelBallPos.targetZ = 0.5 + Math.random() * 0.8;
+      const clickDirX = (relX - 0.5) * 2;
+      const clickDirZ = (relY - 0.5) * 2;
+      throwAngle = Math.atan2(clickDirX, clickDirZ);
     }
 
-    // Spielzeit bei aktivem Klick verlängern, damit man interaktiv weiterspielen kann
+    // Ball-Position in der Welt setzen
+    voxelBallWorldPos.x = voxelWorldOffset.x + voxelCurrentPos.x + Math.sin(throwAngle) * throwDistance;
+    voxelBallWorldPos.z = voxelWorldOffset.z + voxelCurrentPos.z + Math.cos(throwAngle) * throwDistance;
+
     if (voxelPlayTimer > 0) {
-      voxelPlayTimer = Math.max(voxelPlayTimer, 3.2);
+      voxelPlayTimer = Math.max(voxelPlayTimer, 4.5);
     }
-    voxelSnapTimer = 0.45; // Kurz freudig schnappen
+    voxelSnapTimer = 0.5;
 
-    spawnEffect('⚽', 3);
-    spawnEffect('✨', 2);
-    setStatus('Holly jagt dem Ball hinterher und schnappt danach! ⚽🐶');
-    addXp(5);
+    // Keine Emojis mehr
+    setStatus('Ball weit geworfen! Holly stürmt hinterher...');
+    addXp(6);
   }
 
   function triggerHollyMischief() {
@@ -4283,36 +4412,39 @@ const app = (() => {
       }
     }
 
-    // ── Schaumblasen beim Waschen ──
+    // ── Schaumpartikel & Wasserfontänen beim Waschen (Moderne, spritzige Voxel-Animation) ──
     const isWash = (state.mode === 'wash');
     if (voxelSoapBubbles && voxelSoapBubbles.length > 0) {
-      voxelSoapBubbles.forEach(b => {
+      voxelSoapBubbles.forEach((b, idx) => {
         b.mesh.visible = isWash;
         if (isWash) {
-          const px = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0) + b.ox;
-          const pz = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) + b.oz;
-          const py = -0.4 + ((time * b.speed + b.phase) % 1.6);
+          const px = (voxelPuppyGroup ? voxelPuppyGroup.position.x : 0) + b.ox * (0.8 + Math.sin(time * 6 + idx) * 0.3);
+          const pz = (voxelPuppyGroup ? voxelPuppyGroup.position.z : 0) + b.oz * (0.8 + Math.cos(time * 6 + idx) * 0.3);
+          // Wasserfontäne sprudelt von oben herab und schäumt
+          const py = -0.6 + ((time * b.speed * 1.5 + b.phase) % 1.9);
           b.mesh.position.set(px, py, pz);
-          b.mesh.rotation.x += 0.05;
-          b.mesh.rotation.y += 0.08;
+          b.mesh.rotation.x += 0.12;
+          b.mesh.rotation.y += 0.16;
+          const s = 0.8 + Math.sin(time * 10 + idx) * 0.4;
+          b.mesh.scale.set(s, s, s);
         }
       });
     }
 
     // ── Kamera-Positionierung ──
     let targetCamX = 0;
-    let targetCamY = 1.25;
-    let targetCamZ = 4.7;
+    let targetCamY = 1.95;
+    let targetCamZ = 5.0;
     let targetLookX = 0;
-    let targetLookY = -0.25;
+    let targetLookY = -0.15;
     let targetLookZ = 0;
 
     if (isWalk) {
       targetCamX = 0.85;
-      targetCamY = 1.3;
-      targetCamZ = 4.3;
+      targetCamY = 2.05;
+      targetCamZ = 4.7;
       targetLookX = 0;
-      targetLookY = -0.2;
+      targetLookY = -0.1;
       targetLookZ = 0;
     }
 
@@ -4344,19 +4476,18 @@ const app = (() => {
       }
     }
 
-    // ── Bewegungs-Logik & Exakte Bewegungs-Begrenzung am Display-Rand ──
+    // ── Bewegungs-Logik: Endlose weite Welt durch Boden-Verschiebung ──
     const isNormalIdle = !isSleep && !isWake && !isFeed && !isPlay && !isWalk && !isJoy;
     let prevPosX = voxelCurrentPos.x;
     let prevPosZ = voxelCurrentPos.z;
-    const maxBorderRadius = 1.45; // Sichere Begrenzung innerhalb des runden Displays
+    const maxInnerRadius = 0.95; // Radius, ab dem sich die Landschaft unter dem Hund verschiebt!
 
     if (isNormalIdle) {
       voxelBehaviorTimer -= delta;
       boredomTimer += delta;
 
       if (voxelBehaviorTimer <= 0) {
-        // Abwechslungsreiches Idle-Verhalten mit Fokus auf Sitzen (Bild 1) & Stehen (Bild 2–4)
-        const behaviors = ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'stand', 'curious', 'bark', 'mark'];
+        const behaviors = ['sit', 'stand', 'sit', 'wander', 'sniff', 'sit', 'wander', 'curious', 'bark', 'mark'];
         if (boredomTimer > 45 && Math.random() < 0.25) {
           voxelIdleBehavior = 'messy';
           boredomTimer = 0;
@@ -4366,46 +4497,41 @@ const app = (() => {
 
         if (voxelIdleBehavior === 'wander') {
           const wanderAngle = Math.random() * Math.PI * 2;
-          const wanderDist = 0.45 + Math.random() * 0.95;
-          voxelTargetPos.x = Math.cos(wanderAngle) * wanderDist;
-          voxelTargetPos.z = Math.sin(wanderAngle) * (wanderDist * 0.75);
+          const wanderDist = 0.8 + Math.random() * 1.6;
+          voxelTargetPos.x = voxelCurrentPos.x + Math.cos(wanderAngle) * wanderDist;
+          voxelTargetPos.z = voxelCurrentPos.z + Math.sin(wanderAngle) * wanderDist;
           const dx = voxelTargetPos.x - voxelCurrentPos.x;
           const dz = voxelTargetPos.z - voxelCurrentPos.z;
           voxelTargetRot = Math.atan2(dx, dz);
-          voxelBehaviorTimer = 3.2 + Math.random() * 2.2;
+          voxelBehaviorTimer = 3.5 + Math.random() * 2.5;
         } else if (voxelIdleBehavior === 'sniff') {
           voxelBehaviorTimer = 2.6 + Math.random() * 1.4;
         } else if (voxelIdleBehavior === 'bark') {
           voxelTargetRot = 0;
           voxelCurrentRot = 0;
-          spawnEffect('🐾', 2);
           voxelBehaviorTimer = 2.0;
         } else if (voxelIdleBehavior === 'curious') {
           voxelTargetRot = (Math.random() - 0.5) * 0.8;
           voxelBehaviorTimer = 2.5;
         } else if (voxelIdleBehavior === 'sit') {
           voxelTargetRot = (Math.random() - 0.5) * 0.35;
-          voxelBehaviorTimer = 3.8 + Math.random() * 2.0;
+          voxelBehaviorTimer = 4.0 + Math.random() * 2.0;
         } else if (voxelIdleBehavior === 'beg') {
           voxelTargetRot = (Math.random() - 0.5) * 0.4;
           voxelBehaviorTimer = 2.8 + Math.random() * 1.2;
-          spawnEffect('✨', 2);
         } else if (voxelIdleBehavior === 'mark') {
-          // Revier markieren: Bein heben & gelbe Voxel-Pfütze erzeugen, die danach langsam verblasst
           voxelTargetRot = 0;
           voxelCurrentRot = 0;
           voxelBehaviorTimer = 3.2;
           setTimeout(() => {
             if (voxelPeeMesh && voxelPuppyGroup) {
-              const pX = Math.max(-0.85, Math.min(0.85, voxelPuppyGroup.position.x + 0.34));
-              const pZ = Math.max(-0.5, Math.min(1.1, voxelPuppyGroup.position.z + 0.32));
-              voxelPeeMesh.position.set(pX, -0.78, pZ);
-              if (voxelPeeMesh.userData.material) voxelPeeMesh.userData.material.opacity = 0.85;
-              voxelPeeMesh.scale.set(1, 1, 1);
-              voxelPeeMesh.visible = true;
+              // Pfütze in Weltkoordinaten merken
+              voxelWorldPeePos = {
+                x: voxelWorldOffset.x + voxelCurrentPos.x + 0.3,
+                z: voxelWorldOffset.z + voxelCurrentPos.z + 0.3
+              };
               state.hasPee = true;
               voxelPeeTimer = 0;
-              spawnEffect('💧', 2);
             }
           }, 1100);
         } else if (voxelIdleBehavior === 'messy') {
@@ -4430,76 +4556,125 @@ const app = (() => {
 
           voxelCurrentRot += angleDiff * 0.1;
 
-          // Nur vorwärts bewegen, wenn schon grob in Laufrichtung gedreht
-          if (Math.abs(angleDiff) < 0.55) {
-            const step = Math.min(0.020, distToTarget);
-            const nextX = voxelCurrentPos.x + Math.sin(voxelCurrentRot) * step;
-            const nextZ = voxelCurrentPos.z + Math.cos(voxelCurrentRot) * step;
+          if (Math.abs(angleDiff) < 0.6) {
+            const step = Math.min(0.024, distToTarget);
+            const moveX = Math.sin(voxelCurrentRot) * step;
+            const moveZ = Math.cos(voxelCurrentRot) * step;
+            const nextX = voxelCurrentPos.x + moveX;
+            const nextZ = voxelCurrentPos.z + moveZ;
             const nextDist = Math.hypot(nextX, nextZ);
 
-            // Bewegungs-Begrenzung am Display-Rand: Stoppt sofort am Rand (kein Laufen auf der Stelle!)
-            if (nextDist < maxBorderRadius) {
+            // Wenn der Hund über den inneren Radius läuft, verschiebt sich die endlose Welt unter ihm!
+            if (nextDist > maxInnerRadius) {
+              voxelWorldOffset.x += moveX;
+              voxelWorldOffset.z += moveZ;
+              // Hund bleibt optisch sanft zentriert
+              voxelCurrentPos.x = (nextX / nextDist) * maxInnerRadius;
+              voxelCurrentPos.z = (nextZ / nextDist) * maxInnerRadius;
+            } else {
               voxelCurrentPos.x = nextX;
               voxelCurrentPos.z = nextZ;
-            } else {
-              // Exakt am Rand angekommen -> Wander-Bewegung beenden, damit Beine synchron mit dem Stopp anhalten!
-              const clampScale = (maxBorderRadius - 0.01) / Math.max(0.001, nextDist);
-              voxelCurrentPos.x = nextX * clampScale;
-              voxelCurrentPos.z = nextZ * clampScale;
-              voxelTargetPos.x = voxelCurrentPos.x;
-              voxelTargetPos.z = voxelCurrentPos.z;
-              voxelIdleBehavior = 'stand';
-              voxelBehaviorTimer = 1.4; // Kurz ruhig am Rand stehenbleiben, bevor ein neues Ziel gewählt wird
             }
           }
         } else {
-          // Ziel erreicht -> sauber stehenbleiben
           voxelIdleBehavior = 'stand';
         }
       }
     } else if (isPlay) {
-      // Interaktives Spielen: Holly läuft aktiv zum Voxel-Ball und schnappt danach!
-      const goalX = voxelBallPos.x * 0.55;
-      const goalZ = Math.max(-0.5, voxelBallPos.z - 0.45);
-      const dx = goalX - voxelCurrentPos.x;
-      const dz = goalZ - voxelCurrentPos.z;
+      // Interaktives Weitwurf-Spielen: Ball flog ca. 30 Würfel (~2.8 Einheiten) weit in die Landschaft!
+      // Holly rennt mit hoher Geschwindigkeit hinterher, während sich der Boden unter ihr verschiebt!
+      const relBallX = voxelBallWorldPos.x - voxelWorldOffset.x;
+      const relBallZ = voxelBallWorldPos.z - voxelWorldOffset.z;
+      const dx = relBallX - voxelCurrentPos.x;
+      const dz = relBallZ - voxelCurrentPos.z;
       const distToBall = Math.hypot(dx, dz);
 
-      const targetAngle = Math.atan2(voxelBallPos.x - voxelCurrentPos.x, voxelBallPos.z - voxelCurrentPos.z);
+      const targetAngle = Math.atan2(dx, dz);
       let angleDiff = targetAngle - voxelCurrentRot;
       while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
       while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-      voxelCurrentRot += angleDiff * 0.15;
+      voxelCurrentRot += angleDiff * 0.16;
 
-      if (distToBall > 0.08) {
-        const step = Math.min(0.032, distToBall);
-        const nextX = voxelCurrentPos.x + (dx / distToBall) * step;
-        const nextZ = voxelCurrentPos.z + (dz / distToBall) * step;
-        if (Math.hypot(nextX, nextZ) < maxBorderRadius) {
+      if (distToBall > 0.14) {
+        const step = Math.min(0.045, distToBall);
+        const moveX = (dx / distToBall) * step;
+        const moveZ = (dz / distToBall) * step;
+        const nextX = voxelCurrentPos.x + moveX;
+        const nextZ = voxelCurrentPos.z + moveZ;
+        const nextDist = Math.hypot(nextX, nextZ);
+
+        if (nextDist > maxInnerRadius) {
+          voxelWorldOffset.x += moveX;
+          voxelWorldOffset.z += moveZ;
+          voxelCurrentPos.x = (nextX / nextDist) * maxInnerRadius;
+          voxelCurrentPos.z = (nextZ / nextDist) * maxInnerRadius;
+        } else {
           voxelCurrentPos.x = nextX;
           voxelCurrentPos.z = nextZ;
         }
-      } else if (voxelSnapTimer <= 0 && Math.random() < 0.08) {
-        // Am Ball angekommen -> freudig danach schnappen!
-        voxelSnapTimer = 0.35;
+      } else if (voxelSnapTimer <= 0) {
+        voxelSnapTimer = 0.45; // Am Ball angekommen -> freudig schnappen!
       }
+    } else if (isWalk) {
+      // Beim Gassi-Gehen wandert die Landschaft kontinuierlich unter dem Hund durch
+      const walkSpeed = 0.028;
+      voxelWorldOffset.x += Math.sin(time * 0.8) * walkSpeed * 0.4;
+      voxelWorldOffset.z += walkSpeed;
     } else {
-      // Bei Füttern, Schlafen, Gassi: Sanft zur Display-Mitte laufen
+      // Sanftes Auspendeln zur Bildmitte
       const distToCenter = Math.hypot(voxelCurrentPos.x, voxelCurrentPos.z);
       if (distToCenter > 0.06 && !isSleep) {
-        const headingToCenter = Math.atan2(-voxelCurrentPos.x, -voxelCurrentPos.z);
-        let angleDiff = headingToCenter - voxelCurrentRot;
-        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-
-        voxelCurrentRot += angleDiff * 0.12;
-        const step = Math.min(0.026, distToCenter);
-        voxelCurrentPos.x += ( -voxelCurrentPos.x / distToCenter ) * step;
-        voxelCurrentPos.z += ( -voxelCurrentPos.z / distToCenter ) * step;
-      } else if (!isSleep) {
-        voxelCurrentPos.x = 0;
-        voxelCurrentPos.z = 0;
+        voxelCurrentPos.x += ( -voxelCurrentPos.x ) * 0.05;
+        voxelCurrentPos.z += ( -voxelCurrentPos.z ) * 0.05;
       }
+    }
+
+    // ── Endlose Landschafts-Verschiebung (Kacheln & Props im Sichtkreis) ──
+    const tileB = 0.16;
+    if (voxelEnvGroup) {
+      voxelEnvGroup.children.forEach(obj => {
+        if (obj.userData && typeof obj.userData.gridX === 'number') {
+          // Kacheln endlos weitertakten (Tiling Wrapping)
+          const gx = obj.userData.gridX;
+          const gz = obj.userData.gridZ;
+          let lx = (gx * tileB - (voxelWorldOffset.x % tileB));
+          let lz = (gz * tileB - (voxelWorldOffset.z % tileB));
+          obj.position.x = lx;
+          obj.position.z = lz;
+          const dist = Math.hypot(lx, lz);
+          obj.visible = (dist <= 2.45);
+        } else if (obj.userData && typeof obj.userData.worldX === 'number') {
+          // Feste Landschaftsobjekte (Bäume, Felsen, Laternen)
+          const rx = obj.userData.worldX - voxelWorldOffset.x;
+          const rz = obj.userData.worldZ - voxelWorldOffset.z;
+          obj.position.set(rx, 0, rz);
+          const dist = Math.hypot(rx, rz);
+          obj.visible = (dist <= 2.45);
+        }
+      });
+    }
+
+    // ── Häufchen & Pfützen nur im sichtbaren Bereich der endlosen Welt anzeigen ──
+    if (voxelPoopMesh && voxelWorldPoopPos) {
+      const poopRelX = voxelWorldPoopPos.x - voxelWorldOffset.x;
+      const poopRelZ = voxelWorldPoopPos.z - voxelWorldOffset.z;
+      const poopDist = Math.hypot(poopRelX, poopRelZ);
+      voxelPoopMesh.position.set(poopRelX, -0.75, poopRelZ);
+      voxelPoopMesh.visible = (state.hasPoop && poopDist <= 2.2);
+    }
+    if (voxelPeeMesh && voxelWorldPeePos) {
+      const peeRelX = voxelWorldPeePos.x - voxelWorldOffset.x;
+      const peeRelZ = voxelWorldPeePos.z - voxelWorldOffset.z;
+      const peeDist = Math.hypot(peeRelX, peeRelZ);
+      voxelPeeMesh.position.set(peeRelX, -0.78, peeRelZ);
+      voxelPeeMesh.visible = (state.hasPee && peeDist <= 2.2);
+    }
+    if (voxelBallMesh) {
+      const ballRelX = voxelBallWorldPos.x - voxelWorldOffset.x;
+      const ballRelZ = voxelBallWorldPos.z - voxelWorldOffset.z;
+      voxelBallMesh.position.set(ballRelX, -0.56 + Math.abs(Math.sin(time * 11)) * 0.28, ballRelZ);
+      const ballDist = Math.hypot(ballRelX, ballRelZ);
+      voxelBallMesh.visible = (isPlay && ballDist <= 2.45);
     }
 
     // Exakte Messung der tatsächlichen Ortsveränderung in diesem Frame:
@@ -4796,8 +4971,23 @@ const app = (() => {
       voxelHeadGroup.rotation.set(voxelHeadRot.x, voxelHeadRot.y, voxelHeadRot.z);
     }
 
-    // ── Unterkiefer-Animation (Bellen, Fressen, Schnappen beim Ballspiel & ruhige Schlafatmung) ──
+    // ── Unterkiefer-Animation & Gelegentliches Zunge-Herausstrecken ──
     if (voxelJawGroup) {
+      // Zungen-Logik: Zunge hängt nur gelegentlich (alle paar Sekunden für 1.5s) oder beim Hecheln heraus
+      voxelTongueTimer -= delta;
+      if (voxelTongueTimer <= 0) {
+        voxelTongueVisible = !voxelTongueVisible;
+        voxelTongueTimer = voxelTongueVisible ? 1.8 : (3.5 + Math.random() * 4.0);
+      }
+      const tongueObj = voxelJawGroup.getObjectByName('dogTongue');
+      if (tongueObj) {
+        const isPanting = (isJoy || isPlay || voxelTongueVisible) && !isSleep;
+        const targetScale = isPanting ? 1.0 : 0.001;
+        tongueObj.scale.x += (targetScale - tongueObj.scale.x) * 0.25;
+        tongueObj.scale.y += (targetScale - tongueObj.scale.y) * 0.25;
+        tongueObj.scale.z += (targetScale - tongueObj.scale.z) * 0.25;
+      }
+
       if (voxelIdleBehavior === 'bark' || state.mode === 'bark') {
         voxelJawGroup.rotation.x = 0.42 + Math.sin(time * 20) * 0.32;
       } else if (isFeed) {
@@ -5122,6 +5312,9 @@ const app = (() => {
   function init() {
     console.log('[Waveshare ESP32-S3] 🚀 System Booted - 466x466 AMOLED Ready');
     loadGameProgress();
+    if (state.custom && state.custom.species) {
+      applySpeciesNeeds(state.custom.species);
+    }
     updateBars();
     updateMood();
     updateButtons();
