@@ -1461,55 +1461,64 @@
           </div>
 
           <!-- Aussehen-Anpassungsmenü (Circular Modal Overlay) -->
-          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.95); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 20px 22px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
-            <div style="font-size: 12px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 5px;">🎨 AUSSEHEN & WELT</div>
+          <div id="custom-modal-overlay" style="display: none; position: absolute; inset: 0; width: 466px; height: 466px; border-radius: 50%; background: rgba(5, 10, 24, 0.96); backdrop-filter: blur(10px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; padding: 18px 20px; color: #fff; font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;">
+            <div style="font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin-bottom: 3px;">🎨 RASSE, AUSSEHEN & WELT</div>
             
-            <!-- Fellfarbe -->
-            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe</div>
-            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Klassik</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 10px; font-weight: 700; cursor: pointer;">Gold</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 10px; font-weight: 700; cursor: pointer;">Dunkel</button>
-              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 10px; font-weight: 700; cursor: pointer;">Creme</button>
+            <!-- Hunderasse (Sweet Spot 300–600 Würfel) -->
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Hunderasse</div>
+            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+              <button type="button" class="custom-pill custom-breed-btn" data-breed="shiba" onclick="app.setDogCustom('breed','shiba')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ea580c; background: #38bdf8; color: #000; font-size: 9px; font-weight: 700; cursor: pointer;">🦊 Shiba</button>
+              <button type="button" class="custom-pill custom-breed-btn" data-breed="corgi" onclick="app.setDogCustom('breed','corgi')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 9px; font-weight: 700; cursor: pointer;">🍞 Corgi</button>
+              <button type="button" class="custom-pill custom-breed-btn" data-breed="husky" onclick="app.setDogCustom('breed','husky')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #38bdf8; background: #27272a; color: #bae6fd; font-size: 9px; font-weight: 700; cursor: pointer;">🐺 Husky</button>
+              <button type="button" class="custom-pill custom-breed-btn" data-breed="golden" onclick="app.setDogCustom('breed','golden')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #d97706; background: #27272a; color: #fde68a; font-size: 9px; font-weight: 700; cursor: pointer;">🐶 Golden</button>
+            </div>
+
+            <!-- Fellfarbe / Farbvariante -->
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Fellfarbe / Variante</div>
+            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="brown" onclick="app.setDogCustom('fur','brown')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #9e6834; background: #9e6834; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Standard</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="golden" onclick="app.setDogCustom('fur','golden')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #ca8a04; background: #27272a; color: #facc15; font-size: 9px; font-weight: 700; cursor: pointer;">Gold</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="dark" onclick="app.setDogCustom('fur','dark')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #52525b; background: #27272a; color: #a1a1aa; font-size: 9px; font-weight: 700; cursor: pointer;">Dunkel</button>
+              <button type="button" class="custom-pill custom-fur-btn" data-fur="cream" onclick="app.setDogCustom('fur','cream')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #fef08a; background: #27272a; color: #fef08a; font-size: 9px; font-weight: 700; cursor: pointer;">Creme</button>
             </div>
 
             <!-- Halsbandfarbe -->
-            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
-            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Rot</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 10px; font-weight: 700; cursor: pointer;">Blau</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">Rosa</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 10px; font-weight: 700; cursor: pointer;">Grün</button>
-              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 10px; font-weight: 700; cursor: pointer;">Lila</button>
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Halsband</div>
+            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="red" onclick="app.setDogCustom('collar','red')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ef4444; background: #ef4444; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Rot</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="blue" onclick="app.setDogCustom('collar','blue')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #3b82f6; background: #27272a; color: #60a5fa; font-size: 9px; font-weight: 700; cursor: pointer;">Blau</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="pink" onclick="app.setDogCustom('collar','pink')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 9px; font-weight: 700; cursor: pointer;">Rosa</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="green" onclick="app.setDogCustom('collar','green')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #22c55e; background: #27272a; color: #4ade80; font-size: 9px; font-weight: 700; cursor: pointer;">Grün</button>
+              <button type="button" class="custom-pill custom-collar-btn" data-collar="purple" onclick="app.setDogCustom('collar','purple')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #a855f7; background: #27272a; color: #c084fc; font-size: 9px; font-weight: 700; cursor: pointer;">Lila</button>
             </div>
 
             <!-- Accessoire -->
-            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
-            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;">Keins</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 10px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
-              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 3px 9px; border-radius: 12px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 10px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Accessoire</div>
+            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="none" onclick="app.setDogCustom('accessory','none')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #71717a; background: #71717a; color: #fff; font-size: 9px; font-weight: 700; cursor: pointer;">Keins</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="bow" onclick="app.setDogCustom('accessory','bow')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #f472b6; font-size: 9px; font-weight: 700; cursor: pointer;">🎀 Schleife</button>
+              <button type="button" class="custom-pill custom-acc-btn" data-acc="hat" onclick="app.setDogCustom('accessory','hat')" style="padding: 2.5px 8px; border-radius: 10px; border: 1.5px solid #38bdf8; background: #27272a; color: #38bdf8; font-size: 9px; font-weight: 700; cursor: pointer;">🎩 Zylinder</button>
             </div>
 
             <!-- Umgebung / 3D-Bodenwelt -->
-            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px;">Umgebung</div>
-            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
-              <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #22c55e; background: #38bdf8; color: #000; font-size: 9.5px; font-weight: 700; cursor: pointer;">🌿 Wiese</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 9.5px; font-weight: 700; cursor: pointer;">🏖️ Strand</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #ec4899; background: #27272a; color: #fbcfe8; font-size: 9.5px; font-weight: 700; cursor: pointer;">🌸 Sakura</button>
-              <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 3px 8px; border-radius: 12px; border: 1.5px solid #b45309; background: #27272a; color: #fed7aa; font-size: 9.5px; font-weight: 700; cursor: pointer;">🛋️ Zimmer</button>
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Umgebung</div>
+            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+              <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #22c55e; background: #38bdf8; color: #000; font-size: 8.5px; font-weight: 700; cursor: pointer;">🌿 Wiese</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #f59e0b; background: #27272a; color: #fde68a; font-size: 8.5px; font-weight: 700; cursor: pointer;">🏖️ Strand</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #ec4899; background: #27272a; color: #fbcfe8; font-size: 8.5px; font-weight: 700; cursor: pointer;">🌸 Sakura</button>
+              <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 2.5px 7px; border-radius: 10px; border: 1.5px solid #b45309; background: #27272a; color: #fed7aa; font-size: 8.5px; font-weight: 700; cursor: pointer;">🛋️ Zimmer</button>
             </div>
 
-            <!-- Voxel Block-Größe Regler (Nanoblock / Mikrovoxel Stil) -->
-            <div style="font-size: 9px; font-weight: 700; color: #94a3b8; margin-top: 2px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Voxel-Blockgröße: <span id="voxel-size-val" style="color: #38bdf8;">0.095</span></div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span style="font-size: 9px; color: #64748b;">Fein</span>
-              <input type="range" id="voxel-size-slider" min="0.075" max="0.125" step="0.005" value="0.095" oninput="app.setVoxelBlockSize(parseFloat(this.value))" style="width: 120px; accent-color: #38bdf8; cursor: pointer;">
-              <span style="font-size: 9px; color: #64748b;">Groß</span>
+            <!-- Voxel Block-Größe Regler (Sweet Spot 300-600 Würfel) -->
+            <div style="font-size: 8.5px; font-weight: 700; color: #94a3b8; margin-top: 1px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px;">Voxel-Größe: <span id="voxel-size-val" style="color: #38bdf8;">0.095</span></div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+              <span style="font-size: 8.5px; color: #64748b;">Fein</span>
+              <input type="range" id="voxel-size-slider" min="0.075" max="0.125" step="0.005" value="0.095" oninput="app.setVoxelBlockSize(parseFloat(this.value))" style="width: 110px; accent-color: #38bdf8; cursor: pointer;">
+              <span style="font-size: 8.5px; color: #64748b;">Groß</span>
             </div>
 
             <!-- Schließen Button -->
-            <button type="button" onclick="app.closeCustomModal()" style="padding: 5px 22px; border-radius: 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
+            <button type="button" onclick="app.closeCustomModal()" style="padding: 4px 20px; border-radius: 18px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">FERTIG ✓</button>
           </div>
 
           <!-- Action Particles Container -->
@@ -2927,8 +2936,63 @@ const app = (() => {
   let voxelPoopSquatTimer = 0; // Echte Hocker-Pose (Hinterteil tief absenken) vor dem Häufchen!
   let voxelGroundScroll = { x: 0, z: 0 }; // Laufband-Offset für sich bewegenden Boden beim Gassi-Gehen!
 
+  const DOG_BREEDS = {
+    shiba: {
+      id: 'shiba',
+      name: 'Shiba Inu',
+      voxelCount: 468,
+      earType: 'pointy',
+      tailType: 'curl',
+      basePalettes: {
+        brown:  { fur: 0xe07a3c, furDark: 0x9a3412, snout: 0xfff1e0 },
+        golden: { fur: 0xf59e0b, furDark: 0xb45309, snout: 0xffedd5 },
+        dark:   { fur: 0x334155, furDark: 0x1e293b, snout: 0xf1f5f9 },
+        cream:  { fur: 0xffedd5, furDark: 0xc2410c, snout: 0xffffff }
+      }
+    },
+    corgi: {
+      id: 'corgi',
+      name: 'Welsh Corgi',
+      voxelCount: 392,
+      earType: 'large_pointy',
+      tailType: 'stubby',
+      basePalettes: {
+        brown:  { fur: 0xd97706, furDark: 0x92400e, snout: 0xfef3c7 },
+        golden: { fur: 0xf59e0b, furDark: 0xb45309, snout: 0xffffff },
+        dark:   { fur: 0x27272a, furDark: 0x09090b, snout: 0xf4f4f5 },
+        cream:  { fur: 0xfef3c7, furDark: 0xd97706, snout: 0xffffff }
+      }
+    },
+    husky: {
+      id: 'husky',
+      name: 'Siberian Husky',
+      voxelCount: 512,
+      earType: 'pointy',
+      tailType: 'bushy',
+      basePalettes: {
+        brown:  { fur: 0x334155, furDark: 0x1e293b, snout: 0xf8fafc },
+        golden: { fur: 0x78350f, furDark: 0x451a03, snout: 0xfef3c7 },
+        dark:   { fur: 0x18181b, furDark: 0x09090b, snout: 0xffffff },
+        cream:  { fur: 0x94a3b8, furDark: 0x475569, snout: 0xffffff }
+      }
+    },
+    golden: {
+      id: 'golden',
+      name: 'Golden Retriever',
+      voxelCount: 436,
+      earType: 'floppy',
+      tailType: 'upright',
+      basePalettes: {
+        brown:  { fur: 0xd9a05b, furDark: 0x734624, snout: 0xd9a05b },
+        golden: { fur: 0xd97706, furDark: 0x78350f, snout: 0xfde68a },
+        dark:   { fur: 0x3f3f46, furDark: 0x18181b, snout: 0x52525b },
+        cream:  { fur: 0xfde047, furDark: 0xa16207, snout: 0xfef08a }
+      }
+    }
+  };
+
   const DOG_FUR_PALETTES = {
-    brown:  { fur: 0xd9a05b, furDark: 0x734624, snout: 0xd9a05b }, // Helles Beigebraun für Körper, Schnauze & Pfoten + Dunkelbraun für Ohren, Nase, Schwanz & X (exakt wie in den 4 Referenzbildern!)
+    brown:  { fur: 0xd9a05b, furDark: 0x734624, snout: 0xd9a05b }, // Helles Beigebraun
     golden: { fur: 0xd97706, furDark: 0x78350f, snout: 0xfde68a },
     dark:   { fur: 0x3f3f46, furDark: 0x18181b, snout: 0x52525b },
     cream:  { fur: 0xfde047, furDark: 0xa16207, snout: 0xfef08a }
@@ -3197,28 +3261,38 @@ const app = (() => {
     // 4b. Gestaltbare 3D-Voxel-Umgebung aufbauen
     buildVoxelEnvironment((state.custom && state.custom.env) ? state.custom.env : 'meadow');
 
-    // 5. Nanoblock / Mikrovoxel Materialien (Exakt nach den 4 Referenzbildern: Einheitliches helles Beigebraun für Fell & Pfoten, Schokobraune Nase/Ohren/Schwanz/X)
-    const mFur = new THREE.MeshStandardMaterial({ color: 0xd9a05b, roughness: 0.45, metalness: 0.04 });        // Helles Beigebraun (Körper, Kopf, Beine UND Pfoten!)
-    const mFurDark = new THREE.MeshStandardMaterial({ color: 0x734624, roughness: 0.50, metalness: 0.04 });    // Dunkelbraun (Feinstufige Schlappohren & Schwanz)
-    const mSnout = new THREE.MeshStandardMaterial({ color: 0xd9a05b, roughness: 0.44, metalness: 0.03 });      // Schnauze im gleichen warmen Beigebraun
-    const mNose = new THREE.MeshStandardMaterial({ color: 0x422a19, roughness: 0.35, metalness: 0.08 });       // Dunkel-Schokobraune, zweistufige Knopf-Nase (wie in Bild 1-3!)
-    const mPupil = new THREE.MeshStandardMaterial({ color: 0x141416, roughness: 0.25, metalness: 0.15 });      // Tiefschwarze Augen mit kleinem 3D-Relief-Knopf
-    const mCollar = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4, metalness: 0.1 });       // Halsbandfarbe
-    const mMouth = new THREE.MeshStandardMaterial({ color: 0xe64848, roughness: 0.38, metalness: 0.05 });      // Herausgestreckte korallrote Zunge mit Mittelrille
-    const mAnus = new THREE.MeshStandardMaterial({ color: 0x4a2f1d, roughness: 0.55 });                        // Dunkelbraunes Pixel-Kreuz (X) hinten unter der Rute (Bild 4!)
-    const mPoop = new THREE.MeshStandardMaterial({ color: 0x5c3a18, roughness: 0.65 });                        // Voxel-Häufchen Braun
-    const mPoopDark = new THREE.MeshStandardMaterial({ color: 0x3f260d, roughness: 0.7 });                     // Häufchen Schattierung
+    // 5. Voxel Materialien für die gewählte Rasse & Farbe
+    const currentBreed = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
+    const breedInfo = DOG_BREEDS[currentBreed] || DOG_BREEDS.shiba;
+    const furCategory = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
+    const furDef = (breedInfo.basePalettes && breedInfo.basePalettes[furCategory])
+      ? breedInfo.basePalettes[furCategory]
+      : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
+
+    const mFur = new THREE.MeshStandardMaterial({ color: furDef.fur, roughness: 0.45, metalness: 0.04 });
+    const mFurDark = new THREE.MeshStandardMaterial({ color: furDef.furDark, roughness: 0.50, metalness: 0.04 });
+    const mSnout = new THREE.MeshStandardMaterial({ color: furDef.snout, roughness: 0.44, metalness: 0.03 });
+    const mNose = new THREE.MeshStandardMaterial({ color: 0x241812, roughness: 0.35, metalness: 0.08 });
+    // Bei Husky eisblaue Augen, sonst tiefschwarze 2×2 Knopfaugen mit 3D-Stud
+    const eyeColorHex = (currentBreed === 'husky') ? 0x38bdf8 : 0x141416;
+    const mPupil = new THREE.MeshStandardMaterial({ color: eyeColorHex, roughness: 0.25, metalness: (currentBreed === 'husky' ? 0.35 : 0.15) });
+    const collarColorHex = (DOG_COLLAR_COLORS[state.custom.collar]) ? DOG_COLLAR_COLORS[state.custom.collar] : 0xdc2626;
+    const mCollar = new THREE.MeshStandardMaterial({ color: collarColorHex, roughness: 0.4, metalness: 0.1 });
+    const mMouth = new THREE.MeshStandardMaterial({ color: 0xe64848, roughness: 0.38, metalness: 0.05 });
+    const mAnus = new THREE.MeshStandardMaterial({ color: 0x4a2f1d, roughness: 0.55 });
+    const mPoop = new THREE.MeshStandardMaterial({ color: 0x5c3a18, roughness: 0.65 });
+    const mPoopDark = new THREE.MeshStandardMaterial({ color: 0x3f260d, roughness: 0.7 });
 
     mFurMat = mFur;
     mFurDarkMat = mFurDark;
     mSnoutMat = mSnout;
     mCollarMat = mCollar;
 
-    // NANOBLOCK / MIKROVOXEL GEOMETRIE (Exakt nach den 4 Referenzbildern: Sitzend, Stehend, Rückansicht):
+    // NANOBLOCK / SWEET SPOT VOXEL GEOMETRIE (300 bis 600 Blöcke):
     const B = VOXEL_BLOCK_SIZE; // Standard: 0.095
     const sharedVoxelGeo = new THREE.BoxGeometry(B * 1.004, B * 1.004, B * 1.004);
     const sharedEdgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(B * 1.002, B * 1.002, B * 1.002));
-    const microSeamMat = new THREE.LineBasicMaterial({ color: 0x5c3a18, transparent: true, opacity: 0.12 });
+    const microSeamMat = new THREE.LineBasicMaterial({ color: 0x3a2211, transparent: true, opacity: 0.14 });
     let totalDogVoxels = 0;
 
     function addVoxel(gx, gy, gz, mat, parentGroup, sx = 1, sy = 1, sz = 1, withSeam = true) {
@@ -3237,100 +3311,121 @@ const app = (() => {
       return mesh;
     }
 
-    // 6. Nanoblock-Welpe aufbauen (Mit echter Nanoblock-Geometrie für Stehen UND Sitzen!)
+    // 6. Sweet Spot Voxel-Hund aufbauen (Shiba Inu, Welsh Corgi, Siberian Husky, Golden Retriever)
     voxelPuppyGroup = new THREE.Group();
     voxelScene.add(voxelPuppyGroup);
 
-    // ── A. Rumpf im STEHEN (Bild 2, 3 & 4: Waagerechter Rücken, feine Mikro-Fasen hinten & dunkelbraunes Pixel-'X' am Po!) ──
+    // Rassen-spezifische Rumpf-Maße & Proportionen (Chibi-Lego Sweet Spot)
+    const isCorgi = (currentBreed === 'corgi');
+    const isHusky = (currentBreed === 'husky');
+    const isGolden = (currentBreed === 'golden');
+    const isShiba = (currentBreed === 'shiba');
+
+    // ── A. Rumpf im STEHEN ──
     voxelBodyStandGroup = new THREE.Group();
     voxelPuppyGroup.add(voxelBodyStandGroup);
 
+    const bodyLenMin = isCorgi ? -4.5 : -4.0;
+    const bodyLenMax = isCorgi ? 3.5 : 3.0;
+
     for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
       for (let iy = -1.0; iy <= 2.0; iy += 1.0) {
-        for (let iz = -4.0; iz <= 3.0; iz += 1.0) {
-          // Obere Rücken-Abstufung hinten (wie in Bild 4: die oberste Schicht iy = 2 ist 4 Blöcke breit -1.5..1.5)
+        for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
           if (iy === 2.0 && Math.abs(ix) === 2.5 && iz <= 1.0) continue;
-          const isOuter = (Math.abs(ix) >= 1.5 || iy === -1.0 || iy === 2.0 || iz === -4.0 || iz === 3.0);
+          const isOuter = (Math.abs(ix) >= 1.5 || iy === -1.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax);
           if (!isOuter) continue;
-          addVoxel(ix, iy, iz, mFur, voxelBodyStandGroup);
+          // Bauchlatz weiß bei Shiba, Corgi & Husky
+          const isBelly = (iy <= 0.0 && Math.abs(ix) <= 1.5 && iz >= 0.5) || (iy === -1.0 && Math.abs(ix) <= 0.5);
+          const blockMat = isBelly ? mSnout : mFur;
+          addVoxel(ix, iy, iz, blockMat, voxelBodyStandGroup);
         }
       }
     }
-    // Vorne tiefere Brust-Schicht (iy = -2.0 bei iz = 1.0..3.0), damit die Brust wie in Bild 2 & 3 kräftig zwischen den Vorderbeinen sitzt
+    // Kräftige Vorderbrust
     for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
-      for (let iz = 1.0; iz <= 3.0; iz += 1.0) {
-        addVoxel(ix, -2.0, iz, mFur, voxelBodyStandGroup);
+      for (let iz = 1.0; iz <= bodyLenMax; iz += 1.0) {
+        const isBelly = Math.abs(ix) <= 0.5;
+        addVoxel(ix, -2.0, iz, isBelly ? mSnout : mFur, voxelBodyStandGroup);
       }
     }
-    // Feine Mikro-Treppenstufen an den hinteren oberen Hüftkanten (exakt wie in der Rückansicht Bild 4!)
+    // Oberschenkel-Fasen hinten
     for (let step = 0; step < 3; step++) {
       addVoxel(-2.15 - step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
       addVoxel(2.15 + step * 0.12, 1.85 - step * 0.25, -2.5, mFur, voxelBodyStandGroup, 0.35, 0.35, 2.8, false);
     }
-    // Charakteristisches dunkelbraunes Pixel-Kreuz ('X') hinten am Po unter der Rute (exakt wie in Bild 4!)
+    // Po-Kreuz ('X')
     const xOffsets = [
       [0, 0],
       [-1, 1], [-2, 2], [1, 1], [2, 2],
       [-1, -1], [-2, -2], [1, -1], [2, -2]
     ];
     xOffsets.forEach(([ox, oy]) => {
-      addVoxel(ox * 0.22, 0.15 + oy * 0.22, -4.52, mAnus, voxelBodyStandGroup, 0.24, 0.24, 0.18, false);
+      addVoxel(ox * 0.22, 0.15 + oy * 0.22, bodyLenMin - 0.52, mAnus, voxelBodyStandGroup, 0.24, 0.24, 0.18, false);
     });
 
-    // ── B. Rumpf im SITZEN (Bild 1: Charakteristischer, diagonal nach hinten-unten gestufter Rücken, OHNE den Hund nach vorne zu kippen!) ──
+    // ── B. Rumpf im SITZEN (Diagonale Treppe nach hinten-unten zum Boden) ──
     voxelBodySitGroup = new THREE.Group();
     voxelBodySitGroup.visible = false;
     voxelPuppyGroup.add(voxelBodySitGroup);
 
     for (let ix = -2.5; ix <= 2.5; ix += 1.0) {
       for (let iy = -4.0; iy <= 2.0; iy += 1.0) {
-        for (let iz = -4.0; iz <= 3.0; iz += 1.0) {
-          // Diagonale Treppenstufen des Rückens beim Sitzen (exakt wie in Bild 1: vorne unter dem Kopf hoch, nach hinten zum Boden abfallend!)
+        for (let iz = bodyLenMin; iz <= bodyLenMax; iz += 1.0) {
           if (iy === 2.0 && iz < 0.0) continue;
           if (iy === 1.0 && iz < -1.0) continue;
           if (iy === 0.0 && iz < -2.0) continue;
           if (iy === -1.0 && iz < -3.0) continue;
-          // Seitliche Brustkante oben leicht gestuft
           if (Math.abs(ix) === 2.5 && iy === 2.0) continue;
-          if (Math.abs(ix) === 2.5 && iz === 3.0 && iy <= 0.0) continue;
-          // Bauch zwischen den Vorderbeinen leicht nach innen versetzt (wie der Schattenbereich zwischen den Vorderbeinen in Bild 1!)
-          if (iz === 3.0 && iy <= -2.0 && Math.abs(ix) <= 1.5) continue;
+          if (Math.abs(ix) === 2.5 && iz === bodyLenMax && iy <= 0.0) continue;
+          if (iz === bodyLenMax && iy <= -2.0 && Math.abs(ix) <= 1.5) continue;
 
           const isOuterSit = (
-            Math.abs(ix) >= 1.5 || iy === -4.0 || iy === 2.0 || iz === -4.0 || iz === 3.0 || (iy >= -1.0 && iz <= 0.0)
+            Math.abs(ix) >= 1.5 || iy === -4.0 || iy === 2.0 || iz === bodyLenMin || iz === bodyLenMax || (iy >= -1.0 && iz <= 0.0)
           );
           if (!isOuterSit) continue;
-          addVoxel(ix, iy, iz, mFur, voxelBodySitGroup);
+          const isBellySit = (iz >= 0.5 && Math.abs(ix) <= 1.5 && iy <= 1.0);
+          addVoxel(ix, iy, iz, isBellySit ? mSnout : mFur, voxelBodySitGroup);
         }
       }
     }
 
-    // Befestigungsanker für die Voxel-Leine OBEN auf dem Nacken/Rücken
+    // Leinen-Befestigungsanker
     voxelCollarAnchor = new THREE.Object3D();
     voxelCollarAnchor.position.set(0, 3.0 * B, 1.5 * B);
     voxelPuppyGroup.add(voxelCollarAnchor);
 
-    // ── Großer, gestufter Nanoblock-Kopf (Breite: 8 Blöcke -3.5..3.5, Höhe: 7 Blöcke -2..4, Tiefe: 6 Blöcke -2..3) ──
+    // ── Voxel-Kopf (Harmonische 7×7×6 Struktur) ──
     voxelHeadGroup = new THREE.Group();
     voxelHeadGroup.position.set(0, 4.8 * B, 1.2 * B);
 
     for (let ix = -3.5; ix <= 3.5; ix += 1.0) {
       for (let iy = -2.0; iy <= 4.0; iy += 1.0) {
         for (let iz = -2.0; iz <= 3.0; iz += 1.0) {
-          // Obere Scheitel-Abstufung (6 Blöcke breit -2.5..2.5, wie in Bild 1-4!)
           if (iy === 4.0 && (Math.abs(ix) === 3.5 || iz === 3.0 || iz === -2.0)) continue;
           if (Math.abs(ix) === 3.5 && (iz === -2.0 || iz === 3.0)) continue;
           if (iy === -2.0 && Math.abs(ix) === 3.5) continue;
 
           const isSurface = (Math.abs(ix) >= 2.5 || iy === -2.0 || iy >= 3.0 || iz === -2.0 || iz >= 2.0);
           if (!isSurface) continue;
-          addVoxel(ix, iy, iz, mFur, voxelHeadGroup);
+
+          // Weiße Blesse / Maske:
+          // Corgi: Weiße Blesse mittig auf der Stirn (ix === 0 oder -0.5..0.5)
+          // Husky: Weiße Maske um Augen & Stirn
+          // Shiba: Weiße Backen unten (-2.0 <= iy <= 0)
+          let headMat = mFur;
+          if (isCorgi && Math.abs(ix) <= 0.5 && iz >= 1.5) {
+            headMat = mSnout;
+          } else if (isHusky && (Math.abs(ix) <= 1.5 && iy >= 2.0 && iz >= 1.5 || (iy <= 0.0 && iz >= 1.5))) {
+            headMat = mSnout;
+          } else if (isShiba && iy <= 0.0 && Math.abs(ix) >= 1.5 && iz >= 1.5) {
+            headMat = mSnout;
+          }
+          addVoxel(ix, iy, iz, headMat, voxelHeadGroup);
         }
       }
     }
 
-    // ── Schwarze, quadratische 2×2-Augen mit kleinem hervorgehobenem 3D-Relief-Stein unten (exakt wie in Bild 1-3!) ──
-    // Das Blinzeln skaliert eyeLGroup / eyeRGroup weich auf der Y-Achse zusammen!
+    // ── Augen (Schwarz oder Husky-Eisblau) ──
     eyeLGroup = new THREE.Group();
     eyeLGroup.position.set(-2.0 * B, 1.35 * B, 3.12 * B);
     for (let ex = -0.5; ex <= 0.5; ex += 1.0) {
@@ -3338,7 +3433,6 @@ const app = (() => {
         addVoxel(ex, ey, 0, mPupil, eyeLGroup, 0.96, 0.96, 0.45, false);
       }
     }
-    // Kleiner vorstehender 3D-Knopfstein im unteren Drittel des Auges (wie auf den Fotos!)
     addVoxel(0, -0.25, 0.28, mPupil, eyeLGroup, 1.1, 0.65, 0.35, false);
     voxelHeadGroup.add(eyeLGroup);
 
@@ -3352,7 +3446,7 @@ const app = (() => {
     addVoxel(0, -0.25, 0.28, mPupil, eyeRGroup, 1.1, 0.65, 0.35, false);
     voxelHeadGroup.add(eyeRGroup);
 
-    // ── Schnauzen-Vorbau (4×2×2 Blöcke + oberer Nasenrücken) + zweistufige schokobraune Knopf-Nase (Bild 1-3!) ──
+    // ── Schnauze & zweistufige Knopf-Nase ──
     for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
       for (let iy = -1.0; iy <= 0.0; iy += 1.0) {
         for (let iz = 4.0; iz <= 5.0; iz += 1.0) {
@@ -3360,70 +3454,109 @@ const app = (() => {
         }
       }
     }
-    // Sanfte Nasenrücken-Stufe zwischen den Augen (2 Blöcke breit)
     addVoxel(-0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
     addVoxel(0.5, 0.5, 3.8, mSnout, voxelHeadGroup, 1.0, 0.5, 1.4, false);
 
-    // Dunkel-schokobraune Knopf-Nase mit feiner oberer Abstufung (exakt wie in Bild 1-3!)
     addVoxel(0, 0.15, 5.25, mNose, voxelHeadGroup, 1.85, 1.15, 0.9, false);
     addVoxel(0, 0.55, 5.05, mNose, voxelHeadGroup, 1.55, 0.45, 0.85, false);
 
-    // ── Beweglicher Unterkiefer + korallrote Zunge mit vertikaler Mittelrille & abgerundeter Spitze (Bild 1-3!) ──
+    // ── Unterkiefer & korallrote Zunge mit Rille ──
     voxelJawGroup = new THREE.Group();
     voxelJawGroup.position.set(0, -1.5 * B, 3.5 * B);
     for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
-      addVoxel(ix, -0.35, 0.5, mFur, voxelJawGroup);
+      addVoxel(ix, -0.35, 0.5, mSnout, voxelJawGroup);
     }
-    // Herausgestreckte Zunge aus linken & rechten Blöcken (mit feiner vertikaler Mittelrille und abgerundeter Unterkante!)
     addVoxel(-0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
     addVoxel(0.48, -0.35, 1.35, mMouth, voxelJawGroup, 0.90, 0.95, 0.45, false);
     addVoxel(-0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
     addVoxel(0.48, -1.05, 1.35, mMouth, voxelJawGroup, 0.90, 0.75, 0.45, false);
-    // Untere gestufte Zungenspitze
     addVoxel(-0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
     addVoxel(0.35, -1.48, 1.32, mMouth, voxelJawGroup, 0.65, 0.35, 0.40, false);
     voxelHeadGroup.add(voxelJawGroup);
 
-    // ── Dunkelbraune Schlappohren mit den charakteristischen feinen Mikro-Treppenstufen auf der Schräge (Bild 1-4!) ──
+    // ── Rassen-spezifische Ohren (Stehohren für Shiba & Husky, riesige Fledermausohren für Corgi, Schlappohren für Golden) ──
     voxelEarLGroup = new THREE.Group();
-    voxelEarLGroup.position.set(-3.5 * B, 3.5 * B, 0.5 * B);
-    for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
-      // Obere Ohrkappe auf dem Kopf
-      addVoxel(0.5, 0.5, iz, mFurDark, voxelEarLGroup);
-      addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarLGroup);
-      // Langer herabhängender Ohrlappen (3 große Blöcke untereinander)
-      for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
-        addVoxel(-1.5, ey, iz, mFurDark, voxelEarLGroup);
-        addVoxel(-2.4, ey - 0.5, iz, mFurDark, voxelEarLGroup);
-      }
-      // Untere Ohrspitze leicht gestuft
-      addVoxel(-1.6, -4.35, iz, mFurDark, voxelEarLGroup, 1.2, 0.5, 0.95, false);
-    }
-    // Feine 10-stufige Mikro-Treppe entlang der oberen äußeren Ohr-Schräge (exakt wie auf den Fotos!)
-    for (let s = 0; s < 9; s++) {
-      addVoxel(-0.75 - s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarLGroup, 0.45, 0.28, 2.95, false);
-    }
-    voxelEarLGroup.rotation.z = 0.06;
-    voxelHeadGroup.add(voxelEarLGroup);
-
     voxelEarRGroup = new THREE.Group();
-    voxelEarRGroup.position.set(3.5 * B, 3.5 * B, 0.5 * B);
-    for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
-      addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarRGroup);
-      addVoxel(0.5, 0.5, iz, mFurDark, voxelEarRGroup);
-      for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
-        addVoxel(1.5, ey, iz, mFurDark, voxelEarRGroup);
-        addVoxel(2.4, ey - 0.5, iz, mFurDark, voxelEarRGroup);
+
+    if (breedInfo.earType === 'pointy') {
+      // 🦊 Shiba / 🐺 Husky: Aufrecht spitze Stehohren (Dreiecks-Treppen)
+      voxelEarLGroup.position.set(-2.5 * B, 4.2 * B, 0.5 * B);
+      voxelEarRGroup.position.set(2.5 * B, 4.2 * B, 0.5 * B);
+
+      // Linkes Ohr
+      addVoxel(0, 0.5, 0, mFurDark, voxelEarLGroup, 1.8, 1.0, 1.6);
+      addVoxel(-0.3, 1.4, 0, mFurDark, voxelEarLGroup, 1.4, 1.0, 1.4);
+      addVoxel(-0.5, 2.3, 0, mFurDark, voxelEarLGroup, 0.9, 0.9, 1.0);
+      addVoxel(0.3, 0.8, 0.35, mSnout, voxelEarLGroup, 0.8, 1.2, 0.4, false); // Ohrinnenfell
+
+      // Rechtes Ohr
+      addVoxel(0, 0.5, 0, mFurDark, voxelEarRGroup, 1.8, 1.0, 1.6);
+      addVoxel(0.3, 1.4, 0, mFurDark, voxelEarRGroup, 1.4, 1.0, 1.4);
+      addVoxel(0.5, 2.3, 0, mFurDark, voxelEarRGroup, 0.9, 0.9, 1.0);
+      addVoxel(-0.3, 0.8, 0.35, mSnout, voxelEarRGroup, 0.8, 1.2, 0.4, false);
+
+      voxelEarLGroup.rotation.set(0.12, 0, 0.18);
+      voxelEarRGroup.rotation.set(0.12, 0, -0.18);
+    } else if (breedInfo.earType === 'large_pointy') {
+      // 🍞 Corgi: Große breite Fledermaus-Stehohren
+      voxelEarLGroup.position.set(-3.0 * B, 4.0 * B, 0.5 * B);
+      voxelEarRGroup.position.set(3.0 * B, 4.0 * B, 0.5 * B);
+
+      // Linkes großes Fledermausohr
+      addVoxel(0, 0.6, 0, mFurDark, voxelEarLGroup, 2.2, 1.1, 1.5);
+      addVoxel(-0.4, 1.6, 0, mFurDark, voxelEarLGroup, 2.0, 1.1, 1.3);
+      addVoxel(-0.8, 2.6, 0, mFurDark, voxelEarLGroup, 1.6, 1.0, 1.1);
+      addVoxel(-1.1, 3.4, 0, mFurDark, voxelEarLGroup, 1.0, 0.8, 0.9);
+      addVoxel(0.2, 1.3, 0.35, mSnout, voxelEarLGroup, 1.2, 1.8, 0.4, false);
+
+      // Rechtes großes Fledermausohr
+      addVoxel(0, 0.6, 0, mFurDark, voxelEarRGroup, 2.2, 1.1, 1.5);
+      addVoxel(0.4, 1.6, 0, mFurDark, voxelEarRGroup, 2.0, 1.1, 1.3);
+      addVoxel(0.8, 2.6, 0, mFurDark, voxelEarRGroup, 1.6, 1.0, 1.1);
+      addVoxel(1.1, 3.4, 0, mFurDark, voxelEarRGroup, 1.0, 0.8, 0.9);
+      addVoxel(-0.2, 1.3, 0.35, mSnout, voxelEarRGroup, 1.2, 1.8, 0.4, false);
+
+      voxelEarLGroup.rotation.set(0.15, 0, 0.28);
+      voxelEarRGroup.rotation.set(0.15, 0, -0.28);
+    } else {
+      // 🐶 Golden Retriever: Treppenförmig herabfallende Schlappohren
+      voxelEarLGroup.position.set(-3.5 * B, 3.5 * B, 0.5 * B);
+      voxelEarRGroup.position.set(3.5 * B, 3.5 * B, 0.5 * B);
+
+      for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
+        addVoxel(0.5, 0.5, iz, mFurDark, voxelEarLGroup);
+        addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarLGroup);
+        for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
+          addVoxel(-1.5, ey, iz, mFurDark, voxelEarLGroup);
+          addVoxel(-2.4, ey - 0.5, iz, mFurDark, voxelEarLGroup);
+        }
+        addVoxel(-1.6, -4.35, iz, mFurDark, voxelEarLGroup, 1.2, 0.5, 0.95, false);
       }
-      addVoxel(1.6, -4.35, iz, mFurDark, voxelEarRGroup, 1.2, 0.5, 0.95, false);
+      for (let s = 0; s < 9; s++) {
+        addVoxel(-0.75 - s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarLGroup, 0.45, 0.28, 2.95, false);
+      }
+
+      for (let iz = -1.0; iz <= 1.0; iz += 1.0) {
+        addVoxel(-0.5, 0.5, iz, mFurDark, voxelEarRGroup);
+        addVoxel(0.5, 0.5, iz, mFurDark, voxelEarRGroup);
+        for (let ey = -3.5; ey <= -0.5; ey += 1.0) {
+          addVoxel(1.5, ey, iz, mFurDark, voxelEarRGroup);
+          addVoxel(2.4, ey - 0.5, iz, mFurDark, voxelEarRGroup);
+        }
+        addVoxel(1.6, -4.35, iz, mFurDark, voxelEarRGroup, 1.2, 0.5, 0.95, false);
+      }
+      for (let s = 0; s < 9; s++) {
+        addVoxel(0.75 + s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarRGroup, 0.45, 0.28, 2.95, false);
+      }
+
+      voxelEarLGroup.rotation.z = 0.06;
+      voxelEarRGroup.rotation.z = -0.06;
     }
-    for (let s = 0; s < 9; s++) {
-      addVoxel(0.75 + s * 0.22, 0.65 - s * 0.22, 0, mFurDark, voxelEarRGroup, 0.45, 0.28, 2.95, false);
-    }
-    voxelEarRGroup.rotation.z = -0.06;
+
+    voxelHeadGroup.add(voxelEarLGroup);
     voxelHeadGroup.add(voxelEarRGroup);
 
-    // ── 3D Accessoires (Rosa Voxel-Schleife & Voxel-Zylinder) ──
+    // Accessoires
     voxelBowMesh = new THREE.Group();
     const bowMat = new THREE.MeshStandardMaterial({ color: 0xec4899, roughness: 0.4 });
     const bowKnot = new THREE.Mesh(new THREE.BoxGeometry(B * 1.2, B * 1.2, B * 1.0), bowMat);
@@ -3452,7 +3585,6 @@ const app = (() => {
     voxelHatMesh.visible = false;
     voxelHeadGroup.add(voxelHatMesh);
 
-    // ── Gestohlener UI-Knopf in der Schnauze (bei Unordnung sichtbar) ──
     const stolenItemGeo = new THREE.BoxGeometry(B * 2.4, B * 0.8, B * 2.4);
     const mStolen = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 });
     stolenItemMesh = new THREE.Mesh(stolenItemGeo, mStolen);
@@ -3462,11 +3594,13 @@ const app = (() => {
 
     voxelPuppyGroup.add(voxelHeadGroup);
 
-    // ── 4 Beine & Pfötchen in GLEICHEM HELLEN BEIGEBRAUN wie der Körper, mit feiner Pfötchen-Abstufung (Bild 1-4!) ──
+    // ── 4 Beine (Beim Corgi kurze 2×2 Stummelbeine, sonst schlankere Stützen) ──
+    const legThick = isCorgi ? 1.0 : 0.5;
+    const legPawMat = (isShiba || isCorgi || isHusky) ? mSnout : mFur;
+
     function createStandingLeg(x, y, z, isFront) {
       const legGroup = new THREE.Group();
       legGroup.position.set(x, y, z);
-      // Beinsäule (2×4×2 Blöcke in hellem Beigebraun mFur!)
       const topY = isFront ? 1 : 0;
       for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
         for (let iy = -3; iy <= topY; iy += 1.0) {
@@ -3475,40 +3609,38 @@ const app = (() => {
           }
         }
       }
-      // Beim Hinterbein im Stehen: Feine horizontale Oberschenkel-Abstufung oben vorne (wie in Bild 2 & 3!)
       if (!isFront) {
         for (let s = 0; s < 4; s++) {
           addVoxel(0, -0.2 - s * 0.25, 0.6 + (3 - s) * 0.22, mFur, legGroup, 1.95, 0.28, 0.65, false);
         }
       }
-      // Pfötchen-Basis unten in hellem Beigebraun mFur (NICHT dunkelbraun!) + kleine obere Pfötchen-Stufe!
       for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
         for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
-          addVoxel(ix, -4.0, iz, mFur, legGroup); // Gleiche helle Fellfarbe wie in allen 4 Bildern!
+          addVoxel(ix, -4.0, iz, legPawMat, legGroup);
         }
       }
-      // Feine Pfötchen-Oberstufe (Manschette über den Zehen wie in Bild 1-4)
-      addVoxel(0, -3.35, 0.45, mFur, legGroup, 2.15, 0.35, 2.35, false);
+      addVoxel(0, -3.35, 0.45, legPawMat, legGroup, 2.15, 0.35, 2.35, false);
       return legGroup;
     }
 
-    voxelLegFL = createStandingLeg(-2.0 * B, -1.2 * B, 2.2 * B, true);
+    const legZFront = isCorgi ? 2.5 * B : 2.2 * B;
+    const legZBack = isCorgi ? -2.9 * B : -2.6 * B;
+
+    voxelLegFL = createStandingLeg(-2.0 * B, -1.2 * B, legZFront, true);
     voxelPuppyGroup.add(voxelLegFL);
 
-    voxelLegFR = createStandingLeg(2.0 * B, -1.2 * B, 2.2 * B, true);
+    voxelLegFR = createStandingLeg(2.0 * B, -1.2 * B, legZFront, true);
     voxelPuppyGroup.add(voxelLegFR);
 
-    voxelLegBL = createStandingLeg(-2.0 * B, -1.2 * B, -2.6 * B, false);
+    voxelLegBL = createStandingLeg(-2.0 * B, -1.2 * B, legZBack, false);
     voxelPuppyGroup.add(voxelLegBL);
 
-    voxelLegBR = createStandingLeg(2.0 * B, -1.2 * B, -2.6 * B, false);
+    voxelLegBR = createStandingLeg(2.0 * B, -1.2 * B, legZBack, false);
     voxelPuppyGroup.add(voxelLegBR);
 
-    // ── Spezielle, kompakt angewinkelte Hinterbeine für das KORREKTE SITZEN (Exakt wie in Bild 1!) ──
     function createSittingHindLeg(x) {
       const sitLeg = new THREE.Group();
       sitLeg.position.set(x, -1.2 * B, -1.2 * B);
-      // Seitlich am Rumpf anliegender, 2×2 Blöcke hoher Schenkel + darunterliegendes beigefarbenes Pfötchen
       for (let ix = -0.5; ix <= 0.5; ix += 1.0) {
         for (let iy = -3.0; iy <= -1.0; iy += 1.0) {
           for (let iz = -0.5; iz <= 0.5; iz += 1.0) {
@@ -3516,10 +3648,10 @@ const app = (() => {
           }
         }
         for (let iz = -0.5; iz <= 1.5; iz += 1.0) {
-          addVoxel(ix, -4.0, iz, mFur, sitLeg);
+          addVoxel(ix, -4.0, iz, legPawMat, sitLeg);
         }
       }
-      addVoxel(0, -3.35, 0.45, mFur, sitLeg, 2.15, 0.35, 2.35, false);
+      addVoxel(0, -3.35, 0.45, legPawMat, sitLeg, 2.15, 0.35, 2.35, false);
       sitLeg.visible = false;
       return sitLeg;
     }
@@ -3528,17 +3660,43 @@ const app = (() => {
     voxelPuppyGroup.add(voxelLegBLSit);
     voxelPuppyGroup.add(voxelLegBRSit);
 
-    // ── Kurzer, hochstehender dunkelbrauner Schwanz mit feinen Mikro-Stufen auf der Innenseite (Bild 1-4!) ──
+    // ── Rute (Shiba Ringelrute, Corgi Stummel, Husky Busch-Rute, Golden Aufrecht) ──
     voxelTailGroup = new THREE.Group();
-    voxelTailGroup.position.set(0, 0.2 * B, -4.2 * B);
-    for (let s = 0; s < 10; s++) {
-      const ty = s * 0.35;
-      const tz = -0.3 - Math.min(1.2, s * 0.18);
-      addVoxel(0, ty, tz, mFurDark, voxelTailGroup, 1.15, 0.42, 1.15, false);
+    const tailBaseZ = isCorgi ? -4.7 * B : -4.2 * B;
+    voxelTailGroup.position.set(0, 0.2 * B, tailBaseZ);
+
+    if (breedInfo.tailType === 'curl') {
+      // 🦊 Shiba Inu: Typische 3D-Ringelrute über den Rücken gerollt!
+      addVoxel(0, 0.6, 0.2, mFur, voxelTailGroup, 1.4, 1.0, 1.2);
+      addVoxel(0.2, 1.5, 0.5, mFur, voxelTailGroup, 1.3, 1.0, 1.2);
+      addVoxel(0.3, 2.3, 0.9, mFur, voxelTailGroup, 1.2, 1.0, 1.2);
+      addVoxel(0.1, 2.9, 1.3, mSnout, voxelTailGroup, 1.1, 0.9, 1.1); // Weiße Rutenquaste
+      addVoxel(-0.2, 2.6, 1.6, mSnout, voxelTailGroup, 0.9, 0.8, 1.0);
+    } else if (breedInfo.tailType === 'stubby') {
+      // 🍞 Corgi: Kleiner, knuffiger Stummelschwanz
+      addVoxel(0, 0.4, -0.4, mSnout, voxelTailGroup, 1.3, 1.1, 1.3);
+      addVoxel(0, 0.8, -0.7, mFur, voxelTailGroup, 1.0, 0.9, 1.0);
+    } else if (breedInfo.tailType === 'bushy') {
+      // 🐺 Husky: Buschige, aufrecht geschwungene Fuchsrute mit weißer Spitze
+      for (let s = 0; s < 7; s++) {
+        const ty = s * 0.48;
+        const tz = -0.2 - s * 0.25;
+        const col = (s >= 5) ? mSnout : mFurDark;
+        addVoxel(0, ty, tz, col, voxelTailGroup, 1.4, 0.55, 1.4, false);
+      }
+      addVoxel(0, 3.5, -1.8, mSnout, voxelTailGroup, 1.1, 0.7, 1.1, false);
+    } else {
+      // 🐶 Golden Retriever: Aufrecht nach oben geschwungen
+      for (let s = 0; s < 10; s++) {
+        const ty = s * 0.35;
+        const tz = -0.3 - Math.min(1.2, s * 0.18);
+        addVoxel(0, ty, tz, mFurDark, voxelTailGroup, 1.15, 0.42, 1.15, false);
+      }
+      addVoxel(0, 3.6, -1.5, mFurDark, voxelTailGroup, 1.15, 0.85, 1.05, false);
     }
-    // Obere glatte Schwanzspitze
-    addVoxel(0, 3.6, -1.5, mFurDark, voxelTailGroup, 1.15, 0.85, 1.05, false);
     voxelPuppyGroup.add(voxelTailGroup);
+
+    console.log(`[Tamaholly 3D Voxel Pet] Rasse "${breedInfo.name}" aufgebaut: ~${totalDogVoxels} Würfel (Sweet Spot 300-600)`);
 
     console.log(`[Tamaholly 3D Nanoblock Voxel] Nanoblock-Welpe (Stehen & Sitzen) erstellt: ${totalDogVoxels} Blöcke (${totalDogVoxels * 12} Dreiecke, Blockgröße=${B})`);
 
@@ -3798,7 +3956,12 @@ const app = (() => {
 
   function applyDogCustomization() {
     if (!voxelPuppyGroup) return;
-    const fur = DOG_FUR_PALETTES[state.custom.fur] || DOG_FUR_PALETTES.brown;
+    const currentBreedKey = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
+    const breedConfig = DOG_BREEDS[currentBreedKey] || DOG_BREEDS.shiba;
+    const furCategory = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
+    const fur = (breedConfig.basePalettes && breedConfig.basePalettes[furCategory])
+      ? breedConfig.basePalettes[furCategory]
+      : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
     const collarCol = DOG_COLLAR_COLORS[state.custom.collar] || DOG_COLLAR_COLORS.red;
     const envName = state.custom.env || 'meadow';
 
@@ -3815,8 +3978,13 @@ const app = (() => {
     buildVoxelEnvironment(envName);
 
     // UI Pills im Anpassungsmenü synchronisieren
+    document.querySelectorAll('.custom-breed-btn').forEach(b => {
+      const active = b.dataset.breed === currentBreedKey;
+      b.style.background = active ? '#38bdf8' : '#27272a';
+      b.style.color = active ? '#000' : '#fff';
+    });
     document.querySelectorAll('.custom-fur-btn').forEach(b => {
-      const active = b.dataset.fur === state.custom.fur;
+      const active = b.dataset.fur === furCategory;
       b.style.background = active ? '#38bdf8' : '#27272a';
       b.style.color = active ? '#000' : '#fff';
     });
@@ -3838,9 +4006,15 @@ const app = (() => {
   }
 
   function setDogCustom(category, value) {
-    if (!state.custom) state.custom = { fur: 'brown', collar: 'red', accessory: 'none', env: 'meadow' };
+    if (!state.custom) state.custom = { breed: 'shiba', fur: 'brown', collar: 'red', accessory: 'none', env: 'meadow' };
+    const prevBreed = state.custom.breed;
     state.custom[category] = value;
-    applyDogCustomization();
+    if (category === 'breed' && prevBreed !== value) {
+      // Wenn Rasse gewechselt wurde, 3D-Voxelmodell im Sweet Spot neu generieren
+      initVoxelPet();
+    } else {
+      applyDogCustomization();
+    }
     saveGameProgress();
     spawnEffect('✨', 3);
   }
