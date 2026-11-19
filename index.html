@@ -27,6 +27,57 @@
     }
 
     /* Workbench Header */
+    .display-mode-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.90);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      padding: 4px 6px;
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.2);
+      margin-bottom: 18px;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .mode-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 18px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+    }
+    .mode-toggle-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .mode-toggle-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .mode-toggle-btn.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.45);
+    }
+
     .board-header {
       text-align: center;
       margin-bottom: 22px;
@@ -131,8 +182,8 @@
 
     /* CNC Aluminum Bezel / PCB Chassis Outer Rim */
     .board-chassis {
-      width: 530px;
-      height: 530px;
+      width: 524px;
+      height: 524px;
       background: radial-gradient(circle, #252b36 0%, #151921 68%, #0d1016 100%);
       border-radius: 50%;
       padding: 16px;
@@ -146,6 +197,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease, padding 0.3s ease;
     }
 
     /* Silk-screen labeling around circular bezel */
@@ -194,8 +246,8 @@
 
     /* Glass Bezel Ring around AMOLED */
     .display-bezel-ring {
-      width: 486px;
-      height: 486px;
+      width: 480px;
+      height: 480px;
       border-radius: 50%;
       background: #000000;
       border: 5px solid #1a2230;
@@ -208,14 +260,15 @@
       justify-content: center;
       overflow: hidden;
       overflow: clip;
+      transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease, border 0.3s ease;
     }
 
     /* ═══════════════════════════════════════
-       EXACT 466 × 466 AMOLED ROUND DISPLAY
+       MODUS "WAVESHARE 460px" (Runddisplay-Simulation)
     ═══════════════════════════════════════ */
     .amoled-display-round {
-      width: 466px;
-      height: 466px;
+      width: 460px;
+      height: 460px;
       border-radius: 50%;
       background: #000000; /* Pure AMOLED true black */
       position: relative;
@@ -223,6 +276,209 @@
       overflow: clip;
       box-shadow: inset 0 0 35px rgba(0,0,0,1);
       touch-action: none; /* Swipe/Drag sauber abfangen */
+      transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+    }
+
+    /* ═══════════════════════════════════════
+       MODUS "SMARTPHONE" (Hochformat-Browser 390×840px / Responsive)
+    ═══════════════════════════════════════ */
+    body.mode-mobile {
+      padding: 12px 10px;
+    }
+    body.mode-mobile .board-header {
+      margin-bottom: 12px;
+    }
+    body.mode-mobile .board-chassis {
+      width: auto;
+      height: auto;
+      background: transparent;
+      border-radius: 48px;
+      padding: 0;
+      box-shadow: none;
+    }
+    body.mode-mobile .hw-btn,
+    body.mode-mobile .usb-c-port,
+    body.mode-mobile .pcb-silkscreen-top,
+    body.mode-mobile .pcb-silkscreen-bottom,
+    body.mode-mobile .mic-sensor,
+    body.mode-mobile .specs-footer {
+      display: none !important;
+    }
+    body.mode-mobile .display-bezel-ring {
+      width: 414px;
+      height: 864px;
+      max-width: 98vw;
+      max-height: calc(100vh - 84px);
+      border-radius: 48px;
+      border: 12px solid #1e293b;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 0 2px #334155, inset 0 0 12px rgba(0,0,0,0.9);
+      background: #000000;
+      position: relative;
+    }
+    /* Dynamic Island / Speaker Notch */
+    body.mode-mobile .display-bezel-ring::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 24px;
+      background: #090d13;
+      border-radius: 14px;
+      z-index: 50;
+      pointer-events: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    body.mode-mobile .amoled-display-round {
+      width: 390px;
+      height: 840px;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 36px;
+      box-shadow: none;
+    }
+    body.mode-mobile .view-page,
+    body.mode-mobile .clock-world,
+    body.mode-mobile .realistic-world,
+    body.mode-mobile .pixel-world {
+      border-radius: 36px;
+    }
+    body.mode-mobile .pet-layer video {
+      border-radius: 36px;
+    }
+    body.mode-mobile .round-hud {
+      padding: 48px 20px 80px;
+    }
+
+    /* Daumenfreundliche Action-Leiste unten im Smartphone-Modus */
+    body.mode-mobile .pixel-top-icons {
+      position: absolute;
+      top: auto;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 366px;
+      display: flex;
+      justify-content: space-between;
+      gap: 3px;
+      padding: 6px 6px;
+      border-radius: 20px;
+      background: rgba(18, 34, 15, 0.95);
+      border: 2px solid #84cc16;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 3px 0 #365314;
+      z-index: 30;
+      backdrop-filter: blur(8px);
+    }
+    body.mode-mobile .pixel-icon-btn {
+      min-width: 38px;
+      padding: 6px 3px;
+      border-radius: 10px;
+      gap: 3px;
+    }
+    body.mode-mobile .pixel-icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    body.mode-mobile .pixel-icon-btn .px-btn-lbl {
+      font-size: 7px;
+      letter-spacing: 0.4px;
+    }
+
+    /* Statusanzeigen & D-Pad Ergonomie im Smartphone-Modus */
+    body.mode-mobile .pixel-hud-stats {
+      top: 50px;
+      bottom: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 36px);
+      max-width: 320px;
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-size: 8.5px;
+    }
+    body.mode-mobile #pixel-status-text {
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      padding: 3px 12px;
+    }
+    body.mode-mobile .voxel-side-pets {
+      left: 14px;
+      top: 135px;
+      transform: none;
+      gap: 5px;
+    }
+    body.mode-mobile .voxel-dpad {
+      right: 14px;
+      bottom: 110px;
+      top: auto;
+      transform: none;
+    }
+    body.mode-mobile .view-dots-indicator {
+      top: 14px;
+      bottom: auto;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Page 1 (2D Video) Action-Buttons in daumenfreundlicher Leiste unten */
+    body.mode-mobile .ring-btn {
+      position: absolute;
+      top: auto !important;
+      bottom: 16px !important;
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+      width: 66px;
+      height: 48px;
+      border-radius: 14px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 9px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 25;
+    }
+    body.mode-mobile .btn-pos-wash  { left: 14px !important; }
+    body.mode-mobile .btn-pos-walk  { left: 86px !important; }
+    body.mode-mobile .btn-pos-feed  { left: 158px !important; }
+    body.mode-mobile .btn-pos-play  { left: 230px !important; }
+    body.mode-mobile .btn-pos-sleep { left: 302px !important; }
+
+    @media (max-width: 480px) {
+      body.mode-mobile {
+        padding: 0;
+      }
+      body.mode-mobile .display-bezel-ring {
+        width: 100vw;
+        height: 100vh;
+        max-width: 100vw;
+        max-height: 100vh;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      body.mode-mobile .display-bezel-ring::after {
+        display: none;
+      }
+      body.mode-mobile .amoled-display-round {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      }
+      body.mode-mobile .view-page,
+      body.mode-mobile .clock-world,
+      body.mode-mobile .realistic-world,
+      body.mode-mobile .pixel-world {
+        border-radius: 0;
+      }
     }
 
     /* Swipe Container for 3 Views (Clock/Alarm <-> Video Holly <-> Retro Pixel Holly) */
@@ -1305,6 +1561,18 @@
   </style>
 </head>
 <body>
+
+  <!-- Live Display Mode Selector (Waveshare 460px Round vs. Smartphone Portrait) -->
+  <div class="display-mode-selector" id="display-mode-selector">
+    <button type="button" class="mode-toggle-btn active" id="btn-mode-esp" onclick="app.setDisplayMode('esp')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path></svg>
+      <span>Waveshare 460px</span>
+    </button>
+    <button type="button" class="mode-toggle-btn" id="btn-mode-mobile" onclick="app.setDisplayMode('mobile')">
+      <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
+      <span>Smartphone</span>
+    </button>
+  </div>
 
   <!-- Dev Board Header -->
   <div class="board-header">
@@ -3848,6 +4116,59 @@ const app = (() => {
     }, 12000);
   }
 
+  // ── Display-Modus Umschaltung (Waveshare 460px Round vs. Smartphone Portrait) ──
+  let currentDisplayMode = 'esp';
+
+  function getDisplayMode() {
+    return currentDisplayMode;
+  }
+
+  function updateDisplayDimensions() {
+    const isMobile = (currentDisplayMode === 'mobile');
+    const screen = $('amoled-screen');
+    const w = isMobile ? (screen ? (screen.clientWidth || 390) : 390) : 460;
+    const h = isMobile ? (screen ? (screen.clientHeight || 840) : 840) : 460;
+    const fov = isMobile ? 54 : 42;
+
+    if (voxelRenderer) {
+      voxelRenderer.setSize(w, h);
+    }
+    if (voxelCamera) {
+      voxelCamera.aspect = w / h;
+      voxelCamera.fov = fov;
+      voxelCamera.updateProjectionMatrix();
+    }
+    if (screen) {
+      screen.scrollLeft = 0;
+      screen.scrollTop = 0;
+    }
+  }
+
+  function setDisplayMode(mode, updateUrl = true) {
+    currentDisplayMode = (mode === 'mobile') ? 'mobile' : 'esp';
+    const isMobile = (currentDisplayMode === 'mobile');
+    document.body.classList.toggle('mode-mobile', isMobile);
+    document.body.classList.toggle('mode-esp', !isMobile);
+
+    const btnEsp = $('btn-mode-esp');
+    const btnMob = $('btn-mode-mobile');
+    if (btnEsp) btnEsp.classList.toggle('active', !isMobile);
+    if (btnMob) btnMob.classList.toggle('active', isMobile);
+
+    if (updateUrl && typeof window !== 'undefined' && window.history && window.history.replaceState) {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('mode', currentDisplayMode);
+        window.history.replaceState({}, '', url.toString());
+      } catch (e) {}
+    }
+
+    // Sofortige Anpassung von Kamera, Aspect-Ratio & Renderer-Größe
+    updateDisplayDimensions();
+    setTimeout(updateDisplayDimensions, 60);
+    setTimeout(updateDisplayDimensions, 320);
+  }
+
   // ── 3D Minecraft Voxel Puppy Rendering (Three.js) — Nanoblock / Mikrovoxel Welpe (image_1b2620.png) ──
   let VOXEL_BLOCK_SIZE = 0.095; // Nanoblock-/Mikrovoxel-Auflösung (Standard: 0.095 für hohe Blockdichte & lückenlose Struktur)
   const VOXEL_REF_B = 0.095;    // Referenzgröße für den Voxel-Regler
@@ -4153,10 +4474,12 @@ const app = (() => {
     const flowerBloomGeo = new THREE.BoxGeometry(0.20, 0.12, 0.20);
     voxelEnvGroup.userData.flowerMaterials = { white: mFlowerW, yellow: mFlowerY, pink: mFlowerP };
 
-    for (let gx = -15; gx <= 15; gx++) {
-      for (let gz = -14; gz <= 15; gz++) {
-        const r = Math.hypot(gx * tileB, gz * tileB);
-        if (r > 2.45) continue;
+    for (let gx = -16; gx <= 16; gx++) {
+      for (let gz = -24; gz <= 24; gz++) {
+        const rx = Math.abs(gx * tileB);
+        const rz = Math.abs(gz * tileB);
+        const r = Math.hypot(rx, rz);
+        if (r > 2.45 && (rx > 2.2 || rz > 3.6)) continue;
         const initialMat = ((gx + gz) % 2 === 0) ? mGrass1 : mGrass2;
         const tMesh = new THREE.Mesh(tileGeo, initialMat);
         tMesh.position.set(gx * tileB, 0, gz * tileB);
@@ -5093,14 +5416,17 @@ const app = (() => {
       voxelAnimId = null;
     }
     // Vorhandenes ZZZ-Overlay bewahren & WebGL-Renderer wiederverwenden (kein Context-Leak!)
-    const width = 466;
-    const height = 466;
+    const isMobile = (currentDisplayMode === 'mobile');
+    const screen = $('amoled-screen');
+    const width = isMobile ? (screen ? (screen.clientWidth || 390) : 390) : 460;
+    const height = isMobile ? (screen ? (screen.clientHeight || 840) : 840) : 460;
+    const fov = isMobile ? 54 : 42;
 
     // 1. Scene
     voxelScene = new THREE.Scene();
 
     // 2. Camera (Perspektivisch auf weite Landschaft angepasst)
-    voxelCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    voxelCamera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 100);
     voxelCamera.position.set(0, 2.3, 5.1);
     voxelCamera.lookAt(0, 0.05, 0);
 
@@ -5111,6 +5437,8 @@ const app = (() => {
       voxelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       voxelRenderer.shadowMap.enabled = true;
       voxelRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    } else {
+      voxelRenderer.setSize(width, height);
     }
     if (voxelRenderer.domElement.parentNode !== container) {
       const existingCanvas = container.querySelector('canvas');
@@ -6540,6 +6868,8 @@ const app = (() => {
 
     // Hilfsfunktion: Bewegung in echten Welt-Koordinaten + Boden-Verschiebung am Sichtfeldrand
     const maxInnerRadius = 0.95;
+    const maxInnerX = 0.72;
+    const maxInnerZ = 1.45;
     function applyWorldStep(moveX, moveZ) {
       if (!mainSlot) {
         voxelCurrentPos.x += moveX;
@@ -6550,18 +6880,34 @@ const app = (() => {
       mainSlot.worldZ += moveZ;
       const relX = mainSlot.worldX - voxelWorldOffset.x;
       const relZ = mainSlot.worldZ - voxelWorldOffset.z;
-      const relDist = Math.hypot(relX, relZ);
-      if (relDist > maxInnerRadius && !camFocusTarget) {
-        const targetRelX = (relX / relDist) * maxInnerRadius;
-        const targetRelZ = (relZ / relDist) * maxInnerRadius;
-        const nextOffX = mainSlot.worldX - targetRelX;
-        const nextOffZ = mainSlot.worldZ - targetRelZ;
-        const dOffX = nextOffX - voxelWorldOffset.x;
-        const dOffZ = nextOffZ - voxelWorldOffset.z;
-        voxelWorldOffset.x = nextOffX;
-        voxelWorldOffset.z = nextOffZ;
-        voxelTargetPos.x -= dOffX;
-        voxelTargetPos.z -= dOffZ;
+
+      if (currentDisplayMode === 'mobile') {
+        if ((Math.abs(relX) > maxInnerX || Math.abs(relZ) > maxInnerZ) && !camFocusTarget) {
+          const targetRelX = Math.max(-maxInnerX, Math.min(maxInnerX, relX));
+          const targetRelZ = Math.max(-maxInnerZ, Math.min(maxInnerZ, relZ));
+          const nextOffX = mainSlot.worldX - targetRelX;
+          const nextOffZ = mainSlot.worldZ - targetRelZ;
+          const dOffX = nextOffX - voxelWorldOffset.x;
+          const dOffZ = nextOffZ - voxelWorldOffset.z;
+          voxelWorldOffset.x = nextOffX;
+          voxelWorldOffset.z = nextOffZ;
+          voxelTargetPos.x -= dOffX;
+          voxelTargetPos.z -= dOffZ;
+        }
+      } else {
+        const relDist = Math.hypot(relX, relZ);
+        if (relDist > maxInnerRadius && !camFocusTarget) {
+          const targetRelX = (relX / relDist) * maxInnerRadius;
+          const targetRelZ = (relZ / relDist) * maxInnerRadius;
+          const nextOffX = mainSlot.worldX - targetRelX;
+          const nextOffZ = mainSlot.worldZ - targetRelZ;
+          const dOffX = nextOffX - voxelWorldOffset.x;
+          const dOffZ = nextOffZ - voxelWorldOffset.z;
+          voxelWorldOffset.x = nextOffX;
+          voxelWorldOffset.z = nextOffZ;
+          voxelTargetPos.x -= dOffX;
+          voxelTargetPos.z -= dOffZ;
+        }
       }
       voxelCurrentPos.x = mainSlot.worldX - voxelWorldOffset.x;
       voxelCurrentPos.z = mainSlot.worldZ - voxelWorldOffset.z;
@@ -6811,7 +7157,9 @@ const app = (() => {
           obj.position.x = lx;
           obj.position.z = lz;
           const dist = Math.hypot(lx, lz);
-          obj.visible = (dist <= 2.45);
+          obj.visible = (currentDisplayMode === 'mobile')
+            ? (Math.abs(lx) <= 2.2 && Math.abs(lz) <= 3.6)
+            : (dist <= 2.45);
 
           if (mats && mats.m1 && mats.m2) {
             const worldGX = Math.round((lx + voxelWorldOffset.x) / tileB);
@@ -6834,7 +7182,9 @@ const app = (() => {
           const rz = obj.userData.worldZ - voxelWorldOffset.z;
           obj.position.set(rx, 0, rz);
           const dist = Math.hypot(rx, rz);
-          obj.visible = (dist <= 2.45);
+          obj.visible = (currentDisplayMode === 'mobile')
+            ? (Math.abs(rx) <= 2.2 && Math.abs(rz) <= 3.6)
+            : (dist <= 2.45);
         }
       });
     }
@@ -7636,7 +7986,10 @@ const app = (() => {
         const relZ = (slot.worldZ || 0) - voxelWorldOffset.z;
         comp.mesh.position.set(relX, cGroundBaseY + compHopY, relZ);
         comp.mesh.rotation.y = slot.rotY || 0;
-        comp.mesh.visible = (Math.hypot(relX, relZ) <= 2.45) && !slot.isDead && !slot.isEgg;
+        const compInBounds = (currentDisplayMode === 'mobile')
+          ? (Math.abs(relX) <= 2.2 && Math.abs(relZ) <= 3.6)
+          : (Math.hypot(relX, relZ) <= 2.45);
+        comp.mesh.visible = compInBounds && !slot.isDead && !slot.isEgg;
 
         if (comp.parts) {
           const { bodyStandGroup, bodySitGroup, headGroup, legFL, legFR, legBL, legBR, legBLSit, legBRSit, tailGroup } = comp.parts;
@@ -7771,6 +8124,23 @@ const app = (() => {
   function init() {
     console.log('[Waveshare ESP32-S3] System Booted - 466x466 AMOLED Ready');
     loadGameProgress();
+
+    // Display-Modus aus URL Parameter auslesen oder Standard ('esp')
+    let bootMode = 'esp';
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const m = urlParams.get('mode');
+      if (m === 'mobile' || m === 'smartphone') bootMode = 'mobile';
+      else if (m === 'esp' || m === 'round') bootMode = 'esp';
+    } catch (e) {}
+    setDisplayMode(bootMode, false);
+
+    window.addEventListener('resize', () => {
+      if (currentDisplayMode === 'mobile') {
+        updateDisplayDimensions();
+      }
+    });
+
     if (state.custom && state.custom.species) {
       applySpeciesNeeds(state.custom.species);
     }
@@ -7807,7 +8177,7 @@ const app = (() => {
     });
   }
 
-  return { feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, switchCustomPage, applySpeciesNeeds, setDogCustom, setVoxelBlockSize, applyDogCustomization, selectFieldPet, healPet, rebirthRandomPet, startSteer, stopSteer, triggerActionSteer, init, state };
+  return { setDisplayMode, getDisplayMode, updateDisplayDimensions, feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, switchCustomPage, applySpeciesNeeds, setDogCustom, setVoxelBlockSize, applyDogCustomization, selectFieldPet, healPet, rebirthRandomPet, startSteer, stopSteer, triggerActionSteer, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
