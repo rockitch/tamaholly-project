@@ -294,18 +294,9 @@
       justify-content: flex-start;
       align-items: stretch;
     }
+    body.mode-mobile .display-mode-selector,
     body.is-real-mobile .display-mode-selector {
       display: none !important;
-    }
-    body.mode-mobile:not(.is-real-mobile) .display-mode-selector {
-      position: fixed;
-      top: 10px;
-      right: 12px;
-      margin: 0;
-      transform: scale(0.85);
-      transform-origin: top right;
-      z-index: 200;
-      opacity: 0.85;
     }
     body.mode-mobile .board-header,
     body.mode-mobile .hw-btn,
@@ -5032,22 +5023,44 @@ const app = (() => {
     }
   }
 
-  function setDisplayMode(mode, updateUrl = true) {
+  function detectSmartphoneDevice() {
+    const ua = navigator.userAgent || '';
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
+    const isUADataMobile = (typeof navigator.userAgentData === 'object' && Boolean(navigator.userAgentData.mobile));
+    const minScreen = Math.min(window.screen ? window.screen.width : 9999, window.screen ? window.screen.height : 9999);
+    const hasTouch = ('ontouchstart' in window) || ((navigator.maxTouchPoints || 0) > 0);
+    const isCoarsePointer = (typeof window.matchMedia === 'function') &&
+      (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches);
+    const isSmallViewport = (window.innerWidth <= 820);
+    return Boolean(isMobileUA || isUADataMobile || (hasTouch && (minScreen <= 1024 || isCoarsePointer)) || isSmallViewport);
+  }
+
+  function setDisplayMode(mode, updateUrl = false) {
     currentDisplayMode = (mode === 'mobile') ? 'mobile' : 'esp';
     const isMobile = (currentDisplayMode === 'mobile');
     document.body.classList.toggle('mode-mobile', isMobile);
     document.body.classList.toggle('mode-esp', !isMobile);
+
+    const sel = $('display-mode-selector');
+    if (sel) sel.style.display = isMobile ? 'none' : '';
 
     const btnEsp = $('btn-mode-esp');
     const btnMob = $('btn-mode-mobile');
     if (btnEsp) btnEsp.classList.toggle('active', !isMobile);
     if (btnMob) btnMob.classList.toggle('active', isMobile);
 
-    if (updateUrl && typeof window !== 'undefined' && window.history && window.history.replaceState) {
+    if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
       try {
         const url = new URL(window.location.href);
-        url.searchParams.set('mode', currentDisplayMode);
-        window.history.replaceState({}, '', url.toString());
+        if (document.body.classList.contains('is-real-mobile')) {
+          if (url.searchParams.has('mode')) {
+            url.searchParams.delete('mode');
+            window.history.replaceState({}, '', url.toString());
+          }
+        } else if (updateUrl) {
+          url.searchParams.set('mode', currentDisplayMode);
+          window.history.replaceState({}, '', url.toString());
+        }
       } catch (e) {}
     }
 
@@ -10276,26 +10289,39 @@ const app = (() => {
     console.log('[Waveshare ESP32-S3] System Booted - 466x466 AMOLED Ready');
     loadGameProgress();
 
-    // Display-Modus: Auf mobilen Geräten/Smartphones automatisch direkt 'mobile' Vollbild
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                           (typeof navigator.userAgentData === 'object' && Boolean(navigator.userAgentData.mobile)) ||
-                           (typeof window.matchMedia === 'function' && window.matchMedia('(hover: none) and (pointer: coarse)').matches) ||
-                           (window.innerWidth <= 900 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
-    document.body.classList.toggle('is-real-mobile', Boolean(isMobileDevice));
-    let bootMode = isMobileDevice ? 'mobile' : 'esp';
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const m = urlParams.get('mode');
-      if (m === 'mobile' || m === 'smartphone') bootMode = 'mobile';
-      else if (m === 'esp' || m === 'round') bootMode = 'esp';
-    } catch (e) {}
+    // Automatische Geräteerkennung: Smartphone/Touch-Geräte immer direkt Vollbild ohne Waveshare-Umschalter
+    const isSmartphone = detectSmartphoneDevice();
+    document.body.classList.toggle('is-real-mobile', isSmartphone);
+    let bootMode = isSmartphone ? 'mobile' : 'esp';
+    if (!isSmartphone) {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const m = urlParams.get('mode');
+        if (m === 'mobile' || m === 'smartphone') bootMode = 'mobile';
+        else if (m === 'esp' || m === 'round') bootMode = 'esp';
+      } catch (e) {}
+    } else if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
+      try {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('mode')) {
+          url.searchParams.delete('mode');
+          window.history.replaceState({}, '', url.toString());
+        }
+      } catch (e) {}
+    }
     setDisplayMode(bootMode, false);
 
-    window.addEventListener('resize', () => {
-      if (currentDisplayMode === 'mobile') {
+    function handleViewportAdapt() {
+      const nowPhone = detectSmartphoneDevice();
+      document.body.classList.toggle('is-real-mobile', nowPhone);
+      if (nowPhone && currentDisplayMode !== 'mobile') {
+        setDisplayMode('mobile', false);
+      } else if (currentDisplayMode === 'mobile') {
         updateDisplayDimensions();
       }
-    });
+    }
+    window.addEventListener('resize', handleViewportAdapt);
+    window.addEventListener('orientationchange', handleViewportAdapt);
 
     if (state.custom && state.custom.species) {
       applySpeciesNeeds(state.custom.species);
