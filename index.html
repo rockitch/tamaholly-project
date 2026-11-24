@@ -338,74 +338,156 @@
       padding: 40px 18px 80px;
     }
 
-    /* Daumenfreundliche Action-Leiste unten im Vollbild-/Smartphone-Modus */
+    /* Daumenfreundliche Action-Leiste unten im Vollbild-/Smartphone-Modus (4×2 Raster) */
     body.mode-mobile .pixel-top-icons {
       position: absolute;
       top: auto;
-      bottom: 16px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 24px);
-      max-width: 390px;
-      display: flex;
-      justify-content: space-between;
-      gap: 3px;
-      padding: 6px 6px;
-      border-radius: 20px;
+      width: calc(100% - 20px);
+      max-width: 440px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 10px 10px;
+      border-radius: 22px;
       background: rgba(18, 34, 15, 0.95);
       border: 2px solid #84cc16;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 3px 0 #365314;
       z-index: 30;
       backdrop-filter: blur(8px);
+      transition: opacity 0.28s ease;
     }
     body.mode-mobile .pixel-icon-btn {
-      min-width: 38px;
-      padding: 6px 3px;
-      border-radius: 10px;
-      gap: 3px;
+      min-width: 0;
+      min-height: 54px;
+      padding: 8px 4px;
+      border-radius: 13px;
+      gap: 5px;
     }
     body.mode-mobile .pixel-icon-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
+      stroke-width: 2.2;
     }
     body.mode-mobile .pixel-icon-btn .px-btn-lbl {
-      font-size: 7px;
+      font-size: 9.5px;
       letter-spacing: 0.4px;
     }
 
-    /* Statusanzeigen & D-Pad Ergonomie im Vollbild-/Smartphone-Modus */
+    /* Statusanzeigen, Tierwähler, D-Pad & Menü-Ergonomie im Vollbild-/Smartphone-Modus */
     body.mode-mobile .pixel-hud-stats {
-      top: 44px;
+      top: 34px;
       bottom: auto;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 36px);
-      max-width: 340px;
-      padding: 6px 12px;
+      width: calc(100% - 28px);
+      max-width: 390px;
+      padding: 7px 14px;
       border-radius: 14px;
-      font-size: 8.5px;
+      font-size: 9.5px;
+    }
+    body.mode-mobile .pixel-row-label {
+      font-size: 8px;
+    }
+    body.mode-mobile .pixel-hearts {
+      font-size: 9px;
     }
     body.mode-mobile #pixel-status-text {
-      bottom: 84px;
+      top: 96px;
+      bottom: auto;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 9px;
-      padding: 3px 12px;
+      font-size: 11px;
+      padding: 4px 14px;
+      max-width: calc(100% - 32px);
+      border-radius: 10px;
     }
     body.mode-mobile .voxel-side-pets {
-      left: 14px;
-      top: 130px;
+      left: 12px;
+      top: 128px;
       transform: none;
-      gap: 5px;
+      align-items: flex-start;
+      gap: 6px;
+      max-height: calc(100% - 300px);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    body.mode-mobile .voxel-side-pets::-webkit-scrollbar { display: none; }
+    body.mode-mobile .voxel-pet-slot {
+      border-radius: 10px;
+      border-width: 2px;
+      padding: 0;
+    }
+    body.mode-mobile #side-slot-0,
+    body.mode-mobile #side-slot-1,
+    body.mode-mobile #side-slot-2,
+    body.mode-mobile #side-slot-3,
+    body.mode-mobile #side-slot-add {
+      width: 64px;
+    }
+    body.mode-mobile .voxel-pet-select-btn {
+      width: 100%;
+      min-width: 0;
+      min-height: 38px;
+      padding: 6px 5px;
+      font-size: 9px;
+      gap: 3px;
+      border-radius: 8px;
+    }
+    body.mode-mobile .voxel-pet-select-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    body.mode-mobile .voxel-pet-slot.night-toggle-slot .voxel-pet-select-btn,
+    body.mode-mobile .voxel-pet-slot.mode-toggle-slot .voxel-pet-select-btn,
+    body.mode-mobile .voxel-pet-slot.protect-toggle-slot .voxel-pet-select-btn {
+      min-width: 50px;
+      padding: 6px 7px;
+    }
+    body.mode-mobile .voxel-pet-slot.add-pet-slot .voxel-pet-select-btn span {
+      font-size: 18px !important;
     }
     body.mode-mobile .voxel-dpad {
-      right: 14px;
-      bottom: 104px;
+      right: 12px;
+      bottom: 162px;
       top: auto;
       transform: none;
+      grid-template-columns: repeat(3, 46px);
+      grid-template-rows: repeat(3, 46px);
+      gap: 5px;
+      padding: 7px;
+      border-radius: 18px;
+      border-width: 2px;
+    }
+    body.mode-mobile .dpad-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      font-size: 17px;
+    }
+    body.mode-mobile #custom-modal-overlay {
+      inset: 50% auto auto 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: min(92vw, 440px) !important;
+      height: auto !important;
+      max-height: 86vh !important;
+      max-height: 86dvh !important;
+      overflow-y: auto !important;
+      border-radius: 26px !important;
+      padding: 20px 16px !important;
+      gap: 10px !important;
+    }
+    body.mode-mobile #custom-modal-overlay .custom-tab-btn,
+    body.mode-mobile #custom-modal-overlay .custom-pill {
+      padding: 8px 11px !important;
+      font-size: 10.5px !important;
+      border-radius: 10px !important;
+      min-height: 36px !important;
     }
     body.mode-mobile .view-dots-indicator {
-      top: 12px;
+      top: 10px;
       bottom: auto;
       left: 50%;
       transform: translateX(-50%);
@@ -509,55 +591,153 @@
       .pet-layer video {
         border-radius: 0 !important;
       }
-      /* Daumenfreundliche Leiste unten */
+      /* Daumenfreundliche 4×2 Leiste unten & vergrößerte Voxel-Bedienelemente */
       .pixel-top-icons {
         position: absolute !important;
         top: auto !important;
-        bottom: 16px !important;
+        bottom: 12px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        width: calc(100% - 24px) !important;
-        max-width: 390px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        gap: 3px !important;
-        padding: 6px 6px !important;
-        border-radius: 20px !important;
+        width: calc(100% - 20px) !important;
+        max-width: 440px !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px !important;
+        padding: 10px 10px !important;
+        border-radius: 22px !important;
         background: rgba(18, 34, 15, 0.95) !important;
         border: 2px solid #84cc16 !important;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 3px 0 #365314 !important;
         z-index: 30 !important;
         backdrop-filter: blur(8px) !important;
       }
+      .pixel-icon-btn {
+        min-width: 0 !important;
+        min-height: 54px !important;
+        padding: 8px 4px !important;
+        border-radius: 13px !important;
+        gap: 5px !important;
+      }
+      .pixel-icon-btn svg {
+        width: 24px !important;
+        height: 24px !important;
+        stroke-width: 2.2 !important;
+      }
+      .pixel-icon-btn .px-btn-lbl {
+        font-size: 9.5px !important;
+        letter-spacing: 0.4px !important;
+      }
       .pixel-hud-stats {
-        top: 44px !important;
+        top: 34px !important;
         bottom: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        width: calc(100% - 36px) !important;
-        max-width: 340px !important;
-        padding: 6px 12px !important;
+        width: calc(100% - 28px) !important;
+        max-width: 390px !important;
+        padding: 7px 14px !important;
         border-radius: 14px !important;
+        font-size: 9.5px !important;
+      }
+      .pixel-row-label {
+        font-size: 8px !important;
+      }
+      .pixel-hearts {
+        font-size: 9px !important;
       }
       #pixel-status-text {
-        bottom: 84px !important;
+        top: 96px !important;
+        bottom: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
+        font-size: 11px !important;
+        padding: 4px 14px !important;
+        max-width: calc(100% - 32px) !important;
+        border-radius: 10px !important;
       }
       .voxel-side-pets {
-        left: 14px !important;
-        top: 130px !important;
+        left: 12px !important;
+        top: 128px !important;
         transform: none !important;
-        gap: 5px !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        max-height: calc(100% - 300px) !important;
+        overflow-y: auto !important;
+        scrollbar-width: none !important;
+      }
+      .voxel-side-pets::-webkit-scrollbar { display: none !important; }
+      .voxel-pet-slot {
+        border-radius: 10px !important;
+        border-width: 2px !important;
+        padding: 0 !important;
+      }
+      #side-slot-0,
+      #side-slot-1,
+      #side-slot-2,
+      #side-slot-3,
+      #side-slot-add {
+        width: 64px !important;
+      }
+      .voxel-pet-select-btn {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 38px !important;
+        padding: 6px 5px !important;
+        font-size: 9px !important;
+        gap: 3px !important;
+        border-radius: 8px !important;
+      }
+      .voxel-pet-select-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+      .voxel-pet-slot.night-toggle-slot .voxel-pet-select-btn,
+      .voxel-pet-slot.mode-toggle-slot .voxel-pet-select-btn,
+      .voxel-pet-slot.protect-toggle-slot .voxel-pet-select-btn {
+        min-width: 50px !important;
+        padding: 6px 7px !important;
+      }
+      .voxel-pet-slot.add-pet-slot .voxel-pet-select-btn span {
+        font-size: 18px !important;
       }
       .voxel-dpad {
-        right: 14px !important;
-        bottom: 104px !important;
+        right: 12px !important;
+        bottom: 162px !important;
         top: auto !important;
         transform: none !important;
+        grid-template-columns: repeat(3, 46px) !important;
+        grid-template-rows: repeat(3, 46px) !important;
+        gap: 5px !important;
+        padding: 7px !important;
+        border-radius: 18px !important;
+        border-width: 2px !important;
+      }
+      .dpad-btn {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 10px !important;
+        font-size: 17px !important;
+      }
+      #custom-modal-overlay {
+        inset: 50% auto auto 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: min(92vw, 440px) !important;
+        height: auto !important;
+        max-height: 86vh !important;
+        max-height: 86dvh !important;
+        overflow-y: auto !important;
+        border-radius: 26px !important;
+        padding: 20px 16px !important;
+        gap: 10px !important;
+      }
+      #custom-modal-overlay .custom-tab-btn,
+      #custom-modal-overlay .custom-pill {
+        padding: 8px 11px !important;
+        font-size: 10.5px !important;
+        border-radius: 10px !important;
+        min-height: 36px !important;
       }
       .view-dots-indicator {
-        top: 12px !important;
+        top: 10px !important;
         bottom: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
@@ -754,7 +934,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 43px 24px 34px;
+      padding: 36px 24px 30px;
       font-family: 'Courier New', monospace;
       color: #1e2d1a;
       box-shadow: inset 0 0 45px rgba(0,0,0,0.4);
@@ -773,22 +953,25 @@
     }
 
     .pixel-top-icons {
-      display: flex;
-      gap: 3px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(50px, 1fr));
+      gap: 4px;
+      width: 230px;
       position: relative;
       z-index: 15;
       background: rgba(24, 44, 18, 0.90);
-      padding: 4px 6px;
-      border-radius: 14px;
+      padding: 5px 6px;
+      border-radius: 15px;
       border: 2px solid #84cc16;
       backdrop-filter: blur(6px);
       box-shadow: 0 3px 0 #365314, 0 6px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      transition: opacity 0.28s ease;
     }
     .pixel-icon-btn {
       cursor: pointer;
-      padding: 3px 3px;
-      min-width: 26px;
-      border-radius: 7px;
+      padding: 4px 4px;
+      min-width: 0;
+      border-radius: 8px;
       border: 1px solid rgba(163, 230, 53, 0.28);
       background: rgba(38, 66, 30, 0.78);
       transition: transform 0.12s ease, background 0.15s ease;
@@ -796,13 +979,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 2.5px;
       color: #ecfccb;
       user-select: none;
     }
     .pixel-icon-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -812,7 +995,7 @@
     }
     .pixel-icon-btn .px-btn-lbl {
       font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
-      font-size: 6px;
+      font-size: 7px;
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
@@ -890,11 +1073,12 @@
       max-width: 245px;
       overflow: hidden;
       text-overflow: ellipsis;
+      transition: opacity 0.28s ease;
     }
 
     .pixel-hud-stats {
       position: absolute;
-      bottom: 33px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
       width: 184px;
@@ -912,7 +1096,7 @@
       z-index: 15;
       backdrop-filter: blur(6px);
       box-shadow: 0 3px 0 #365314, 0 6px 14px rgba(0,0,0,0.45);
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s ease;
     }
 
     .pixel-row {
@@ -938,14 +1122,16 @@
     /* Linksseitiger 4-Slot-Tierwähler & Kamera-Fahrt im Voxel-Design (ohne Abwählen-Haken) */
     .voxel-side-pets {
       position: absolute;
-      left: 20px;
-      top: 50%;
+      left: 24px;
+      top: 56%;
       transform: translateY(-50%);
       z-index: 20;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: 4px;
-      max-height: 255px;
+      max-height: 238px;
+      transition: opacity 0.28s ease;
     }
     .voxel-pet-slot {
       display: flex;
@@ -954,9 +1140,18 @@
       background: rgba(24, 44, 18, 0.88);
       border: 1.5px solid rgba(132, 204, 22, 0.55);
       border-radius: 6px;
-      padding: 1px 2px;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
       box-shadow: 0 1.5px 0 #1a2e12;
       transition: border-color 0.15s, background 0.15s;
+    }
+    #side-slot-0,
+    #side-slot-1,
+    #side-slot-2,
+    #side-slot-3,
+    #side-slot-add {
+      width: 50px;
     }
     .voxel-pet-slot.active {
       border-color: #facc15;
@@ -986,7 +1181,8 @@
     }
     .voxel-pet-slot.night-toggle-slot .voxel-pet-select-btn {
       color: #e9d5ff;
-      min-width: 28px;
+      min-width: 36px;
+      padding: 4px 5px;
     }
     .voxel-pet-slot.night-toggle-slot.urgent {
       border-color: #facc15;
@@ -1003,8 +1199,8 @@
     }
     .voxel-pet-slot.mode-toggle-slot .voxel-pet-select-btn {
       color: #fbcfe8;
-      min-width: 30px;
-      padding: 2px 4px;
+      min-width: 38px;
+      padding: 4px 5px;
     }
     .voxel-pet-slot.mode-toggle-slot.nature {
       border-color: #f59e0b;
@@ -1021,8 +1217,8 @@
     }
     .voxel-pet-slot.protect-toggle-slot .voxel-pet-select-btn {
       color: #bae6fd;
-      min-width: 28px;
-      padding: 2px 4px;
+      min-width: 36px;
+      padding: 4px 5px;
     }
     .voxel-pet-slot.protect-toggle-slot.active {
       border-color: #facc15;
@@ -1057,22 +1253,27 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 3px 4px;
-      border-radius: 4px;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 4px 5px;
+      border-radius: 5px;
       border: none;
       background: transparent;
       color: #ecfccb;
       cursor: pointer;
-      min-width: 34px;
+      min-width: 42px;
       font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
-      font-size: 5.5px;
+      font-size: 6.5px;
       font-weight: 800;
       text-transform: uppercase;
-      gap: 2px;
+      gap: 2.5px;
     }
     .voxel-pet-select-btn svg {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -1086,28 +1287,29 @@
     /* Rechtsseitiges Steuerkreuz (D-Pad) im Voxel-Design */
     .voxel-dpad {
       position: absolute;
-      right: 16px;
-      top: 50%;
+      right: 18px;
+      top: 56%;
       transform: translateY(-50%);
       z-index: 20;
       display: grid;
-      grid-template-columns: repeat(3, 22px);
-      grid-template-rows: repeat(3, 22px);
-      gap: 2px;
+      grid-template-columns: repeat(3, 27px);
+      grid-template-rows: repeat(3, 27px);
+      gap: 3px;
       background: rgba(24, 44, 18, 0.86);
       border: 1.5px solid #84cc16;
-      border-radius: 12px;
-      padding: 4px;
+      border-radius: 14px;
+      padding: 5px;
       box-shadow: 0 3px 0 #365314, 0 5px 12px rgba(0, 0, 0, 0.4);
+      transition: opacity 0.28s ease;
     }
     .dpad-btn {
-      width: 22px;
-      height: 22px;
-      border-radius: 5px;
+      width: 27px;
+      height: 27px;
+      border-radius: 7px;
       border: 1px solid rgba(163, 230, 53, 0.45);
       background: #26421e;
       color: #ecfccb;
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -1122,6 +1324,16 @@
       color: #142410;
       transform: translateY(1px);
       box-shadow: 0 1px 0 #142410;
+    }
+
+    /* Ausgeblendete Voxel-Schaltflächen (Tippen Ein/Aus oder Auto-Aus) */
+    .pixel-world.voxel-ui-hidden .pixel-top-icons,
+    .pixel-world.voxel-ui-hidden .voxel-side-pets,
+    .pixel-world.voxel-ui-hidden .voxel-dpad,
+    .pixel-world.voxel-ui-hidden #pixel-status-text,
+    .pixel-world.voxel-ui-hidden .pixel-hud-stats {
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     /* Wiedergeburts-Overlay nach Tod durch Vernachlässigung */
@@ -2261,7 +2473,7 @@
             </div>
 
             <!-- ── SEITE 2: GEMEINSAME WELT FÜR ALLE TIERE & VOXEL-GRÖSSE ── -->
-            <div class="custom-page-container" id="custom-page-2" style="display: none; flex-direction: column; align-items: center; width: 100%; gap: 6px;">
+            <div class="custom-page-container" id="custom-page-2" style="display: none; flex-direction: column; align-items: center; width: 100%; gap: 4.5px;">
               <!-- Spiel-Modus & Tierschutz -->
               <div style="font-size: 8.5px; font-weight: 800; color: #bef264; text-transform: uppercase;">Spiel-Modus & Tierschutz:</div>
               <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;">
@@ -2270,13 +2482,12 @@
                 <button type="button" class="custom-pill" id="modal-btn-protect" onclick="app.buildProtectionShelter(); app.closeCustomModal();" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid #38bdf8; background: #0c4a6e; color: #e0f2fe; font-size: 8px; font-weight: 800; cursor: pointer;">Unterschlupf bauen (0/3)</button>
               </div>
 
-              <!-- Landschaft / Biom (gilt für alle Tiere gleichzeitig!) -->
-              <div style="font-size: 8.5px; font-weight: 800; color: #bef264; text-transform: uppercase; margin-top: 2px;">Gemeinsame Welt (für alle Tiere):</div>
-              <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: center;">
-                <button type="button" class="custom-pill custom-env-btn" data-env="meadow" onclick="app.setDogCustom('env','meadow')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid #ecfccb; background: #84cc16; color: #142410; font-size: 8.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #365314;">Wiese & Pfad</button>
-                <button type="button" class="custom-pill custom-env-btn" data-env="beach" onclick="app.setDogCustom('env','beach')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid rgba(163,230,53,0.4); background: #26421e; color: #ecfccb; font-size: 8.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #142410;">Strandküste</button>
-                <button type="button" class="custom-pill custom-env-btn" data-env="sakura" onclick="app.setDogCustom('env','sakura')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid rgba(163,230,53,0.4); background: #26421e; color: #ecfccb; font-size: 8.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #142410;">Kirschgarten</button>
-                <button type="button" class="custom-pill custom-env-btn" data-env="livingroom" onclick="app.setDogCustom('env','livingroom')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid rgba(163,230,53,0.4); background: #26421e; color: #ecfccb; font-size: 8.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 0 #142410;">Zimmer</button>
+              <!-- Schaltflächen-Anzeige Modus -->
+              <div style="font-size: 8.5px; font-weight: 800; color: #bef264; text-transform: uppercase; margin-top: 2px;">Schaltflächen-Anzeige:</div>
+              <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;">
+                <button type="button" class="custom-pill custom-uimode-btn" data-uimode="always" onclick="app.setVoxelUiMode('always')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid #ecfccb; background: #84cc16; color: #142410; font-size: 8px; font-weight: 800; cursor: pointer;">Immer sichtbar</button>
+                <button type="button" class="custom-pill custom-uimode-btn" data-uimode="autohide" onclick="app.setVoxelUiMode('autohide')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid rgba(163,230,53,0.4); background: #26421e; color: #ecfccb; font-size: 8px; font-weight: 800; cursor: pointer;">Kurz nach Tippen</button>
+                <button type="button" class="custom-pill custom-uimode-btn" data-uimode="toggle" onclick="app.setVoxelUiMode('toggle')" style="padding: 4px 8px; border-radius: 7px; border: 1.5px solid rgba(163,230,53,0.4); background: #26421e; color: #ecfccb; font-size: 8px; font-weight: 800; cursor: pointer;">Tippen Ein / Aus</button>
               </div>
 
               <!-- Voxel Block-Größe Regler -->
@@ -2291,6 +2502,8 @@
               <div style="margin-top: 2px; display: flex; flex-direction: column; align-items: center; gap: 3px;">
                 <div style="font-size: 8px; font-weight: 800; color: #bef264; text-transform: uppercase;">Tier rufen:</div>
                 <div style="display: flex; gap: 3px; flex-wrap: wrap; justify-content: center;">
+                  <button type="button" onclick="app.spawnNewPet('stag'); app.closeCustomModal();" style="padding: 3px 6px; border-radius: 6px; border: 1.5px solid #d97706; background: #5c2d16; color: #fef3c7; font-size: 8px; font-weight: 800; cursor: pointer;">+ Hirsch</button>
+                  <button type="button" onclick="app.spawnNewPet('deer'); app.closeCustomModal();" style="padding: 3px 6px; border-radius: 6px; border: 1.5px solid #fbbf24; background: #7c3f1d; color: #fff7ed; font-size: 8px; font-weight: 800; cursor: pointer;">+ Reh</button>
                   <button type="button" onclick="app.spawnNewPet('mouse'); app.closeCustomModal();" style="padding: 3px 6px; border-radius: 6px; border: 1.5px solid #f472b6; background: #831843; color: #fce7f3; font-size: 8px; font-weight: 800; cursor: pointer;">+ Maus</button>
                   <button type="button" onclick="app.spawnNewPet('owl'); app.closeCustomModal();" style="padding: 3px 6px; border-radius: 6px; border: 1.5px solid #f59e0b; background: #78350f; color: #fef3c7; font-size: 8px; font-weight: 800; cursor: pointer;">+ Eule</button>
                   <button type="button" onclick="app.spawnNewPet('hedgehog'); app.closeCustomModal();" style="padding: 3px 6px; border-radius: 6px; border: 1.5px solid #bef264; background: #26421e; color: #bef264; font-size: 8px; font-weight: 800; cursor: pointer;">+ Igel</button>
@@ -2347,7 +2560,9 @@ const app = (() => {
     bunny:      '<svg viewBox="0 0 24 24"><path d="M8 11V4a2 2 0 0 1 4 0v7M12 11V4a2 2 0 0 1 4 0v7M7 11h10a4 4 0 0 1 4 4v1a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-1a4 4 0 0 1 4-4z"/></svg>',
     hedgehog:   '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L3 21l3.39-1.97C7.93 20.26 9.88 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/><circle cx="8" cy="11" r="1.5"/><path d="M17 7l-2 2m4 3l-2.5.5m2.5 4.5l-2.5-1m-1 4.5l-1-2"/></svg>',
     fox:        '<svg viewBox="0 0 24 24"><path d="M3 6l5 4 4-7 4 7 5-4v10a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6V6z"/><circle cx="8.5" cy="13.5" r="1"/><circle cx="15.5" cy="13.5" r="1"/></svg>',
-    mouse:      '<svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3.5"/><circle cx="17" cy="7" r="3.5"/><path d="M7 11a5 5 0 0 0 10 0c0 3-2 7-5 7s-5-4-5-7z"/><circle cx="12" cy="17" r="1"/></svg>'
+    mouse:      '<svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3.5"/><circle cx="17" cy="7" r="3.5"/><path d="M7 11a5 5 0 0 0 10 0c0 3-2 7-5 7s-5-4-5-7z"/><circle cx="12" cy="17" r="1"/></svg>',
+    stag:       '<svg viewBox="0 0 24 24"><path d="M8 12l-1-4-3-3m3 3l1-3m8 7l1-4 3-3m-3 3l-1-3M7 12h10l-1.5 6.5L12 21l-3.5-2.5L7 12z"/><circle cx="10" cy="15" r="0.9"/><circle cx="14" cy="15" r="0.9"/></svg>',
+    deer:       '<svg viewBox="0 0 24 24"><path d="M4 7c2.5-1 5 0.5 6 3h4c1-2.5 3.5-4 6-3-0.5 2.5-2 4.5-4.5 5L14 19l-2 2-2-2-1.5-7C6 11.5 4.5 9.5 4 7z"/><circle cx="10" cy="14" r="0.9"/><circle cx="14" cy="14" r="0.9"/></svg>'
   };
 
   function createDefaultPetSlot(sp, slotIdx, breedOverride) {
@@ -2412,6 +2627,9 @@ const app = (() => {
       // Klassische graue Feldmaus oder goldbraune Haselmaus (nicht katzenähnlich dunkel)
       pickedFur = (Math.random() < 0.72) ? 'brown' : 'golden';
       pickedEye = 'black';
+    } else if (sp === 'stag' || sp === 'deer') {
+      pickedFur = 'brown';
+      pickedEye = 'black';
     }
     const pickedCollar = randCollars[Math.floor(Math.random() * randCollars.length)];
 
@@ -2474,6 +2692,7 @@ const app = (() => {
     sleepVariant: 1,
     isGlobalNight: false,  // Globale Nacht (alle Tiere schlafen, Pause)
     gameMode:     'sweet', // 'sweet' (Süß & Liebevoll) | 'nature' (Natur Pur: Raubtiere & Beute)
+    voxelUiMode:  'always', // 'always' | 'autohide' | 'toggle'
     builtShelters: [],     // Gebaute Schutz-Unterschlüpfe ({ wx, wz, builtAt, progress })
     activeSlot:   null,    // Standardmäßig kein Tier ausgewählt bei Spielstart ohne Tiere
     activeSpecies: null,
@@ -2711,8 +2930,10 @@ const app = (() => {
 
   // Einheitlicher Art-Größenfaktor (garantiert exakte Größe beim Umschalten zwischen allen Tieren!)
   const SPECIES_BASE_SCALE = {
+    stag: 1.08,
     dog: 1.0,
     fox: 0.95,
+    deer: 0.90,
     cat: 0.88,
     bunny: 0.82,
     hedgehog: 0.78,
@@ -2842,7 +3063,7 @@ const app = (() => {
     const spCount = {};
     state.petSlots.forEach(s => { spCount[s.species] = (spCount[s.species] || 0) + 1; });
     const spSeen = {};
-    const baseLabels = { dog: 'HUND', cat: 'KATZE', bird: 'VOGEL', kingfisher: 'EISVOGEL', owl: 'EULE', bunny: 'HASE', hedgehog: 'IGEL', fox: 'FUCHS', mouse: 'MAUS' };
+    const baseLabels = { dog: 'HUND', cat: 'KATZE', bird: 'VOGEL', kingfisher: 'EISVOGEL', owl: 'EULE', bunny: 'HASE', hedgehog: 'IGEL', fox: 'FUCHS', mouse: 'MAUS', stag: 'HIRSCH', deer: 'REH' };
     const breedShort = { shiba: 'SHIBA', corgi: 'CORGI', husky: 'HUSKY', golden: 'GOLD' };
 
     for (let i = 0; i < 4; i++) {
@@ -2894,7 +3115,7 @@ const app = (() => {
       ov.style.display = (state.activeSlot !== null && state.isDead) ? 'flex' : 'none';
     }
     if (reasonEl && state.isDead) {
-      const spNames = { dog: 'Dein Hund', cat: 'Deine Katze', bird: 'Dein Wellensittich', kingfisher: 'Dein Eisvogel', owl: 'Deine Eule', bunny: 'Dein Zwergkaninchen', hedgehog: 'Dein Igel', fox: 'Dein Fuchs', mouse: 'Deine Maus' };
+      const spNames = { dog: 'Dein Hund', cat: 'Deine Katze', bird: 'Dein Wellensittich', kingfisher: 'Dein Eisvogel', owl: 'Deine Eule', bunny: 'Dein Zwergkaninchen', hedgehog: 'Dein Igel', fox: 'Dein Fuchs', mouse: 'Deine Maus', stag: 'Dein Hirsch', deer: 'Dein Reh' };
       const curSlot = (state.activeSlot !== null && state.petSlots) ? state.petSlots[state.activeSlot] : null;
       if (curSlot && curSlot.deathReason === 'nature') {
         reasonEl.textContent = `${spNames[state.activeSpecies] || 'Dein Tier'} wurde in "Natur Pur" nach langer Flucht erbeutet! Tipp: Baue einen Schutz-Unterschlupf mit BAUEN.`;
@@ -3006,50 +3227,52 @@ const app = (() => {
   }
 
   function findFreeMeadowSpot(refWX, refWZ, minPropDist = 0.85, minPetDist = 0.80, excludeSlotIdx = -1, minDistFromRef = 0.0) {
-    const angles = [0, 0.52, 1.05, 1.57, 2.09, 2.62, 3.14, 3.67, 4.19, 4.71, 5.24, 5.76];
+    const angles = [
+      0, 0.39, 0.79, 1.18, 1.57, 1.96, 2.36, 2.75,
+      3.14, 3.53, 3.93, 4.32, 4.71, 5.11, 5.50, 5.89
+    ];
     const dists = minDistFromRef > 0
-      ? [Math.max(0.75, minDistFromRef), 1.05, 1.35, 1.65, 1.95]
-      : [0.0, 0.65, 0.95, 1.25, 1.55, 1.85];
+      ? [Math.max(0.75, minDistFromRef), 1.05, 1.35, 1.65, 1.95, 2.30, 2.65, 3.05, 3.45]
+      : [0.0, 0.65, 0.95, 1.25, 1.55, 1.85, 2.20, 2.55, 2.95, 3.35];
+
+    function isSpotBlocked(testX, testZ) {
+      if (isInPond(testX, testZ, 0.45)) return true;
+      if (voxelWorldProps && voxelWorldProps.length > 0) {
+        for (const pr of voxelWorldProps) {
+          if (pr.type && pr.type.startsWith('flower_')) continue;
+          const reqDist = (isTreeProp(pr) || pr.type === 'bench' || pr.type === 'shelter' || pr.type === 'stump') ? Math.max(minPropDist, 0.95) : minPropDist;
+          if (Math.hypot(pr.wx - testX, pr.wz - testZ) < reqDist) return true;
+        }
+      }
+      if (state.petSlots && state.petSlots.length > 0) {
+        for (let i = 0; i < state.petSlots.length; i++) {
+          const p = state.petSlots[i];
+          if (!p || p.isDead) continue;
+          if (i !== excludeSlotIdx && Math.hypot((p.worldX || 0) - testX, (p.worldZ || 0) - testZ) < minPetDist) return true;
+          if (p.tubWorldPos && Math.hypot(p.tubWorldPos.x - testX, p.tubWorldPos.z - testZ) < 0.90) return true;
+          if (p.foodWorldPos && Math.hypot(p.foodWorldPos.x - testX, p.foodWorldPos.z - testZ) < 0.70) return true;
+        }
+      }
+      return false;
+    }
+
     for (const d of dists) {
       if (d < minDistFromRef) continue;
       const angleSet = (d === 0) ? [0] : angles;
       for (const a of angleSet) {
         const testX = refWX + Math.cos(a) * d;
         const testZ = refWZ + Math.sin(a) * d;
-        let blocked = false;
-        if (voxelWorldProps && voxelWorldProps.length > 0) {
-          for (const pr of voxelWorldProps) {
-            if (pr.type && pr.type.startsWith('flower_')) continue;
-            const reqDist = (pr.type === 'tree' || pr.type === 'bench' || pr.type === 'shelter') ? Math.max(minPropDist, 0.95) : minPropDist;
-            if (Math.hypot(pr.wx - testX, pr.wz - testZ) < reqDist) {
-              blocked = true;
-              break;
-            }
-          }
-        }
-        if (blocked) continue;
-        if (state.petSlots && state.petSlots.length > 0) {
-          for (let i = 0; i < state.petSlots.length; i++) {
-            const p = state.petSlots[i];
-            if (!p || p.isDead) continue;
-            if (i !== excludeSlotIdx && Math.hypot((p.worldX || 0) - testX, (p.worldZ || 0) - testZ) < minPetDist) {
-              blocked = true;
-              break;
-            }
-            if (p.tubWorldPos && Math.hypot(p.tubWorldPos.x - testX, p.tubWorldPos.z - testZ) < 0.90) {
-              blocked = true;
-              break;
-            }
-            if (p.foodWorldPos && Math.hypot(p.foodWorldPos.x - testX, p.foodWorldPos.z - testZ) < 0.70) {
-              blocked = true;
-              break;
-            }
-          }
-        }
-        if (!blocked) return { x: testX, z: testZ };
+        if (!isSpotBlocked(testX, testZ)) return { x: testX, z: testZ };
       }
     }
-    return { x: refWX + (minDistFromRef || 0.65), z: refWZ + 0.35 };
+    for (let ring = 3.8; ring <= 8.0; ring += 0.55) {
+      for (const a of angles) {
+        const testX = refWX + Math.cos(a) * ring;
+        const testZ = refWZ + Math.sin(a) * ring;
+        if (!isSpotBlocked(testX, testZ)) return { x: testX, z: testZ };
+      }
+    }
+    return pushOutOfPond(refWX + (minDistFromRef || 0.95), refWZ + 0.55, 0.50);
   }
 
   function setGameMode(mode) {
@@ -3066,6 +3289,55 @@ const app = (() => {
 
   function toggleGameMode() {
     setGameMode(state.gameMode === 'nature' ? 'sweet' : 'nature');
+  }
+
+  let voxelControlsVisible = true;
+  let voxelAutoHideTimer = null;
+  const VOXEL_AUTOHIDE_MS = 4500;
+
+  function clearVoxelAutoHideTimer() {
+    if (voxelAutoHideTimer) {
+      clearTimeout(voxelAutoHideTimer);
+      voxelAutoHideTimer = null;
+    }
+  }
+
+  function applyVoxelUiVisibility(visible) {
+    voxelControlsVisible = Boolean(visible);
+    const pw = document.querySelector('.pixel-world');
+    if (pw) pw.classList.toggle('voxel-ui-hidden', !voxelControlsVisible);
+  }
+
+  function scheduleVoxelAutoHide() {
+    clearVoxelAutoHideTimer();
+    if (state.voxelUiMode !== 'autohide' || currentViewIndex !== 2) return;
+    voxelAutoHideTimer = setTimeout(() => {
+      voxelAutoHideTimer = null;
+      if (state.voxelUiMode !== 'autohide' || currentViewIndex !== 2) return;
+      const modal = $('custom-modal-overlay');
+      if ((modal && modal.style.display === 'flex') || voxelSteerHeld) {
+        scheduleVoxelAutoHide();
+        return;
+      }
+      applyVoxelUiVisibility(false);
+    }, VOXEL_AUTOHIDE_MS);
+  }
+
+  function setVoxelUiMode(mode) {
+    const m = (mode === 'autohide' || mode === 'toggle') ? mode : 'always';
+    state.voxelUiMode = m;
+    clearVoxelAutoHideTimer();
+    applyVoxelUiVisibility(true);
+    const modal = $('custom-modal-overlay');
+    const modalOpen = modal && modal.style.display === 'flex';
+    if (m === 'autohide' && !modalOpen && currentViewIndex === 2) {
+      scheduleVoxelAutoHide();
+    }
+    if (typeof syncCustomModalUI === 'function') syncCustomModalUI();
+    saveGameProgress();
+    if (m === 'always') setStatus('Schaltflächen: Immer sichtbar');
+    else if (m === 'autohide') setStatus('Schaltflächen: Blenden kurz nach Tippen aus');
+    else setStatus('Schaltflächen: Tippe aufs Bild zum Ein-/Ausblenden');
   }
 
   function getShelterKindForSpecies(sp) {
@@ -3214,7 +3486,7 @@ const app = (() => {
       setStatus('Maximale Tieranzahl (4 Tiere) auf der Wiese erreicht!');
       return;
     }
-    const allSpecies = ['dog', 'cat', 'bird', 'kingfisher', 'owl', 'bunny', 'hedgehog', 'fox', 'mouse'];
+    const allSpecies = ['dog', 'cat', 'bird', 'kingfisher', 'owl', 'bunny', 'hedgehog', 'fox', 'mouse', 'stag', 'deer'];
     const chosenSp = desiredSpecies || allSpecies[Math.floor(Math.random() * allSpecies.length)];
     const targetIdx = state.petSlots.length;
     const newSlot = createDefaultPetSlot(chosenSp, targetIdx);
@@ -3249,7 +3521,7 @@ const app = (() => {
   }
 
   function rebirthRandomPet() {
-    const allSpecies = ['dog', 'cat', 'bird', 'kingfisher', 'owl', 'bunny', 'hedgehog', 'fox', 'mouse'];
+    const allSpecies = ['dog', 'cat', 'bird', 'kingfisher', 'owl', 'bunny', 'hedgehog', 'fox', 'mouse', 'stag', 'deer'];
     const randomSp = allSpecies[Math.floor(Math.random() * allSpecies.length)];
     const furs = ['brown', 'golden', 'dark', 'cream'];
     const breeds = ['shiba', 'corgi', 'husky', 'golden'];
@@ -3332,6 +3604,9 @@ const app = (() => {
       }
     } else if (randomSp === 'cat') {
       randEye = 'black';
+    } else if (randomSp === 'stag' || randomSp === 'deer') {
+      randFur = 'brown';
+      randEye = 'black';
     }
 
     slot.custom = {
@@ -3390,11 +3665,12 @@ const app = (() => {
       const data = {
         activeSlot: state.activeSlot,
         activeSpecies: state.activeSpecies,
-        worldEnv: state.worldEnv || 'meadow',
+        worldEnv: 'meadow',
         growthStage: state.growthStage,
         xp: state.xp,
         isGlobalNight: Boolean(state.isGlobalNight),
         gameMode: state.gameMode || 'sweet',
+        voxelUiMode: state.voxelUiMode || 'always',
         builtShelters: (state.builtShelters || []).map(sh => ({ shelterKind: sh.shelterKind || 'burrow', wx: sh.wx, wz: sh.wz, rotY: sh.rotY || 0, buildProgress: 1.0 })),
         hunger: state.hunger,
         energy: state.energy,
@@ -3430,10 +3706,11 @@ const app = (() => {
       const raw = localStorage.getItem('tamaholly_save');
       if (raw) {
         const d = JSON.parse(raw);
-        if (d.worldEnv) state.worldEnv = d.worldEnv;
-        else if (d.custom && d.custom.env) state.worldEnv = d.custom.env;
+        state.worldEnv = 'meadow';
+        if (d.custom) d.custom.env = 'meadow';
         if (typeof d.isGlobalNight === 'boolean') state.isGlobalNight = d.isGlobalNight;
         if (d.gameMode === 'nature' || d.gameMode === 'sweet') state.gameMode = d.gameMode;
+        if (d.voxelUiMode === 'always' || d.voxelUiMode === 'autohide' || d.voxelUiMode === 'toggle') state.voxelUiMode = d.voxelUiMode;
         if (Array.isArray(d.builtShelters)) {
           state.builtShelters = d.builtShelters.map((sh, idx) => ({
             shelterKind: sh.shelterKind || ['cage', 'mousehole', 'burrow'][idx % 3],
@@ -3525,6 +3802,8 @@ const app = (() => {
     if (sp === 'hedgehog') return `IGEL: VOXEL 3D${sickTag}`;
     if (sp === 'fox') return `FUCHS: VOXEL 3D${sickTag}`;
     if (sp === 'mouse') return `MAUS: VOXEL 3D${sickTag}`;
+    if (sp === 'stag') return `HIRSCH: VOXEL 3D${sickTag}`;
+    if (sp === 'deer') return `REH: VOXEL 3D${sickTag}`;
     const br = (state.custom && state.custom.breed) ? state.custom.breed : 'shiba';
     const bNames = { shiba: 'SHIBA INU', corgi: 'WELSH CORGI', husky: 'SIBERIAN HUSKY', golden: 'GOLDEN RETRIEVER' };
     return `${bNames[br] || 'SHIBA INU'}: 3D${sickTag}`;
@@ -4386,13 +4665,15 @@ const app = (() => {
 
     const sp = (state.custom && state.custom.species) ? state.custom.species : 'dog';
     if (sp === 'cat') setStatus('Lachs auf freiem Platz serviert — Katze schleicht hin...');
-    else if (sp === 'kingfisher') setStatus('Fisch auf freiem Platz serviert — Eisvogel fliegt hin...');
-    else if (sp === 'owl') setStatus('Waldkäfer auf freiem Platz serviert — Eule fliegt hin...');
-    else if (sp === 'bird') setStatus('Kolbenhirse auf freiem Platz serviert — Vogel fliegt hin...');
+    else if (sp === 'kingfisher') setStatus('Kleiner Fischteich erscheint — Eisvogel stürzt sich hinein und fängt einen Fisch!');
+    else if (sp === 'owl') setStatus('Waldkäfer auf freiem Platz serviert — Eule landet zum Fressen...');
+    else if (sp === 'bird') setStatus('Kolbenhirse auf freiem Platz serviert — Vogel landet zum Fressen...');
     else if (sp === 'bunny') setStatus('Karotte auf freiem Platz — Hase hoppelt hin...');
     else if (sp === 'hedgehog') setStatus('Insektenteller auf freiem Platz — Igel trippelt hin...');
     else if (sp === 'fox') setStatus('Waldbeeren auf freiem Platz — Fuchs trabt hin...');
     else if (sp === 'mouse') setStatus('Käseecke auf freiem Platz — Maus flitzt hin...');
+    else if (sp === 'stag') setStatus('Waldäpfel & Eicheln auf freiem Platz — Hirsch schreitet hin...');
+    else if (sp === 'deer') setStatus('Frischer Klee & Waldgräser auf freiem Platz — Reh trippelt hin...');
     else setStatus('Fressnapf auf freiem Platz — Hund läuft hin...');
 
     const vid = videos.feed;
@@ -4848,6 +5129,17 @@ const app = (() => {
       dotPage1.classList.toggle('active', currentViewIndex === 1);
       dotPage2.classList.toggle('active', currentViewIndex === 2);
     }
+    if (currentViewIndex === 2) {
+      applyVoxelUiVisibility(true);
+      if (state.voxelUiMode === 'autohide') {
+        const modal = $('custom-modal-overlay');
+        if (!modal || modal.style.display !== 'flex') scheduleVoxelAutoHide();
+      } else {
+        clearVoxelAutoHideTimer();
+      }
+    } else {
+      clearVoxelAutoHideTimer();
+    }
     const viewNames = ['Uhr, Datum & Wecker', 'Realistisches Video Holly', 'Retro Pixel Tamagotchi'];
     console.log(`[Waveshare ESP32-S3] View switched to [${currentViewIndex}]: ${viewNames[currentViewIndex]}`);
   }
@@ -5111,6 +5403,7 @@ const app = (() => {
   let voxelGroundScroll = { x: 0, z: 0 }; // Laufband-Offset für sich bewegenden Boden beim Gassi-Gehen!
   let voxelSlotTubs = []; // Parallele Badewannen pro Slot (damit mehrere Tiere gleichzeitig baden können)
   let voxelSlotTreats = []; // Parallele Futterstellen pro Slot (damit Essen auf freiem Platz sichtbar bleibt)
+  let voxelBuildTreatEntry = null;
 
   const DOG_BREEDS = {
     shiba: {
@@ -5221,6 +5514,18 @@ const app = (() => {
       golden: { fur: 0xd97706, furDark: 0x92400e, snout: 0xfef3c7 }, // Goldbraune Haselmaus
       dark:   { fur: 0x334155, furDark: 0x1e293b, snout: 0xcbd5e1 }, // Dunkle Hausmaus
       cream:  { fur: 0xffffff, furDark: 0xe2e8f0, snout: 0xffe4e6 }  // Schneeweiße Maus
+    },
+    stag: {
+      brown:  { fur: 0x9a4b26, furDark: 0x5c2d16, snout: 0xf5e6d3 }, // Klassischer Kastanien-Rothirsch
+      golden: { fur: 0xc27832, furDark: 0x7c4a1d, snout: 0xfef3c7 }, // Goldbrauner Damhirsch
+      dark:   { fur: 0x4a2c1d, furDark: 0x2b170e, snout: 0xe7e5e4 }, // Dunkler Berg-Hirsch
+      cream:  { fur: 0xf8fafc, furDark: 0xcbd5e1, snout: 0xffffff }  // Legendärer weißer Hirsch
+    },
+    deer: {
+      brown:  { fur: 0xc4733e, furDark: 0x7c401c, snout: 0xfff7ed }, // Klassisches rotbraunes Reh
+      golden: { fur: 0xd9924c, furDark: 0x925421, snout: 0xfef9c3 }, // Helles Sommerreh
+      dark:   { fur: 0x6b5b4d, furDark: 0x3f342b, snout: 0xf5f5f4 }, // Graubraunes Winterreh
+      cream:  { fur: 0xfef3c7, furDark: 0xd6bfa2, snout: 0xffffff }  // Cremeweißes Reh
     }
   };
   const DOG_COLLAR_COLORS = {
@@ -5236,24 +5541,6 @@ const app = (() => {
       hudBg: 'rgba(24, 44, 18, 0.90)',
       hudBorder: '#84cc16',
       statusBg: 'rgba(24, 44, 18, 0.92)'
-    },
-    beach: {
-      bg: 'radial-gradient(circle at 50% 40%, #fef08a 0%, #f59e0b 58%, #0284c7 100%)',
-      hudBg: 'rgba(12, 58, 86, 0.88)',
-      hudBorder: '#38bdf8',
-      statusBg: 'rgba(12, 58, 86, 0.92)'
-    },
-    sakura: {
-      bg: 'radial-gradient(circle at 50% 42%, #fbcfe8 0%, #f472b6 62%, #831843 100%)',
-      hudBg: 'rgba(74, 16, 48, 0.88)',
-      hudBorder: '#f472b6',
-      statusBg: 'rgba(74, 16, 48, 0.92)'
-    },
-    livingroom: {
-      bg: 'radial-gradient(circle at 50% 42%, #fed7aa 0%, #d97706 62%, #78350f 100%)',
-      hudBg: 'rgba(62, 30, 12, 0.88)',
-      hudBorder: '#f59e0b',
-      statusBg: 'rgba(62, 30, 12, 0.92)'
     }
   };
 
@@ -5314,6 +5601,219 @@ const app = (() => {
   let voxelWorldPeePos = null;
   let voxelBallWorldPos = { x: -1.4, z: -1.6 };
   let voxelWorldProps = [];
+  const VOXEL_POND = { x: 1.15, z: -0.68, rx: 0.82, rz: 0.64 };
+  let voxelPondFishes = [];
+  let voxelPondRipples = [];
+
+  function isInPond(wx, wz, pad = 0) {
+    const nx = (wx - VOXEL_POND.x) / Math.max(0.15, VOXEL_POND.rx + pad);
+    const nz = (wz - VOXEL_POND.z) / Math.max(0.15, VOXEL_POND.rz + pad);
+    return (nx * nx + nz * nz) <= 1.0;
+  }
+
+  function pushOutOfPond(wx, wz, pad = 0.24) {
+    if (!isInPond(wx, wz, pad)) return { x: wx, z: wz };
+    const rx = VOXEL_POND.rx + pad + 0.04;
+    const rz = VOXEL_POND.rz + pad + 0.04;
+    let nx = (wx - VOXEL_POND.x) / rx;
+    let nz = (wz - VOXEL_POND.z) / rz;
+    const norm = Math.hypot(nx, nz);
+    if (norm < 0.001) {
+      return {
+        x: VOXEL_POND.x + Math.cos(0.7) * rx,
+        z: VOXEL_POND.z + Math.sin(0.7) * rz
+      };
+    }
+    return {
+      x: VOXEL_POND.x + (nx / norm) * rx,
+      z: VOXEL_POND.z + (nz / norm) * rz
+    };
+  }
+
+  function isInForest(wx, wz) {
+    return wx <= -0.72 && wz <= 0.65;
+  }
+
+  function isTreeProp(pr) {
+    return Boolean(pr && (pr.type === 'tree' || pr.type === 'pine'));
+  }
+
+  function getTreePerchY(pr, groundTopY) {
+    const worldTopY = (pr && pr.type === 'pine') ? 0.42 : 0.355;
+    return worldTopY - groundTopY;
+  }
+
+  function isTreeOccupiedByOtherBird(treeProp, excludeSlotIdx = -1) {
+    if (!treeProp || !Array.isArray(state.petSlots)) return false;
+    for (let i = 0; i < state.petSlots.length; i++) {
+      if (i === excludeSlotIdx) continue;
+      const s = state.petSlots[i];
+      if (!s || s.isDead || s.isEgg || s.isHidden) continue;
+      const isB = (s.species === 'bird' || s.species === 'kingfisher' || s.species === 'owl');
+      if (!isB) continue;
+      if (Math.hypot((s.worldX || 0) - treeProp.wx, (s.worldZ || 0) - treeProp.wz) < 0.45) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getPropCollisionRadius(pr) {
+    if (!pr || !pr.type) return 0.32;
+    if (pr.type === 'tree' || pr.type === 'pine') return 0.42;
+    if (pr.type === 'shelter') return 0.48;
+    if (pr.type === 'bench') return 0.42;
+    if (pr.type === 'lantern') return 0.28;
+    return 0.36; // rock, bush, stump
+  }
+
+  function resolveAnimalCollisions(wx, wz, slotIdx, opts = {}) {
+    if (opts.isHidden) return { x: wx, z: wz };
+    let x = wx;
+    let z = wz;
+    const isBirdAir = Boolean(opts.isBirdAirborne);
+
+    if (!isBirdAir) {
+      const safeP = pushOutOfPond(x, z, 0.26);
+      x = safeP.x;
+      z = safeP.z;
+
+      if (Array.isArray(voxelWorldProps)) {
+        for (const pr of voxelWorldProps) {
+          if (!pr || (pr.type && pr.type.startsWith('flower_'))) continue;
+          if (opts.targetShelter && pr.type === 'shelter' &&
+              Math.hypot(pr.wx - opts.targetShelter.wx, pr.wz - opts.targetShelter.wz) < 0.25) {
+            continue;
+          }
+          const minD = getPropCollisionRadius(pr) + 0.22;
+          const dx = x - pr.wx;
+          const dz = z - pr.wz;
+          const d = Math.hypot(dx, dz);
+          if (d < minD) {
+            if (d < 0.001) {
+              x = pr.wx + minD + 0.02;
+            } else {
+              const push = (minD - d) + 0.005;
+              x += (dx / d) * push;
+              z += (dz / d) * push;
+            }
+          }
+        }
+      }
+
+      if (Array.isArray(state.petSlots)) {
+        for (let i = 0; i < state.petSlots.length; i++) {
+          const s = state.petSlots[i];
+          if (!s || s.isDead) continue;
+          if (s.tubWorldPos && !(i === slotIdx && opts.isWashingInTub)) {
+            const dx = x - s.tubWorldPos.x;
+            const dz = z - s.tubWorldPos.z;
+            const d = Math.hypot(dx, dz);
+            const minTub = 0.62;
+            if (d < minTub) {
+              const ang = (i * 1.1) + 0.5;
+              if (d < 0.001) {
+                x = s.tubWorldPos.x + Math.cos(ang) * minTub;
+                z = s.tubWorldPos.z + Math.sin(ang) * minTub;
+              } else {
+                x += (dx / d) * (minTub - d + 0.005);
+                z += (dz / d) * (minTub - d + 0.005);
+              }
+            }
+          }
+          if (s.foodWorldPos) {
+            const dx = x - s.foodWorldPos.x;
+            const dz = z - s.foodWorldPos.z;
+            const d = Math.hypot(dx, dz);
+            let minFood = 0.33;
+            if (i === slotIdx && s.species === 'kingfisher') {
+              const kfRem = (i === state.activeSlot) ? voxelFeedTimer : (s.actionTimer || 0);
+              minFood = (kfRem > 2.45) ? 0 : 0.22;
+            }
+            if (d < minFood) {
+              const ang = (slotIdx >= 0 ? slotIdx : 0) * 1.3;
+              if (d < 0.001) {
+                x = s.foodWorldPos.x + Math.cos(ang) * minFood;
+                z = s.foodWorldPos.z + Math.sin(ang) * minFood;
+              } else {
+                x += (dx / d) * (minFood - d + 0.005);
+                z += (dz / d) * (minFood - d + 0.005);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Trennung zwischen zwei sichtbaren Tieren auf gleicher Höhenebene
+    const curSlot = (Array.isArray(state.petSlots) && slotIdx >= 0) ? state.petSlots[slotIdx] : null;
+    if (Array.isArray(state.petSlots)) {
+      for (let i = 0; i < state.petSlots.length; i++) {
+        if (i === slotIdx) continue;
+        const other = state.petSlots[i];
+        if (!other || other.isDead || other.isHidden) continue;
+
+        let otherAir = false;
+        const otherIsBird = (other.species === 'bird' || other.species === 'kingfisher' || other.species === 'owl');
+        if (otherIsBird) {
+          if (i === state.activeSlot) {
+            otherAir = Boolean(voxelPuppyPosY > 0.25 || voxelBirdPerchedTree);
+          } else {
+            const comp = Array.isArray(voxelCompanionGroups) ? voxelCompanionGroups.find(c => c.slotIndex === i) : null;
+            otherAir = Boolean(comp && ((comp.curHopY || 0) > 0.25 || comp.perchedTree));
+          }
+        }
+        if (isBirdAir !== otherAir) continue;
+
+        if (state.gameMode === 'nature' && curSlot) {
+          const curZero = (curSlot.hunger || 0) <= 0;
+          const othZero = (other.hunger || 0) <= 0;
+          if ((curZero && (other.stamina ?? 100) <= 25) || (othZero && (curSlot.stamina ?? 100) <= 25)) {
+            continue;
+          }
+        }
+
+        const dx = x - (other.worldX || 0);
+        const dz = z - (other.worldZ || 0);
+        const d = Math.hypot(dx, dz);
+        const minPetD = 0.56;
+        if (d < minPetD) {
+          if (d < 0.001) {
+            const ang = (slotIdx >= 0 ? slotIdx : 1) * 1.7;
+            x += Math.cos(ang) * minPetD;
+            z += Math.sin(ang) * minPetD;
+          } else {
+            const push = (minPetD - d) * 0.6 + 0.004;
+            x += (dx / d) * push;
+            z += (dz / d) * push;
+          }
+        }
+      }
+    }
+
+    return { x, z };
+  }
+
+  function isFlowerTileBlocked(wx, wz) {
+    if (Array.isArray(voxelWorldProps)) {
+      for (const pr of voxelWorldProps) {
+        if (!pr || (pr.type && pr.type.startsWith('flower_'))) continue;
+        if (Math.hypot(pr.wx - wx, pr.wz - wz) < 0.48) return true;
+      }
+    }
+    if (voxelWorldPoopPos && Math.hypot(voxelWorldPoopPos.x - wx, voxelWorldPoopPos.z - wz) < 0.42) return true;
+    if (voxelWorldPeePos && Math.hypot(voxelWorldPeePos.x - wx, voxelWorldPeePos.z - wz) < 0.42) return true;
+    if (Array.isArray(state.petSlots)) {
+      for (let i = 0; i < state.petSlots.length; i++) {
+        const s = state.petSlots[i];
+        if (!s || s.isDead) continue;
+        if (s.foodWorldPos && Math.hypot(s.foodWorldPos.x - wx, s.foodWorldPos.z - wz) < 0.42) return true;
+        if (s.tubWorldPos && Math.hypot(s.tubWorldPos.x - wx, s.tubWorldPos.z - wz) < 0.68) return true;
+        if (!s.isHidden && Math.hypot((s.worldX || 0) - wx, (s.worldZ || 0) - wz) < 0.34) return true;
+      }
+    }
+    return false;
+  }
 
   // ── Prozedurale Blumenverteilung für das Schachbrett-Rasenmuster (Bild 3) ──
   function getTileFlower(wgx, wgz) {
@@ -5367,23 +5867,26 @@ const app = (() => {
     const tileB = 0.16;
     const tileGeo = new THREE.BoxGeometry(tileB * 1.005, 0.04, tileB * 1.005);
 
-    let mGrass1, mGrass2;
-    if (themeName === 'beach') {
-      mGrass1 = new THREE.MeshLambertMaterial({ color: 0xfde68a });
-      mGrass2 = new THREE.MeshLambertMaterial({ color: 0xfcd34d });
-    } else if (themeName === 'sakura') {
-      mGrass1 = new THREE.MeshLambertMaterial({ color: 0x86efac });
-      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x4ade80 });
-    } else if (themeName === 'livingroom') {
-      mGrass1 = new THREE.MeshLambertMaterial({ color: 0xb45309 });
-      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x92400e });
-    } else {
-      mGrass1 = new THREE.MeshLambertMaterial({ color: 0x84cc16 });
-      mGrass2 = new THREE.MeshLambertMaterial({ color: 0x65a30d });
-    }
-    voxelEnvGroup.userData.themeMaterials = { m1: mGrass1, m2: mGrass2 };
+    const mGrass1    = new THREE.MeshLambertMaterial({ color: 0x84cc16 });
+    const mGrass2    = new THREE.MeshLambertMaterial({ color: 0x65a30d });
+    const mForest1   = new THREE.MeshLambertMaterial({ color: 0x4d7c0f });
+    const mForest2   = new THREE.MeshLambertMaterial({ color: 0x3f6212 });
+    const mShore1    = new THREE.MeshLambertMaterial({ color: 0xd6cba3 });
+    const mShore2    = new THREE.MeshLambertMaterial({ color: 0xc4b586 });
+    const mWaterBed1 = new THREE.MeshLambertMaterial({ color: 0x0369a1 });
+    const mWaterBed2 = new THREE.MeshLambertMaterial({ color: 0x075985 });
+    voxelEnvGroup.userData.themeMaterials = {
+      m1: mGrass1,
+      m2: mGrass2,
+      mForest1,
+      mForest2,
+      mShore1,
+      mShore2,
+      mWaterBed1,
+      mWaterBed2
+    };
 
-    // ── Zierblümchen am Spielfeldrand & auf der endlosen Wiese (Exakt wie in Bild 3) ──
+    // ── Zierblümchen am Spielfeldrand & auf der endlosen Wiese ──
     const mFlowerY = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
     const mFlowerP = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
     const mFlowerW = new THREE.MeshLambertMaterial({ color: 0xffffff });
@@ -5419,26 +5922,69 @@ const app = (() => {
       }
     }
 
-    // Einmalige zufällige, aber dann feste Landschaftsobjekte + 2 garantierte Bäume im Sichtfeld zum Landen
+    // Einmalige feste Welt-Aufteilung: Wiese (Mitte/Rechts) + Wald-Hain (Links/Hinten) + Teich (Rechts)
     if (voxelWorldProps.length === 0) {
-      voxelWorldProps.push({ type: 'tree', wx: -1.12, wz: -0.96, rotY: 0.25 });
-      voxelWorldProps.push({ type: 'tree', wx: 1.18,  wz: -1.04, rotY: 1.10 });
-      voxelWorldProps.push({ type: 'tree', wx: 0.15,  wz: -2.15, rotY: 0.65 });
-      const propTypes = [
-        'tree', 'rock', 'bush', 'tree', 'lantern', 'bench', 'bush', 'rock'
-      ];
-      for (let i = 0; i < 36; i++) {
+      // Sichtbarer Waldrand links & hinten links
+      voxelWorldProps.push({ type: 'pine',  wx: -1.35, wz: -1.30, rotY: 0.20 });
+      voxelWorldProps.push({ type: 'tree',  wx: -1.05, wz: -0.65, rotY: 0.45 });
+      voxelWorldProps.push({ type: 'pine',  wx: -1.85, wz: -0.55, rotY: 1.05 });
+      voxelWorldProps.push({ type: 'tree',  wx: -1.55, wz:  0.20, rotY: 0.80 });
+      voxelWorldProps.push({ type: 'pine',  wx: -0.55, wz: -1.65, rotY: 0.65 });
+      voxelWorldProps.push({ type: 'tree',  wx:  0.25, wz: -1.80, rotY: 1.30 });
+      voxelWorldProps.push({ type: 'stump', wx: -0.98, wz:  0.08, rotY: 0.30 });
+      voxelWorldProps.push({ type: 'bush',  wx: -1.25, wz: -0.15, rotY: 0.50 });
+
+      // Teichufer & rechte Wiese im Blickfeld
+      voxelWorldProps.push({ type: 'bench',   wx:  0.30, wz: -1.42, rotY: 0.35 });
+      voxelWorldProps.push({ type: 'lantern', wx:  1.96, wz: -0.12, rotY: 0.0 });
+      voxelWorldProps.push({ type: 'tree',    wx:  2.35, wz: -1.45, rotY: 0.90 });
+
+      // Tieferer Wald links & hinten
+      const forestTypes = ['pine', 'tree', 'pine', 'bush', 'stump'];
+      let forestAdded = 0;
+      for (let i = 0; i < 90 && forestAdded < 26; i++) {
+        const wx = -1.8 - Math.random() * 12.2;
+        const wz = -14.0 + Math.random() * 17.5;
+        if (Math.hypot(wx, wz) < 1.8 || isInPond(wx, wz, 0.70)) continue;
+        const tooClose = voxelWorldProps.some(pr => Math.hypot(pr.wx - wx, pr.wz - wz) < 1.05);
+        if (tooClose) continue;
+        const type = forestTypes[Math.floor(Math.random() * forestTypes.length)];
+        voxelWorldProps.push({ type, wx, wz, rotY: Math.random() * Math.PI * 2 });
+        forestAdded++;
+      }
+
+      // Weitere Wiesen-Landschaft rundherum (abseits vom Teich & Zentrum)
+      const meadowTypes = ['tree', 'pine', 'rock', 'bush', 'lantern', 'bench', 'bush', 'rock'];
+      let meadowAdded = 0;
+      for (let i = 0; i < 110 && meadowAdded < 30; i++) {
         const wx = (Math.random() - 0.5) * 34;
         const wz = (Math.random() - 0.5) * 34;
-        if (Math.hypot(wx, wz) < 1.45) continue;
-        const type = propTypes[Math.floor(Math.random() * propTypes.length)];
+        if (Math.hypot(wx, wz) < 1.55 || isInPond(wx, wz, 0.60)) continue;
+        if (wx < -1.8 && wz < 3.5) continue;
+        const tooClose = voxelWorldProps.some(pr => Math.hypot(pr.wx - wx, pr.wz - wz) < 1.15);
+        if (tooClose) continue;
+        const type = meadowTypes[Math.floor(Math.random() * meadowTypes.length)];
         voxelWorldProps.push({ type, wx, wz, rotY: Math.random() * Math.PI * 2 });
+        meadowAdded++;
       }
     }
 
-    // Gebaute Schutz-Unterschlüpfe synchronisieren (nach Laden / Biomwechsel)
+    // Gebaute Schutz-Unterschlüpfe synchronisieren & bei Überlappung auf freien Platz versetzen
     if (Array.isArray(state.builtShelters)) {
+      const staticProps = voxelWorldProps.filter(pr => pr.type !== 'shelter');
       state.builtShelters.forEach((sh, idx) => {
+        const collidesStatic = isInPond(sh.wx, sh.wz, 0.55) ||
+          staticProps.some(pr => Math.hypot(pr.wx - sh.wx, pr.wz - sh.wz) < 0.90);
+        const collidesEarlierShelter = voxelWorldProps.some(pr =>
+          pr.type === 'shelter' &&
+          Math.hypot(pr.wx - sh.wx, pr.wz - sh.wz) > 0.25 &&
+          Math.hypot(pr.wx - sh.wx, pr.wz - sh.wz) < 0.95
+        );
+        if (collidesStatic || collidesEarlierShelter) {
+          const safeSpot = findFreeMeadowSpot(sh.wx || 0, sh.wz || 0, 1.05, 0.85);
+          sh.wx = safeSpot.x;
+          sh.wz = safeSpot.z;
+        }
         const exists = voxelWorldProps.some(pr => pr.type === 'shelter' && Math.hypot(pr.wx - sh.wx, pr.wz - sh.wz) < 0.25);
         if (!exists) {
           voxelWorldProps.push({
@@ -5453,9 +5999,24 @@ const app = (() => {
       });
     }
 
+    // Geladene Tierpositionen einmalig von Hindernissen & Teich trennen
+    if (Array.isArray(state.petSlots)) {
+      state.petSlots.forEach((s, sIdx) => {
+        if (!s || s.isDead || s.isHidden) return;
+        const resolved = resolveAnimalCollisions(s.worldX || 0, s.worldZ || 0, sIdx, {
+          isBirdAirborne: false,
+          isHidden: Boolean(s.isHidden),
+          targetShelter: s.targetShelter || null,
+          isWashingInTub: Boolean(s.action === 'wash' && s.tubWorldPos)
+        });
+        s.worldX = resolved.x;
+        s.worldZ = resolved.z;
+      });
+    }
+
     // 3D-Meshes für die Landschaftsobjekte aufbauen
     voxelWorldProps.forEach(prop => {
-      const propGroup = createWorldPropMesh(prop.type, themeName, prop.shelterKind);
+      const propGroup = createWorldPropMesh(prop.type, 'meadow', prop.shelterKind);
       propGroup.rotation.y = prop.rotY;
       propGroup.userData = { worldX: prop.wx, worldZ: prop.wz, propType: prop.type, shelterKind: prop.shelterKind || null, shelterRef: prop };
       if (prop.type === 'shelter' && typeof prop.buildProgress === 'number' && prop.buildProgress < 1.0) {
@@ -5465,6 +6026,12 @@ const app = (() => {
       voxelEnvGroup.add(propGroup);
     });
 
+    // Fester Teich mit Wasserfläche, Ufersteinen, Schilf, Seerosen & animierten Fischen
+    voxelPondFishes = [];
+    voxelPondRipples = [];
+    const pondGroup = buildVoxelPondGroup();
+    voxelEnvGroup.add(pondGroup);
+
     voxelScene.add(voxelEnvGroup);
   }
 
@@ -5473,14 +6040,48 @@ const app = (() => {
     const B = VOXEL_BLOCK_SIZE;
 
     if (type === 'tree') {
-      // Voxel-Baum mit Stamm und Krone
+      // Voxel-Laubbaum mit Stamm und Krone
       const mTrunk = new THREE.MeshLambertMaterial({ color: 0x78350f });
-      const mLeaves = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xf472b6 : 0x15803d });
+      const mLeaves = new THREE.MeshLambertMaterial({ color: 0x15803d });
       const trunk = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.65, 0.18), mTrunk);
       trunk.position.y = 0.32;
       const crown = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.65, 0.65), mLeaves);
       crown.position.y = 0.85;
       grp.add(trunk, crown);
+    } else if (type === 'pine') {
+      // Gestufte Nadelbaum-Tanne für den Wald
+      const mTrunk = new THREE.MeshLambertMaterial({ color: 0x5c2d16 });
+      const mNeedlesDark = new THREE.MeshLambertMaterial({ color: 0x14532d });
+      const mNeedlesMid  = new THREE.MeshLambertMaterial({ color: 0x166534 });
+      const trunk = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.46, 0.16), mTrunk);
+      trunk.position.y = 0.23;
+      const tier1 = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.28, 0.72), mNeedlesDark);
+      tier1.position.y = 0.50;
+      const tier2 = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.26, 0.54), mNeedlesMid);
+      tier2.position.y = 0.75;
+      const tier3 = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.24, 0.36), mNeedlesDark);
+      tier3.position.y = 0.98;
+      const tier4 = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.16, 0.20), mNeedlesMid);
+      tier4.position.y = 1.16;
+      grp.add(trunk, tier1, tier2, tier3, tier4);
+    } else if (type === 'stump') {
+      // Baumstumpf mit Jahresringen & kleinem Fliegenpilz daneben
+      const mBark = new THREE.MeshLambertMaterial({ color: 0x78350f });
+      const mRing = new THREE.MeshLambertMaterial({ color: 0xfde68a });
+      const mStem = new THREE.MeshLambertMaterial({ color: 0xfef9c3 });
+      const mCap  = new THREE.MeshLambertMaterial({ color: 0xef4444 });
+      const mDot  = new THREE.MeshLambertMaterial({ color: 0xffffff });
+      const stump = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.18, 0.26), mBark);
+      stump.position.y = 0.09;
+      const topWood = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.02, 0.20), mRing);
+      topWood.position.y = 0.185;
+      const mStemMesh = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.07, 0.05), mStem);
+      mStemMesh.position.set(0.18, 0.035, 0.08);
+      const mCapMesh = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.05, 0.11), mCap);
+      mCapMesh.position.set(0.18, 0.085, 0.08);
+      const mDotMesh = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.015, 0.03), mDot);
+      mDotMesh.position.set(0.17, 0.112, 0.08);
+      grp.add(stump, topWood, mStemMesh, mCapMesh, mDotMesh);
     } else if (type === 'rock') {
       const mRock = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
       const rock1 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.22, 0.3), mRock);
@@ -5489,7 +6090,7 @@ const app = (() => {
       rock2.position.set(0.12, 0.18, 0.05);
       grp.add(rock1, rock2);
     } else if (type === 'bush') {
-      const mBush = new THREE.MeshLambertMaterial({ color: (theme === 'beach') ? 0x059669 : 0x16a34a });
+      const mBush = new THREE.MeshLambertMaterial({ color: 0x16a34a });
       const bush = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.28, 0.42), mBush);
       bush.position.y = 0.14;
       grp.add(bush);
@@ -5555,7 +6156,7 @@ const app = (() => {
         // Kleines Mauseloch mit Erdhügel, Grashaube, Steintorbogen & Käse-Lockstück
         const mDirtDark = new THREE.MeshLambertMaterial({ color: 0x78350f });
         const mDirtMid = new THREE.MeshLambertMaterial({ color: 0x92400e });
-        const mTurf = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xf472b6 : 0x16a34a });
+        const mTurf = new THREE.MeshLambertMaterial({ color: 0x16a34a });
         const mStone = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
         const mHole = new THREE.MeshLambertMaterial({ color: 0x090d16 });
         const mCheese = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
@@ -5582,8 +6183,8 @@ const app = (() => {
         const mEarthLow = new THREE.MeshLambertMaterial({ color: 0x713f12 });
         const mEarthMid = new THREE.MeshLambertMaterial({ color: 0x854d0e });
         const mRoot = new THREE.MeshLambertMaterial({ color: 0x78350f });
-        const mTurfLow = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xdb2777 : 0x15803d });
-        const mTurfTop = new THREE.MeshLambertMaterial({ color: (theme === 'sakura') ? 0xf472b6 : 0x22c55e });
+        const mTurfLow = new THREE.MeshLambertMaterial({ color: 0x15803d });
+        const mTurfTop = new THREE.MeshLambertMaterial({ color: 0x22c55e });
         const mBurrowHole = new THREE.MeshLambertMaterial({ color: 0x090d16 });
 
         const hillLow = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.24, 0.70), mEarthLow);
@@ -5620,7 +6221,7 @@ const app = (() => {
       // Voxel-Blume (Gelb, Rosa oder Weiß - MagicaVoxel Block-Ästhetik)
       const mStem = new THREE.MeshLambertMaterial({ color: 0x15803d });
       let bloomColor = 0xfacc15;
-      if (type === 'flower_pink' || theme === 'sakura') bloomColor = 0xf472b6;
+      if (type === 'flower_pink') bloomColor = 0xf472b6;
       else if (type === 'flower_white') bloomColor = 0xffffff;
       const mBloom = new THREE.MeshLambertMaterial({ color: bloomColor });
       const stem = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.12, 0.065), mStem);
@@ -5630,6 +6231,150 @@ const app = (() => {
       grp.add(stem, bloom);
     }
     return grp;
+  }
+
+  function createVoxelFishMesh(bodyHex, finHex, accentHex) {
+    const fishGroup = new THREE.Group();
+    const mBody   = new THREE.MeshLambertMaterial({ color: bodyHex });
+    const mFin    = new THREE.MeshLambertMaterial({ color: finHex });
+    const mAccent = new THREE.MeshLambertMaterial({ color: accentHex });
+    const mEye    = new THREE.MeshLambertMaterial({ color: 0x09090b });
+
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.042, 0.115), mBody);
+    const snout = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.032, 0.034), mAccent);
+    snout.position.set(0, 0, 0.068);
+    const dorsal = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.022, 0.055), mFin);
+    dorsal.position.set(0, 0.026, -0.005);
+    const finL = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.010, 0.030), mFin);
+    finL.position.set(-0.038, -0.006, 0.018);
+    const finR = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.010, 0.030), mFin);
+    finR.position.set(0.038, -0.006, 0.018);
+    const eyeL = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.012, 0.012), mEye);
+    eyeL.position.set(-0.024, 0.009, 0.045);
+    const eyeR = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.012, 0.012), mEye);
+    eyeR.position.set(0.024, 0.009, 0.045);
+
+    const tailGroup = new THREE.Group();
+    tailGroup.position.set(0, 0, -0.056);
+    const tailBase = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.030, 0.032), mAccent);
+    tailBase.position.set(0, 0, -0.016);
+    const tailFin = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.054, 0.036), mFin);
+    tailFin.position.set(0, 0, -0.042);
+    tailGroup.add(tailBase, tailFin);
+
+    fishGroup.add(body, snout, dorsal, finL, finR, eyeL, eyeR, tailGroup);
+    fishGroup.traverse(obj => { if (obj.isMesh) obj.renderOrder = 1; });
+    return { group: fishGroup, tail: tailGroup };
+  }
+
+  function buildVoxelPondGroup() {
+    const pondGroup = new THREE.Group();
+    pondGroup.userData = { worldX: VOXEL_POND.x, worldZ: VOXEL_POND.z, propType: 'pond' };
+
+    // Halbtransparente blaue Wasserfläche (depthWrite: false, renderOrder: 2 -> Fische darunter gut sichtbar!)
+    const waterGeo = new THREE.BoxGeometry(0.162, 0.014, 0.162);
+    const mWater = new THREE.MeshLambertMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.46, depthWrite: false });
+    for (let lx = -0.80; lx <= 0.801; lx += 0.16) {
+      for (let lz = -0.64; lz <= 0.641; lz += 0.16) {
+        const norm = (lx / 0.80) ** 2 + (lz / 0.64) ** 2;
+        if (norm > 1.0) continue;
+        const wTile = new THREE.Mesh(waterGeo, mWater);
+        wTile.position.set(lx, -0.006, lz);
+        wTile.renderOrder = 2;
+        pondGroup.add(wTile);
+      }
+    }
+
+    // Helle Ufersteine rund um Teile des Teichrands
+    const mStone1 = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
+    const mStone2 = new THREE.MeshLambertMaterial({ color: 0x64748b });
+    const shoreAngles = [0.25, 0.72, 1.35, 1.98, 2.55, 3.30, 4.05, 4.78, 5.45, 5.95];
+    shoreAngles.forEach((ang, idx) => {
+      const sx = Math.cos(ang) * (VOXEL_POND.rx + 0.05);
+      const sz = Math.sin(ang) * (VOXEL_POND.rz + 0.05);
+      const szMult = 0.09 + (idx % 3) * 0.03;
+      const stone = new THREE.Mesh(
+        new THREE.BoxGeometry(szMult + 0.04, 0.07 + (idx % 2) * 0.03, szMult + 0.02),
+        idx % 2 === 0 ? mStone1 : mStone2
+      );
+      stone.position.set(sx, 0.025, sz);
+      stone.rotation.y = ang * 1.4;
+      pondGroup.add(stone);
+    });
+
+    // Schilfgras & Rohrkolben am hinteren Teichufer
+    const mReed   = new THREE.MeshLambertMaterial({ color: 0x15803d });
+    const mReedLt = new THREE.MeshLambertMaterial({ color: 0x22c55e });
+    const mCattail = new THREE.MeshLambertMaterial({ color: 0x78350f });
+    [[-0.62, -0.44], [0.58, -0.42], [0.74, -0.10]].forEach(([rx, rz], cIdx) => {
+      for (let k = 0; k < 3; k++) {
+        const h = 0.30 + ((cIdx + k) % 3) * 0.08;
+        const stalk = new THREE.Mesh(new THREE.BoxGeometry(0.03, h, 0.03), k % 2 === 0 ? mReed : mReedLt);
+        stalk.position.set(rx + (k - 1) * 0.05, h * 0.5, rz + ((k % 2) - 0.5) * 0.04);
+        stalk.rotation.z = (k - 1) * 0.06;
+        pondGroup.add(stalk);
+        if (k === 1) {
+          const head = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.09, 0.045), mCattail);
+          head.position.set(stalk.position.x, h - 0.04, stalk.position.z);
+          pondGroup.add(head);
+        }
+      }
+    });
+
+    // Schwimmende Voxel-Seerosenblätter & rosa Lotosblüte
+    const mPad = new THREE.MeshLambertMaterial({ color: 0x22c55e });
+    const mLotus = new THREE.MeshLambertMaterial({ color: 0xf472b6 });
+    [[-0.36, 0.20, 0.16, true], [0.34, 0.28, 0.14, false], [-0.08, -0.32, 0.15, false]].forEach(([px, pz, s, hasFlower]) => {
+      const pad = new THREE.Mesh(new THREE.BoxGeometry(s, 0.016, s * 0.9), mPad);
+      pad.position.set(px, 0.002, pz);
+      pad.renderOrder = 3;
+      pondGroup.add(pad);
+      if (hasFlower) {
+        const lotus = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.042, 0.065), mLotus);
+        lotus.position.set(px, 0.028, pz);
+        lotus.renderOrder = 3;
+        pondGroup.add(lotus);
+      }
+    });
+
+    // Zarte Glitzer-Wellen auf der Wasseroberfläche
+    const mRipple = new THREE.MeshLambertMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.55, depthWrite: false });
+    [[-0.22, -0.12], [0.25, 0.06], [-0.08, 0.24], [0.18, -0.22]].forEach(([rx, rz], idx) => {
+      const rip = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.006, 0.03), mRipple);
+      rip.position.set(rx, 0.003, rz);
+      rip.renderOrder = 3;
+      pondGroup.add(rip);
+      voxelPondRipples.push({ mesh: rip, bx: rx, bz: rz, phase: idx * 1.6 });
+    });
+
+    // 5 bunte schwimmende Voxel-Fische im Teich
+    const fishSpecs = [
+      { body: 0xf97316, fin: 0xffffff, accent: 0xfb923c, cx: -0.05, cz:  0.02, rx: 0.34, rz: 0.22, y: -0.022, speed: 0.95, phase: 0.2, dir:  1 },
+      { body: 0xfacc15, fin: 0xfef08a, accent: 0xf59e0b, cx:  0.08, cz: -0.05, rx: 0.28, rz: 0.24, y: -0.028, speed: 1.15, phase: 1.8, dir: -1 },
+      { body: 0xef4444, fin: 0xfecaca, accent: 0xffffff, cx: -0.12, cz:  0.10, rx: 0.24, rz: 0.18, y: -0.018, speed: 1.30, phase: 3.1, dir:  1 },
+      { body: 0xfb7185, fin: 0xfda4af, accent: 0xfde68a, cx:  0.16, cz:  0.08, rx: 0.22, rz: 0.20, y: -0.032, speed: 0.85, phase: 4.5, dir: -1 },
+      { body: 0x2dd4bf, fin: 0x99f6e4, accent: 0xfacc15, cx:  0.00, cz: -0.14, rx: 0.30, rz: 0.16, y: -0.024, speed: 1.42, phase: 5.4, dir:  1 }
+    ];
+    fishSpecs.forEach((sp, idx) => {
+      const f = createVoxelFishMesh(sp.body, sp.fin, sp.accent);
+      f.group.position.set(sp.cx + sp.rx, sp.y, sp.cz);
+      pondGroup.add(f.group);
+      voxelPondFishes.push({
+        group: f.group,
+        tail: f.tail,
+        cx: sp.cx,
+        cz: sp.cz,
+        rx: sp.rx,
+        rz: sp.rz,
+        baseY: sp.y,
+        speed: sp.speed,
+        phase: sp.phase,
+        dir: sp.dir,
+        bobPhase: idx * 1.1
+      });
+    });
+
+    return pondGroup;
   }
 
   function buildVoxelStork() {
@@ -5725,7 +6470,7 @@ const app = (() => {
     storkFlight.dropWZ = (typeof dropWZ === 'number') ? dropWZ : null;
     voxelStorkGroup.visible = true;
     if (voxelStorkBundle) voxelStorkBundle.visible = true;
-    const spNames = { dog: 'Hundewelpe', cat: 'Katzenbaby', bird: 'Vögelchen', kingfisher: 'Eisvogel-Küken', owl: 'Eulen-Küken', bunny: 'Häschen', hedgehog: 'Igel-Baby', fox: 'Fuchswelpe', mouse: 'Mäuschen' };
+    const spNames = { dog: 'Hundewelpe', cat: 'Katzenbaby', bird: 'Vögelchen', kingfisher: 'Eisvogel-Küken', owl: 'Eulen-Küken', bunny: 'Häschen', hedgehog: 'Igel-Baby', fox: 'Fuchswelpe', mouse: 'Mäuschen', stag: 'Hirschkalb', deer: 'Rehkitz' };
     setStatus(`Ein Storch fliegt heran und bringt ein neues ${spNames[targetSpecies] || 'Jungtier'} auf einen freien Wiesenplatz!`);
   }
 
@@ -5797,6 +6542,9 @@ const app = (() => {
     const isHedgehog = (currentSpecies === 'hedgehog');
     const isFox = (currentSpecies === 'fox');
     const isMouse = (currentSpecies === 'mouse');
+    const isStag = (currentSpecies === 'stag');
+    const isDeer = (currentSpecies === 'deer');
+    const isCervid = isStag || isDeer;
     const isDog = (currentSpecies === 'dog');
 
     const isCorgi = isDog && (currentBreed === 'corgi');
@@ -5900,6 +6648,62 @@ const app = (() => {
           }
         }
       }
+    } else if (isCervid) {
+      // ── HIRSCH & REH: Schlanker Wald-Rumpf, Weißer Spiegel & eleganter langer Halsansatz ──
+      if (isStag) {
+        for (let ix = -1.5; ix <= 1.5; ix += 1.0) {
+          for (let iy = 0.0; iy <= 2.0; iy += 1.0) {
+            for (let iz = -3.5; iz <= 2.5; iz += 1.0) {
+              if (iy === 2.0 && Math.abs(ix) === 1.5) continue;
+              const isOuter = (Math.abs(ix) === 1.5 || iy === 0.0 || iy === 2.0 || iz === -3.5 || iz === 2.5);
+              if (!isOuter) continue;
+              const isBelly = (iy === 0.0 && Math.abs(ix) <= 0.5 && iz >= -1.5 && iz <= 1.5);
+              const isMirror = (iz === -3.5 && Math.abs(ix) <= 0.5 && iy <= 1.0);
+              const mat = (isBelly || isMirror) ? mSnout : ((iz >= 1.5 && iy <= 1.0) ? mFurDark : mFur);
+              addVoxel(ix, iy, iz, mat, bodyStandGroup);
+              addVoxel(ix, iy, iz, mat, bodySitGroup);
+            }
+          }
+        }
+        [bodyStandGroup, bodySitGroup].forEach(bg => {
+          // Kräftige dunkle Hirschenbrust & Halsmähne
+          addVoxel(0, -0.45, 1.85, mFurDark, bg, 2.8, 0.9, 2.0, false);
+          addVoxel(0, 1.55, 2.45, mFurDark, bg, 2.65, 1.45, 1.65, false);
+          addVoxel(0, 2.50, 2.65, mFurDark, bg, 2.25, 1.35, 1.45, false);
+          addVoxel(0, 3.40, 2.78, mFur, bg, 1.85, 1.25, 1.28, false);
+          addVoxel(0, 2.20, 3.22, mFurDark, bg, 1.45, 1.90, 0.60, false);
+        });
+      } else {
+        for (let ix = -1.0; ix <= 1.0; ix += 1.0) {
+          for (let iy = 0.0; iy <= 1.8; iy += 0.9) {
+            for (let iz = -3.0; iz <= 2.0; iz += 1.0) {
+              if (iy >= 1.7 && Math.abs(ix) === 1.0) continue;
+              const isOuter = (Math.abs(ix) === 1.0 || iy === 0.0 || iy >= 1.7 || iz === -3.0 || iz === 2.0);
+              if (!isOuter) continue;
+              const isBelly = (iy === 0.0 && ix === 0 && iz >= -1.0 && iz <= 1.0);
+              const mat = isBelly ? mSnout : mFur;
+              addVoxel(ix, iy, iz, mat, bodyStandGroup, 1.04, 0.95, 1.0, true);
+              addVoxel(ix, iy, iz, mat, bodySitGroup, 1.04, 0.95, 1.0, true);
+            }
+          }
+        }
+        [bodyStandGroup, bodySitGroup].forEach(bg => {
+          // Strahlend weißer Reh-Spiegel hinten am Rumpf
+          addVoxel(0, 0.72, -3.28, mWhitePure, bg, 2.05, 1.48, 0.44, false);
+          // Zarte Kitz-Tupfen auf Rücken und oberen Flanken
+          [[-0.78, 2.24, -1.65], [0.78, 2.24, -0.45], [-0.78, 2.24, 0.65], [0.78, 2.24, -2.05], [0, 2.30, -1.0]].forEach(([sx, sy, sz]) => {
+            addVoxel(sx, sy, sz, mSnout, bg, 0.50, 0.18, 0.50, false);
+          });
+          [[-1.54, 1.12, -1.15], [-1.54, 1.24, 0.25], [1.54, 1.12, -0.85], [1.54, 1.24, 0.45]].forEach(([sx, sy, sz]) => {
+            addVoxel(sx, sy, sz, mSnout, bg, 0.20, 0.45, 0.48, false);
+          });
+          // Schlanker anmutiger Rehhals & helle Kehle
+          addVoxel(0, 1.50, 2.02, mFur, bg, 1.80, 1.28, 1.28, false);
+          addVoxel(0, 2.40, 2.22, mFur, bg, 1.50, 1.28, 1.12, false);
+          addVoxel(0, 3.20, 2.36, mFur, bg, 1.30, 1.12, 1.02, false);
+          addVoxel(0, 1.92, 2.62, mSnout, bg, 0.84, 1.82, 0.40, false);
+        });
+      }
     } else {
       // ── HUND, KATZE, KANINCHEN & FUCHS: Rumpf ──
       const bodyLenMin = isCorgi ? -4.5 : (isBunny ? -3.0 : (isMouse ? -3.2 : -4.0));
@@ -5961,14 +6765,14 @@ const app = (() => {
     }
 
     const collarAnchor = new THREE.Object3D();
-    collarAnchor.position.set(0, 3.0 * B, 1.5 * B);
+    collarAnchor.position.set(0, isCervid ? (isStag ? 3.2 * B : 2.9 * B) : 3.0 * B, isCervid ? (isStag ? 2.75 * B : 2.35 * B) : 1.5 * B);
     petGroup.add(collarAnchor);
 
     // ── Voxel-Kopf ──
     const headGroup = new THREE.Group();
     const baseHeadPos = isHedgehog
       ? { x: 0, y: -0.6 * B, z: 2.4 * B }
-      : (isMouse ? { x: 0, y: -1.15 * B, z: 2.35 * B } : { x: 0, y: 4.8 * B, z: 1.2 * B });
+      : (isMouse ? { x: 0, y: -1.15 * B, z: 2.35 * B } : (isCervid ? { x: 0, y: isStag ? 4.95 * B : 4.35 * B, z: isStag ? 2.85 * B : 2.45 * B } : { x: 0, y: 4.8 * B, z: 1.2 * B }));
     headGroup.position.set(baseHeadPos.x, baseHeadPos.y, baseHeadPos.z);
 
     let jawGroup, eyeLGroup, eyeRGroup, earLGroup, earRGroup;
@@ -6089,6 +6893,62 @@ const app = (() => {
       jawGroup.position.set(0, -0.85 * B, 1.85 * B);
       addVoxel(0, -0.15, 0.25, mSnout, jawGroup, 1.2, 0.45, 0.85, false);
       headGroup.add(jawGroup);
+    } else if (isCervid) {
+      // ── HIRSCH & REH-KOPF: Langer oberer Hals, edle schmale Schnauze & (beim Hirsch) mächtiges 3D-Geweih ──
+      const headW = isStag ? 2.65 : 2.25;
+      const headH = isStag ? 2.30 : 2.05;
+      const headD = isStag ? 2.60 : 2.30;
+      addVoxel(0, -0.95, -0.35, mFur, headGroup, isStag ? 1.75 : 1.28, 1.75, 1.15, false);
+      if (isStag) {
+        addVoxel(0, -0.75, -0.82, mFurDark, headGroup, 0.95, 1.85, 0.55, false);
+      } else {
+        addVoxel(0, -0.95, 0.16, mSnout, headGroup, 0.78, 1.45, 0.36, false);
+      }
+      // Schädel + dunkler Stirnfleck + helle Wangen/Kehle
+      addVoxel(0, 0.45, 0.15, mFur, headGroup, headW, headH, headD);
+      addVoxel(0, isStag ? 1.55 : 1.42, -0.05, mFurDark, headGroup, isStag ? 1.60 : 1.20, 0.42, isStag ? 1.80 : 1.50, false);
+      addVoxel(0, -0.45, 0.35, mSnout, headGroup, headW * 0.72, 0.75, headD * 0.78, false);
+      // Schlanke verjüngte Schnauze & Nasenrücken
+      const midZ = isStag ? 1.75 : 1.52;
+      const tipZ = isStag ? 2.85 : 2.50;
+      addVoxel(0, -0.10, midZ, mFur, headGroup, isStag ? 1.72 : 1.42, isStag ? 1.38 : 1.18, isStag ? 1.55 : 1.38);
+      addVoxel(0, 0.46, midZ + 0.10, mFurDark, headGroup, isStag ? 1.05 : 0.85, 0.38, isStag ? 1.50 : 1.35, false);
+      addVoxel(0, -0.25, tipZ, mSnout, headGroup, isStag ? 1.22 : 1.02, isStag ? 1.05 : 0.90, isStag ? 1.10 : 0.95, false);
+      addVoxel(0, 0.16, tipZ - 0.10, mFur, headGroup, isStag ? 0.95 : 0.78, 0.45, 0.95, false);
+      // Feuchte dunkle Wildnase
+      addVoxel(0, -0.08, isStag ? 3.42 : 2.98, mNose, headGroup, isStag ? 0.95 : 0.78, isStag ? 0.68 : 0.56, 0.50, false);
+
+      // Schlanker Unterkiefer
+      jawGroup = new THREE.Group();
+      jawGroup.position.set(0, -0.90 * B, (isStag ? 1.55 : 1.38) * B);
+      addVoxel(0, -0.15, 0.45, mSnout, jawGroup, isStag ? 1.10 : 0.92, 0.42, isStag ? 1.45 : 1.25, false);
+      headGroup.add(jawGroup);
+
+      // Majestätisches verzweigtes 3D-Voxel-Geweih ausschließlich beim Hirsch (Reh ohne Geweih!)
+      if (isStag) {
+        const mAntlerBase = new THREE.MeshStandardMaterial({ color: 0x8c765a, roughness: 0.65 });
+        const mAntlerBone = new THREE.MeshStandardMaterial({ color: 0xd6c7a9, roughness: 0.55 });
+        const mAntlerTip = new THREE.MeshStandardMaterial({ color: 0xf5efe0, roughness: 0.45 });
+        [-1, 1].forEach(sign => {
+          // Rosenstock & schwingende Hauptstange
+          addVoxel(sign * 0.68, 1.78, 0.05, mAntlerBase, headGroup, 0.58, 0.70, 0.58, false);
+          addVoxel(sign * 1.10, 2.46, -0.08, mAntlerBase, headGroup, 0.52, 0.88, 0.52, false);
+          addVoxel(sign * 1.72, 3.22, -0.34, mAntlerBone, headGroup, 0.48, 0.96, 0.48, false);
+          addVoxel(sign * 2.40, 4.06, -0.50, mAntlerBone, headGroup, 0.44, 1.00, 0.44, false);
+          addVoxel(sign * 2.96, 4.90, -0.44, mAntlerBone, headGroup, 0.40, 0.95, 0.40, false);
+          addVoxel(sign * 3.34, 5.66, -0.24, mAntlerTip, headGroup, 0.34, 0.85, 0.34, false);
+          // Augspross nach vorne
+          addVoxel(sign * 1.22, 2.72, 0.58, mAntlerBone, headGroup, 0.38, 0.40, 0.80, false);
+          addVoxel(sign * 1.28, 3.18, 1.16, mAntlerTip, headGroup, 0.32, 0.72, 0.36, false);
+          // Mittelspross schräg vor-aufwärts
+          addVoxel(sign * 2.12, 3.96, 0.22, mAntlerBone, headGroup, 0.36, 0.38, 0.85, false);
+          addVoxel(sign * 2.28, 4.58, 0.72, mAntlerTip, headGroup, 0.32, 0.82, 0.34, false);
+          // Obere Geweih-Krone
+          addVoxel(sign * 2.50, 5.20, -0.66, mAntlerBone, headGroup, 0.34, 0.85, 0.34, false);
+          addVoxel(sign * 2.14, 5.82, -0.76, mAntlerTip, headGroup, 0.30, 0.74, 0.32, false);
+          addVoxel(sign * 3.08, 5.20, -1.02, mAntlerTip, headGroup, 0.30, 0.78, 0.32, false);
+        });
+      }
     } else {
       // ── HUND, KATZE, KANINCHEN & FUCHS-KOPF ──
       for (let ix = -3.5; ix <= 3.5; ix += 1.0) {
@@ -6171,13 +7031,16 @@ const app = (() => {
     }
 
     // ── Augen ──
-    const eyeX = isOwl ? 1.55 : (isBird ? 1.85 : (isHedgehog ? 1.25 : (isMouse ? 1.18 : 2.0)));
-    const eyeY = isOwl ? 0.95 : (isHedgehog ? 0.45 : (isMouse ? 0.42 : 1.35));
-    const eyeZ = isOwl ? 2.85 : (isBird ? 2.55 : (isHedgehog ? 1.85 : (isMouse ? 1.22 : 3.12)));
+    const eyeX = isOwl ? 1.55 : (isBird ? 1.85 : (isHedgehog ? 1.25 : (isMouse ? 1.18 : (isCervid ? (isStag ? 1.28 : 1.08) : 2.0))));
+    const eyeY = isOwl ? 0.95 : (isHedgehog ? 0.45 : (isMouse ? 0.42 : (isCervid ? (isStag ? 0.60 : 0.52) : 1.35)));
+    const eyeZ = isOwl ? 2.85 : (isBird ? 2.55 : (isHedgehog ? 1.85 : (isMouse ? 1.22 : (isCervid ? (isStag ? 0.95 : 0.85) : 3.12))));
     eyeLGroup = new THREE.Group();
     eyeLGroup.position.set(-eyeX * B, eyeY * B, eyeZ * B);
     if (isHedgehog) {
       addVoxel(0, 0, 0, mPupil, eyeLGroup, 0.85, 0.85, 0.45, false);
+    } else if (isCervid) {
+      addVoxel(0, 0, 0, mPupil, eyeLGroup, 0.46, isDeer ? 1.15 : 1.0, isDeer ? 1.05 : 0.95, false);
+      addVoxel(-0.14, 0.24, 0.24, mWhitePure, eyeLGroup, 0.26, 0.30, 0.30, false);
     } else if (isMouse) {
       addVoxel(0, 0, 0, mPupil, eyeLGroup, 1.05, 1.05, 0.55, false);
       addVoxel(0.18, 0.22, 0.24, mWhitePure, eyeLGroup, 0.36, 0.36, 0.32, false);
@@ -6209,6 +7072,9 @@ const app = (() => {
     eyeRGroup.position.set(eyeX * B, eyeY * B, eyeZ * B);
     if (isHedgehog) {
       addVoxel(0, 0, 0, mPupil, eyeRGroup, 0.85, 0.85, 0.45, false);
+    } else if (isCervid) {
+      addVoxel(0, 0, 0, mPupil, eyeRGroup, 0.46, isDeer ? 1.15 : 1.0, isDeer ? 1.05 : 0.95, false);
+      addVoxel(0.14, 0.24, 0.24, mWhitePure, eyeRGroup, 0.26, 0.30, 0.30, false);
     } else if (isMouse) {
       addVoxel(0, 0, 0, mPupil, eyeRGroup, 1.05, 1.05, 0.55, false);
       addVoxel(-0.18, 0.22, 0.24, mWhitePure, eyeRGroup, 0.36, 0.36, 0.32, false);
@@ -6324,6 +7190,23 @@ const app = (() => {
 
       earLGroup.rotation.set(0.12, 0, 0.20);
       earRGroup.rotation.set(0.12, 0, -0.20);
+    } else if (isCervid) {
+      // Hirsch & Reh: Große, lauschende schaufelförmige Wildohren hinter dem Stirnansatz
+      const eX = isStag ? 1.22 : 1.02;
+      const eY = isStag ? 1.38 : 1.32;
+      const eZ = isStag ? -0.52 : -0.35;
+      const eScale = isDeer ? 1.12 : 1.0;
+      earLGroup.position.set(-eX * B, eY * B, eZ * B);
+      earRGroup.position.set(eX * B, eY * B, eZ * B);
+      [-1, 1].forEach(sign => {
+        const eg = (sign < 0) ? earLGroup : earRGroup;
+        addVoxel(0, 0.45, 0, mFur, eg, 0.85 * eScale, 0.95 * eScale, 0.65, false);
+        addVoxel(0, 1.35 * eScale, 0, mFur, eg, 1.20 * eScale, 1.18 * eScale, 0.52);
+        addVoxel(0, 1.25 * eScale, 0.24, mSnout, eg, 0.78 * eScale, 1.05 * eScale, 0.26, false);
+        addVoxel(0, 2.22 * eScale, 0, mFurDark, eg, 0.68 * eScale, 0.82 * eScale, 0.42, false);
+      });
+      earLGroup.rotation.set(0.06, -0.26, 0.50);
+      earRGroup.rotation.set(0.06, 0.26, -0.50);
     } else if (breedInfo.earType === 'pointy') {
       earLGroup.position.set(-2.5 * B, 4.2 * B, 0.5 * B);
       earRGroup.position.set(2.5 * B, 4.2 * B, 0.5 * B);
@@ -6454,6 +7337,35 @@ const app = (() => {
       legBLSit.visible = false;
       legBRSit.visible = false;
       petGroup.add(legFL, legFR, legBL, legBR, legBLSit, legBRSit);
+    } else if (isCervid) {
+      // ── HIRSCH & REH: Hohe, sehr schlanke Läufe mit dunklen Schalen/Hufen exakt auf Bodenhöhe -5.6*B ──
+      const mHoof = new THREE.MeshLambertMaterial({ color: 0x18181b });
+      const legX = isStag ? 1.35 * B : 1.05 * B;
+      const legZFront = isStag ? 2.10 * B : 1.75 * B;
+      const legZBack = isStag ? -2.75 * B : -2.35 * B;
+
+      function createCervidLeg(x, y, z, isFront) {
+        const legGrp = new THREE.Group();
+        legGrp.position.set(x, y, z);
+        const upW = isStag ? 1.12 : 0.94;
+        const shW = isStag ? 0.84 : 0.70;
+        const hW = isStag ? 0.92 : 0.78;
+        addVoxel(0, 0.0, 0, mFur, legGrp, upW, 1.40, isFront ? 1.18 : 1.32);
+        addVoxel(0, -1.3, 0, mFur, legGrp, shW, 1.35, shW, false);
+        addVoxel(0, -2.5, isFront ? 0 : -0.15, isStag ? mFurDark : mFur, legGrp, shW * 0.92, 1.30, shW * 0.92, false);
+        addVoxel(0, -3.7, 0.05, isStag ? mFurDark : mFur, legGrp, shW * 0.88, 1.30, shW * 0.88, false);
+        addVoxel(0, -4.75, 0.16, mHoof, legGrp, hW, 0.90, isStag ? 1.12 : 0.98, false);
+        return legGrp;
+      }
+      legFL = createCervidLeg(-legX, -0.4 * B, legZFront, true);
+      legFR = createCervidLeg(legX, -0.4 * B, legZFront, true);
+      legBL = createCervidLeg(-legX, -0.4 * B, legZBack, false);
+      legBR = createCervidLeg(legX, -0.4 * B, legZBack, false);
+      legBLSit = createCervidLeg(-legX, -0.4 * B, legZBack, false);
+      legBRSit = createCervidLeg(legX, -0.4 * B, legZBack, false);
+      legBLSit.visible = false;
+      legBRSit.visible = false;
+      petGroup.add(legFL, legFR, legBL, legBR, legBLSit, legBRSit);
     } else {
       const mBlackLeg = new THREE.MeshLambertMaterial({ color: 0x18181b });
       const legPawMat = isFox ? mBlackLeg : (isMouse ? mPinkInner : ((isShiba || isCorgi || isHusky || isCat || isBunny) ? mSnout : mFur));
@@ -6520,8 +7432,8 @@ const app = (() => {
 
     // ── Rute / Schwanz ──
     const tailGroup = new THREE.Group();
-    const tailBaseY = isHedgehog ? (-2.4 * B) : (isMouse ? (-3.1 * B) : (0.2 * B));
-    const tailBaseZ = isCorgi ? -4.7 * B : (isBird ? -2.2 * B : (isBunny ? -3.3 * B : (isHedgehog ? -3.4 * B : (isMouse ? -3.1 * B : -4.2 * B))));
+    const tailBaseY = isHedgehog ? (-2.4 * B) : (isMouse ? (-3.1 * B) : (isCervid ? (isStag ? 1.15 * B : 0.95 * B) : (0.2 * B)));
+    const tailBaseZ = isCorgi ? -4.7 * B : (isBird ? -2.2 * B : (isBunny ? -3.3 * B : (isHedgehog ? -3.4 * B : (isMouse ? -3.1 * B : (isCervid ? (isStag ? -3.65 * B : -3.15 * B) : -4.2 * B)))));
     tailGroup.position.set(0, tailBaseY, tailBaseZ);
 
     if (isBird) {
@@ -6554,6 +7466,10 @@ const app = (() => {
         const tx = Math.sin(s * 0.62) * 0.65;
         addVoxel(tx, ty, tz, mPinkInner, tailGroup, Math.max(0.28, 0.52 - s * 0.02), Math.max(0.26, 0.44 - s * 0.015), 0.82, false);
       }
+    } else if (isCervid) {
+      // Kurzer Stummelschwanz (Wedel) mit heller Unterseite
+      addVoxel(0, 0.25, -0.35, mFur, tailGroup, isStag ? 0.95 : 0.78, 0.72, 0.90, false);
+      addVoxel(0, -0.18, -0.30, isDeer ? mWhitePure : mSnout, tailGroup, isStag ? 0.85 : 0.72, 0.58, 0.82, false);
     } else if (isFox) {
       // Buschiger, dichter Fuchsschwanz mit breiter Wolle & weißer Spitze
       const foxTailSegments = [
@@ -6615,7 +7531,7 @@ const app = (() => {
 
     petGroup.userData.baseHeadPos = baseHeadPos;
     petGroup.userData.baseTailY = tailBaseY;
-    petGroup.userData.defaultBackZ = isHedgehog ? (-1.75 * B) : (isBird ? (-0.2 * B) : (-2.5 * B));
+    petGroup.userData.defaultBackZ = isHedgehog ? (-1.75 * B) : (isBird ? (-0.2 * B) : (isCervid ? (isStag ? -2.75 * B : -2.35 * B) : (-2.5 * B)));
     petGroup.userData.baseEarRot = {
       lx: earLGroup.rotation.x, ly: earLGroup.rotation.y, lz: earLGroup.rotation.z,
       rx: earRGroup.rotation.x, ry: earRGroup.rotation.y, rz: earRGroup.rotation.z
@@ -6739,6 +7655,8 @@ const app = (() => {
     const isHedgehog = (currentSpecies === 'hedgehog');
     const isFox = (currentSpecies === 'fox');
     const isMouse = (currentSpecies === 'mouse');
+    const isStag = (currentSpecies === 'stag');
+    const isDeer = (currentSpecies === 'deer');
 
     const B = VOXEL_BLOCK_SIZE; // Standard: 0.095
     const sharedVoxelGeo = new THREE.BoxGeometry(B * 1.004, B * 1.004, B * 1.004);
@@ -6825,6 +7743,7 @@ const app = (() => {
 
     // ── Tier-spezifisches 3D Voxel-Futter pro Slot (damit Essen auf freiem Platz & parallel pro Tier erscheint) ──
     function buildTreatEntry(targetSp) {
+      const spB = VOXEL_BLOCK_SIZE;
       const isBunny = (targetSp === 'bunny');
       const isKingfisher = (targetSp === 'kingfisher');
       const isOwl = (targetSp === 'owl');
@@ -6833,9 +7752,12 @@ const app = (() => {
       const isHedgehog = (targetSp === 'hedgehog');
       const isMouse = (targetSp === 'mouse');
       const isFox = (targetSp === 'fox');
+      const isStag = (targetSp === 'stag');
+      const isDeer = (targetSp === 'deer');
       voxelTreatMesh = new THREE.Group();
       voxelFoodGroup = new THREE.Group();
       voxelFoodBlocks = [];
+      let treatSplashDrops = [];
 
     if (isBunny) {
       // Zwergkaninchen: Kein Fressnapf — großes grünes Blatt am Boden + knackige 3D-Voxel-Karotte zum Abknabbern!
@@ -6871,21 +7793,68 @@ const app = (() => {
         voxelFoodBlocks.push(lf);
       });
     } else if (isKingfisher) {
-      // ── EISVOGEL: Kleiner Flusskiesel / Steinplatte mit kleinem frischem Fisch ──
-      const mRiverStone = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
-      const mMinnowBody = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
-      const mMinnowBelly = new THREE.MeshLambertMaterial({ color: 0xf1f5f9 });
-      const mMinnowTail = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
-      const stonePad = new THREE.Mesh(new THREE.BoxGeometry(B * 4.6, B * 0.35, B * 2.8), mRiverStone);
-      stonePad.position.set(0, 0.02, 0);
-      voxelTreatMesh.add(stonePad);
+      // ── EISVOGEL: Kleiner Voxel-Fischteich mit schwimmendem Fisch & Wasserspritzern beim Sturzflug ──
+      const mPondBed   = new THREE.MeshLambertMaterial({ color: 0x075985 });
+      const mPondWater = new THREE.MeshLambertMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.54, depthWrite: false });
+      const mStoneLt   = new THREE.MeshLambertMaterial({ color: 0x94a3b8 });
+      const mStoneDk   = new THREE.MeshLambertMaterial({ color: 0x64748b });
+      const mMossStone = new THREE.MeshLambertMaterial({ color: 0x4d7c0f });
+      const mReedStalk = new THREE.MeshLambertMaterial({ color: 0x15803d });
+      const mCattail   = new THREE.MeshLambertMaterial({ color: 0x78350f });
+      const mLilyPad   = new THREE.MeshLambertMaterial({ color: 0x22c55e });
 
-      for (let fi = -2; fi <= 2; fi++) {
-        const fh = fi === 2 ? 0.45 : (Math.abs(fi) === 1 ? 0.75 : 0.95);
-        const fCol = fi === 2 ? mMinnowTail : (fi <= 0 ? mMinnowBody : mMinnowBelly);
-        const fSeg = new THREE.Mesh(new THREE.BoxGeometry(B * 0.75, B * fh, B * 0.85), fCol);
-        fSeg.position.set(fi * B * 0.72, B * 0.65, 0);
-        fSeg.userData.eatOrder = fi + 2;
+      const pondBed = new THREE.Mesh(new THREE.BoxGeometry(spB * 5.8, spB * 0.22, spB * 5.8), mPondBed);
+      pondBed.position.set(0, 0.012, 0);
+      voxelTreatMesh.add(pondBed);
+
+      const pondWater = new THREE.Mesh(new THREE.BoxGeometry(spB * 5.2, spB * 0.55, spB * 5.2), mPondWater);
+      pondWater.position.set(0, spB * 0.30, 0);
+      pondWater.renderOrder = 2;
+      voxelTreatMesh.add(pondWater);
+
+      for (let i = 0; i < 12; i++) {
+        const ang = (i / 12) * Math.PI * 2;
+        const rad = (2.75 + (i % 2) * 0.45) * spB;
+        const pMat = (i % 3 === 0) ? mMossStone : ((i % 2 === 0) ? mStoneLt : mStoneDk);
+        const pw = (0.95 + (i % 2) * 0.35) * spB;
+        const ph = (0.55 + (i % 3) * 0.14) * spB;
+        const pebble = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, pw * 0.9), pMat);
+        pebble.position.set(Math.cos(ang) * rad, ph * 0.5, Math.sin(ang) * rad);
+        pebble.rotation.y = ang;
+        voxelTreatMesh.add(pebble);
+      }
+
+      const reed = new THREE.Mesh(new THREE.BoxGeometry(spB * 0.28, spB * 2.4, spB * 0.28), mReedStalk);
+      reed.position.set(spB * 2.55, spB * 1.2, -spB * 2.35);
+      const cattail = new THREE.Mesh(new THREE.BoxGeometry(spB * 0.42, spB * 0.72, spB * 0.42), mCattail);
+      cattail.position.set(spB * 2.55, spB * 2.05, -spB * 2.35);
+      const lily = new THREE.Mesh(new THREE.BoxGeometry(spB * 1.1, spB * 0.14, spB * 1.0), mLilyPad);
+      lily.position.set(-spB * 1.35, spB * 0.56, -spB * 1.25);
+      lily.renderOrder = 3;
+      voxelTreatMesh.add(reed, cattail, lily);
+
+      const mSplashW = new THREE.MeshLambertMaterial({ color: 0xe0f2fe });
+      const mSplashB = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+      const splashGeo = new THREE.BoxGeometry(spB * 0.48, spB * 0.48, spB * 0.48);
+      for (let si = 0; si < 8; si++) {
+        const drop = new THREE.Mesh(splashGeo, si % 2 === 0 ? mSplashW : mSplashB);
+        drop.visible = false;
+        drop.renderOrder = 4;
+        voxelTreatMesh.add(drop);
+        treatSplashDrops.push({ mesh: drop, angle: (si / 8) * Math.PI * 2, speed: 0.9 + (si % 3) * 0.22 });
+      }
+
+      const mFishGold  = new THREE.MeshLambertMaterial({ color: 0xf97316 });
+      const mFishYel   = new THREE.MeshLambertMaterial({ color: 0xfacc15 });
+      const mFishSilv  = new THREE.MeshLambertMaterial({ color: 0xf1f5f9 });
+      const mFishTail  = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
+      const fishCols = [mFishYel, mFishGold, mFishGold, mFishSilv, mFishTail];
+      for (let fi = 0; fi < 5; fi++) {
+        const fh = (fi === 4) ? 0.55 : ((fi === 0 || fi === 3) ? 0.65 : 0.85);
+        const fSeg = new THREE.Mesh(new THREE.BoxGeometry(spB * 0.62, spB * fh, spB * 0.72), fishCols[fi]);
+        fSeg.position.set(0, spB * 0.48, (2 - fi) * spB * 0.52);
+        fSeg.renderOrder = 1;
+        fSeg.userData.eatOrder = fi;
         voxelFoodGroup.add(fSeg);
         voxelFoodBlocks.push(fSeg);
       }
@@ -7017,6 +7986,59 @@ const app = (() => {
       const lf = new THREE.Mesh(new THREE.BoxGeometry(B * 1.2, B * 0.2, B * 0.9), mLeafGreen);
       lf.position.set(0, B * 0.35, 0);
       voxelTreatMesh.add(lf);
+    } else if (isStag) {
+      // ── HIRSCH: Moos-Rinde mit frischen roten Waldäpfeln & goldenen Eicheln ──
+      const mBark = new THREE.MeshLambertMaterial({ color: 0x451a03 });
+      const mMoss = new THREE.MeshLambertMaterial({ color: 0x4d7c0f });
+      const mAppleRed = new THREE.MeshLambertMaterial({ color: 0xdc2626 });
+      const mAcorn = new THREE.MeshLambertMaterial({ color: 0xb45309 });
+      const mAcornCap = new THREE.MeshLambertMaterial({ color: 0x78350f });
+      const mLeaf = new THREE.MeshLambertMaterial({ color: 0x16a34a });
+      const board = new THREE.Mesh(new THREE.BoxGeometry(B * 5.0, B * 0.28, B * 4.0), mBark);
+      const moss = new THREE.Mesh(new THREE.BoxGeometry(B * 4.4, B * 0.34, B * 3.4), mMoss);
+      moss.position.set(0, 0.02, 0);
+      voxelTreatMesh.add(board, moss);
+
+      [[-1.0, 0.55], [0.85, 0.35], [-0.1, -0.9]].forEach(([ax, az], idx) => {
+        const apple = new THREE.Mesh(new THREE.BoxGeometry(B * 1.15, B * 1.05, B * 1.15), mAppleRed);
+        apple.position.set(ax * B, B * 0.85, az * B);
+        apple.userData.eatOrder = idx;
+        const leaf = new THREE.Mesh(new THREE.BoxGeometry(B * 0.45, B * 0.22, B * 0.55), mLeaf);
+        leaf.position.set(B * 0.22, B * 0.62, 0);
+        apple.add(leaf);
+        voxelFoodGroup.add(apple);
+        voxelFoodBlocks.push(apple);
+      });
+      [[1.25, -0.75], [-1.35, -0.65], [0.15, 1.05], [-0.25, 0.05]].forEach(([ex, ez], idx) => {
+        const acorn = new THREE.Mesh(new THREE.BoxGeometry(B * 0.68, B * 0.72, B * 0.68), mAcorn);
+        acorn.position.set(ex * B, B * 0.68, ez * B);
+        acorn.userData.eatOrder = 3 + idx;
+        const cap = new THREE.Mesh(new THREE.BoxGeometry(B * 0.82, B * 0.28, B * 0.82), mAcornCap);
+        cap.position.y = B * 0.40;
+        acorn.add(cap);
+        voxelFoodGroup.add(acorn);
+        voxelFoodBlocks.push(acorn);
+      });
+    } else if (isDeer) {
+      // ── REH: Frisches Waldklee- & Kräuterbüschel am Waldboden ──
+      const mCloverBed = new THREE.MeshLambertMaterial({ color: 0x14532d });
+      const mCloverBright = new THREE.MeshLambertMaterial({ color: 0x22c55e });
+      const mCloverMid = new THREE.MeshLambertMaterial({ color: 0x16a34a });
+      const mBlossom = new THREE.MeshLambertMaterial({ color: 0xfef3c7 });
+      const bed = new THREE.Mesh(new THREE.BoxGeometry(B * 5.0, B * 0.24, B * 4.0), mCloverBed);
+      bed.position.set(0, 0.015, 0);
+      voxelTreatMesh.add(bed);
+
+      [[-1.2, 0.4], [0, 0.9], [1.1, 0.2], [-0.5, -0.7], [0.8, -0.8], [0, 0], [-1.1, -0.3]].forEach(([cx, cz], idx) => {
+        const tuft = new THREE.Mesh(
+          new THREE.BoxGeometry(B * 1.0, B * (idx % 2 === 0 ? 0.95 : 0.75), B * 1.0),
+          idx % 3 === 0 ? mBlossom : (idx % 2 === 0 ? mCloverBright : mCloverMid)
+        );
+        tuft.position.set(cx * B, B * 0.68, cz * B);
+        tuft.userData.eatOrder = idx;
+        voxelFoodGroup.add(tuft);
+        voxelFoodBlocks.push(tuft);
+      });
     } else {
       // Hund: Blauer Voxel-Fressnapf mit Kroketten & Knochen
       const mBowlOuter = new THREE.MeshLambertMaterial({ color: 0x2563eb });
@@ -7082,8 +8104,9 @@ const app = (() => {
       voxelTreatMesh.position.set(0, -0.80, 0.36);
       voxelTreatMesh.visible = false;
       voxelScene.add(voxelTreatMesh);
-      return { treatGroup: voxelTreatMesh, foodGroup: voxelFoodGroup, foodBlocks: voxelFoodBlocks };
+      return { treatGroup: voxelTreatMesh, foodGroup: voxelFoodGroup, foodBlocks: voxelFoodBlocks, splashDrops: treatSplashDrops, species: targetSp };
     }
+    voxelBuildTreatEntry = buildTreatEntry;
     voxelSlotTreats = [0, 1, 2, 3].map(idx => {
       const s = state.petSlots && state.petSlots[idx];
       return buildTreatEntry((s && s.species) || currentSpecies);
@@ -7349,6 +8372,28 @@ const app = (() => {
       const cTop = new THREE.Mesh(new THREE.BoxGeometry(B * 1.0, B * 1.2, B * 1.0), mConeLight);
       cTop.position.y = B * 1.2;
       voxelBallMesh.add(cBase, cTop);
+    } else if (isStag) {
+      // ── 3D VOXEL-WALDAPFEL für den Hirsch ──
+      const mAppleRed = new THREE.MeshLambertMaterial({ color: 0xdc2626 });
+      const mAppleStem = new THREE.MeshLambertMaterial({ color: 0x78350f });
+      const mAppleLeaf = new THREE.MeshLambertMaterial({ color: 0x22c55e });
+      const aBody = new THREE.Mesh(new THREE.BoxGeometry(B * 1.65, B * 1.5, B * 1.65), mAppleRed);
+      const aStem = new THREE.Mesh(new THREE.BoxGeometry(B * 0.32, B * 0.75, B * 0.32), mAppleStem);
+      aStem.position.y = B * 0.95;
+      const aLeaf = new THREE.Mesh(new THREE.BoxGeometry(B * 0.72, B * 0.25, B * 0.55), mAppleLeaf);
+      aLeaf.position.set(B * 0.38, B * 1.05, 0);
+      voxelBallMesh.add(aBody, aStem, aLeaf);
+    } else if (isDeer) {
+      // ── 3D VOXEL-EICHEL für das Reh ──
+      const mAcornBody = new THREE.MeshLambertMaterial({ color: 0xc27832 });
+      const mAcornCap = new THREE.MeshLambertMaterial({ color: 0x5c2d16 });
+      const mAcornLeaf = new THREE.MeshLambertMaterial({ color: 0x16a34a });
+      const acBody = new THREE.Mesh(new THREE.BoxGeometry(B * 1.4, B * 1.35, B * 1.4), mAcornBody);
+      const acCap = new THREE.Mesh(new THREE.BoxGeometry(B * 1.65, B * 0.65, B * 1.65), mAcornCap);
+      acCap.position.y = B * 0.85;
+      const acLeaf = new THREE.Mesh(new THREE.BoxGeometry(B * 0.65, B * 0.25, B * 0.55), mAcornLeaf);
+      acLeaf.position.set(B * 0.45, B * 1.15, 0);
+      voxelBallMesh.add(acBody, acCap, acLeaf);
     } else {
       // ── Mehrfarbiger 3D-Voxel-Ball ──
       const mBallPink = new THREE.MeshLambertMaterial({ color: isBird ? 0xfacc15 : 0xec4899 });
@@ -7514,7 +8559,8 @@ const app = (() => {
         : (DOG_FUR_PALETTES[furCategory] || DOG_FUR_PALETTES.brown);
     }
     const collarCol = DOG_COLLAR_COLORS[state.custom.collar] || DOG_COLLAR_COLORS.red;
-    const envName = state.worldEnv || 'meadow';
+    state.worldEnv = 'meadow';
+    const envName = 'meadow';
     if (state.custom) state.custom.env = envName;
 
     if (mFurMat) mFurMat.color.setHex(fur.fur);
@@ -7656,6 +8702,26 @@ const app = (() => {
       if (lblHappy) lblHappy.textContent = 'FLINKHEIT';
       if (lblPotty) lblPotty.textContent = 'BAU';
       setStatus('Maus aktiv: Flitzt flink umher, liebt Käse und Nüsse.');
+    } else if (species === 'stag') {
+      if (pxLblWalk) pxLblWalk.textContent = 'STREIFEN';
+      if (pxLblFeed) pxLblFeed.textContent = 'ÄPFEL';
+      if (pxLblPlay) pxLblPlay.textContent = 'APFEL';
+      if (pxBtnWalk) pxBtnWalk.title = 'Durch den Wald streifen';
+      if (pxBtnFeed) pxBtnFeed.title = 'Waldäpfel & Eicheln füttern';
+      if (pxBtnPlay) pxBtnPlay.title = 'Waldapfel rollen';
+      if (lblHappy) lblHappy.textContent = 'KRAFT';
+      if (lblPotty) lblPotty.textContent = 'REVIER';
+      setStatus('Hirsch aktiv: Stolzer Waldkönig mit Geweih — liebt Äpfel und Streifzüge.');
+    } else if (species === 'deer') {
+      if (pxLblWalk) pxLblWalk.textContent = 'GRASEN';
+      if (pxLblFeed) pxLblFeed.textContent = 'KLEE';
+      if (pxLblPlay) pxLblPlay.textContent = 'EICHEL';
+      if (pxBtnWalk) pxBtnWalk.title = 'Anmutig über die Lichtung streifen';
+      if (pxBtnFeed) pxBtnFeed.title = 'Frischen Klee & Kräuter füttern';
+      if (pxBtnPlay) pxBtnPlay.title = 'Eichel werfen';
+      if (lblHappy) lblHappy.textContent = 'ANMUT';
+      if (lblPotty) lblPotty.textContent = 'WALD';
+      setStatus('Reh aktiv: Anmutig & wachsam — liebt frischen Klee und Waldlichtungen.');
     } else {
       if (pxLblWalk) pxLblWalk.textContent = 'GASSI';
       if (pxLblFeed) pxLblFeed.textContent = 'FUTTER';
@@ -7675,7 +8741,7 @@ const app = (() => {
     const curFur = (state.custom && state.custom.fur) ? state.custom.fur : 'brown';
     const curEye = (state.custom && state.custom.eye) ? state.custom.eye : 'black';
     const curCollar = (state.custom && state.custom.collar) ? state.custom.collar : 'red';
-    const curEnv = state.worldEnv || 'meadow';
+    state.worldEnv = 'meadow';
 
     const breedBox = $('breed-subselector');
     if (breedBox) {
@@ -7705,17 +8771,18 @@ const app = (() => {
       b.style.transform = active ? 'scale(1.08)' : 'scale(1)';
       b.style.border = active ? '2px solid #facc15' : '1px solid rgba(163,230,53,0.45)';
     });
-    document.querySelectorAll('.custom-env-btn').forEach(b => {
-      const active = b.dataset.env === curEnv;
-      b.style.background = active ? '#84cc16' : '#26421e';
-      b.style.color = active ? '#142410' : '#ecfccb';
-      b.style.borderColor = active ? '#ecfccb' : 'rgba(163,230,53,0.4)';
-    });
     const curGM = state.gameMode || 'sweet';
     document.querySelectorAll('.custom-gamemode-btn').forEach(b => {
       const active = b.dataset.gamemode === curGM;
       b.style.background = active ? (curGM === 'nature' ? '#d97706' : '#84cc16') : '#26421e';
       b.style.color = active ? '#142410' : (b.dataset.gamemode === 'nature' ? '#fde68a' : '#ecfccb');
+      b.style.borderColor = active ? '#ecfccb' : 'rgba(163,230,53,0.4)';
+    });
+    const curUM = state.voxelUiMode || 'always';
+    document.querySelectorAll('.custom-uimode-btn').forEach(b => {
+      const active = b.dataset.uimode === curUM;
+      b.style.background = active ? '#84cc16' : '#26421e';
+      b.style.color = active ? '#142410' : '#ecfccb';
       b.style.borderColor = active ? '#ecfccb' : 'rgba(163,230,53,0.4)';
     });
     const protBtn = $('modal-btn-protect');
@@ -7734,10 +8801,10 @@ const app = (() => {
   }
 
   function setDogCustom(category, value) {
-    if (!state.custom) state.custom = { species: 'dog', breed: 'shiba', fur: 'brown', eye: 'black', collar: 'red', accessory: 'none', env: state.worldEnv || 'meadow' };
+    if (!state.custom) state.custom = { species: 'dog', breed: 'shiba', fur: 'brown', eye: 'black', collar: 'red', accessory: 'none', env: 'meadow' };
     if (category === 'env') {
-      state.worldEnv = value;
-      state.custom.env = value;
+      state.worldEnv = 'meadow';
+      state.custom.env = 'meadow';
       applyDogCustomization();
       saveGameProgress();
       return;
@@ -7783,6 +8850,8 @@ const app = (() => {
   function openCustomModal() {
     const disp = document.querySelector('.amoled-display-round');
     if (disp) { disp.scrollLeft = 0; disp.scrollTop = 0; }
+    clearVoxelAutoHideTimer();
+    applyVoxelUiVisibility(true);
     const modal = $('custom-modal-overlay');
     if (modal) {
       applyDogCustomization();
@@ -7794,9 +8863,25 @@ const app = (() => {
   function closeCustomModal() {
     const modal = $('custom-modal-overlay');
     if (modal) modal.style.display = 'none';
+    applyVoxelUiVisibility(true);
+    if (state.voxelUiMode === 'autohide' && currentViewIndex === 2) {
+      scheduleVoxelAutoHide();
+    }
   }
 
   function handleVoxelContainerClick(e) {
+    if (state.voxelUiMode === 'toggle') {
+      applyVoxelUiVisibility(!voxelControlsVisible);
+      return;
+    }
+    if (state.voxelUiMode === 'autohide') {
+      if (!voxelControlsVisible) {
+        applyVoxelUiVisibility(true);
+        scheduleVoxelAutoHide();
+        return;
+      }
+      scheduleVoxelAutoHide();
+    }
     if (state.isDead && state.activeSlot !== null) {
       updateRebirthOverlay();
       return;
@@ -7894,8 +8979,13 @@ const app = (() => {
       throwAngle = Math.random() * Math.PI * 2;
     }
 
-    voxelBallWorldPos.x = voxelWorldOffset.x + voxelCurrentPos.x + Math.sin(throwAngle) * throwDistance;
-    voxelBallWorldPos.z = voxelWorldOffset.z + voxelCurrentPos.z + Math.cos(throwAngle) * throwDistance;
+    const safeBall = pushOutOfPond(
+      voxelWorldOffset.x + voxelCurrentPos.x + Math.sin(throwAngle) * throwDistance,
+      voxelWorldOffset.z + voxelCurrentPos.z + Math.cos(throwAngle) * throwDistance,
+      0.35
+    );
+    voxelBallWorldPos.x = safeBall.x;
+    voxelBallWorldPos.z = safeBall.z;
     voxelBallBounceTimer = 1.05;
 
     if (voxelPlayTimer > 0) {
@@ -7909,6 +8999,8 @@ const app = (() => {
     else if (sp === 'kingfisher') setStatus('Fischattrappe geworfen — stürzt sich im Sturzflug darauf!');
     else if (sp === 'bunny') setStatus('Karotte geworfen — hoppelt hinterher!');
     else if (sp === 'mouse') setStatus('Haselnuss gerollt — Maus flitzt blitzschnell hinterher!');
+    else if (sp === 'stag') setStatus('Waldapfel gerollt — Hirsch springt kräftig hinterher!');
+    else if (sp === 'deer') setStatus('Eichel geworfen — Reh hüpft anmutig hinterher!');
     else setStatus('Ball geworfen — spurtet hinterher!');
     addXp(6);
   }
@@ -7949,7 +9041,8 @@ const app = (() => {
       const bx = voxelWorldOffset.x + voxelCurrentPos.x;
       const bz = voxelWorldOffset.z + voxelCurrentPos.z;
       voxelWorldProps.forEach(pr => {
-        if (pr.type !== 'tree') return;
+        if (!isTreeProp(pr)) return;
+        if (isTreeOccupiedByOtherBird(pr, state.activeSlot)) return;
         const d = Math.hypot(pr.wx - bx, pr.wz - bz);
         if (d < bestDist && d < 6.0) { bestDist = d; nearest = pr; }
       });
@@ -8002,10 +9095,10 @@ const app = (() => {
     } else {
       es.twitchTimer = (es.twitchTimer || 0) - delta;
       if (es.twitchTimer <= 0) {
-        es.twitchTimer = (species === 'mouse' || species === 'bunny') ? (0.85 + Math.random() * 1.9) : (1.2 + Math.random() * 2.5);
+        es.twitchTimer = (species === 'mouse' || species === 'bunny' || species === 'stag' || species === 'deer') ? (0.85 + Math.random() * 1.9) : (1.2 + Math.random() * 2.5);
         es.twitchDur = 0.22 + Math.random() * 0.25;
         es.twitchSide = Math.random() < 0.42 ? 0 : (Math.random() < 0.84 ? 1 : 2); // links, rechts oder beide Ohren
-        const amp = (species === 'bunny') ? 0.34 : ((species === 'mouse' || species === 'cat' || species === 'fox') ? 0.30 : 0.22);
+        const amp = (species === 'bunny') ? 0.34 : ((species === 'mouse' || species === 'cat' || species === 'fox' || species === 'stag' || species === 'deer') ? 0.30 : 0.22);
         es.twitchX = (Math.random() - 0.5) * amp;
         es.twitchY = (Math.random() - 0.35) * amp * 1.25;
         es.twitchZ = (Math.random() - 0.5) * amp;
@@ -8063,7 +9156,7 @@ const app = (() => {
       tgtRZ = base.rz - 0.28 - perkPulse;
       tgtLX = base.lx - 0.16;
       tgtRX = base.rx - 0.16;
-      tgtLY = (species === 'fox' || species === 'cat' || species === 'owl') ? 0.12 : 0.06;
+      tgtLY = (species === 'fox' || species === 'cat' || species === 'owl' || species === 'stag' || species === 'deer') ? 0.14 : 0.06;
       tgtRY = -tgtLY;
     } else if (opts.isWash) {
       const shake = Math.sin(time * 22) * 0.18;
@@ -8360,26 +9453,78 @@ const app = (() => {
       voxelDirLight1.intensity += (targetDir - voxelDirLight1.intensity) * 0.08;
     }
 
-    // ── Interaktives Füttern pro Slot: 3D-Futter spawnt auf freiem Wiesenplatz, Tier läuft dorthin! ──
+    // ── Interaktives Füttern pro Slot: 3D-Futter spawnt auf freiem Wiesenplatz, Tier läuft/landet dorthin! ──
+    const isMainBirdLike = (currentSpecies === 'bird' || currentSpecies === 'kingfisher' || currentSpecies === 'owl');
     const curFoodSpot = (mainSlot && mainSlot.foodWorldPos) ? mainSlot.foodWorldPos : null;
-    const isMainAtFood = Boolean(isFeed && curFoodSpot && Math.hypot(curFoodSpot.x - (mainSlot ? mainSlot.worldX : 0), curFoodSpot.z - (mainSlot ? mainSlot.worldZ : 0)) <= 0.42);
+    const curFoodDist = (isFeed && curFoodSpot && mainSlot) ? Math.hypot(curFoodSpot.x - (mainSlot.worldX || 0), curFoodSpot.z - (mainSlot.worldZ || 0)) : Infinity;
+    const isMainAtFood = Boolean(isFeed && curFoodSpot && curFoodDist <= 0.46 && (!isMainBirdLike || voxelPuppyPosY <= 0.16) && (currentSpecies !== 'kingfisher' || voxelFeedTimer <= 2.50));
     if (voxelSlotTreats && voxelSlotTreats.length > 0 && state.petSlots) {
       voxelSlotTreats.forEach((tEntry, sIdx) => {
         if (!tEntry || !tEntry.treatGroup) return;
         const s = state.petSlots[sIdx];
+        if (s && tEntry.species && tEntry.species !== s.species && typeof voxelBuildTreatEntry === 'function') {
+          const prevTM = voxelTreatMesh, prevFG = voxelFoodGroup, prevFB = voxelFoodBlocks;
+          if (voxelScene) voxelScene.remove(tEntry.treatGroup);
+          tEntry = voxelBuildTreatEntry(s.species);
+          voxelSlotTreats[sIdx] = tEntry;
+          if (sIdx !== mainIdx) {
+            voxelTreatMesh = prevTM;
+            voxelFoodGroup = prevFG;
+            voxelFoodBlocks = prevFB;
+          }
+        }
         const slotIsFeeding = Boolean(s && !s.isDead && ((sIdx === mainIdx && isFeed) || (sIdx !== mainIdx && s.action === 'feed' && s.actionTimer > 0)));
         if (slotIsFeeding && s.foodWorldPos) {
           const fx = s.foodWorldPos.x - voxelWorldOffset.x;
           const fz = s.foodWorldPos.z - voxelWorldOffset.z;
           tEntry.treatGroup.visible = (Math.hypot(fx, fz) <= 2.45);
           tEntry.treatGroup.position.set(fx, GROUND_TOP_Y, fz);
-          tEntry.treatGroup.rotation.y = Math.atan2((s.worldX || 0) - s.foodWorldPos.x, (s.worldZ || 0) - s.foodWorldPos.z);
+          tEntry.treatGroup.rotation.y = (s.species === 'kingfisher')
+            ? 0
+            : Math.atan2((s.worldX || 0) - s.foodWorldPos.x, (s.worldZ || 0) - s.foodWorldPos.z);
 
           const distToFood = Math.hypot(s.foodWorldPos.x - (s.worldX || 0), s.foodWorldPos.z - (s.worldZ || 0));
           const remTimer = (sIdx === mainIdx) ? voxelFeedTimer : (s.actionTimer || 0);
+          const slotBird = (s.species === 'bird' || s.species === 'kingfisher' || s.species === 'owl');
+          const compForSlot = (sIdx !== mainIdx && voxelCompanionGroups) ? voxelCompanionGroups.find(c => c.slotIndex === sIdx) : null;
+          const birdY = (sIdx === mainIdx) ? voxelPuppyPosY : ((compForSlot && typeof compForSlot.curHopY === 'number') ? compForSlot.curHopY : 0);
+
+          if (s.species === 'kingfisher') {
+            if (tEntry.foodGroup) {
+              if (remTimer > 2.95) {
+                const fAng = time * 4.2 + sIdx;
+                tEntry.foodGroup.position.set(
+                  Math.cos(fAng) * 0.065,
+                  -0.01 + Math.sin(time * 6) * 0.004,
+                  Math.sin(fAng) * 0.065
+                );
+                tEntry.foodGroup.rotation.y = Math.atan2(-Math.sin(fAng), Math.cos(fAng));
+              } else {
+                tEntry.foodGroup.position.set(0, 0.032, 0.14);
+                tEntry.foodGroup.rotation.y = 0.4;
+              }
+            }
+            if (tEntry.splashDrops && tEntry.splashDrops.length > 0) {
+              if (remTimer <= 3.25 && remTimer >= 2.35) {
+                const spP = (3.25 - remTimer) / 0.90;
+                tEntry.splashDrops.forEach(dr => {
+                  dr.mesh.visible = true;
+                  const rad = 0.04 + spP * 0.19 * dr.speed;
+                  const arcY = Math.max(0.01, Math.sin(spP * Math.PI) * 0.24 * dr.speed);
+                  dr.mesh.position.set(Math.cos(dr.angle) * rad, arcY, Math.sin(dr.angle) * rad);
+                });
+              } else {
+                tEntry.splashDrops.forEach(dr => { dr.mesh.visible = false; });
+              }
+            }
+          }
+
+          const readyToEat = (s.species === 'kingfisher')
+            ? (distToFood <= 0.46 && birdY <= 0.16 && remTimer <= 2.45)
+            : (distToFood <= 0.46 && (!slotBird || birdY <= 0.18));
           if (tEntry.foodBlocks && tEntry.foodBlocks.length > 0) {
-            if (distToFood <= 0.45) {
-              const eatDuration = 3.6;
+            if (readyToEat) {
+              const eatDuration = (s.species === 'kingfisher') ? 2.4 : 3.6;
               const foodFraction = Math.max(0, Math.min(1, remTimer / eatDuration));
               const eatenCount = Math.floor((1 - foodFraction) * tEntry.foodBlocks.length);
               tEntry.foodBlocks.forEach((kb, idx) => { kb.visible = (idx >= eatenCount); });
@@ -8389,6 +9534,11 @@ const app = (() => {
           }
         } else {
           tEntry.treatGroup.visible = false;
+          if (tEntry.foodGroup) {
+            tEntry.foodGroup.position.set(0, 0, 0);
+            tEntry.foodGroup.rotation.y = 0;
+          }
+          if (tEntry.splashDrops) tEntry.splashDrops.forEach(dr => { dr.mesh.visible = false; });
           if (tEntry.foodBlocks) tEntry.foodBlocks.forEach(kb => { kb.visible = true; });
         }
       });
@@ -8501,6 +9651,16 @@ const app = (() => {
       }
       mainSlot.worldX += moveX;
       mainSlot.worldZ += moveZ;
+      const isMainBird = (mainSlot.species === 'bird' || mainSlot.species === 'kingfisher' || mainSlot.species === 'owl');
+      const isMainBirdAir = Boolean(isMainBird && (voxelPuppyPosY > 0.25 || Boolean(voxelBirdPerchedTree)));
+      const resolvedMain = resolveAnimalCollisions(mainSlot.worldX, mainSlot.worldZ, state.activeSlot, {
+        isBirdAirborne: isMainBirdAir,
+        isHidden: Boolean(mainSlot.isHidden),
+        targetShelter: mainSlot.targetShelter || null,
+        isWashingInTub: Boolean(isWash)
+      });
+      mainSlot.worldX = resolvedMain.x;
+      mainSlot.worldZ = resolvedMain.z;
       const relX = mainSlot.worldX - voxelWorldOffset.x;
       const relZ = mainSlot.worldZ - voxelWorldOffset.z;
 
@@ -8542,7 +9702,8 @@ const app = (() => {
       const curWX = mainSlot ? mainSlot.worldX : (voxelWorldOffset.x + voxelCurrentPos.x);
       const curWZ = mainSlot ? mainSlot.worldZ : (voxelWorldOffset.z + voxelCurrentPos.z);
       voxelWorldProps.forEach(pr => {
-        if (pr.type !== 'tree') return;
+        if (!isTreeProp(pr)) return;
+        if (isTreeOccupiedByOtherBird(pr, state.activeSlot)) return;
         const d = Math.hypot(pr.wx - curWX, pr.wz - curWZ);
         if (d < bestD) { bestD = d; best = pr; }
       });
@@ -8674,8 +9835,8 @@ const app = (() => {
           if (voxelIdleBehavior === 'wander') {
             let chosenTree = null;
             if (isBirdLike && Math.random() < 0.78) {
-              // Vogel steuert bevorzugt einen Baum im Sichtfeld an, um dort zu landen!
-              const treesInSight = voxelWorldProps.filter(pr => pr.type === 'tree' && Math.hypot(pr.wx - voxelWorldOffset.x, pr.wz - voxelWorldOffset.z) <= 2.35);
+              // Vogel steuert bevorzugt einen freien Baum im Sichtfeld an, um dort zu landen!
+              const treesInSight = voxelWorldProps.filter(pr => isTreeProp(pr) && !isTreeOccupiedByOtherBird(pr, state.activeSlot) && Math.hypot(pr.wx - voxelWorldOffset.x, pr.wz - voxelWorldOffset.z) <= 2.35);
               if (treesInSight.length > 0) {
                 chosenTree = treesInSight[Math.floor(Math.random() * treesInSight.length)];
               }
@@ -8686,8 +9847,15 @@ const app = (() => {
             } else {
               const wanderAngle = Math.random() * Math.PI * 2;
               const wanderDist = 0.8 + Math.random() * 1.5;
-              voxelTargetPos.x = voxelCurrentPos.x + Math.cos(wanderAngle) * wanderDist;
-              voxelTargetPos.z = voxelCurrentPos.z + Math.sin(wanderAngle) * wanderDist;
+              let wX = voxelCurrentPos.x + Math.cos(wanderAngle) * wanderDist;
+              let wZ = voxelCurrentPos.z + Math.sin(wanderAngle) * wanderDist;
+              if (!isBirdLike) {
+                const safeW = pushOutOfPond(wX + voxelWorldOffset.x, wZ + voxelWorldOffset.z, 0.26);
+                wX = safeW.x - voxelWorldOffset.x;
+                wZ = safeW.z - voxelWorldOffset.z;
+              }
+              voxelTargetPos.x = wX;
+              voxelTargetPos.z = wZ;
             }
             const dx = voxelTargetPos.x - voxelCurrentPos.x;
             const dz = voxelTargetPos.z - voxelCurrentPos.z;
@@ -8779,9 +9947,10 @@ const app = (() => {
         while (fAngDiff < -Math.PI) fAngDiff += Math.PI * 2;
         while (fAngDiff > Math.PI) fAngDiff -= Math.PI * 2;
         voxelCurrentRot += fAngDiff * 0.22;
-        if (fDist > 0.34) {
+        const feedStopDist = (currentSpecies === 'kingfisher') ? ((voxelFeedTimer > 2.45) ? 0.03 : 0.22) : 0.36;
+        if (fDist > feedStopDist) {
           const isBirdFeed = (currentSpecies === 'bird' || currentSpecies === 'kingfisher' || currentSpecies === 'owl');
-          const fStep = Math.min((isBirdFeed ? 0.040 : 0.032) * bunnySpeedMult, fDist - 0.30);
+          const fStep = Math.min((isBirdFeed ? 0.044 : 0.032) * bunnySpeedMult, fDist - Math.max(0, feedStopDist - 0.02));
           if (fStep > 0) {
             applyWorldStep((fDx / fDist) * fStep, (fDz / fDist) * fStep);
           }
@@ -8873,7 +10042,7 @@ const app = (() => {
     const worldMoveDist = Math.hypot(curMainWX - prevWorldX, curMainWZ - prevWorldZ);
     const isMovingInSpace = worldMoveDist > 0.0012;
 
-    // ── Endlose Landschafts-Verschiebung ──
+    // ── Endlose Landschafts-Verschiebung (Wiese + Wald + Teich mit animierten Fischen) ──
     const tileB = 0.16;
     if (voxelEnvGroup) {
       voxelEnvGroup.position.set(0, -0.82, 0);
@@ -8894,16 +10063,34 @@ const app = (() => {
           if (mats && mats.m1 && mats.m2) {
             const worldGX = Math.round((lx + voxelWorldOffset.x) / tileB);
             const worldGZ = Math.round((lz + voxelWorldOffset.z) / tileB);
-            obj.material = ((worldGX + worldGZ) % 2 === 0) ? mats.m1 : mats.m2;
+            const wx = worldGX * tileB;
+            const wz = worldGZ * tileB;
+            const isEven = ((worldGX + worldGZ) % 2 === 0);
 
-            if (obj.flowerGroup && voxelEnvGroup.userData.flowerMaterials) {
-              const fMats = voxelEnvGroup.userData.flowerMaterials;
-              const fType = getTileFlower(worldGX, worldGZ);
-              if (fType && fMats[fType]) {
-                obj.flowerGroup.visible = true;
-                obj.flowerBloom.material = fMats[fType];
-              } else {
-                obj.flowerGroup.visible = false;
+            if (isInPond(wx, wz, 0)) {
+              obj.position.y = -0.075;
+              obj.material = isEven ? mats.mWaterBed1 : mats.mWaterBed2;
+              if (obj.flowerGroup) obj.flowerGroup.visible = false;
+            } else if (isInPond(wx, wz, 0.16)) {
+              obj.position.y = 0;
+              obj.material = isEven ? mats.mShore1 : mats.mShore2;
+              if (obj.flowerGroup) obj.flowerGroup.visible = false;
+            } else if (isInForest(wx, wz)) {
+              obj.position.y = 0;
+              obj.material = isEven ? mats.mForest1 : mats.mForest2;
+              if (obj.flowerGroup) obj.flowerGroup.visible = false;
+            } else {
+              obj.position.y = 0;
+              obj.material = isEven ? mats.m1 : mats.m2;
+              if (obj.flowerGroup && voxelEnvGroup.userData.flowerMaterials) {
+                const fMats = voxelEnvGroup.userData.flowerMaterials;
+                const fType = getTileFlower(worldGX, worldGZ);
+                if (fType && fMats[fType] && !isFlowerTileBlocked(wx, wz)) {
+                  obj.flowerGroup.visible = true;
+                  obj.flowerBloom.material = fMats[fType];
+                } else {
+                  obj.flowerGroup.visible = false;
+                }
               }
             }
           }
@@ -8912,11 +10099,37 @@ const app = (() => {
           const rz = obj.userData.worldZ - voxelWorldOffset.z;
           obj.position.set(rx, 0, rz);
           const dist = Math.hypot(rx, rz);
+          const isPondObj = (obj.userData.propType === 'pond');
           obj.visible = (currentDisplayMode === 'mobile')
-            ? (Math.abs(rx) <= 3.4 && Math.abs(rz) <= 4.6)
-            : (dist <= 2.45);
+            ? (Math.abs(rx) <= (isPondObj ? 4.4 : 3.4) && Math.abs(rz) <= (isPondObj ? 5.6 : 4.6))
+            : (dist <= (isPondObj ? 3.25 : 2.45));
         }
       });
+
+      // Animierte Voxel-Fische & Wasser-Glitzern im Teich
+      if (voxelPondFishes && voxelPondFishes.length > 0) {
+        voxelPondFishes.forEach(f => {
+          if (!f.group) return;
+          const ang = time * f.speed * f.dir + f.phase;
+          const fx = f.cx + Math.cos(ang) * f.rx;
+          const fz = f.cz + Math.sin(ang) * f.rz;
+          const vx = -Math.sin(ang) * f.rx * f.speed * f.dir;
+          const vz = Math.cos(ang) * f.rz * f.speed * f.dir;
+          f.group.position.set(fx, f.baseY + Math.sin(time * 2.8 + f.bobPhase) * 0.006, fz);
+          f.group.rotation.y = Math.atan2(vx, vz);
+          if (f.tail) {
+            f.tail.rotation.y = Math.sin(time * (6.5 + f.speed * 4.5) + f.phase) * 0.42;
+          }
+        });
+      }
+      if (voxelPondRipples && voxelPondRipples.length > 0) {
+        voxelPondRipples.forEach(r => {
+          if (!r.mesh) return;
+          const pulse = 0.8 + Math.sin(time * 2.2 + r.phase) * 0.35;
+          r.mesh.scale.set(pulse, 1, 1);
+          r.mesh.position.x = r.bx + Math.sin(time * 0.9 + r.phase) * 0.03;
+        });
+      }
     }
 
     // ── Häufchen, Pfützen & Spielzeug exakt auf Rasen-Höhe (GROUND_TOP_Y = -0.80) ──
@@ -8969,7 +10182,7 @@ const app = (() => {
 
     // ── Exakte Sitzhaltung vs. Standhaltung umschalten ──
     const isBunnyAlwaysSit = (currentSpecies === 'bunny');
-    const isSittingPose = isBunnyAlwaysSit || ((currentSpecies !== 'bird' && currentSpecies !== 'kingfisher' && currentSpecies !== 'owl' && currentSpecies !== 'hedgehog' && currentSpecies !== 'mouse') && (!isSleep && !isWake && !isWalk && !isWash && !isFeed && !isPoopSquat && !isMovingInSpace && !isSteering && !isPlay && !isJoy && (voxelIdleBehavior === 'sit')));
+    const isSittingPose = isBunnyAlwaysSit || ((currentSpecies !== 'bird' && currentSpecies !== 'kingfisher' && currentSpecies !== 'owl' && currentSpecies !== 'hedgehog' && currentSpecies !== 'mouse' && currentSpecies !== 'stag' && currentSpecies !== 'deer') && (!isSleep && !isWake && !isWalk && !isWash && !isFeed && !isPoopSquat && !isMovingInSpace && !isSteering && !isPlay && !isJoy && (voxelIdleBehavior === 'sit')));
     if (voxelBodyStandGroup && voxelBodySitGroup) {
       voxelBodyStandGroup.visible = !isSittingPose;
       voxelBodySitGroup.visible = isSittingPose;
@@ -9003,7 +10216,13 @@ const app = (() => {
       targetRotY = 0.65;
       targetRotZ = 0;
     } else if (isFeed) {
-      targetRotX = 0.14;
+      if (currentSpecies === 'kingfisher') {
+        if (voxelFeedTimer > 3.60 || curFoodDist > 0.35) targetRotX = 0.48;
+        else if (voxelFeedTimer > 2.50) targetRotX = 1.15;
+        else targetRotX = 0.24 + Math.abs(Math.sin(time * 12)) * 0.16;
+      } else {
+        targetRotX = (isMainBirdLike && isMainAtFood) ? (0.22 + Math.abs(Math.sin(time * 11)) * 0.16) : 0.14;
+      }
       targetRotY = voxelCurrentRot;
       targetRotZ = 0;
     } else if (currentSpecies === 'bunny' && (isWalk || (isPlay && isMovingInSpace) || isMovingInSpace || isSteering)) {
@@ -9125,8 +10344,26 @@ const app = (() => {
         targetPosY = -0.08;
       }
     } else if (isBirdLike && voxelBirdPerchedTree && !isMovingInSpace && !isSteering && !isPlay) {
-      // Vogel sitzt mit seinen Krallen exakt auf der Baumkrone (+0.355 Welt-Y)!
-      targetPosY = 0.355 - GROUND_TOP_Y;
+      // Vogel sitzt mit seinen Krallen exakt auf der Baumkrone!
+      targetPosY = getTreePerchY(voxelBirdPerchedTree, GROUND_TOP_Y);
+    } else if (currentSpecies === 'kingfisher' && isFeed && curFoodSpot) {
+      if (voxelFeedTimer > 3.60 || curFoodDist > 0.35) {
+        targetPosY = 1.28 + Math.sin(time * 16) * 0.06; // Rüttelflug über dem kleinen Fischteich
+      } else if (voxelFeedTimer > 2.50) {
+        targetPosY = -0.05; // Steiler Sturzflug ins Teichwasser!
+      } else {
+        targetPosY = 0.02;  // Mit dem gefangenen Fisch am Teichrand landen & fressen
+      }
+    } else if (isBirdLike && isFeed && curFoodSpot) {
+      if (curFoodDist <= 0.46 || !isMovingInSpace) {
+        targetPosY = 0; // Vogel landet zum Fressen sicher auf dem Boden neben dem Futter!
+      } else if (curFoodDist < 1.25) {
+        targetPosY = ((curFoodDist - 0.46) / 0.79) * 1.15; // Sanfter Sinkflug zum Futterplatz
+      } else {
+        targetPosY = 1.25 + Math.sin(time * 7) * 0.06;
+      }
+    } else if (isBirdLike && !voxelBirdPerchedTree && !isFeed && !isWash && !isSleep && !isMovingInSpace && isInPond(curMainWX, curMainWZ, 0.05)) {
+      targetPosY = 0.95 + Math.sin(time * 6) * 0.08;
     } else if (isBirdLike && (isWalk || isPlay || isJoy || isMovingInSpace || isSteering)) {
       // Überflughöhe stets deutlich über den Baumkronen (> 1.155), kein Kollidieren mit Stamm/Krone!
       const nearApproachTree = findNearestTree(0.48);
@@ -9136,7 +10373,7 @@ const app = (() => {
         ((voxelIdleBehavior === 'wander' && Math.hypot(tgtWX - nearApproachTree.wx, tgtWZ - nearApproachTree.wz) < 0.25) || (isWalk && voxelWalkTimer < 1.2));
       if (isLandingOnTree && Math.hypot(nearApproachTree.wx - curMainWX, nearApproachTree.wz - curMainWZ) < 0.28) {
         // Sanfter Landeanflug von oben direkt auf die Baumkrone
-        targetPosY = 0.355 - GROUND_TOP_Y;
+        targetPosY = getTreePerchY(nearApproachTree, GROUND_TOP_Y);
       } else {
         targetPosY = 1.38 + Math.sin(time * 7) * 0.08;
       }
@@ -9158,7 +10395,7 @@ const app = (() => {
     } else if (isWash) {
       targetPosY = 0.06 + Math.sin(time * 8) * 0.015;
     } else if (isFeed && isMainAtFood) {
-      targetPosY = -0.03;
+      targetPosY = isBirdLike ? 0 : -0.03;
     } else if (isMovingInSpace) {
       targetPosY = Math.abs(Math.sin(time * 11)) * 0.035;
     }
@@ -9169,7 +10406,7 @@ const app = (() => {
       return Math.hypot(rx - voxelCurrentPos.x, rz - voxelCurrentPos.z) > 0.34;
     }
 
-    const posYLerp = (currentSpecies === 'bunny') ? 0.34 : 0.15;
+    const posYLerp = (currentSpecies === 'bunny') ? 0.34 : ((currentSpecies === 'kingfisher' && isFeed) ? 0.38 : ((isBirdLike && isFeed) ? 0.24 : 0.15));
     voxelPuppyPosY += (targetPosY - voxelPuppyPosY) * posYLerp;
     voxelPuppyGroup.position.y = groundBaseY + voxelPuppyPosY;
 
@@ -9197,12 +10434,22 @@ const app = (() => {
         targetHeadX = 0; targetHeadY = baseHeadY + 0.2 * B; targetHeadZ = baseHeadZ;
         targetHeadRotX = -0.28 + Math.sin(time * 4) * 0.12;
       } else if (isMainAtFood) {
-        // Schnauze senkt sich direkt zur Karotte / Kolbenhirse / Lachs / Napf sobald am Futterplatz angekommen!
-        targetHeadX = 0;
-        targetHeadY = Math.max(-1.6 * B, baseHeadY - 2.8 * B);
-        targetHeadZ = baseHeadZ + 1.1 * B;
-        targetHeadRotX = 0.60 + Math.sin(time * 15) * 0.16;
-        targetHeadRotY = Math.sin(time * 6) * 0.06;
+        if (isBirdLike) {
+          // Gelandeter Vogel pickt rhythmisch am Futter!
+          targetHeadX = 0;
+          targetHeadY = Math.max(-1.6 * B, baseHeadY - 2.6 * B);
+          targetHeadZ = baseHeadZ + 1.3 * B;
+          targetHeadRotX = 0.55 + Math.abs(Math.sin(time * 14)) * 0.42;
+          targetHeadRotY = Math.sin(time * 5) * 0.08;
+        } else {
+          // Schnauze senkt sich direkt zur Karotte / Lachs / Napf sobald am Futterplatz angekommen!
+          const isMainCervid = (currentSpecies === 'stag' || currentSpecies === 'deer');
+          targetHeadX = 0;
+          targetHeadY = isMainCervid ? (baseHeadY - 3.6 * B) : Math.max(-1.6 * B, baseHeadY - 2.8 * B);
+          targetHeadZ = baseHeadZ + (isMainCervid ? 1.35 * B : 1.1 * B);
+          targetHeadRotX = (isMainCervid ? 0.74 : 0.60) + Math.sin(time * 15) * 0.16;
+          targetHeadRotY = Math.sin(time * 6) * 0.06;
+        }
       } else if (isPlay) {
         targetHeadX = 0; targetHeadY = baseHeadY - 0.4 * B; targetHeadZ = baseHeadZ + 0.4 * B;
         targetHeadRotX = (voxelSnapTimer > 0) ? 0.38 : (0.14 + Math.sin(time * 16) * 0.10);
@@ -9292,7 +10539,7 @@ const app = (() => {
       const baseTailY = (voxelPuppyGroup.userData && typeof voxelPuppyGroup.userData.baseTailY === 'number')
         ? voxelPuppyGroup.userData.baseTailY
         : (0.2 * B);
-      const targetTailY = (isSittingPose && currentSpecies !== 'hedgehog' && currentSpecies !== 'mouse')
+      const targetTailY = (isSittingPose && currentSpecies !== 'hedgehog' && currentSpecies !== 'mouse' && currentSpecies !== 'stag' && currentSpecies !== 'deer')
         ? Math.max(-2.4 * B, baseTailY - 2.0 * B)
         : baseTailY;
       voxelTailGroup.position.y += (targetTailY - voxelTailGroup.position.y) * 0.2;
@@ -9328,8 +10575,21 @@ const app = (() => {
       let targetBLZ = defaultBackZ, targetBRZ = defaultBackZ;
 
       if (isBirdLike) {
-        const isFlying = (!voxelBirdPerchedTree) && (isMovingInSpace || isPlay || isJoy || isSteering || (isWalk && !isPoopSquat));
-        if (isFlying) {
+        const isKFDiving = Boolean(currentSpecies === 'kingfisher' && isFeed && curFoodDist <= 0.35 && voxelFeedTimer <= 3.60 && voxelFeedTimer > 2.50);
+        const isKFHovering = Boolean(currentSpecies === 'kingfisher' && isFeed && voxelFeedTimer > 3.60);
+        const isBirdLandedEating = Boolean(isFeed && curFoodSpot && curFoodDist <= 0.46 && voxelPuppyPosY <= 0.16 && (currentSpecies !== 'kingfisher' || voxelFeedTimer <= 2.50));
+        const isFlying = (!voxelBirdPerchedTree) && (!isBirdLandedEating) && (!isKFDiving) && (
+          isMovingInSpace || isPlay || isJoy || isSteering || (isWalk && !isPoopSquat) || isKFHovering ||
+          (isFeed && voxelPuppyPosY > 0.16) ||
+          (!isFeed && !isWash && !isSleep && targetPosY > 0.35)
+        );
+        if (isKFDiving) {
+          // Angelegte Flügel im steilen Sturzflug ins Wasser
+          voxelLegFL.rotation.set(0.25, 0, -0.12);
+          voxelLegFR.rotation.set(0.25, 0, 0.12);
+          voxelLegBL.rotation.set(0.45, 0, 0);
+          voxelLegBR.rotation.set(0.45, 0, 0);
+        } else if (isFlying) {
           const flap = Math.abs(Math.sin(time * 28)) * 0.95;
           voxelLegFL.rotation.set(0, 0, -0.35 - flap);
           voxelLegFR.rotation.set(0, 0, 0.35 + flap);
@@ -9566,22 +10826,22 @@ const app = (() => {
           );
           const isPreyProtected = Boolean(nearShelter || prey.slot.isHidden || prey.slot.isProtected);
 
-          // Ist ein Hund in der Nähe (< 1.35)? Der Wachhund beschützt die Wiese und vertreibt Fuchs/Eule/Katze!
-          const guardDog = allFieldAnimals.find(a =>
-            a.species === 'dog' && !a.slot.isDead &&
-            Math.hypot(a.x - prey.x, a.z - prey.z) < 1.35 &&
+          // Ist ein Wachhund oder stolzer Hirsch in der Nähe? Beschützt die Wiese und vertreibt Fuchs/Eule/Katze!
+          const guardProtector = allFieldAnimals.find(a =>
+            (a.species === 'dog' || a.species === 'stag') && !a.slot.isDead &&
+            Math.hypot(a.x - prey.x, a.z - prey.z) < (a.species === 'stag' ? 1.45 : 1.35) &&
             (other.species === 'fox' || other.species === 'owl' || other.species === 'cat')
           );
-          if (guardDog && dist < 1.35) {
-            const gDx = other.x - guardDog.x;
-            const gDz = other.z - guardDog.z;
+          if (guardProtector && dist < 1.35) {
+            const gDx = other.x - guardProtector.x;
+            const gDz = other.z - guardProtector.z;
             const gLen = Math.hypot(gDx, gDz) || 1;
             if ((other.slot.huntCooldown || 0) <= 0) {
               other.slot.huntCooldown = 4.0;
               other.slot.fleeTimer = Math.max(other.slot.fleeTimer || 0, 2.5);
               other.slot.fleeDirX = gDx / gLen;
               other.slot.fleeDirZ = gDz / gLen;
-              setStatus('Wachhund bellt und vertreibt den Räuber!', true);
+              setStatus(guardProtector.species === 'stag' ? 'Hirsch senkt das Geweih und vertreibt den Räuber!' : 'Wachhund bellt und vertreibt den Räuber!', true);
             }
             continue;
           }
@@ -9654,7 +10914,7 @@ const app = (() => {
             let nearestHideDist = Infinity;
             voxelWorldProps.forEach(pr => {
               const isFinishedShelter = (pr.type === 'shelter' && (pr.buildProgress ?? 1.0) >= 1.0);
-              const canHideInProp = isFinishedShelter || pr.type === 'bush' || (isPreyAnyBird && pr.type === 'tree');
+              const canHideInProp = isFinishedShelter || pr.type === 'bush' || (isPreyAnyBird && isTreeProp(pr));
               if (!canHideInProp) return;
               const dProp = Math.hypot(pr.wx - prey.x, pr.wz - prey.z);
               if (dProp > 2.45) return;
@@ -9752,7 +11012,7 @@ const app = (() => {
               syncSidePetButtons();
               updateBars();
               saveGameProgress();
-              const spNamesShort = { dog: 'Hund', cat: 'Katze', bird: 'Vogel', kingfisher: 'Eisvogel', owl: 'Eule', bunny: 'Hase', hedgehog: 'Igel', fox: 'Fuchs', mouse: 'Maus' };
+              const spNamesShort = { dog: 'Hund', cat: 'Katze', bird: 'Vogel', kingfisher: 'Eisvogel', owl: 'Eule', bunny: 'Hase', hedgehog: 'Igel', fox: 'Fuchs', mouse: 'Maus', stag: 'Hirsch', deer: 'Reh' };
               setStatus(`NATUR PUR: ${spNamesShort[other.species] || 'Jäger'} hat die erschöpfte ${spNamesShort[prey.species] || 'Beute'} erbeutet!`, true);
               continue;
             }
@@ -9770,7 +11030,7 @@ const app = (() => {
 
           let escX = prey.x + ux * 1.85;
           let escZ = prey.z + uz * 1.85;
-          const safeTree = voxelWorldProps.find(pr => pr.type === 'tree' && Math.hypot(pr.wx - prey.x, pr.wz - prey.z) < 2.6 && Math.hypot(pr.wx - other.x, pr.wz - other.z) > Math.max(dist + 0.4, 1.35));
+          const safeTree = voxelWorldProps.find(pr => isTreeProp(pr) && Math.hypot(pr.wx - prey.x, pr.wz - prey.z) < 2.6 && Math.hypot(pr.wx - other.x, pr.wz - other.z) > Math.max(dist + 0.4, 1.35));
           if (safeTree) {
             escX = safeTree.wx;
             escZ = safeTree.wz;
@@ -9820,11 +11080,22 @@ const app = (() => {
           if (!prey.isMain) {
             prey.slot.behavior = 'idle';
           }
+        } else if (prey.species === 'deer' && (other.species === 'fox' || other.isRunningDog) && dist < 0.95) {
+          const ux = dist > 0.001 ? (dx / dist) : 0.707;
+          const uz = dist > 0.001 ? (dz / dist) : -0.707;
+          prey.slot.fleeTimer = Math.max(prey.slot.fleeTimer || 0, 1.4);
+          prey.slot.fleeDirX = ux;
+          prey.slot.fleeDirZ = uz;
+          if (!prey.isMain) {
+            prey.slot.behavior = 'wander';
+            prey.slot.behaviorTimer = 1.5;
+            prey.slot.targetX = prey.x + ux * 1.45;
+            prey.slot.targetZ = prey.z + uz * 1.45;
+          }
         }
       }
     }
 
-    const MIN_ANIMAL_DIST = 0.72;
     for (let i = 0; i < allFieldAnimals.length; i++) {
       for (let j = i + 1; j < allFieldAnimals.length; j++) {
         const a1 = allFieldAnimals[i];
@@ -9833,9 +11104,10 @@ const app = (() => {
         const dx = a1.x - a2.x;
         const dz = a1.z - a2.z;
         const dist = Math.hypot(dx, dz);
-        if (dist < MIN_ANIMAL_DIST) {
+        const minDist = (a1.species === 'stag' || a2.species === 'stag') ? 0.84 : 0.72;
+        if (dist < minDist) {
           const safeDist = Math.max(dist, 0.001);
-          const overlap = (MIN_ANIMAL_DIST - safeDist) * 0.5;
+          const overlap = (minDist - safeDist) * 0.5;
           const nx = dist > 0.0005 ? (dx / safeDist) : 0.707;
           const nz = dist > 0.0005 ? (dz / safeDist) : 0.707;
           a1.push(nx * overlap * 0.22, nz * overlap * 0.22);
@@ -9939,6 +11211,7 @@ const app = (() => {
         const cPawY = -5.6 * B * cScale;
         const cGroundBaseY = GROUND_TOP_Y - cPawY;
 
+        const isCompBirdLike = (comp.species === 'bird' || comp.species === 'kingfisher' || comp.species === 'owl');
         const isCompWashing = Boolean(slot.action === 'wash' && slot.actionTimer > 0 && slot.tubWorldPos);
         const isCompFeeding = Boolean(slot.action === 'feed' && slot.actionTimer > 0 && slot.foodWorldPos);
         const isCompPlaying = Boolean(slot.action === 'play' && slot.actionTimer > 0 && typeof voxelBallWorldPos !== 'undefined' && voxelBallWorldPos);
@@ -9982,8 +11255,8 @@ const app = (() => {
               slot.behavior = 'wander';
               const anchorX = (typeof mainSlot === 'object' && mainSlot) ? mainSlot.worldX : voxelWorldOffset.x;
               const anchorZ = (typeof mainSlot === 'object' && mainSlot) ? mainSlot.worldZ : voxelWorldOffset.z;
-              if ((comp.species === 'bird' || comp.species === 'kingfisher' || comp.species === 'owl') && Math.random() < 0.72) {
-                const trees = voxelWorldProps.filter(pr => pr.type === 'tree' && Math.hypot(pr.wx - anchorX, pr.wz - anchorZ) <= 2.4);
+              if (isCompBirdLike && Math.random() < 0.72) {
+                const trees = voxelWorldProps.filter(pr => isTreeProp(pr) && !isTreeOccupiedByOtherBird(pr, comp.slotIndex) && Math.hypot(pr.wx - anchorX, pr.wz - anchorZ) <= 2.4);
                 if (trees.length > 0) {
                   const picked = trees[Math.floor(Math.random() * trees.length)];
                   slot.targetX = picked.wx;
@@ -9997,8 +11270,11 @@ const app = (() => {
               } else {
                 const ang = Math.random() * Math.PI * 2;
                 const dist = 0.6 + Math.random() * 1.0;
-                slot.targetX = anchorX + Math.cos(ang) * dist;
-                slot.targetZ = anchorZ + Math.sin(ang) * dist;
+                const safeT = !isCompBirdLike
+                  ? pushOutOfPond(anchorX + Math.cos(ang) * dist, anchorZ + Math.sin(ang) * dist, 0.24)
+                  : { x: anchorX + Math.cos(ang) * dist, z: anchorZ + Math.sin(ang) * dist };
+                slot.targetX = safeT.x;
+                slot.targetZ = safeT.z;
               }
             } else {
               slot.behavior = 'idle';
@@ -10014,7 +11290,8 @@ const app = (() => {
           const dx = (slot.targetX || 0) - (slot.worldX || 0);
           const dz = (slot.targetZ || 0) - (slot.worldZ || 0);
           const d = Math.hypot(dx, dz);
-          const stopDist = isCompWaiting ? 0.52 : (isCompFeeding ? 0.34 : (isCompWashing ? 0.12 : (isCompPlaying ? 0.30 : 0.08)));
+          const compFeedStop = (comp.species === 'kingfisher') ? (((slot.actionTimer || 0) > 2.45) ? 0.03 : 0.22) : 0.36;
+          const stopDist = isCompWaiting ? 0.52 : (isCompFeeding ? compFeedStop : (isCompWashing ? 0.12 : (isCompPlaying ? 0.30 : 0.08)));
           if (d > 0.02) {
             const targetRot = Math.atan2(dx, dz);
             let diff = targetRot - (slot.rotY || 0);
@@ -10034,6 +11311,15 @@ const app = (() => {
               if (cStep > 0) {
                 slot.worldX += Math.sin(slot.rotY) * cStep;
                 slot.worldZ += Math.cos(slot.rotY) * cStep;
+                const isCompBirdAir = Boolean(isCompBirdLike && ((comp.curHopY || 0) > 0.25 || Boolean(comp.perchedTree)));
+                const resolvedC = resolveAnimalCollisions(slot.worldX, slot.worldZ, comp.slotIndex, {
+                  isBirdAirborne: isCompBirdAir,
+                  isHidden: Boolean(slot.isHidden),
+                  targetShelter: slot.targetShelter || null,
+                  isWashingInTub: Boolean(isCompWashing)
+                });
+                slot.worldX = resolvedC.x;
+                slot.worldZ = resolvedC.z;
                 compMoving = true;
                 comp.perchedTree = null;
               }
@@ -10062,11 +11348,13 @@ const app = (() => {
           }
         }
 
-        const isCompAtFood = Boolean(isCompFeeding && slot.foodWorldPos && Math.hypot(slot.foodWorldPos.x - (slot.worldX || 0), slot.foodWorldPos.z - (slot.worldZ || 0)) <= 0.42);
-        const isCompBirdLike = (comp.species === 'bird' || comp.species === 'kingfisher' || comp.species === 'owl');
+        const compFoodDist = (isCompFeeding && slot.foodWorldPos)
+          ? Math.hypot(slot.foodWorldPos.x - (slot.worldX || 0), slot.foodWorldPos.z - (slot.worldZ || 0))
+          : Infinity;
+        const isCompAtFood = Boolean(isCompFeeding && slot.foodWorldPos && compFoodDist <= 0.46 && (!isCompBirdLike || (comp.curHopY || 0) <= 0.16) && (comp.species !== 'kingfisher' || (slot.actionTimer || 0) <= 2.50));
         // Begleit-Vogel landet von oben direkt auf Baumkronen (außer wenn er gerade flieht, frisst, badet, einfliegt oder versteckt ist)!
         if (isCompBirdLike && !compMoving && !(slot.fleeTimer > 0) && !isCompFeeding && !isCompWashing && !slot.isHidden && !isCompEnteringShelter) {
-          const nt = voxelWorldProps.find(pr => pr.type === 'tree' && Math.hypot(pr.wx - slot.worldX, pr.wz - slot.worldZ) < 0.42);
+          const nt = voxelWorldProps.find(pr => isTreeProp(pr) && !isTreeOccupiedByOtherBird(pr, comp.slotIndex) && Math.hypot(pr.wx - slot.worldX, pr.wz - slot.worldZ) < 0.42);
           if (nt) {
             comp.perchedTree = nt;
             slot.worldX += (nt.wx - slot.worldX) * 0.16;
@@ -10088,11 +11376,30 @@ const app = (() => {
         } else if (comp.species === 'bunny' && compMoving && compBunnyAir) {
           targetCompHopY = Math.sin((compHopPhase / 0.72) * Math.PI) * 0.22;
         } else if (isCompBirdLike && comp.perchedTree && !(slot.fleeTimer > 0)) {
-          targetCompHopY = 0.355 - GROUND_TOP_Y;
+          targetCompHopY = getTreePerchY(comp.perchedTree, GROUND_TOP_Y);
+        } else if (comp.species === 'kingfisher' && isCompFeeding && slot.foodWorldPos) {
+          const kfRem = slot.actionTimer || 0;
+          if (kfRem > 3.60 || compFoodDist > 0.35) {
+            targetCompHopY = 1.26 + Math.sin(time * 16 + cIdx) * 0.06;
+          } else if (kfRem > 2.50) {
+            targetCompHopY = -0.05;
+          } else {
+            targetCompHopY = 0.02;
+          }
+        } else if (isCompBirdLike && isCompFeeding && slot.foodWorldPos) {
+          if (compFoodDist <= 0.46 || !compMoving) {
+            targetCompHopY = 0; // Vogel landet zum Fressen auf der Wiese!
+          } else if (compFoodDist < 1.25) {
+            targetCompHopY = ((compFoodDist - 0.46) / 0.79) * 1.15;
+          } else {
+            targetCompHopY = 1.25 + Math.sin(time * 7 + cIdx) * 0.06;
+          }
+        } else if (isCompBirdLike && !comp.perchedTree && !isCompFeeding && !isCompWashing && !(slot.mode === 'sleep') && !slot.isHidden && !compMoving && isInPond(slot.worldX || 0, slot.worldZ || 0, 0.05)) {
+          targetCompHopY = 0.95 + Math.sin(time * 6 + cIdx) * 0.08;
         } else if (isCompBirdLike && (compMoving || (slot.fleeTimer > 0))) {
-          const approachTree = voxelWorldProps.find(pr => pr.type === 'tree' && Math.hypot(pr.wx - (slot.targetX || 0), pr.wz - (slot.targetZ || 0)) < 0.25);
+          const approachTree = voxelWorldProps.find(pr => isTreeProp(pr) && Math.hypot(pr.wx - (slot.targetX || 0), pr.wz - (slot.targetZ || 0)) < 0.25);
           if (approachTree && !(slot.fleeTimer > 0) && !isCompFeeding && !isCompWashing && !isCompEnteringShelter && Math.hypot(approachTree.wx - slot.worldX, approachTree.wz - slot.worldZ) < 0.28) {
-            targetCompHopY = 0.355 - GROUND_TOP_Y; // Sanfter Sinkflug direkt auf die Krone!
+            targetCompHopY = getTreePerchY(approachTree, GROUND_TOP_Y); // Sanfter Sinkflug direkt auf die Krone!
           } else {
             targetCompHopY = 1.36 + Math.sin(time * 7 + cIdx) * 0.08; // Hoch über den Bäumen fliegen!
           }
@@ -10101,10 +11408,11 @@ const app = (() => {
         } else if (isCompWashing && !compMoving) {
           targetCompHopY = 0.06 + Math.sin(time * 8 + cIdx) * 0.015;
         } else if (isCompAtFood) {
-          targetCompHopY = -0.03;
+          targetCompHopY = isCompBirdLike ? 0 : -0.03;
         }
         if (typeof comp.curHopY !== 'number') comp.curHopY = targetCompHopY;
-        comp.curHopY += (targetCompHopY - comp.curHopY) * (isCompBirdLike ? 0.16 : 0.45);
+        const cHopLerp = (comp.species === 'kingfisher' && isCompFeeding) ? 0.38 : ((isCompBirdLike && isCompFeeding) ? 0.24 : (isCompBirdLike ? 0.16 : 0.45));
+        comp.curHopY += (targetCompHopY - comp.curHopY) * cHopLerp;
         compHopY = comp.curHopY;
         const compHideEntZ = slot.isHidden
           ? ((slot.hiddenInKind === 'burrow') ? 0.22 : ((slot.hiddenInKind === 'mousehole') ? 0.15 : 0))
@@ -10121,7 +11429,7 @@ const app = (() => {
         if (comp.parts) {
           const { bodyStandGroup, bodySitGroup, headGroup, earLGroup, earRGroup, legFL, legFR, legBL, legBR, legBLSit, legBRSit, tailGroup, protectionAuraGroup } = comp.parts;
           const isCompBunnyAlwaysSit = (comp.species === 'bunny');
-          const isCompSit = isCompBunnyAlwaysSit || ((!isCompBirdLike && comp.species !== 'hedgehog' && comp.species !== 'mouse') && !compMoving && !slot.isSick && !isCompAtFood && !isCompWashing);
+          const isCompSit = isCompBunnyAlwaysSit || ((!isCompBirdLike && comp.species !== 'hedgehog' && comp.species !== 'mouse' && comp.species !== 'stag' && comp.species !== 'deer') && !compMoving && !slot.isSick && !isCompAtFood && !isCompWashing);
 
           if (protectionAuraGroup) {
             protectionAuraGroup.visible = false;
@@ -10169,8 +11477,14 @@ const app = (() => {
               headGroup.position.set(bhp.x, bhp.y - 0.55 * B, bhp.z - 0.9 * B);
               headGroup.rotation.set(0.55, 0, 0);
             } else if (isCompAtFood) {
-              headGroup.position.set(bhp.x, Math.max(-1.6 * B, bhp.y - 2.8 * B), bhp.z + 1.2 * B);
-              headGroup.rotation.set(0.68 + Math.sin(time * 16 + cIdx) * 0.20, 0, 0);
+              if (isCompBirdLike) {
+                headGroup.position.set(bhp.x, Math.max(-1.6 * B, bhp.y - 2.6 * B), bhp.z + 1.3 * B);
+                headGroup.rotation.set(0.55 + Math.abs(Math.sin(time * 14 + cIdx)) * 0.42, Math.sin(time * 5 + cIdx) * 0.08, 0);
+              } else {
+                const isCompCervid = (comp.species === 'stag' || comp.species === 'deer');
+                headGroup.position.set(bhp.x, isCompCervid ? (bhp.y - 3.6 * B) : Math.max(-1.6 * B, bhp.y - 2.8 * B), bhp.z + (isCompCervid ? 1.35 * B : 1.2 * B));
+                headGroup.rotation.set((isCompCervid ? 0.74 : 0.68) + Math.sin(time * 16 + cIdx) * 0.20, 0, 0);
+              }
             } else if (isCompWaiting && !compMoving) {
               headGroup.position.set(bhp.x, bhp.y - 0.5 * B, bhp.z + 0.5 * B);
               headGroup.rotation.set(0.28 + Math.sin(time * 5 + cIdx) * 0.12, Math.sin(time * 3.5 + cIdx) * 0.18, 0);
@@ -10188,7 +11502,18 @@ const app = (() => {
           }
 
           if (isCompBirdLike) {
-            if (compMoving || (slot.fleeTimer > 0)) {
+            const isCompKFDiving = Boolean(comp.species === 'kingfisher' && isCompFeeding && compFoodDist <= 0.35 && (slot.actionTimer || 0) <= 3.60 && (slot.actionTimer || 0) > 2.50);
+            const isCompKFHovering = Boolean(comp.species === 'kingfisher' && isCompFeeding && (slot.actionTimer || 0) > 3.60);
+            const isCompLandedEating = Boolean(isCompFeeding && slot.foodWorldPos && compFoodDist <= 0.46 && (comp.curHopY || 0) <= 0.16 && (comp.species !== 'kingfisher' || (slot.actionTimer || 0) <= 2.50));
+            const isCompFlyingAir = (!isCompLandedEating) && (!isCompKFDiving) && (
+              compMoving || (slot.fleeTimer > 0) || isCompKFHovering ||
+              (isCompFeeding && (comp.curHopY || 0) > 0.16) ||
+              (!isCompFeeding && !isCompWashing && targetCompHopY > 0.35 && !comp.perchedTree)
+            );
+            if (isCompKFDiving) {
+              legFL.rotation.z = -0.12;
+              legFR.rotation.z = 0.12;
+            } else if (isCompFlyingAir) {
               const flp = Math.abs(Math.sin(time * 26)) * 0.9;
               legFL.rotation.z = -0.3 - flp;
               legFR.rotation.z = 0.3 + flp;
@@ -10251,6 +11576,8 @@ const app = (() => {
       hedgehog: 'SCHNÜFFEL! RASCHEL!',
       fox: 'KECKERN! FREUDE!',
       mouse: 'PIEP-PIEP! QUIEK!',
+      stag: 'RÖHR! STOLZER HIRSCH! (+6 XP)',
+      deer: 'FIEP! SANFTES REH! (+6 XP)',
       dog: 'WAU WAU! (+6 XP)'
     };
     const soundTxt = soundMap[sp] || 'WAU WAU! (+6 XP)';
@@ -10333,6 +11660,29 @@ const app = (() => {
     syncSidePetButtons();
     updateRebirthOverlay();
     initVoxelPet();
+    const pw = document.querySelector('.pixel-world');
+    if (pw && !pw.dataset.uiActivityBound) {
+      pw.dataset.uiActivityBound = 'true';
+      pw.addEventListener('pointerdown', e => {
+        if (state.voxelUiMode === 'autohide' && e.target && e.target.closest('.pixel-top-icons, .voxel-side-pets, .voxel-dpad')) {
+          applyVoxelUiVisibility(true);
+          scheduleVoxelAutoHide();
+        }
+      });
+    }
+    applyVoxelUiVisibility(true);
+    const sidePetsEl = $('voxel-side-pets');
+    if (sidePetsEl && !sidePetsEl.dataset.slotDelegateBound) {
+      sidePetsEl.dataset.slotDelegateBound = 'true';
+      sidePetsEl.addEventListener('click', e => {
+        if (e.target && e.target.closest('button')) return;
+        const slotEl = e.target && e.target.closest('.voxel-pet-slot');
+        if (slotEl) {
+          const innerBtn = slotEl.querySelector('.voxel-pet-select-btn');
+          if (innerBtn) innerBtn.click();
+        }
+      });
+    }
     initSwipeGestures();
     switchView(1); // Standardmäßig mit realistischer Video-Holly starten (Index 1)
     updateClockDisplay();
@@ -10359,7 +11709,7 @@ const app = (() => {
     });
   }
 
-  return { setDisplayMode, getDisplayMode, updateDisplayDimensions, feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, switchCustomPage, applySpeciesNeeds, setDogCustom, setVoxelBlockSize, applyDogCustomization, selectFieldPet, healPet, rebirthRandomPet, startSteer, stopSteer, triggerActionSteer, toggleGlobalNight, setGameMode, toggleGameMode, buildProtectionShelter, togglePetProtection, resetGame, spawnNewPet, init, state };
+  return { setDisplayMode, getDisplayMode, updateDisplayDimensions, feed, play, walk, wash, cleanPoop, triggerPoopVideo, sleep, wake, touchCenter, touchBark, voxelTouchBark, flashResetPrompt, switchView, pixelClean, toggleAlarm, adjustAlarm, openCustomModal, closeCustomModal, switchCustomPage, applySpeciesNeeds, setDogCustom, setVoxelBlockSize, applyDogCustomization, selectFieldPet, healPet, rebirthRandomPet, startSteer, stopSteer, triggerActionSteer, toggleGlobalNight, setGameMode, toggleGameMode, setVoxelUiMode, buildProtectionShelter, togglePetProtection, resetGame, spawnNewPet, init, state };
 })();
 
 document.addEventListener('DOMContentLoaded', app.init);
